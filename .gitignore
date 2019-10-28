@@ -1,0 +1,13 @@
+*.dyn_hi
+*.dyn_o
+*.hi
+*.iml
+*.lock
+*.o
+*.tix
+.*.swp
+.idea
+.stack-work
+fib
+main
+tags
