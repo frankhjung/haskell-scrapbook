@@ -1,3 +1,5 @@
+#!/usr/bin/runhaskell
+
 import           System.Environment (getArgs)
 
 mod35 :: Int -> Bool

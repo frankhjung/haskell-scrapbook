@@ -1,3 +1,5 @@
+#!/usr/bin/runhaskell
+
 -- Programming in Haskell by Graham Hutton
 
 -- qsort
