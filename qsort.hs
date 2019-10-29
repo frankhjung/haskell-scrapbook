@@ -25,6 +25,3 @@ qsort (x:xs) = qsort smaller ++ [x] ++ qsort larger
 main :: IO ()
 main = interact $ unwords . qsort . words
 
--- If integers:
--- main = interact $ unwords . map show . qsort . map (read :: String -> Int) . words
-

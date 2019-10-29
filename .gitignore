@@ -4,6 +4,7 @@
 *.iml
 *.lock
 *.o
+*.pyc
 *.tix
 .*.swp
 .idea
