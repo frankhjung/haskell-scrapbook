@@ -13,7 +13,14 @@ To run:
 import sys
 from functools import reduce
 
+
+def word_count(stream: "file") -> 'int':
+    """
+    Count words in stream.
+    """
+    return reduce(lambda x, y: x + y, list(map(lambda x: len(x.split()),
+                                               stream)))
+
+
 if __name__ == '__main__':
-    print(
-        reduce(lambda x, y: x + y,
-               list(map(lambda x: len(x.split()), sys.stdin.readlines()))))
+    print(word_count(sys.stdin.readlines()))
