@@ -8,6 +8,7 @@ A collection of short scripts testing functions and techniques.
 * [qsort](qsort.hs) - näive implementation of [qsort](https://en.wikipedia.org/wiki/Quicksort)
 * [wordcount (haskell)](wordcount.hs) - simple implementation of [wc(1)](https://linux.die.net/man/1/wc) for words only
 * [wordcount (python)](wordcount.py) - simple implementation of [wc(1)](https://linux.die.net/man/1/wc) for words only
+* [threads](threads.hs) - a threading example from [type classes](https://typeclasses.com/phrasebook/threads)
 
 ## Python
 
@@ -22,7 +23,7 @@ pydoc3 wordcount.word_count
 
 The later produces a short function summary:
 
-```
+```text
 $ pydoc3 wordcount.word_count
 Help on function word_count in wordcount:
 
@@ -43,7 +44,6 @@ To lint:
 ```bash
 pylint *.py
 ```
-
 ## Test
 
 To test program run:
@@ -58,4 +58,3 @@ This should return `38`. i.e. This should return `PASS`:
 export f=wordcount.hs
 cat $f | python3 ./wordcount.py | (read count ; test $count -eq $(wc -w $f | cut -d ' ' -f1 -) && echo "PASS")
 ```
-
