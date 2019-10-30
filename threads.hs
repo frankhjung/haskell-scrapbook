@@ -1,7 +1,8 @@
 #!/usr/bin/runhaskell
 
 import           Control.Concurrent          (forkIO)
-import           Control.Concurrent.STM.TVar (modifyTVar', newTVar, readTVar)
+import           Control.Concurrent.STM.TVar (modifyTVar', newTVar, readTVar,
+                                              readTVarIO)
 import           Control.Monad.STM           (atomically, check)
 import           System.IO                   (BufferMode (LineBuffering),
                                               hSetBuffering, stdout)
@@ -16,17 +17,20 @@ main = do
   -- counter to be incremented
   tasksCompleted <- atomically (newTVar 0)
 
-  -- show thread and task completed counter
-  let task t = mapM_ (\i -> putStrLn (t ++ ": " ++ show i)) [1..3]
+  -- show thread and increment task completed flag
+  -- "main" will end once each thread has incremented the task complete flag
+  let task t = readTVarIO tasksCompleted
+                >>= \c -> putStrLn (t ++ ": " ++ show c)
                 >> atomically (modifyTVar' tasksCompleted (+ 1))
 
-  -- run main and spawn threads
+  -- run main and spawn threads (main is included in completed count)
   task "main"
   _ <- forkIO (task "forkA")
   _ <- forkIO (task "forkB")
+  _ <- forkIO (task "forkC")
 
   -- check if threads have completed before terminating "main"
-  atomically $ readTVar tasksCompleted >>= \x -> check (x == 3)
+  atomically $ readTVar tasksCompleted >>= \x -> check (x > 3)
 
   -- terminate
   putStrLn "done"

@@ -37,4 +37,4 @@ clean:
 
 .PHONY: cleanall
 cleanall: clean
-	-$(RM) $(TGTS) tags *.pyc
+	-$(RM) $(TGTS) tags *.pyc threads
