@@ -2,13 +2,33 @@
 
 A collection of short scripts testing functions and techniques.
 
-## CONTENTS
+## EXAMPLES
 
 * [mod35](mod35.hs) - is input modulus 3 or 5?
-* [qsort](qsort.hs) - näive implementation of [qsort](https://en.wikipedia.org/wiki/Quicksort)
+* [qsort](qsort.hs) - naïve implementation of [qsort](https://en.wikipedia.org/wiki/Quicksort)
 * [wordcount (haskell)](wordcount.hs) - simple implementation of [wc(1)](https://linux.die.net/man/1/wc) for words only
 * [wordcount (python)](wordcount.py) - simple implementation of [wc(1)](https://linux.die.net/man/1/wc) for words only
 * [threads](threads.hs) - a threading example from [type classes](https://typeclasses.com/phrasebook/threads)
+
+## Haskell
+
+Notes on Haskell programs.
+
+### Build
+
+Build using GNU Make:
+
+```bash
+make target
+```
+
+To only perform code checks, run:
+
+```bash
+make check
+```
+
+This is the default goal.
 
 ## Python
 
