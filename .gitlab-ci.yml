@@ -1,0 +1,31 @@
+stages:
+  - build
+  - deploy
+
+build:
+  except:
+    - tags
+  image:
+    name: frankhjung/haskell:8.6.5
+    entrypoint: [""]
+  stage: build
+  script:
+    - make cleanall all
+  artifacts:
+    paths:
+      - public
+
+pages:
+  only:
+    refs:
+      - master
+  image: alpine:latest
+  stage: deploy
+  script:
+    - make doc
+  dependencies:
+    - build
+  artifacts:
+    paths:
+    - public
+

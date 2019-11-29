@@ -3,13 +3,16 @@
 .SUFFIXES:
 .SUFFIXES: .o .hs
 
-.DEFAULT: build
+.DEFAULT: all
 
 %:%.hs
 	-ghc -Wall -Wno-type-defaults -O2 -threaded -rtsopts -prof --make $<
 
 SRCS	:= $(wildcard *.hs)
 TGTS 	:= $(patsubst %.hs, %, $(SRCS))
+
+.PHONY: all
+all:	clean check build doc
 
 .PHONY: check
 check:	tags style lint
@@ -23,11 +26,12 @@ style:	$(SRCS)
 lint:	$(SRCS)
 	-hlint --color --show $(SRCS)
 
-.PHONY: all
-all:	cleanall build
-
 .PHONY: build
 build:	check $(TGTS)
+
+.PHONY: doc
+doc:
+	-haddock --show=all --html --title="Haskell Scrapbook" --odir public $(SRCS)
 
 .PHONY: clean
 clean:
@@ -37,4 +41,5 @@ clean:
 
 .PHONY: cleanall
 cleanall: clean
-	-$(RM) $(TGTS) tags *.pyc threads
+	-$(RM) public
+	-$(RM) $(TGTS) tags *.pyc

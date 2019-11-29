@@ -1,0 +1,35 @@
+name: haskell scrapbook
+
+on:
+  push:
+    branches:
+      - master
+      - 'feature/**'
+  check_run:
+    types: [rerequested, requested_action]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: checkout
+      uses: actions/checkout@v1.0.0
+      with:
+        fetch-depth: 1
+
+    - name: build
+      uses: docker://frankhjung/haskell:latest
+      with:
+        entrypoint: /usr/bin/make
+
+    - name: publish
+      uses: crazy-max/ghaction-github-pages@v0.4.0
+      if: success()
+      with:
+        build_dir: public
+      env:
+        GITHUB_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}

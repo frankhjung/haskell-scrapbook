@@ -2,13 +2,11 @@
 
 A collection of short scripts testing functions and techniques.
 
-## EXAMPLES
+## Documentation
 
-* [mod35](mod35.hs) - is input modulus 3 or 5?
-* [qsort](qsort.hs) - naïve implementation of [qsort](https://en.wikipedia.org/wiki/Quicksort)
-* [wordcount (haskell)](wordcount.hs) - simple implementation of [wc(1)](https://linux.die.net/man/1/wc) for words only
-* [wordcount (python)](wordcount.py) - simple implementation of [wc(1)](https://linux.die.net/man/1/wc) for words only
-* [threads](threads.hs) - a threading example from [type classes](https://typeclasses.com/phrasebook/threads)
+The [Haddock](https://www.haskell.org/haddock/doc/html/index.html) documentation
+on [GitHub](https://github.com/frankhjung/haskell-scrapbook) is
+[here](https://frankhjung.github.io/haskell-scrapbook/).
 
 ## Haskell
 
@@ -19,7 +17,7 @@ Notes on Haskell programs.
 Build using GNU Make:
 
 ```bash
-make target
+make [target]
 ```
 
 To only perform code checks, run:
@@ -30,7 +28,7 @@ make check
 
 This is the default goal.
 
-## Python
+## Word Count in Python
 
 I've also included a Python equivalent to word count program.
 

@@ -1,25 +1,39 @@
 #!/usr/bin/runhaskell
 
---
--- Haskell's ability to work with IO actions as with any other (functional
--- and non-functional) values allows us to define control structures of
--- arbitrary complexity. Try, for example, to define a control structure
--- that repeats an action until it returns the 'False' result:
---
--- @
--- while :: IO Bool -> IO ()
--- while action = ???
--- @
---
--- Most programming languages don't allow you to define control structures
--- at all, and those that do often require you to use a macro-expansion
--- system. In Haskell, control structures are just trivial functions anyone
--- can write.
---
--- Source: <https://wiki.haskell.org/IO_inside#What_is_a_monad.3F>
+{-|
+
+Module      : While
+Description : An implementation of @while@.
+Copyright   : © Frank Jung, 2019
+License     : GPL-3
+
+
+Haskell's ability to work with IO actions as with any other (functional
+and non-functional) values allows us to define control structures of
+arbitrary complexity.
+
+Try, for example, to define a control structure that repeats an action
+until it returns the @False@ result:
+
+@while :: IO Bool -> IO ()
+while action = ???@
+
+Most programming languages don't allow you to define control structures
+at all, and those that do often require you to use a macro-expansion
+system. In Haskell, control structures are just trivial functions anyone
+can write.
+
+Source: <https://wiki.haskell.org/IO_inside What is a monad>
+
+-}
+
+module While (bool, while, main, myAction) where
 
 -- | Replace if with a function.
-bool :: a -> a -> Bool -> a
+bool :: a       -- ^ value if false
+        -> a    -- ^ value if true
+        -> Bool -- ^ propostion being tested
+        -> a    -- ^ the final value
 bool f _ False = f
 bool _ t True  = t
 
@@ -40,7 +54,6 @@ myAction = do
   s <- getLine
   bool (return True) (return False) ('q' `elem` s)
 
--- Perform 'myAction' until
--- user enters @q@ in response.
+-- | Perform 'myAction' until user enters @q@ in response.
 main :: IO ()
 main = while myAction
