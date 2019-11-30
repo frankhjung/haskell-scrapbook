@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
 Word count as per wc(1).
 
@@ -14,9 +14,9 @@ import sys
 from functools import reduce
 
 
-def word_count(stream: "file") -> 'int':
+def word_count(stream: 'file') -> 'int':
     """
-    Count words in stream.
+    Count words from STDIN IO stream.
     """
     return reduce(lambda x, y: x + y, list(map(lambda x: len(x.split()),
                                                stream)))

@@ -11,7 +11,7 @@ Tests whether value a integer value is modulus 3 or modulus 5.
 
 -}
 
-module Mod35 (mod35,main) where
+module Mod35 (mod35, main) where
 
 import           System.Environment (getArgs)
 

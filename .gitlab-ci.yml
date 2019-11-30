@@ -10,7 +10,7 @@ build:
     entrypoint: [""]
   stage: build
   script:
-    - make cleanall all
+    - make clean check build doc
   artifacts:
     paths:
       - public
@@ -22,10 +22,9 @@ pages:
   image: alpine:latest
   stage: deploy
   script:
-    - make doc
+    - echo Publishing documentation ...
   dependencies:
     - build
   artifacts:
     paths:
-    - public
-
+      - public

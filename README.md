@@ -4,15 +4,25 @@ A collection of short scripts testing functions and techniques.
 
 ## Documentation
 
-The [Haddock](https://www.haskell.org/haddock/doc/html/index.html) documentation
-on [GitHub](https://github.com/frankhjung/haskell-scrapbook) is
-[here](https://frankhjung.github.io/haskell-scrapbook/).
+[Haddock](https://www.haskell.org/haddock/doc/html/index.html) API
+documentation is available on:
+
+* [GitHub](https://frankhjung.github.io/haskell-scrapbook/)
+* [GitLab](https://frankhjung1.gitlab.io/haskell-scrapbook)
 
 ## Haskell
 
-Notes on Haskell programs.
+These examples are meant to be run using
+[runhaskell(1)](https://www.commandlinux.com/man-page/man1/runhaskell.1.html).
 
-### Build
+The reason they won't link is because I've added them to their own module, and
+have not yet gotten around to build an über main yet. The idea was really to
+test an run code snippets quickly without having to bother with compiling and
+linking a main module.
+
+The compilation using make is to validate the source files.
+
+### Check
 
 Build using GNU Make:
 
@@ -32,7 +42,7 @@ This is the default goal.
 
 I've also included a Python equivalent to word count program.
 
-Get help PyDoc with:
+Get help [PyDoc](https://docs.python.org/3/library/pydoc.html) with:
 
 ```bash
 pydoc3 wordcount.py
