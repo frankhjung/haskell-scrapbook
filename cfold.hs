@@ -24,7 +24,7 @@ cfold' :: (t1 -> t2 -> (t2 -> t2) -> t2) -> t2 -> [t1] -> t2
 cfold' _ z []     = z
 cfold' f z (x:xs) = f x z (\y -> cfold' f y xs)
 
--- | Wrapper function to @cfold'@.
+-- | Wrapper function to `cfold'`.
 --
 -- >>> λ> cfold (+) 0 [1..3]
 -- 6

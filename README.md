@@ -13,7 +13,8 @@ documentation is available on:
 ## Haskell
 
 These examples are meant to be run using
-[runhaskell(1)](https://www.commandlinux.com/man-page/man1/runhaskell.1.html).
+[runhaskell(1)](https://www.commandlinux.com/man-page/man1/runhaskell.1.html) or
+[runghc(1)](https://manpages.debian.org/stable/ghc/runghc.1.en.html).
 
 The reason they won't link is because I've added them to their own module, and
 have not yet gotten around to build an über main yet. The idea was really to

@@ -23,13 +23,13 @@ at all, and those that do often require you to use a macro-expansion
 system. In Haskell, control structures are just trivial functions anyone
 can write.
 
-Source: <https://wiki.haskell.org/IO_inside What is a monad>
+Source: <https://wiki.haskell.org/IO_inside What is a monad?>
 
 -}
 
 module While (bool, while, main, myAction) where
 
--- | Replace if with a function.
+-- | Replace f with a function.
 bool :: a       -- ^ value if false
         -> a    -- ^ value if true
         -> Bool -- ^ propostion being tested
