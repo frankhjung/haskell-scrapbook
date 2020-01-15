@@ -1,12 +1,24 @@
 #!/usr/bin/runhaskell
-
 {-# LANGUAGE LambdaCase #-}
 
--- | Yahtzee test suite.
--- See http://h2.jaguarpaw.co.uk/posts/good-design-and-type-safety-in-yahtzee/
+{-|
 
--- | Dice values [1..6]
-type DiceVals   = [Integer]
+Module      : Yahtzee
+Description : Code from "Good Design an Type Safety in Yahtzee"
+Copyright   : © Frank Jung, 2019
+License     : GPL-3
+
+Yahtzee test suite.
+
+Source: <http://h2.jaguarpaw.co.uk/posts/good-design-and-type-safety-in-yahtzee/ Good Design and Type Safety in Yahtzee>
+
+-}
+
+module Yahtzee (DiceChoice (..), DiceVals, allRolls, main, example) where
+
+-- | Dice values from 1 to 6.
+type DiceVals = [Integer]
+
 -- | Keep the dice, or re-roll?
 data DiceChoice = Keep Integer | Reroll
 
@@ -16,12 +28,12 @@ allRolls = mapM $ \case
   Reroll -> [1..6]
   Keep v -> [v]
 
--- | Test case
-example =
-  let diceVals = [ Reroll, Keep 4, Keep 4, Reroll, Reroll ]
+-- | An example test case.
+example :: IO ()
+example = let diceVals = [ Reroll, Keep 4, Keep 4, Reroll, Reroll ]
   in mapM_ print $ allRolls diceVals
 
--- Run example
+-- | Run example.
 main :: IO ()
 main = example
 
