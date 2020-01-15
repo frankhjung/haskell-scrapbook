@@ -2,7 +2,7 @@
 {-|
 
 Module      : Cps
-Description : Continuation passing style example.
+Description : Continuation passing style, examples.
 Copyright   : © Frank Jung, 2020
 License     : GPL-3
 
