@@ -10,6 +10,8 @@ License     : GPL-3
 
 Yahtzee test suite.
 
+Call `main` to show example.
+
 Source: <http://h2.jaguarpaw.co.uk/posts/good-design-and-type-safety-in-yahtzee/ Good Design and Type Safety in Yahtzee>
 
 -}
@@ -33,7 +35,10 @@ example :: IO ()
 example = let diceVals = [ Reroll, Keep 4, Keep 4, Reroll, Reroll ]
   in mapM_ print $ allRolls diceVals
 
--- | Run example.
+-- | Run example:
+--
+-- >>> runhaskell yahtzee.hs
+--
 main :: IO ()
 main = example
 

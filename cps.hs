@@ -6,15 +6,14 @@ Description : Continuation passing style example.
 Copyright   : © Frank Jung, 2020
 License     : GPL-3
 
-Example from https://en.wikibooks.org/wiki/Haskell/Continuation_passing_style
+Example from <https://en.wikibooks.org/wiki/Haskell/Continuation_passing_style Wikibooks Continuation Passing Style>.
 
 Uses the Cont monad from the transformers package.
 
 Using callCC is better than using return as argument is a function and it
 returns a suspended computation.
 
->>> echo 3 4 | runhaskell ./cps.hs
->>> 25
+Call `main` to run example.
 
 -}
 
@@ -44,5 +43,9 @@ example []      = "Nothing"
 example _       = "Nothing"
 
 -- | Run example.
+--
+-- >>> echo 3 4 | runhaskell cps.hs
+-- 25
+--
 main :: IO ()
 main = interact $ example . map read . words

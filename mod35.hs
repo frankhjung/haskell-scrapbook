@@ -34,5 +34,6 @@ mod35 n = (n `mod` 3 == 0) || (n `mod` 5 == 0)
 -- To run, call:
 --
 -- >>> echo n | runhaskell mod35.hs
+--
 main :: IO ()
 main = getArgs >>= \args -> print $ (mod35 . read . head) args
