@@ -9,6 +9,8 @@ mod35
 *.o
 public/
 *.pyc
+__pycache__
+*.pyo
 qsort
 .stack-work
 .*.swp

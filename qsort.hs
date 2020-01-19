@@ -23,7 +23,7 @@ To reverse sort, switch smaller and larger in qsort.
 
 -}
 
-module QSort (qsort,main) where
+module QSort (qsort, main) where
 
 -- | A simple implementation of <https://en.wikipedia.org/wiki/Qsort Qsort>.
 qsort :: (Show a, Ord a)
