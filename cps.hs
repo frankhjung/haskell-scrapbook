@@ -1,6 +1,6 @@
 #!/usr/bin/runhaskell
-{-|
 
+{-|
 Module      : Cps
 Description : Continuation passing style, examples.
 Copyright   : © Frank Jung, 2020
@@ -14,7 +14,6 @@ Using callCC is better than using return as argument is a function and it
 returns a suspended computation.
 
 Call `main` to run example.
-
 -}
 
 module Cps (main, addCont, squareCont, pythagorasCont) where

@@ -1,4 +1,5 @@
 #!/usr/bin/runhaskell
+
 {-# LANGUAGE LambdaCase #-}
 
 {-|
