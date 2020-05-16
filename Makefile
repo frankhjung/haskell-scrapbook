@@ -41,5 +41,5 @@ clean:
 
 .PHONY: cleanall
 cleanall: clean
-	-$(RM) public
+	-$(RM) -rf public
 	-$(RM) $(TGTS) tags *.pyc
