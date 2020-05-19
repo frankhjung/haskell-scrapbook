@@ -31,7 +31,7 @@ build:	check $(TGTS)
 
 .PHONY: doc
 doc:
-	-haddock --show=all --html --title="Haskell Scrapbook" --odir public $(SRCS)
+	-haddock --title="Haskell Scrapbook" --html --hyperlinked-source --odir public $(SRCS)
 
 .PHONY: clean
 clean:
