@@ -4,7 +4,7 @@
 
 Module      : BinarySearch
 Description : Example binary search.
-Copyright   : © Frank Jung, 2019-2020
+Copyright   : © Frank Jung, 2020
 License     : GPL-3
 
 Example implementation of binary search.
@@ -29,7 +29,9 @@ bsearch xs key
     -- val = xs ^? ix mid
 
 -- | Run example using set integer array.
+-- Search list [1..6] for values [1..8].
+-- Expect 7 and 9 to return, Nothing.
 --
 main :: IO ()
-main = print $ map (bsearch xs) xs
+main = print $ map (bsearch xs) (xs <> [7,8])
   where xs = [1..6]
