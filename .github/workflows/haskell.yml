@@ -24,7 +24,7 @@ jobs:
         fetch-depth: 1
 
     - name: build
-      uses: docker://frankhjung/haskell:latest
+      uses: docker://frankhjung/haskell:8.6
       with:
         entrypoint: /usr/bin/make
         args: -f Makefile all
