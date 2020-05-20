@@ -10,7 +10,7 @@ build:
     entrypoint: [""]
   stage: build
   script:
-    - make clean check build doc
+    - make check build doc
   artifacts:
     paths:
       - public

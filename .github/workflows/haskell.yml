@@ -25,6 +25,7 @@ jobs:
       uses: docker://frankhjung/haskell:latest
       with:
         entrypoint: /usr/bin/make
+        args: -f Makefile build doc
 
     - name: publish
       uses: crazy-max/ghaction-github-pages@v0.4.0
