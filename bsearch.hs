@@ -13,8 +13,8 @@ Example implementation of binary search.
 
 module BinarySearch (main, bsearch) where
 
-import           Control.Lens (ix, (^?))
-import           Data.Maybe   (Maybe (..), fromJust)
+-- import           Control.Lens (ix, (^?))
+import           Data.Maybe (Maybe (..), fromJust, listToMaybe)
 
 -- | Binary Search
 bsearch :: [Int] -> Int -> Maybe Int
@@ -25,11 +25,11 @@ bsearch xs key
     | otherwise = val
   where
     mid = length xs `div` 2
-    val = xs ^? ix mid
+    val = listToMaybe (drop mid xs)
+    -- val = xs ^? ix mid
 
--- | Run example using set integer array [1,..,6]
+-- | Run example using set integer array.
 --
 main :: IO ()
 main = print $ map (bsearch xs) xs
   where xs = [1..6]
-
