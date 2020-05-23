@@ -42,12 +42,9 @@ doc:
 
 .PHONY: clean
 clean:
-	-$(RM) $(patsubst %.lhs, %.hi,   $(LHSS))
-	-$(RM) $(patsubst %.lhs, %.o,    $(LHSS))
-	-$(RM) $(patsubst %.lhs, %.prof, $(LHSS))
-	-$(RM) $(patsubst %.hs, %.hi,    $(SRCS))
-	-$(RM) $(patsubst %.hs, %.o, 	 $(SRCS))
-	-$(RM) $(patsubst %.hs, %.prof,  $(SRCS))
+	-$(RM) $(addsuffix .hi, $(basename $(LHSS) $(SRCS)))
+	-$(RM) $(addsuffix .o, $(basename $(LHSS) $(SRCS)))
+	-$(RM) $(addsuffix .prof, $(basename $(LHSS) $(SRCS)))
 
 .PHONY: cleanall
 cleanall: clean
