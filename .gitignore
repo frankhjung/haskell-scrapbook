@@ -1,7 +1,10 @@
+bird
 *.dyn_hi
 *.dyn_o
 .hdevtools.*
+helloworld
 *.hi
+*.html
 .idea
 *.iml
 *.lock

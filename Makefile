@@ -1,13 +1,17 @@
 #!/usr/bin/env make
 
 .SUFFIXES:
-.SUFFIXES: .o .hs
+.SUFFIXES: .o .hs .lhs
 
 .DEFAULT: all
+
+%:%.lhs
+	-ghc --make $<
 
 %:%.hs
 	-ghc -O2 -Wall -Wno-type-defaults -rtsopts -threaded --make $<
 
+LHSS	:= $(wildcard *.lhs)
 SRCS	:= $(wildcard *.hs)
 TGTS 	:= $(patsubst %.hs, %, $(SRCS))
 
@@ -35,11 +39,17 @@ doc:
 
 .PHONY: clean
 clean:
-	-$(RM) $(patsubst %.hs, %.hi, $(SRCS))
-	-$(RM) $(patsubst %.hs, %.o, $(SRCS))
-	-$(RM) $(patsubst %.hs, %.prof, $(SRCS))
+	-$(RM) $(patsubst %.lhs, %.hi,   $(LHSS))
+	-$(RM) $(patsubst %.lhs, %.o,    $(LHSS))
+	-$(RM) $(patsubst %.lhs, %.prof, $(LHSS))
+	-$(RM) $(patsubst %.hs, %.hi,    $(SRCS))
+	-$(RM) $(patsubst %.hs, %.o, 	 $(SRCS))
+	-$(RM) $(patsubst %.hs, %.prof,  $(SRCS))
 
 .PHONY: cleanall
 cleanall: clean
 	-$(RM) -rf public
-	-$(RM) $(TGTS) tags *.pyc
+	-$(RM) tags *.pyc
+	-$(RM) $(TGTS)
+	-$(RM) $(patsubst %.lhs, %, $(LHSS))
+	-$(RM) $(patsubst %.lhs, %.html, $(LHSS))
