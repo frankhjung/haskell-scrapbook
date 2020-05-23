@@ -1,12 +1,15 @@
 #!/usr/bin/env make
 
 .SUFFIXES:
-.SUFFIXES: .o .hs .lhs
+.SUFFIXES: .o .hs .lhs .html
 
 .DEFAULT: all
 
 %:%.lhs
 	-ghc --make $<
+
+%.html:%.lhs
+	-pandoc -r markdown+lhs -s $< -w html -o $@
 
 %:%.hs
 	-ghc -O2 -Wall -Wno-type-defaults -rtsopts -threaded --make $<
