@@ -17,7 +17,7 @@ module BinarySearch (main, bsearch) where
 import           Data.Maybe (Maybe (..), fromJust, listToMaybe)
 
 -- | Binary Search
-bsearch :: [Int] -> Int -> Maybe Int
+bsearch :: (Ord a) => [a] -> a -> Maybe a
 bsearch [] _ = Nothing
 bsearch xs key
     | key < fromJust val = bsearch (take mid xs) key
@@ -28,10 +28,15 @@ bsearch xs key
     val = listToMaybe (drop mid xs)
     -- val = xs ^? ix mid
 
--- | Run example using set integer array.
+-- | Run example using an integer array.
+--
 -- Search list [1..6] for values [1..8].
+--
 -- Expect 7 and 9 to return, Nothing.
 --
+-- The same will apply for strings:
+--
+-- "abcdef" and "gh".
 main :: IO ()
 main = print $ map (bsearch xs) (xs <> [7,8])
   where xs = [1..6]
