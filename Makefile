@@ -9,7 +9,7 @@
 	-ghc --make $<
 
 %.html:%.lhs
-	-pandoc -r markdown+lhs -s $< -w html -o $@
+	-pandoc -r markdown+lhs -s $< -w html --css haskell.css -o $@
 
 %:%.hs
 	-ghc -O2 -Wall -Wno-type-defaults -rtsopts -threaded --make $<

@@ -10,6 +10,7 @@ helloworld
 *.lock
 mod35
 *.o
+*.pdf
 public/
 *.pyc
 __pycache__
