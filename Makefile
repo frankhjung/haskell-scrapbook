@@ -5,14 +5,14 @@
 
 .DEFAULT: all
 
-%:%.lhs
+%	: %.lhs
 	-ghc --make $<
 
-%.html:%.lhs
+%.html	: %.lhs
 	-pandoc -r markdown+lhs -s $< -w html --css haskell.css -o $@
 
-%:%.hs
-	-ghc -O2 -Wall -Wno-type-defaults -rtsopts -threaded --make $<
+%	: %.hs
+	-ghc -O2 -Wall -fplugin=Splint -Wno-type-defaults -rtsopts -threaded --make $<
 
 LHSS	:= $(wildcard *.lhs)
 SRCS	:= $(wildcard *.hs)
