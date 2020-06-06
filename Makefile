@@ -31,7 +31,7 @@ style:	$(SRCS)
 	-stylish-haskell --config=.stylish-haskell.yaml --inplace $(SRCS)
 
 lint:	$(SRCS)
-	-hlint --color --show $(SRCS)
+	-hlint --cross --color --show $(SRCS)
 
 .PHONY: build
 build:	check $(TGTS)
