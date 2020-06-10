@@ -1,7 +1,7 @@
 #!/usr/bin/env make
 
 .SUFFIXES:
-.SUFFIXES: .o .hs .lhs .html
+.SUFFIXES: .o .hs .lhs .html .pdf
 
 .DEFAULT: all
 
@@ -10,6 +10,9 @@
 
 %.html	: %.lhs
 	-pandoc -r markdown+lhs -s $< -w html --css haskell.css -o $@
+
+%.pdf	: %.lhs
+	-pandoc -r markdown+lhs -s $< --css haskell.css -o $@
 
 %	: %.hs
 	-ghc -O2 -Wall -fplugin=Splint -Wno-type-defaults -rtsopts -threaded --make $<

@@ -59,6 +59,15 @@ pandoc  -r markdown+lhs \
         -o bird.html
 ```
 
+=== Render to PDF using pandoc
+
+```bash
+pandoc  -r markdown+lhs \
+        -s bird.lhs \
+        --css haskell.css \
+        -o bird.pdf
+```
+
 === Run using runhaskell
 
 ```bash

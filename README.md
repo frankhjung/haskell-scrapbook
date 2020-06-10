@@ -87,3 +87,17 @@ This should return `38`. i.e. This should return `PASS`:
 export f=wordcount.hs
 cat $f | python3 ./wordcount.py | (read count ; test $count -eq $(wc -w $f | cut -d ' ' -f1 -) && echo "PASS")
 ```
+
+## Literate Haskell
+
+To print [bird.lhs](./bird.lhs) to PDF, use:
+
+```bash
+pandoc -r markdown+lhs -s bird.lhs --css haskell.css -o bird.pdf
+```
+
+To render to HTML use:
+
+```bash
+make bird.html
+```
