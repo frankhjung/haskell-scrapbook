@@ -9,6 +9,7 @@ helloworld
 *.iml
 *.lock
 mod35
+mylast
 *.o
 *.pdf
 public/

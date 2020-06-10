@@ -7,7 +7,6 @@ Description : An implementation of @while@.
 Copyright   : © Frank Jung, 2019
 License     : GPL-3
 
-
 Haskell's ability to work with IO actions as with any other (functional
 and non-functional) values allows us to define control structures of
 arbitrary complexity.
