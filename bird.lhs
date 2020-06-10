@@ -42,13 +42,21 @@ ghc --make bird.lhs
 === Documented using Haddock
 
 ```bash
-haddock --title="Bird Style Literate Haskell" --html --hyperlinked-source --odir public bird.lhs
+haddock --title="Bird Style Literate Haskell" \
+        --html \
+        --hyperlinked-source \
+        --odir public \
+        bird.lhs
 ```
 
 === Render to HTML using pandoc
 
 ```bash
-pandoc -r markdown+lhs -s bird.lhs -w html -css haskell.css -o bird.html
+pandoc  -r markdown+lhs \
+        -s bird.lhs \
+        -w html \
+        -css haskell.css \
+        -o bird.html
 ```
 
 === Run using runhaskell
