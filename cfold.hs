@@ -40,4 +40,3 @@ main = do
   print $ cfold' (\x t g -> g (x : t)) [] [1..10]
   print $ cfold (+) 0 [1..3]
   print $ cfold (:) [] [1..3]
-

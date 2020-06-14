@@ -75,4 +75,3 @@ runhaskell bird.lhs
 ```
     $ runhaskell bird.lhs
     Hello, world!
-
