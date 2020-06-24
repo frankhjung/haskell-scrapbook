@@ -52,7 +52,8 @@ clean:
 .PHONY: cleanall
 cleanall: clean
 	-$(RM) -rf public
-	-$(RM) tags *.pyc
+	-$(RM) .hdevtools.sock *.pyc *.sublime-workspace tags
 	-$(RM) $(TGTS)
 	-$(RM) $(patsubst %.lhs, %, $(LHSS))
 	-$(RM) $(patsubst %.lhs, %.html, $(LHSS))
+

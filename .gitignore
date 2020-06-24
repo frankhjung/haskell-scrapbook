@@ -1,7 +1,11 @@
 bird
+bsearch
+cflold
+cps
 *.dyn_hi
 *.dyn_o
 .hdevtools.*
+.hdevtools.sock 
 helloworld
 *.hi
 *.html
@@ -17,10 +21,15 @@ public/
 __pycache__
 *.pyo
 qsort
+readfile
 .stack-work
+*.sublime-workspace
+subseqs
 .*.swp
 tags
 threads
 *.tix
 while
 wordcount
+yahtzee
+zipexample
