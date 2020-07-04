@@ -3,8 +3,6 @@
 .SUFFIXES:
 .SUFFIXES: .o .hs .lhs .html .pdf
 
-.DEFAULT: all
-
 %	: %.lhs
 	-ghc --make $<
 
@@ -21,20 +19,27 @@ LHSS	:= $(wildcard *.lhs)
 SRCS	:= $(wildcard *.hs)
 TGTS 	:= $(patsubst %.hs, %, $(SRCS))
 
-.PHONY: all
-all:	clean check build doc
-
-.PHONY: check
+.DEFAULT: check
 check:	tags style lint
 
+.PHONY: tags
 tags:	$(SRCS)
-	-hasktags --ctags $(SRCS)
+	@echo tags ...
+	@hasktags --ctags $(SRCS)
 
+.PHONY: style
 style:	$(SRCS)
-	-stylish-haskell --config=.stylish-haskell.yaml --inplace $(SRCS)
+	@echo style ...
+	@stylish-haskell --config=.stylish-haskell.yaml --inplace $(SRCS)
 
+.PHONY: lint
 lint:	$(SRCS)
-	-hlint --cross --color --show $(SRCS)
+	@echo lint ...
+	@stylish-haskell --config=.stylish-haskell.yaml --inplace $(SRCS)
+	@hlint --cross --color --show $(SRCS)
+
+.PHONY: all
+all:	clean check build doc
 
 .PHONY: build
 build:	check $(TGTS)
