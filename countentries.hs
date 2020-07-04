@@ -15,17 +15,12 @@ entries it finds at each level of the tree.
 
 -}
 
-module CountEntries (main, listDirectory, countEntriesTrad) where
+module CountEntries (main, countEntriesTrad) where
 
 import           Control.Monad    (forM, mapM_)
 import           System.Directory (doesDirectoryExist, getCurrentDirectory,
-                                   getDirectoryContents)
+                                   listDirectory)
 import           System.FilePath  ((</>))
-
--- | List contents of current directory.
-listDirectory :: FilePath -> IO [String]
-listDirectory = fmap (filter notDots) . getDirectoryContents
-    where notDots p = p /= "." && p /= ".."
 
 -- | Count entries in file path.
 countEntriesTrad :: FilePath -> IO [(FilePath, Int)]
