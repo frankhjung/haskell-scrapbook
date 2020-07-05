@@ -58,40 +58,40 @@ System.Directory doesDirectoryExist
 λ> listDirectory (p) >>= return . length
 25
 
+{-# LANGUAGE TupleSections #-}
+
 -}
 
-{-# LANGUAGE TupleSections #-}
 
 module CountEntries (main, countEntries, countEntriesTrad) where
 
 import           Control.Monad    (filterM, forM, mapM_)
-import           Data.Bool        (bool)
 import           System.Directory (doesDirectoryExist, getCurrentDirectory,
                                    listDirectory)
 import           System.FilePath  ((</>))
 
 -- | Count entries for a list of paths.
 countEntries :: FilePath -> IO [(FilePath, Int)]
-countEntries p = do
-  -- list subdirectories of p
-  ps <- listDirectory p >>= filterM (\n -> doesDirectoryExist (p </> n))
-  bool (mapM countEntry (p:ps)) (return []) (null p)
-  where
-    -- count of entries in a directory
-    countEntry :: FilePath -> IO (FilePath, Int)
-    countEntry a = (a,) . length <$> listDirectory a
+countEntries p =
+  if null p
+    then return []                                            -- termination
+    else do
+      ps <- listDirectory p                                   -- contents of p
+      pss <- filterM (\n -> doesDirectoryExist (p </> n)) ps  -- list sub-directories
+      psss <- mapM (\n -> countEntries (p </> n)) pss         -- recurse into sub-directories
+      return $ (p, length ps) : concat psss                   -- concat results
 
 -- | Count entries in directories for given path.
 countEntriesTrad :: FilePath -> IO [(FilePath, Int)]
 countEntriesTrad path = do
-  contents <- listDirectory path
-  rest <- forM contents $ \name -> do
-            let newName = path </> name
-            isDir <- doesDirectoryExist newName
+  contents <- listDirectory path                              -- contents of p
+  rest <- forM contents $ \name -> do                         -- for each
+            let newName = path </> name                       -- full path name
+            isDir <- doesDirectoryExist newName               -- is directory
             if isDir
-              then countEntriesTrad newName
-              else return []
-  return $ (path, length contents) : concat rest
+              then countEntriesTrad newName                   -- recurse
+              else return []                                  -- termination
+  return $ (path, length contents) : concat rest              -- concat results
 
 -- | Show count of entries from current path.
 main :: IO ()
