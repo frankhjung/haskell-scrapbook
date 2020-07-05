@@ -65,7 +65,7 @@ System.Directory doesDirectoryExist
 module CountEntries (main, countEntries, countEntriesTrad) where
 
 import           Control.Monad    (filterM, forM, mapM_)
--- import           Data.Bool        (bool)
+import           Data.Bool        (bool)
 import           System.Directory (doesDirectoryExist, getCurrentDirectory,
                                    listDirectory)
 import           System.FilePath  ((</>))
@@ -73,10 +73,9 @@ import           System.FilePath  ((</>))
 -- | Count entries for a list of paths.
 countEntries :: FilePath -> IO [(FilePath, Int)]
 countEntries p = do
+  -- list subdirectories of p
   ps <- listDirectory p >>= filterM (\n -> doesDirectoryExist (p </> n))
-  if null p
-    then return []
-    else mapM countEntry (p:ps)
+  bool (mapM countEntry (p:ps)) (return []) (null p)
   where
     -- count of entries in a directory
     countEntry :: FilePath -> IO (FilePath, Int)
