@@ -9,59 +9,64 @@ License     : GPL-3
 
 From <http://book.realworldhaskell.org/read/monad-transformers.html Chapter 18, Monad Transformers, Real World Haskell by Bryan O'Sullivan, Don Stewart, and John Goerzen>.
 
-This version `countEntriesTrad` uses traditional functional techniques
+There are two versions in this example. The first
+version `countEntriesTrad` uses traditional functional techniques
 to recurse into a directory tree and returns a list of the number of
 entries it finds at each level of the tree.
 
-Control.Monad FilterM
-System.Directory doesDirectoryExist
+I re-wrote this as `countEntries` to remove for loops and do-notation.
 
-λ> (getDirectoryContents "public") >>= filterM doesDirectoryExist
+== GHCi Session
+
+=== Packages
+
+> Control.Monad
+> System.Directory
+> System.FilePath
+
+=== Examples
+
+>>> (getDirectoryContents "public") >>= filterM doesDirectoryExist
 ["..","."]
 
-λ> countEntriesTrad "public"
+>>> countEntriesTrad "public"
 [("public",25),("public/src",16)]
 
-λ> p = "public"
+>>> p = "public"
 
-λ> (getDirectoryContents p) >>= filterM (\n -> doesDirectoryExist (p </> n))
+>>> (getDirectoryContents p) >>= filterM (\n -> doesDirectoryExist (p </> n))
 ["..","src","."]
 
-λ> listDirectory p >>= filterM (\n -> doesDirectoryExist (p </> n))
-["src"]
-
-λ> listDirectory p
+>>> listDirectory p
 ["BinarySearch.html","SubSequence.html","While.html","meta.json","index.html","quick-jump.css","CFold.html","QSort.html","hslogo-16.png","CountEntries.html","WordCount.html","synopsis.png","minus.gif","haddock-bundle.min.js","Yahtzee.html","Mod35.html","MyLast.html","ReadFile.html","ZipExample.html","plus.gif","ocean.css","src","Threads.html","Cps.html","doc-index.html"]
 
-λ> ps <- listDirectory p
+>>> listDirectory p >>= filterM (\n -> doesDirectoryExist (p </> n))
+["src"]
 
-λ> length ps
+>>> ps <- listDirectory p
+
+>>> length ps
 25
 
-λ> listDirectory p >>= return . length
+>>> listDirectory p >>= return . length
 25
 
-λ> listDirectory ("public" </> "src")
-["BinarySearch.html","style.css","SubSequence.html","While.html","highlight.js","CFold.html","QSort.html","CountEntries.html","WordCount.html","Yahtzee.html","Mod35.html","MyLast.html","ReadFile.html","ZipExample.html","Threads.html","Cps.html"]
+>>> liftM length (listDirectory p)
+25
 
-λ> listDirectory ("public" </> "src") >>= return . length
-16
-
-λ> ps >>= mapM_ print
+>>> ps >>= mapM_ print
 "src"
 
-λ> ps >>= mapM_ (listDirectory . (</>) p)
+>>> listDirectory ("public" </> "src")
+["BinarySearch.html","style.css","SubSequence.html","While.html","highlight.js","CFold.html","QSort.html","CountEntries.html","WordCount.html","Yahtzee.html","Mod35.html","MyLast.html","ReadFile.html","ZipExample.html","Threads.html","Cps.html"]
 
-λ> listDirectory (p </> "src") >>= return . length
+>>> listDirectory (p </> "src") >>= return . length
 16
 
-λ> listDirectory (p) >>= return . length
-25
-
-{-# LANGUAGE TupleSections #-}
+>>> liftM length (listDirectory (p </> "src"))
+16
 
 -}
-
 
 module CountEntries (main, countEntries, countEntriesTrad) where
 
@@ -74,11 +79,11 @@ import           System.FilePath  ((</>))
 countEntries :: FilePath -> IO [(FilePath, Int)]
 countEntries p =
   if not (null p)
-    then do
-      ps <- listDirectory p                                   -- contents of p
-      pss <- filterM (\n -> doesDirectoryExist (p </> n)) ps  -- list sub-directories
-      ces <- fmap concat (mapM (\n -> countEntries (p </> n)) pss) -- recurse into sub-directories
-      return $ (p, length ps) : ces                           -- concat results
+    then
+      listDirectory p                                         -- contents of p
+      >>= \ps -> filterM (\n -> doesDirectoryExist (p </> n)) ps -- sub-directories
+      >>= mapM (\n -> countEntries (p </> n))                 -- recurse
+      >>= (\ces -> return $ (p, length ps) : ces) . concat    -- concat results
     else return []                                            -- termination
 
 -- | Count entries in directories for given path.
