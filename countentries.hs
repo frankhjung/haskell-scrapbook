@@ -73,13 +73,13 @@ import           System.FilePath  ((</>))
 -- | Count entries for a list of paths.
 countEntries :: FilePath -> IO [(FilePath, Int)]
 countEntries p =
-  if null p
-    then return []                                            -- termination
-    else do
+  if not (null p)
+    then do
       ps <- listDirectory p                                   -- contents of p
       pss <- filterM (\n -> doesDirectoryExist (p </> n)) ps  -- list sub-directories
-      psss <- mapM (\n -> countEntries (p </> n)) pss         -- recurse into sub-directories
-      return $ (p, length ps) : concat psss                   -- concat results
+      ces <- fmap concat (mapM (\n -> countEntries (p </> n)) pss) -- recurse into sub-directories
+      return $ (p, length ps) : ces                           -- concat results
+    else return []                                            -- termination
 
 -- | Count entries in directories for given path.
 countEntriesTrad :: FilePath -> IO [(FilePath, Int)]
