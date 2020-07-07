@@ -56,7 +56,7 @@ clean:
 
 .PHONY: cleanall
 cleanall: clean
-	-$(RM) -rf public
+	-$(RM) -rf public .pytest_cache dist
 	-$(RM) .hdevtools.sock *.pyc *.sublime-workspace tags
 	-$(RM) $(TGTS)
 	-$(RM) $(patsubst %.lhs, %, $(LHSS))

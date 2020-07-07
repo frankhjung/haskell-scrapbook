@@ -73,6 +73,7 @@ To lint:
 ```bash
 pylint *.py
 ```
+
 ## Test
 
 To test program run:
@@ -101,3 +102,16 @@ To render to HTML use:
 ```bash
 make bird.html
 ```
+
+## Haskell Notebook
+
+Included is a Jupyter Notebook with a
+[Haskell](https://github.com/gibiansky/IHaskell) runtime.
+
+To start run this:
+
+```bash
+stack exec jupyter -- notebook
+```
+
+For more details see [IHaskell](https://github.com/gibiansky/IHaskell).

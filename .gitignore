@@ -1,16 +1,19 @@
 bird
 bsearch
 cflold
+countentries
 cps
+dist/
 *.dyn_hi
 *.dyn_o
 .hdevtools.*
-.hdevtools.sock 
+.hdevtools.sock
 helloworld
 *.hi
 *.html
 .idea
 *.iml
+.ipynb_checkpoints/*.ipynb
 *.lock
 mod35
 mylast
@@ -20,6 +23,7 @@ public/
 *.pyc
 __pycache__
 *.pyo
+.pytest_cache/
 qsort
 readfile
 .stack-work
@@ -29,6 +33,7 @@ subseqs
 tags
 threads
 *.tix
+.vscode
 while
 wordcount
 yahtzee
