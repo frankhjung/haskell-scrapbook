@@ -20,85 +20,131 @@ I re-wrote this as `countEntries` to remove for loops and do-notation.
 
 === Packages
 
-> Control.Monad
-> System.Directory
-> System.FilePath
-
-=== Examples
-
->>> (getDirectoryContents "public") >>= filterM doesDirectoryExist
-["..","."]
-
->>> countEntriesTrad "public"
-[("public",25),("public/src",16)]
-
->>> p = "public"
-
->>> (getDirectoryContents p) >>= filterM (\n -> doesDirectoryExist (p </> n))
-["..","src","."]
-
->>> listDirectory p
-["BinarySearch.html","SubSequence.html","While.html","meta.json","index.html","quick-jump.css","CFold.html","QSort.html","hslogo-16.png","CountEntries.html","WordCount.html","synopsis.png","minus.gif","haddock-bundle.min.js","Yahtzee.html","Mod35.html","MyLast.html","ReadFile.html","ZipExample.html","plus.gif","ocean.css","src","Threads.html","Cps.html","doc-index.html"]
-
->>> listDirectory p >>= filterM (\n -> doesDirectoryExist (p </> n))
-["src"]
-
->>> ps <- listDirectory p
-
->>> length ps
-25
-
->>> listDirectory p >>= return . length
-25
-
->>> liftM length (listDirectory p)
-25
-
->>> ps >>= mapM_ print
-"src"
-
->>> listDirectory ("public" </> "src")
-["BinarySearch.html","style.css","SubSequence.html","While.html","highlight.js","CFold.html","QSort.html","CountEntries.html","WordCount.html","Yahtzee.html","Mod35.html","MyLast.html","ReadFile.html","ZipExample.html","Threads.html","Cps.html"]
-
->>> listDirectory (p </> "src") >>= return . length
-16
-
->>> liftM length (listDirectory (p </> "src"))
-16
+@
+:m + Control.Monad
+:m + System.Directory
+:m + System.FilePath
+@
 
 -}
 
-module CountEntries (main, countEntries, countEntriesTrad) where
+module CountEntries (main, countEntries1, countEntries2, countEntriesS, countEntriesU) where
 
-import           Control.Monad    (filterM, forM, mapM_)
-import           System.Directory (doesDirectoryExist, getCurrentDirectory,
-                                   listDirectory)
-import           System.FilePath  ((</>))
-
--- | Count entries for a list of paths.
-countEntries :: FilePath -> IO [(FilePath, Int)]
-countEntries p =
-  if not (null p)
-    then
-      listDirectory p                                         -- contents of p
-      >>= \ps -> filterM (\n -> doesDirectoryExist (p </> n)) ps -- sub-directories
-      >>= mapM (\n -> countEntries (p </> n))                 -- recurse
-      >>= (\ces -> return $ (p, length ps) : ces) . concat    -- concat results
-    else return []                                            -- termination
+import           Control.Monad        (filterM, forM, forM_, mapM_, when)
+import           Control.Monad.Trans  (liftIO)
+import           Control.Monad.Writer (WriterT, execWriterT, tell)
+import           System.Directory     (doesDirectoryExist, getCurrentDirectory,
+                                       listDirectory)
+import           System.FilePath      ((</>))
 
 -- | Count entries in directories for given path.
-countEntriesTrad :: FilePath -> IO [(FilePath, Int)]
-countEntriesTrad path = do
+-- Standard version as documented in Real World Haskell.
+--
+-- >>> p = "public"
+--
+-- >>> :t listDirectory p
+-- listDirectory p :: IO [FilePath]
+--
+-- >>> countEntriesS p
+-- [("public",25),("public/src",16)]
+--
+countEntriesS :: FilePath -> IO [(FilePath, Int)]
+countEntriesS path = do
   contents <- listDirectory path                              -- contents of p
-  rest <- forM contents $ \name -> do                         -- for each
+  rest <- forM contents $ \name -> do                         -- for each entry
             let newName = path </> name                       -- full path name
             isDir <- doesDirectoryExist newName               -- is directory
             if isDir
-              then countEntriesTrad newName                   -- recurse
+              then countEntriesS newName                      -- recurse
               else return []                                  -- termination
-  return $ (path, length contents) : concat rest              -- concat results
+  return $ (path, length contents) : concat rest              -- list and concat tuples
+
+-- | Count entries for a list of paths. (My version.)
+--
+-- == Example
+--
+-- What the function returns is a list of tuples of directory and count of
+-- entries in that directory:
+--
+-- >>> countEntries1 "public"
+-- [("public",25),("public/src",16)]
+--
+-- === Explanation
+--
+-- The function composes a number of different system calls. But the
+-- process is simple but clunky using traditional methods. The process will
+-- be much simplified once when Monad Transformers are used in
+-- `countEntries2`.
+--
+-- >>> p = "public"
+--
+-- Get contents of path ... and filter to report directories only:
+--
+-- >>> (getDirectoryContents p) >>= filterM (\n -> doesDirectoryExist (p </> n))
+-- ["..","src","."]
+--
+-- List directory ignores current and parent directories:
+--
+-- >>> listDirectory p >>= filterM (\n -> doesDirectoryExist (p </> n))
+-- ["src"]
+--
+-- Some ways to count number of entries in the path:
+--
+-- >>> ps <- listDirectory p
+--
+-- >>> length ps
+-- 25
+--
+-- Same as:
+--
+-- >>> listDirectory p >>= return . length
+-- 25
+--
+-- Which is equivalent to:
+--
+-- >>> liftM length (listDirectory p)
+-- 25
+--
+-- Recurse into subdirectories:
+--
+-- >>> listDirectory p >>= filterM (\n -> doesDirectoryExist (p </> n)) >>= mapM_ print
+-- "src"
+--
+countEntries1 :: FilePath -> IO [(FilePath, Int)]
+countEntries1 p =
+  if not (null p)
+    then
+      listDirectory p                                         -- contents of path
+      >>= \ps -> filterM (\n -> doesDirectoryExist (p </> n)) ps -- sub-directories
+      >>= mapM (\n -> countEntries1 (p </> n))                -- recurse
+      >>= (\ces -> return $ (p, length ps) : ces) . concat    -- concat then list tuples
+    else return []                                            -- termination
+
+-- | Count entries in directories for given path.
+-- Updated version using `Control.Monad.Writer.WriterT`.
+countEntriesU :: FilePath -> WriterT [(FilePath, Int)] IO ()
+countEntriesU path = do
+  contents <- liftIO . listDirectory $ path                   -- contents of path
+  tell [(path, length contents)]                              -- show tuple
+  forM_ contents $ \name -> do                                -- for each entry
+    let newName = path </> name
+    isDir <- liftIO . doesDirectoryExist $ newName            -- is directory
+    when isDir $ countEntriesU newName                        -- recurse
+
+-- | Count entries in directories for given path.
+-- My version using `Control.Monad.Writer.WriterT`.
+countEntries2 :: FilePath -> WriterT [(FilePath, Int)] IO ()
+countEntries2 p = do
+  ps <- liftIO (listDirectory p)                              -- contents of path
+  tell [(p, length ps)]                                       -- show tuple
+  pss <- liftIO (filterM (\n -> doesDirectoryExist (p </> n)) ps) -- sub-directories
+  mapM_ (\n -> countEntries2 (p </> n)) pss                   -- recurse
 
 -- | Show count of entries from current path.
 main :: IO ()
-main = getCurrentDirectory >>= countEntries >>= mapM_ print
-
+main = do
+  p <- getCurrentDirectory
+  countEntriesS p >>= mapM_ print . take 2
+  countEntries1 p >>= mapM_ print . take 2
+  (execWriterT . countEntriesU) p >>= mapM_ print . take 2
+  (execWriterT . countEntries2) p >>= mapM_ print . take 2
