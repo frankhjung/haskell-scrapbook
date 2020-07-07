@@ -134,11 +134,11 @@ countEntriesU path = do
 -- | Count entries in directories for given path.
 -- My version using `Control.Monad.Writer.WriterT`.
 countEntries2 :: FilePath -> WriterT [(FilePath, Int)] IO ()
-countEntries2 p = do
-  ps <- liftIO (listDirectory p)                              -- contents of path
-  tell [(p, length ps)]                                       -- show tuple
-  pss <- liftIO (filterM (\n -> doesDirectoryExist (p </> n)) ps) -- sub-directories
-  mapM_ (\n -> countEntries2 (p </> n)) pss                   -- recurse
+countEntries2 p =
+  liftIO (listDirectory p)                                    -- contents of path
+  >>= \ps -> tell [(p, length ps)]                            -- show tuple
+  >> liftIO (filterM (\n -> doesDirectoryExist (p </> n)) ps) -- sub-directories
+  >>= \pss -> mapM_ (\n -> countEntries2 (p </> n)) pss       -- recurse
 
 -- | Show count of entries from current path.
 main :: IO ()
