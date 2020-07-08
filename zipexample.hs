@@ -9,7 +9,8 @@ License     : GPL-3
 
 Split a list in half using zipWith.
 
-Source: https://github.com/quchen/articles/blob/master/2018-11-22_zipWith_const.md
+Source: <https://github.com/quchen/articles/blob/master/2018-11-22_zipWith_const.md My favorite Haskell function by David Luposchainsky>
+
 -}
 
 module ZipExample (every2nd, zipOverflow, splitMiddle, main) where

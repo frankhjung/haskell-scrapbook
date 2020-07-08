@@ -8,8 +8,7 @@ Copyright   : © Frank Jung, 2020
 License     : GPL-3
 
 Read a file example, based off example in Chapter 2 of
- [Haskell Design Patterns by Ryan Lemmer]
-(https://books.google.com.au/books/about/Haskell_Design_Patterns.html?id=Q_KoCwAAQBAJ&redir_esc=y).
+<https://books.google.com.au/books/about/Haskell_Design_Patterns.html?id=Q_KoCwAAQBAJ&redir_esc=y Haskell Design Patterns by Ryan Lemmer>
 
 -}
 

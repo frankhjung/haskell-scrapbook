@@ -7,14 +7,14 @@ Description : Count entries in a file path.
 Copyright   : © Frank Jung, 2020
 License     : GPL-3
 
-From <http://book.realworldhaskell.org/read/monad-transformers.html Chapter 18, Monad Transformers, Real World Haskell by Bryan O'Sullivan, Don Stewart, and John Goerzen>.
+From
+<http://book.realworldhaskell.org/read/monad-transformers.html Chapter 18, Monad Transformers, Real World Haskell by Bryan O'Sullivan, Don Stewart, and John Goerzen>.
 
-There are two versions in this example. The first
-version `countEntriesTrad` uses traditional functional techniques
-to recurse into a directory tree and returns a list of the number of
-entries it finds at each level of the tree.
+The function `countEntries1` is my version of @countEntriesTrad@ from this
+chapter (`countEntriesS`, @S@ means standard or traditional).
 
-I re-wrote this as `countEntries` to remove for loops and do-notation.
+The Monad Transformer version is `countEntries2` which is my version of
+`countEntries`.
 
 == GHCi Session
 
@@ -25,6 +25,14 @@ I re-wrote this as `countEntries` to remove for loops and do-notation.
 :m + System.Directory
 :m + System.FilePath
 @
+
+=== Resources
+
+This is a really good introduction to Monad Transformers,
+<https://mmhaskell.com/monads/transformers Monday Morning Haskell: Monad Transformers>.
+
+The functions `countEntries` and `countEntriesU` came from
+<http://book.realworldhaskell.org/read/monad-transformers.html Chapter 18, Monad Transformers, Real World Haskell by Bryan O'Sullivan, Don Stewart, and John Goerzen>.
 
 -}
 

@@ -36,10 +36,10 @@ test2 =
 
 -- | Get second to last element of a list.
 penultimate :: [a] -> Maybe a
-penultimate []       = Nothing
-penultimate [_]      = Nothing
-penultimate [a,_]    = Just a
-penultimate (_:a:as) = penultimate (a:as)
+penultimate []     = Nothing
+penultimate [_]    = Nothing
+penultimate [a,_]  = Just a
+penultimate (_:as) = penultimate as
 
 test3 :: IO ()
 test3 =

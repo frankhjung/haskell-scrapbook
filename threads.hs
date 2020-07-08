@@ -8,6 +8,7 @@ Copyright   : © Frank Jung, 2019
 License     : GPL-3
 
 Threads example from <https://typeclasses.com/phrasebook/threads TypeClasses Phrasebook>.
+
 -}
 
 module Threads (main) where

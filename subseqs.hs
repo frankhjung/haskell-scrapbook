@@ -1,10 +1,12 @@
 #!/usr/bin/env runhaskell
 
 {-|
+
 Module      : SubSequences
 Description : A collection of algorithms to generate sub-sequences.
 Copyright   : © Frank Jung, 2020
 License     : GPL-3
+
 -}
 
 module SubSequence (subseqs1, subseqs2, subseqs3, subseqs4, main) where
