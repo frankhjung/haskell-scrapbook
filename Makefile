@@ -35,8 +35,12 @@ style:	$(SRCS)
 .PHONY: lint
 lint:	$(SRCS)
 	@echo lint ...
-	@stylish-haskell --config=.stylish-haskell.yaml --inplace $(SRCS)
 	@hlint --cross --color --show $(SRCS)
+
+.PHONY: hdevtools
+hdevtools:$(SRCS)
+	@echo hdevtools check ...
+	$(foreach file, $(SRCS), hdevtools check $(file);)
 
 .PHONY: all
 all:	clean check build doc

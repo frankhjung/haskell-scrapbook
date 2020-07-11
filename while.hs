@@ -7,9 +7,9 @@ Description : An implementation of @while@.
 Copyright   : © Frank Jung, 2019
 License     : GPL-3
 
-Haskell's ability to work with IO actions as with any other (functional
-and non-functional) values allows us to define control structures of
-arbitrary complexity.
+Haskell's ability to work with IO actions as with any other (functional and
+non-functional) values allows us to define control structures of arbitrary
+complexity.
 
 Try, for example, to define a control structure that repeats an action
 until it returns the @False@ result:
@@ -17,10 +17,9 @@ until it returns the @False@ result:
 @while :: IO Bool -> IO ()
 while action = ???@
 
-Most programming languages don't allow you to define control structures
-at all, and those that do often require you to use a macro-expansion
-system. In Haskell, control structures are just trivial functions anyone
-can write.
+Most programming languages don't allow you to define control structures at
+all, and those that do often require you to use a macro-expansion system.
+In Haskell, control structures are just trivial functions anyone can write.
 
 Source: <https://wiki.haskell.org/IO_inside What is a monad?>
 

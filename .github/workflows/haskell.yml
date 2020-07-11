@@ -1,3 +1,5 @@
+---
+
 name: haskell scrapbook
 
 on:
@@ -18,21 +20,21 @@ jobs:
 
     steps:
 
-    - name: checkout
-      uses: actions/checkout@v1.0.0
-      with:
-        fetch-depth: 1
+      - name: checkout
+        uses: actions/checkout@v1.0.0
+        with:
+          fetch-depth: 1
 
-    - name: build
-      uses: docker://frankhjung/haskell:8.6
-      with:
-        entrypoint: /usr/bin/make
-        args: -f Makefile all
+      - name: build
+        uses: docker://frankhjung/haskell:8.6
+        with:
+          entrypoint: /usr/bin/make
+          args: -f Makefile all
 
-    - name: publish
-      uses: crazy-max/ghaction-github-pages@v0.4.0
-      if: success()
-      with:
-        build_dir: public
-      env:
-        GITHUB_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}
+      - name: publish
+        uses: crazy-max/ghaction-github-pages@v0.4.0
+        if: success()
+        with:
+          build_dir: public
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}

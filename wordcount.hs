@@ -22,3 +22,4 @@ module WordCount (main) where
 -- | Count words from file read from STDIN.
 main :: IO ()
 main = interact $ show . length . words
+

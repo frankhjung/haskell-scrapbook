@@ -38,7 +38,7 @@ cfold f = cfold' (\ x t g -> f x (g t))
 -- | Run examples.
 main :: IO ()
 main = do
-  print $ cfold' (\x t g -> x : g t) [] [1..10]
-  print $ cfold' (\x t g -> g (x : t)) [] [1..10]
-  print $ cfold (+) 0 [1..3]
-  print $ cfold (:) [] [1..3]
+  print $ cfold' (\x t g -> x : g t) [] ([1..10] :: [Int])
+  print $ cfold' (\x t g -> g (x : t)) [] ([1..10] :: [Int])
+  print $ cfold (+) 0 ([1..3] :: [Int])
+  print $ cfold (:) [] ([1..3] :: [Int])

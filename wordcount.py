@@ -25,3 +25,4 @@ def word_count(stream: 'file') -> 'int':
 
 if __name__ == '__main__':
     print(word_count(sys.stdin.readlines()))
+

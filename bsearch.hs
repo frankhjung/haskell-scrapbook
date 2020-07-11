@@ -39,4 +39,5 @@ bsearch xs key
 -- "abcdef" and "gh".
 main :: IO ()
 main = print $ map (bsearch xs) (xs <> [7,8])
-  where xs = [1..6]
+  where xs = [1..6] :: [Int]
+

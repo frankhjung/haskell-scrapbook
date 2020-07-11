@@ -26,12 +26,12 @@ myLast = head . myRev1
 
 test1 :: IO ()
 test1 =
-  let as = [1..5]
+  let as = [1..5] :: [Int]
   in print $ last as == myLast as
 
 test2 :: IO ()
 test2 =
-  let as = [4]
+  let as = [4] :: [Int]
   in print $ last as == myLast as
 
 -- | Get second to last element of a list.
@@ -43,17 +43,17 @@ penultimate (_:as) = penultimate as
 
 test3 :: IO ()
 test3 =
-    let as = [1]
+    let as = [1] :: [Int]
     in print $ isNothing (penultimate as)
 
 test4 :: IO ()
 test4 =
-    let as = [1,2]
+    let as = [1,2] :: [Int]
     in print $ Just 1 == penultimate as
 
 test5 :: IO ()
 test5 =
-    let as = [1..5]
+    let as = [1..5] :: [Int]
     in print $ Just (((!! 1) . reverse) as) == penultimate as
 
 -- | Reverse a list, version 1.
@@ -66,12 +66,12 @@ myRev2 as = foldr (\ a s -> (a :) >>> s) id as []
 
 test6 :: IO ()
 test6 =
-    let as = [1..5]
+    let as = [1..5] :: [Int]
     in print $ last as == (head . myRev1) as
 
 test7 :: IO ()
 test7 =
-    let as = [1..5]
+    let as = [1..5] :: [Int]
     in print $ myRev1 as == myRev2 as
 
 -- | Test myLast

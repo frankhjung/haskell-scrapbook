@@ -26,7 +26,7 @@ zipOverflow (_:xs) (_:ys) = zipOverflow xs ys
 zipOverflow [] ys         = ys -- end of first list so return rest of second
 zipOverflow xs []         = xs -- end of second list so return rest of first
 
--- | Split list in two.
+-- | Split list into two.
 splitMiddle :: [a] -> ([a], [a])
 splitMiddle xs = let firstHalf = zipWith const xs (every2nd xs)
                      secondHalf = zipOverflow firstHalf xs
@@ -38,3 +38,4 @@ splitMiddle xs = let firstHalf = zipWith const xs (every2nd xs)
 --
 main :: IO ()
 main = interact $ show . splitMiddle . head . lines
+
