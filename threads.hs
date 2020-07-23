@@ -28,7 +28,7 @@ main = do
   hSetBuffering stdout LineBuffering
 
   -- counter to be incremented
-  tasksCompleted <- atomically (newTVar 0)
+  tasksCompleted <- atomically (newTVar (0 :: Int))
 
   -- show thread and increment task completed flag
   -- "main" will end once each thread has incremented the task complete flag

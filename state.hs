@@ -17,15 +17,27 @@ From
 
 module State (main) where
 
+data State s a = State { runState :: s -> (s, a) }
+
+-- define show
+instance (Show s, Show a) => Show (State s a) where
+  show (State s a) = "(" ++ show s ++ ", " ++ show a ++ ")"
+
+-- define Functor
+-- define Applicative
+-- define Monad
+
 -- | Reverse a list, and increase a count of function calls.
-reverseWithCount :: Int -> [a] -> (Int, [a])
-reverseWithCount count list = (count + 1, reverse list)
+reverseWithCount :: [a] -> State Int [a]
+reverseWithCount list = State (\s -> (s + 1, reverse list))
 
 -- | Reverse a list twice giving back original but incremented call count.
-reverseTwiceWithCount :: Int -> [a] -> (Int, [a])
-reverseTwiceWithCount count list = uncurry reverseWithCount $ reverseWithCount count list
+reverseTwiceWithCount :: [a] -> State Int [a]
+reverseTwiceWithCount list = reverseWithCount list
+                             >>= reverseWithCount
+                             >>= (\list1 -> State (\s -> (s +1, list1)))
 
 -- Reverse list of contents from command line.
 main :: IO ()
-main = interact $ show . reverseTwiceWithCount 0 . words
+main = interact $ show . reverseTwiceWithCount . words
 
