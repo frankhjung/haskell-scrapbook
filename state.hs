@@ -7,83 +7,121 @@ Description : Deriving the State Monad
 Copyright   : © Frank Jung, 2020
 License     : GPL-3
 
-From
-<https://williamyaoh.com/posts/2020-07-12-deriving-state-monad.html Deriving the State Monad by William Yaoh>
+A simple State Monad implementation to explore it's characteristics.
+Based on many articles, but principally from:
 
-> echo 1 2 3 4 5 6 | runhaskell state.hs
-> (2,["1","2","3","4","5","6"])
+- <http://brandon.si/code/the-state-monad-a-tutorial-for-the-confused/ The State Monad: A Tutorial for the Confused?>
+- <https://gist.github.com/sdiehl/8d991a718f7a9c80f54b sdiehl / state.hs>
+
+> runhaskell state.hs
+>
 
 -}
 
 {-# LANGUAGE TupleSections #-}
 
-module State (State(..), reverseWithCount, reverseTwiceWithCount ) where
+module State (
+             evalState,
+             execState,
+             get,
+             main,
+             modify,
+             pop,
+             push,
+             put,
+             State(..),
+             tasks,
+             top,
+             ) where
 
--- | State type is defined with a stateful function that takes takes in
--- a current state and returns an updated state along with its "normal"
--- return value.
---
--- Here 'runState' is of type:
---
--- > runState :: State s a -> s -> (s, a)
---
-newtype State s a = State { runState :: s -> (s, a) }
+-- | Mock of State data type. (Not yet a Monad, Functor or Applicative.)
+newtype State s a = State { runState :: s -> (a, s) }
 
--- state :: (s -> (a, s)) -> State s a
-
--- TODO define a State class with get, put and modify operations.
-
--- Returns current state.
+-- | Returns current state.
 get :: State s s
-get = State (\s -> (s,s))
+get = State $ \s -> (s, s)
 
--- Replace current state with the given value. Returns unit.
+-- | Replace current state with the given value. Returns unit.
 put :: s -> State s ()
-put s = State (const (s, ()))
+put s = State $ const ((), s)
 
--- Update current state using the given function
+-- | Update current state using the given function.
 modify :: (s -> s) -> State s ()
 modify f = get >>= put . f
 
--- TODO define show instance
--- Show count.
--- showCount :: State Int [String] -> String
--- showCount s = do
---   (s', a') <- get
---   show (s', a')
+-- | Returns results of state function.
+evalState :: State s a -> s -> a
+evalState f = fst . runState f
+
+-- | Returns final state.
+execState :: State s a -> s -> s
+execState f = snd . runState f
 
 -- Functor
 instance Functor (State s) where
   fmap f (State stateFx) =
-    State (\s -> let (s', fx) = stateFx s
-                 in (s', f fx))
+    State (\s -> let (fx, s') = stateFx s
+                 in (f fx, s'))
 
 -- Applicative
 instance Applicative (State s) where
-  pure x = State (,x)
+  pure x = State (x,)
   (<*>) (State stateFx) (State nextFx) =
-    State (\s -> let (s', fx) = stateFx s
-                     (s'', ffx) = nextFx s'
-                 in (s'', fx ffx))
+    State (\s -> let (fx, s')   = stateFx s
+                     (ffx, s'') = nextFx s'
+                 in (fx ffx, s''))
 
 -- Monad
 instance Monad (State s) where
-  return = pure
+  return a = State (a,)
+  -- Bind signature:
+  -- (>>=) :: Monad m => m a -> (a -> m b) -> m b
+  -- (>>=) :: State s a -> (a -> State s b) -> State s b
+  -- (>>=) :: (s -> (a, s)) -> (a -> s -> (b, s)) -> (s -> (b, s))
   (>>=) (State stateFx) nextFx =
-    State (\s -> let (s', fx) = stateFx s
+    State (\s -> let (fx, s') = stateFx s
                  in runState (nextFx fx) s')
 
--- | Reverse a list, and increase a count of function calls.
-reverseWithCount :: [String] -> State Int [String]
-reverseWithCount list = State (\s -> (s + 1, reverse list))
+-- Example
 
--- | Reverse a list twice giving back original but incremented call count.
-reverseTwiceWithCount :: [String] -> State Int [String]
-reverseTwiceWithCount list = reverseWithCount list
-                             >>= reverseWithCount
-                             >>= (\ls -> State (\s -> (s+1, ls)))
+-- | Stack as array of intergers.
+type Stack = [Int]
 
--- Reverse list of contents from command line.
--- main :: IO ()
--- main = interact $ show . reverseTwiceWithCount . words
+-- | Empty stack.
+empty :: Stack
+empty = []
+
+-- | Remove element from top of stack.
+pop :: State Stack Int
+pop = State $ \(x:xs) -> (x, xs)
+
+-- | Push element onto stack.
+push :: Int -> State Stack ()
+push a = State $ \xs -> ((), a:xs)
+
+-- | Return element at top of stack.
+top :: State Stack Int
+top = State $ \(x:xs) -> (x, x:xs)
+
+-- | Example usage of 'State' 'Stack'. 'push' & 'pop' some elements onto
+-- the stack, and read the current 'top' element.
+tasks :: State Stack Int
+tasks = do
+  push 1        -- populate with some data
+  push 2
+  push 3
+  a <- pop      -- 2
+  b <- pop      -- 3
+  push (a + b)  -- 5
+  top           -- 5
+
+-- | Run example showing top of 'Stack' and final 'State'.
+--
+-- > runhaskell state.hs
+-- > 5
+-- > [5,1]
+main :: IO ()
+main = do
+  print $ evalState tasks empty   -- 5
+  print $ execState tasks empty   -- [5,1]
 

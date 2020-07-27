@@ -1,3 +1,5 @@
+---
+
 # stylish-haskell configuration file
 # ==================================
 
@@ -155,10 +157,10 @@ steps:
       remove_redundant: true
 
   # Replace tabs by spaces. This is disabled by default.
-  # - tabs:
-  #     # Number of spaces to use for each tab. Default: 8, as specified by the
-  #     # Haskell report.
-  #     spaces: 8
+  - tabs:
+      # Number of spaces to use for each tab. Default: 8, as specified by the
+      # Haskell report.
+      spaces: 2
 
   # Remove trailing whitespace
   - trailing_whitespace: {}
@@ -185,5 +187,5 @@ newline: native
 #
 # No language extensions are enabled by default.
 # language_extensions:
-  # - TemplateHaskell
-  # - QuasiQuotes
+#   - TemplateHaskell
+#   - QuasiQuotes

@@ -54,6 +54,7 @@ doc:
 
 .PHONY: clean
 clean:
+	-$(RM) .hdevtools.sock
 	-$(RM) $(addsuffix .hi, $(basename $(LHSS) $(SRCS)))
 	-$(RM) $(addsuffix .o, $(basename $(LHSS) $(SRCS)))
 	-$(RM) $(addsuffix .prof, $(basename $(LHSS) $(SRCS)))
@@ -61,7 +62,7 @@ clean:
 .PHONY: cleanall
 cleanall: clean
 	-$(RM) -rf public .pytest_cache dist
-	-$(RM) .hdevtools.sock *.pyc *.sublime-workspace tags
+	-$(RM) *.pyc *.sublime-workspace tags
 	-$(RM) $(TGTS)
 	-$(RM) $(patsubst %.lhs, %, $(LHSS))
 	-$(RM) $(patsubst %.lhs, %.html, $(LHSS))
