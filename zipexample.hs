@@ -38,4 +38,3 @@ splitMiddle xs = let firstHalf = zipWith const xs (every2nd xs)
 --
 main :: IO ()
 main = interact $ show . splitMiddle . head . lines
-

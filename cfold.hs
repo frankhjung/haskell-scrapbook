@@ -6,7 +6,8 @@ Module      : CFold
 Description : Continuation passing style, fold.
 Copyright   : © Frank Jung, 2020
 License     : GPL-3
-Source      : <https://en.wikibooks.org/wiki/Yet_Another_Haskell_Tutorial/Type_basics#Continuation_Passing_Style Yet Another Haskell Tutorial>
+
+Code from <https://en.wikibooks.org/wiki/Yet_Another_Haskell_Tutorial/Type_basics#Continuation_Passing_Style Yet Another Haskell Tutorial>
 
 -}
 

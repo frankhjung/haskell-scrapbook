@@ -42,4 +42,3 @@ example = let diceVals = [ Reroll, Keep 4, Keep 4, Reroll, Reroll ]
 --
 main :: IO ()
 main = example
-

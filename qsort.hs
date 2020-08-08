@@ -38,4 +38,3 @@ qsort (x:xs) = qsort smaller ++ [x] ++ qsort larger
 -- | Sort contents from STDIN.
 main :: IO ()
 main = interact $ unwords . qsort . words
-

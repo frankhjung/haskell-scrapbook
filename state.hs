@@ -124,4 +124,3 @@ main :: IO ()
 main = do
   print $ evalState tasks empty   -- 5
   print $ execState tasks empty   -- [5,1]
-

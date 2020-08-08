@@ -19,7 +19,7 @@ Call `main` to run example.
 
 -}
 
-module Cps (main, addCont, squareCont, pythagorasCont) where
+module Cps (addCont, example, main, pythagorasCont, squareCont) where
 
 import           Control.Monad.Trans.Cont (Cont, callCC, runCont)
 
