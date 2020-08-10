@@ -52,36 +52,60 @@ Run 'doRepMax' or 'foldMax' over some lists:
 
 -}
 
-module RepMax (doRepMax, foldMax, main, repMax) where
+module RepMax (doRepMax, foldMax, generalMax, main, repMax) where
+
+import           Data.Foldable    (toList)
+import           Data.Traversable (mapAccumR)
 
 -- | Fold version of 'repMax'.
 -- Strictly this only works for positive integers. Whereas 'repMax' works
 -- for all integers.
 --
 -- /"Everything's a fold"./
-foldMax :: (Ord a, Num a) => [a] -> [a]
+foldMax :: (Integral a)
+            => [a]        -- ^ list to change
+            -> [a]        -- ^ list replaced with maximum element
 foldMax xs = xs'
   where
     m = if null xs then 0 else head xs
     (xs', largest) = foldl (\(b, c) a -> (largest : b, max a c)) ([], m) xs
 
+-- | Generalise 'repMax' where input is a Traversable.
+generalMax :: (Traversable t, Integral a)
+                => t a    -- ^ traversable input
+                -> t a    -- ^ modified with maximum element
+generalMax t = xs'
+  where
+    m = if null xs' then 0 else (head . toList) t
+    (largest, xs') = mapAccumR (\a b -> (max a b, largest)) m t
+
 -- | Repeat given maximum for entire list.
-repMax :: [Int]           -- ^ list to replace
-          -> Int          -- ^ maximum value used in replacement
-          -> (Int, [Int]) -- ^ maximum and list with values replaced by maximum
+repMax :: (Integral a)
+            => [a]        -- ^ list to replace
+            -> a          -- ^ maximum value used in replacement
+            -> (a, [a])   -- ^ maximum and modified list maximum element
 repMax [] rep = (rep, [])
 repMax [x] rep = (x, [rep])
 repMax (x:xs) rep = (m', rep:xs')
-  where (m, xs') = repMax xs rep
-        m' = max m x
+  where
+    (m, xs') = repMax xs rep
+    m' = max m x
 
 -- | Replace list with maximum value in the list.
-doRepMax :: [Int]         -- ^ input list
-            -> [Int]      -- ^ list with values replaced with maximum value
+doRepMax :: (Integral a)
+              => [a]      -- ^ input list
+              -> [a]      -- ^ list with elements replaced with maximum value
 doRepMax xs = xs'
-  where (largest, xs') = repMax xs largest
+  where
+    (largest, xs') = repMax xs largest
 
 -- | Repeat maximum element from list.
+--
+-- This fails fo 'generalMax' as the initial value of @0@ is greater than
+-- @-1@.
+--
+-- >>> in print $ doRepMax xs == foldMax xs && foldMax xs == generalMax xs
 main :: IO ()
-main = let as = [-2,-3,-1,-4,-5]
-  in print $ doRepMax as == foldMax as
+main =
+  let xs = [-2,-3,-1,-4,-5] :: [Int]
+  in print $ doRepMax xs == foldMax xs && foldMax xs == generalMax xs
