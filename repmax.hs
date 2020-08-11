@@ -52,7 +52,7 @@ Run 'doRepMax' or 'foldMax' over some lists:
 
 -}
 
-module RepMax (doRepMax, foldMax, generalMax, main, repMax) where
+module RepMax (doRepMax, foldMax, traverseMax, main, repMax) where
 
 import           Data.Foldable    (toList)
 import           Data.Traversable (mapAccumR)
@@ -71,10 +71,21 @@ foldMax xs = xs'
     (xs', largest) = foldl (\(b, c) a -> (largest : b, max a c)) ([], m) xs
 
 -- | Generalise 'repMax' where input is a Traversable.
-generalMax :: (Traversable t, Integral a)
+--
+-- TODO
+--
+-- The current version converts to a list. Can we do better?
+--
+-- Try to find the first or last element of a Foldable using the First or
+-- Last monoids from Data.Monoid.
+--
+-- foldMap (Last . Just)  :: Foldable t => t a -> Last a
+-- foldMap (First . Just) :: Foldable t => t a -> First a
+--
+traverseMax :: (Traversable t, Integral a)
                 => t a    -- ^ traversable input
                 -> t a    -- ^ modified with maximum element
-generalMax t = xs'
+traverseMax t = xs'
   where
     m = if null xs' then 0 else (head . toList) t
     (largest, xs') = mapAccumR (\a b -> (max a b, largest)) m t
@@ -101,11 +112,11 @@ doRepMax xs = xs'
 
 -- | Repeat maximum element from list.
 --
--- This fails fo 'generalMax' as the initial value of @0@ is greater than
+-- This fails fo 'traverseMax' as the initial value of @0@ is greater than
 -- @-1@.
 --
--- >>> in print $ doRepMax xs == foldMax xs && foldMax xs == generalMax xs
+-- >>> in print $ doRepMax xs == foldMax xs && foldMax xs == traverseMax xs
 main :: IO ()
 main =
   let xs = [-2,-3,-1,-4,-5] :: [Int]
-  in print $ doRepMax xs == foldMax xs && foldMax xs == generalMax xs
+  in print $ doRepMax xs == foldMax xs && foldMax xs == traverseMax xs
