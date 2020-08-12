@@ -14,7 +14,7 @@ Example implementation of binary search.
 module BinarySearch (main, bsearch) where
 
 -- import           Control.Lens (ix, (^?))
-import           Data.Maybe (Maybe (..), fromJust, listToMaybe)
+import           Data.Maybe (fromJust, listToMaybe)
 
 -- | Binary Search
 bsearch :: (Ord a) => [a] -> a -> Maybe a

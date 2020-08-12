@@ -4,7 +4,7 @@
 .SUFFIXES: .o .hs .lhs .html .pdf
 
 %	: %.lhs
-	-ghc --make $<
+	-ghc -package stm -package mtl --make $<
 
 %.html	: %.lhs
 	-pandoc -r markdown+lhs -s $< -w html --css haskell.css -o $@
@@ -13,7 +13,8 @@
 	-pandoc -r markdown+lhs -s $< --css haskell.css -o $@
 
 %	: %.hs
-	-ghc -O2 -Wall -fplugin=Splint -Wno-type-defaults -rtsopts -threaded --make $<
+	-ghc -O2 -Wall -fplugin=Splint -Wno-type-defaults\
+		-rtsopts -threaded -package mtl -package stm --make $<
 
 LHSS	:= $(wildcard *.lhs)
 SRCS	:= $(wildcard *.hs)
@@ -50,7 +51,8 @@ build:	check $(TGTS)
 
 .PHONY: doc
 doc:
-	-haddock --title="Haskell Scrapbook" --html --hyperlinked-source --odir public $(SRCS)
+	-haddock --title="Haskell Scrapbook" --html\
+		--hyperlinked-source --odir public $(SRCS)
 
 .PHONY: clean
 clean:

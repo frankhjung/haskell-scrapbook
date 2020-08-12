@@ -14,7 +14,7 @@ Play with last and penultimate of a list.
 module MyLast (main, myLast, myRev1, myRev2, penultimate) where
 
 import           Control.Arrow ((>>>))
-import           Data.Maybe    (Maybe (..), isNothing)
+import           Data.Maybe    (isNothing)
 
 -- | Get last element of a list.
 myLast :: [a] -> a

@@ -14,7 +14,7 @@ The function `countEntries1` is my version of @countEntriesTrad@ from this
 chapter (`countEntriesS`, @S@ means standard or traditional).
 
 The Monad Transformer version is `countEntries2` which is my version of
-`countEntries`.
+@countEntries@.
 
 == GHCi Session
 
@@ -38,7 +38,7 @@ The functions `countEntries` and `countEntriesU` came from
 
 module CountEntries (main, countEntries1, countEntries2, countEntriesS, countEntriesU) where
 
-import           Control.Monad        (filterM, forM, forM_, mapM_, when)
+import           Control.Monad        (filterM, forM, forM_, when)
 import           Control.Monad.Trans  (liftIO)
 import           Control.Monad.Writer (WriterT, execWriterT, tell)
 import           System.Directory     (doesDirectoryExist, getCurrentDirectory,
