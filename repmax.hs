@@ -52,42 +52,42 @@ Run 'doRepMax' or 'foldMax' over some lists:
 
 -}
 
-module RepMax (doRepMax, foldMax, traverseMax, main, repMax) where
+module RepMax (doRepMax, foldMax, main, repMax,traverseMax,traverseMax')  where
 
 import           Data.Foldable    (toList)
+import           Data.Maybe       (fromJust)
+import           Data.Monoid      (First (..), getFirst)
 import           Data.Traversable (mapAccumR)
 
 -- | Fold version of 'repMax'.
--- Strictly this only works for positive integers. Whereas 'repMax' works
--- for all integers.
---
+-- Modified to also work with negative values.
 -- /"Everything's a fold"./
 foldMax :: (Integral a)
             => [a]        -- ^ list to change
             -> [a]        -- ^ list replaced with maximum element
 foldMax xs = xs'
   where
-    m = if null xs then 0 else head xs
+    m = if null xs then 0 else head xs              -- initial max value
     (xs', largest) = foldl (\(b, c) a -> (largest : b, max a c)) ([], m) xs
 
 -- | Generalise 'repMax' where input is a Traversable.
---
--- TODO
---
--- The current version converts to a list. Can we do better?
---
--- Try to find the first or last element of a Foldable using the First or
--- Last monoids from Data.Monoid.
---
--- foldMap (Last . Just)  :: Foldable t => t a -> Last a
--- foldMap (First . Just) :: Foldable t => t a -> First a
---
+-- Seed value from @First@ of @Foldable@.
 traverseMax :: (Traversable t, Integral a)
                 => t a    -- ^ traversable input
                 -> t a    -- ^ modified with maximum element
 traverseMax t = xs'
   where
-    m = if null xs' then 0 else (head . toList) t
+    m = fromJust $ getFirst $ foldMap (First . Just) t
+    (largest, xs') = mapAccumR (\a b -> (max a b, largest)) m t
+
+-- | Generalise 'repMax' where input is a Traversable.
+-- Seed maximum value from head of list or 0 if empty.
+traverseMax' :: (Traversable t, Integral a)
+                => t a    -- ^ traversable input
+                -> t a    -- ^ modified with maximum element
+traverseMax' t = xs'
+  where
+    m = if null xs' then 0 else (head . toList) t   -- initial max value
     (largest, xs') = mapAccumR (\a b -> (max a b, largest)) m t
 
 -- | Repeat given maximum for entire list.
@@ -111,12 +111,9 @@ doRepMax xs = xs'
     (largest, xs') = repMax xs largest
 
 -- | Repeat maximum element from list.
---
--- This fails fo 'traverseMax' as the initial value of @0@ is greater than
--- @-1@.
---
--- >>> in print $ doRepMax xs == foldMax xs && foldMax xs == traverseMax xs
 main :: IO ()
 main =
   let xs = [-2,-3,-1,-4,-5] :: [Int]
-  in print $ doRepMax xs == foldMax xs && foldMax xs == traverseMax xs
+  in print $ doRepMax xs == foldMax xs
+              && foldMax xs == traverseMax xs
+              && traverseMax xs == traverseMax' xs

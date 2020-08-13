@@ -44,7 +44,7 @@ hdevtools:$(SRCS)
 	$(foreach file, $(SRCS), hdevtools check $(file);)
 
 .PHONY: all
-all:	clean check build doc
+all:	check build doc
 
 .PHONY: build
 build:	check $(TGTS)

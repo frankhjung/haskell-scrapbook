@@ -31,7 +31,7 @@ The Monad Transformer version is `countEntries2` which is my version of
 This is a really good introduction to Monad Transformers,
 <https://mmhaskell.com/monads/transformers Monday Morning Haskell: Monad Transformers>.
 
-The functions `countEntries` and `countEntriesU` came from
+The functions `countEntriesS` and `countEntriesU` are based off functions from
 <http://book.realworldhaskell.org/read/monad-transformers.html Chapter 18, Monad Transformers, Real World Haskell by Bryan O'Sullivan, Don Stewart, and John Goerzen>.
 
 -}
