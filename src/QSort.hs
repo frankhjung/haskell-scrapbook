@@ -1,5 +1,3 @@
-#!/usr/bin/env runhaskell
-
 {-|
 
 Module      : Qsort
@@ -23,7 +21,7 @@ To reverse sort, switch smaller and larger in qsort.
 
 -}
 
-module QSort (qsort, main) where
+module QSort (qsort) where
 
 -- | A simple implementation of <https://en.wikipedia.org/wiki/Qsort Qsort>.
 qsort :: (Show a, Ord a)
@@ -34,7 +32,3 @@ qsort (x:xs) = qsort smaller ++ [x] ++ qsort larger
   where
     smaller = [a | a <- xs, a <= x]
     larger  = [b | b <- xs, b > x]
-
--- | Sort contents from STDIN.
-main :: IO ()
-main = interact $ unwords . qsort . words

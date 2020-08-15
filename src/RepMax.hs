@@ -1,5 +1,3 @@
-#!/usr/bin/env runhaskell
-
 {-|
 
 Module      : RepMax
@@ -52,7 +50,7 @@ Run 'doRepMax' or 'foldMax' over some lists:
 
 -}
 
-module RepMax (doRepMax, foldMax, main, repMax,traverseMax,traverseMax')  where
+module RepMax (doRepMax, foldMax, repMax, traverseMax, traverseMax')  where
 
 import           Data.Foldable    (toList)
 import           Data.Maybe       (fromJust)
@@ -109,11 +107,3 @@ doRepMax :: (Integral a)
 doRepMax xs = xs'
   where
     (largest, xs') = repMax xs largest
-
--- | Repeat maximum element from list.
-main :: IO ()
-main =
-  let xs = [-2,-3,-1,-4,-5] :: [Int]
-  in print $ doRepMax xs == foldMax xs
-              && foldMax xs == traverseMax xs
-              && traverseMax xs == traverseMax' xs

@@ -1,17 +1,4 @@
-#!/usr/bin/env runhaskell
-
-{-|
-
-Module      : Threads
-Description : Example program using threads.
-Copyright   : © Frank Jung, 2019
-License     : GPL-3
-
-Threads example from <https://typeclasses.com/phrasebook/threads TypeClasses Phrasebook>.
-
--}
-
-module Threads (main) where
+module Main (main) where
 
 import           Control.Concurrent          (forkIO)
 import           Control.Concurrent.STM.TVar (modifyTVar', newTVar, readTVar,
@@ -21,6 +8,9 @@ import           System.IO                   (BufferMode (LineBuffering),
                                               hSetBuffering, stdout)
 
 -- | Example program using threads.
+--
+-- Threads example from
+-- <https://typeclasses.com/phrasebook/threads TypeClasses Phrasebook>.
 main :: IO ()
 main = do
 

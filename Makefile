@@ -12,60 +12,69 @@
 %.pdf	: %.lhs
 	-pandoc -r markdown+lhs -s $< --css haskell.css -o $@
 
-%	: %.hs
-	-ghc -O2 -Wall -fplugin=Splint -Wno-type-defaults\
-		-rtsopts -threaded -package mtl -package stm --make $<
-
-LHSS	:= $(wildcard *.lhs)
-SRCS	:= $(wildcard *.hs)
-TGTS 	:= $(patsubst %.hs, %, $(SRCS))
+LHS	:= $(wildcard doc/*.lhs)
+SRC	:= $(wildcard src/*.hs app/*.hs)
+TGT 	:= scrapbook
 
 .DEFAULT: check
 check:	tags style lint
 
 .PHONY: tags
-tags:	$(SRCS)
+tags:	$(SRC)
 	@echo tags ...
-	@hasktags --ctags $(SRCS)
+	@hasktags --ctags --extendedctag $(SRC)
 
 .PHONY: style
-style:	$(SRCS)
+style:	$(SRC)
 	@echo style ...
-	@stylish-haskell --config=.stylish-haskell.yaml --inplace $(SRCS)
+	@stylish-haskell --config=.stylish-haskell.yaml --inplace $(SRC)
 
 .PHONY: lint
-lint:	$(SRCS)
+lint:	$(SRC)
 	@echo lint ...
-	@hlint --cross --color --show $(SRCS)
-
-.PHONY: hdevtools
-hdevtools:$(SRCS)
-	@echo hdevtools check ...
-	$(foreach file, $(SRCS), hdevtools check $(file);)
+	@hlint --cross --color --show $(SRC)
 
 .PHONY: all
-all:	check build doc
+all:	check build
 
 .PHONY: build
-build:	check $(TGTS)
+build:	$(SRC)
+	@stack build --pedantic --no-test
 
 .PHONY: doc
 doc:
-	-haddock --title="Haskell Scrapbook" --html\
-		--hyperlinked-source --odir public $(SRCS)
+	@stack haddock
+
+.PHONY: test
+test:	$(SRC)
+	@echo Main ...
+	@stack exec $(TGT)
+	@echo ReadFile ...
+	@stack exec readfile 
+	@echo Threads ...
+	@stack exec threads 
+	@echo WordCount ...
+	@cat LICENSE | stack exec wordcount 
+
+.PHONY: setup
+setup:
+	@stack update
+	@stack setup
+	@stack build
+	@stack query
+	@stack ls dependencies
+	#stack exec ghc-pkg -- list
 
 .PHONY: clean
 clean:
-	-$(RM) .hdevtools.sock
-	-$(RM) $(addsuffix .hi, $(basename $(LHSS) $(SRCS)))
-	-$(RM) $(addsuffix .o, $(basename $(LHSS) $(SRCS)))
-	-$(RM) $(addsuffix .prof, $(basename $(LHSS) $(SRCS)))
+	-$(RM) $(addsuffix .hi, $(basename $(LHS) $(SRC)))
+	-$(RM) $(addsuffix .o, $(basename $(LHS) $(SRC)))
+	-$(RM) $(addsuffix .prof, $(basename $(LHS) $(SRC)))
 
 .PHONY: cleanall
 cleanall: clean
 	-$(RM) -rf public .pytest_cache dist
 	-$(RM) *.pyc *.sublime-workspace tags
-	-$(RM) $(TGTS)
-	-$(RM) $(patsubst %.lhs, %, $(LHSS))
-	-$(RM) $(patsubst %.lhs, %.html, $(LHSS))
-
+	-$(RM) $(TGT)
+	-$(RM) $(patsubst %.lhs, %, $(LHS))
+	-$(RM) $(patsubst %.lhs, %.html, $(LHS))

@@ -8,14 +8,22 @@ build:
   except:
     - tags
   image:
-    name: frankhjung/haskell:latest
+    name: frankhjung/haskell:8.6.5
     entrypoint: [""]
   stage: build
+  variables:
+    STACK_ROOT: ${CI_PROJECT_DIR}/.stack
   script:
-    - make check build doc
+    - make setup clean check build test doc
+    - mv $(stack path --local-doc-root) public/
   artifacts:
     paths:
       - public
+  cache:
+    key: ${CI_COMMIT_REF_NAME}-${CI_JOB_NAME}
+    paths:
+      - .stack
+      - .stack-work
 
 pages:
   only:

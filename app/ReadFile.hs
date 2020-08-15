@@ -1,18 +1,4 @@
-#!/usr/bin/env runhaskell
-
-{-|
-
-Module      : ReadFile
-Description : Read a file.
-Copyright   : © Frank Jung, 2020
-License     : GPL-3
-
-Read a file example, based off example in Chapter 2 of
-<https://books.google.com.au/books/about/Haskell_Design_Patterns.html?id=Q_KoCwAAQBAJ&redir_esc=y Haskell Design Patterns by Ryan Lemmer>
-
--}
-
-module ReadFile (main) where
+module Main (main) where
 
 import           Control.Monad ((>=>))
 import           System.IO     (IOMode (ReadMode), hGetContents, withFile)
@@ -21,14 +7,25 @@ import           System.IO     (IOMode (ReadMode), hGetContents, withFile)
 --  [withFile](https://hackage.haskell.org/package/base/docs/System-IO.html#v:withFile)
 --  function to process lines.
 --
--- The original version from 'Haskell Design Patterns' was:
+-- Read a file example, based off example in Chapter 2 of
+-- <https://books.google.com.au/books/about/Haskell_Design_Patterns.html?id=Q_KoCwAAQBAJ&redir_esc=y Haskell Design Patterns by Ryan Lemmer>
+--
+-- The original version:
 --
 -- @
 -- main = do
---   withFile "inputfile.txt" ReadMode enumerateLines
+--   withFile "LICENSE" ReadMode enumerateLines
 --   where
 --     enumerateLines h = lines' h >>= mapM_ putStrLn
 --     lines' h' = hGetContents h' >>= return . lines
+-- @
+--
+-- Version which reads file name from STDIN:
+--
+-- @
+-- main = putStr "enter name of file to echo: "
+--   >> getLine
+--   >>= \f -> withFile f ReadMode (hGetContents >=> mapM_ putStrLn . lines)
 -- @
 --
 -- My version:
@@ -41,9 +38,5 @@ import           System.IO     (IOMode (ReadMode), hGetContents, withFile)
 --    left-to-right composition of Kleisli arrows
 --    ( [>=>](https://hackage.haskell.org/package/base-4.14.0.0/docs/Control-Monad.html#v:-62--61--62-) )
 --    to pass the file handle
---
 main :: IO ()
-main = putStr "enter name of file to echo: "
-  >> getLine
-  >>= \f -> withFile f ReadMode (hGetContents >=> mapM_ putStrLn . lines)
-
+main = withFile "LICENSE" ReadMode (hGetContents >=> mapM_ putStrLn . lines)

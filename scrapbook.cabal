@@ -1,0 +1,81 @@
+cabal-version: 1.12
+
+name:               scrapbook
+version:            0.1.0
+description:        Please see the README on GitLab at <https://github.com/frankhjung/haskell-scrapbook#readme>
+homepage:           https://github.com/frankhjung/haskell-scrapbook#readme
+bug-reports:        https://github.com/frankhjung/haskell-scrapbook/issues
+author:             Frank H Jung
+maintainer:         frankhjung@linux.com
+copyright:          Copyright © 2020 Frank H Jung
+license:            BSD3
+license-file:       LICENSE
+build-type:         Simple
+extra-source-files: README.md
+
+source-repository   head
+  type:             git
+  location:         https://github.com/frankhjung/haskell-scrapbook
+
+library
+  exposed-modules:  BinarySearch
+                  , CFold
+                  , Cps
+                  , CountEntries
+                  , Mod35
+                  , MyLast
+                  , QSort
+                  , RepMax
+                  , SplitList
+                  , State
+                  , SubSeqs
+                  , Yahtzee
+  hs-source-dirs:   src
+  default-language: Haskell2010
+  build-depends:    base >=4.7 && <5
+                  , directory
+                  , filepath
+                  , mtl
+                  , transformers
+
+executable          scrapbook
+  main-is:          Test.hs
+  hs-source-dirs:   app
+  ghc-options:      -threaded -rtsopts -with-rtsopts=-N
+  default-language: Haskell2010
+  build-depends:    base >=4.7 && <5
+                  , directory
+                  , filepath
+                  , hspec
+                  , mtl
+                  , scrapbook
+                  , transformers
+
+executable          readfile
+  main-is:          ReadFile.hs
+  hs-source-dirs:   app
+  ghc-options:      -threaded -rtsopts -with-rtsopts=-N
+  default-language: Haskell2010
+  build-depends:    base >=4.7 && <5
+
+executable          threads
+  main-is:          Threads.hs
+  hs-source-dirs:   app
+  ghc-options:      -threaded -rtsopts -with-rtsopts=-N
+  default-language: Haskell2010
+  build-depends:    base >=4.7 && <5
+                  , stm
+
+executable          while
+  main-is:          While.hs
+  hs-source-dirs:   app
+  ghc-options:      -threaded -rtsopts -with-rtsopts=-N
+  default-language: Haskell2010
+  build-depends:    base >=4.7 && <5
+
+executable          wordcount
+  main-is:          WordCount.hs
+  hs-source-dirs:   app
+  ghc-options:      -threaded -rtsopts -with-rtsopts=-N
+  default-language: Haskell2010
+  build-depends:    base >=4.7 && <5

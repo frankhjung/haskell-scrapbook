@@ -1,5 +1,3 @@
-#!/usr/bin/env runhaskell
-
 {-|
 
 Module      : CFold
@@ -11,7 +9,7 @@ Code from <https://en.wikibooks.org/wiki/Yet_Another_Haskell_Tutorial/Type_basic
 
 -}
 
-module CFold (cfold', cfold, main) where
+module CFold (cfold', cfold) where
 
 -- | CPS fold.
 --
@@ -35,11 +33,3 @@ cfold' f z (x:xs) = f x z (\y -> cfold' f y xs)
 --
 cfold :: (t1 -> t2 -> t2) -> t2 -> [t1] -> t2
 cfold f = cfold' (\ x t g -> f x (g t))
-
--- | Run examples.
-main :: IO ()
-main = do
-  print $ cfold' (\x t g -> x : g t) [] ([1..10] :: [Int])
-  print $ cfold' (\x t g -> g (x : t)) [] ([1..10] :: [Int])
-  print $ cfold (+) 0 ([1..3] :: [Int])
-  print $ cfold (:) [] ([1..3] :: [Int])

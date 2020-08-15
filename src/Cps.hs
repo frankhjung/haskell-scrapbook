@@ -1,5 +1,3 @@
-#!/usr/bin/env runhaskell
-
 {-|
 
 Module      : Cps
@@ -19,9 +17,9 @@ Call `main` to run example.
 
 -}
 
-module Cps (addCont, example, main, pythagorasCont, squareCont) where
+module Cps (addCont, pythagorasCont, squareCont) where
 
-import           Control.Monad.Trans.Cont (Cont, callCC, runCont)
+import           Control.Monad.Trans.Cont (Cont, callCC)
 
 -- | Continuation for add function.
 addCont :: Int -> Int -> Cont r Int
@@ -37,17 +35,3 @@ pythagorasCont x y = do
     x_squared <- squareCont x
     y_squared <- squareCont y
     addCont x_squared y_squared
-
--- | Example call to continuation.
-example :: [Int] -> String
-example (a:b:_) = runCont (pythagorasCont a b) show
-example []      = "Nothing"
-example _       = "Nothing"
-
--- | Run example.
---
--- >>> echo 3 4 | runhaskell cps.hs
--- 25
---
-main :: IO ()
-main = interact $ example . map read . words

@@ -1,5 +1,3 @@
-#!/usr/bin/env runhaskell
-
 {-|
 
 Module      : State
@@ -21,17 +19,18 @@ Based on many articles, but principally from:
 {-# LANGUAGE TupleSections #-}
 
 module State (
-             evalState,
-             execState,
-             get,
-             main,
-             modify,
-             pop,
-             push,
-             put,
-             State(..),
-             tasks,
-             top,
+                State(..)   -- State type with runState function
+              , get         -- Get current state
+              , put         -- Set current state
+              , modify      -- Modify state function
+              , evalState   -- Results of state function
+              , execState   -- Final state
+              , Stack       -- 'Stack' as array of ints
+              , empty       -- Empty 'Stack'
+              , pop         -- Pop from top of 'Stack'
+              , push        -- Push onto 'Stack'
+              , top         -- Get element at top of 'Stack'
+              , tasks       -- Run arbitrary tasks on 'Stack'
              ) where
 
 -- | Mock of State data type. (Not yet a Monad, Functor or Applicative.)
@@ -82,7 +81,7 @@ instance Monad (State s) where
     State (\s -> let (fx, s') = stateFx s
                  in runState (nextFx fx) s')
 
--- Example
+-- == Example of using 'State' to implement a 'Stack'.
 
 -- | Stack as array of intergers.
 type Stack = [Int]
@@ -114,13 +113,3 @@ tasks = do
   b <- pop      -- 3
   push (a + b)  -- 5
   top           -- 5
-
--- | Run example showing top of 'Stack' and final 'State'.
---
--- > runhaskell state.hs
--- > 5
--- > [5,1]
-main :: IO ()
-main = do
-  print $ evalState tasks empty   -- 5
-  print $ execState tasks empty   -- [5,1]

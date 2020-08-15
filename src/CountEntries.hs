@@ -1,5 +1,3 @@
-#!/usr/bin/env runhaskell
-
 {-|
 
 Module      : CountEntries
@@ -36,14 +34,13 @@ The functions `countEntriesS` and `countEntriesU` are based off functions from
 
 -}
 
-module CountEntries (main, countEntries1, countEntries2, countEntriesS, countEntriesU) where
+module CountEntries (countEntries1, countEntries2, countEntriesS, countEntriesU) where
 
-import           Control.Monad        (filterM, forM, forM_, when)
-import           Control.Monad.Trans  (liftIO)
-import           Control.Monad.Writer (WriterT, execWriterT, tell)
-import           System.Directory     (doesDirectoryExist, getCurrentDirectory,
-                                       listDirectory)
-import           System.FilePath      ((</>))
+import           Control.Monad              (filterM, forM, forM_, when)
+import           Control.Monad.Trans        (liftIO)
+import           Control.Monad.Trans.Writer (WriterT, tell)
+import           System.Directory           (doesDirectoryExist, listDirectory)
+import           System.FilePath            ((</>))
 
 -- | Count entries in directories for given path.
 -- Standard version as documented in Real World Haskell.
@@ -147,12 +144,3 @@ countEntries2 p =
   >>= \ps -> tell [(p, length ps)]                            -- show tuple
   >> liftIO (filterM (\n -> doesDirectoryExist (p </> n)) ps) -- sub-directories
   >>= \pss -> mapM_ (\n -> countEntries2 (p </> n)) pss       -- recurse
-
--- | Show count of entries from current path.
-main :: IO ()
-main = do
-  p <- getCurrentDirectory
-  countEntriesS p >>= mapM_ print . take 2
-  countEntries1 p >>= mapM_ print . take 2
-  (execWriterT . countEntriesU) p >>= mapM_ print . take 2
-  (execWriterT . countEntries2) p >>= mapM_ print . take 2

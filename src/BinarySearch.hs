@@ -1,5 +1,3 @@
-#!/usr/bin/env runhaskell
-
 {-|
 
 Module      : BinarySearch
@@ -11,12 +9,19 @@ Example implementation of binary search.
 
 -}
 
-module BinarySearch (main, bsearch) where
+module BinarySearch (bsearch) where
 
 -- import           Control.Lens (ix, (^?))
 import           Data.Maybe (fromJust, listToMaybe)
 
 -- | Binary Search
+--
+-- Example using an integer array, search list @[1..6]@ for values @[1..8]@.
+--
+-- Expect @1..6@ will return 'Just' values, while @7@ and @8@ will return
+-- 'Nothing'.
+--
+-- The same also applies for strings. Try "abcdef" and "gh".
 bsearch :: (Ord a) => [a] -> a -> Maybe a
 bsearch [] _ = Nothing
 bsearch xs key
@@ -26,18 +31,4 @@ bsearch xs key
   where
     mid = length xs `div` 2
     val = listToMaybe (drop mid xs)
-    -- val = xs ^? ix mid
-
--- | Run example using an integer array.
---
--- Search list [1..6] for values [1..8].
---
--- Expect 7 and 9 to return, Nothing.
---
--- The same will apply for strings:
---
--- "abcdef" and "gh".
-main :: IO ()
-main = print $ map (bsearch xs) (xs <> [7,8])
-  where xs = [1..6] :: [Int]
-
+    -- val = xs ^? ix mid     -- from Control.Lens
