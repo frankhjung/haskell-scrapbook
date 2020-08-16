@@ -55,6 +55,23 @@ To generate test coverage use:
 stack test --coverage
 ```
 
+### Documentation
+
+To generate [Haddock](https://www.haskell.org/haddock/doc/html/) for source:
+
+```bash
+stack haddock --no-rerun-tests --no-reconfigure
+```
+
+Which is almost the same as:
+
+```bash
+stack exec -- haddock src/*.hs --odir=public --html
+```
+
+Where the later does not produce a full function cross-reference.
+
+
 ## Word Count in Python
 
 I've also included a Python equivalent to word count program.

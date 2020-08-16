@@ -6,7 +6,7 @@ import           Cps                        (pythagorasCont)
 import           Mod35                      (mod35)
 import           MyLast                     (myLast, myRev1, myRev2,
                                              penultimate)
-import           QSort                      (qsort)
+import           Qsort                      (qsort)
 import           RepMax                     (doRepMax, foldMax, traverseMax,
                                              traverseMax')
 import           SplitList                  (splitMiddle)
@@ -44,7 +44,15 @@ prop_cfold'_rev xs = cfold' (\x t g -> g (x : t)) [] xs == reverse xs
 prop_pythagoras :: Int -> Int -> Bool
 prop_pythagoras a b = runCont (pythagorasCont a b) Just == Just (a*a + b*b)
 
--- | 'QSort' same as 'Data.List.sort'
+-- | Head of myRev1 is same as last
+prop_myrev1 :: [Int] -> Bool
+prop_myrev1 xs = (head . myRev1) xs == last xs
+
+-- | myRev1 is same as myRev2
+prop_myrev1_myrev2 :: [Int] -> Bool
+prop_myrev1_myrev2 xs = myRev1 xs == myRev2 xs
+
+-- | Qsort same as 'Data.List.sort'
 prop_qsort :: [Int] -> Bool
 prop_qsort xs = qsort xs == sort xs
 
@@ -124,9 +132,9 @@ main = hspec $ do
     it "penultimate [1,2] is 1" $
       penultimate ([1,2] :: [Int]) `shouldBe` Just 1
     it "head . myRev1 is last" $
-      (head . myRev1) xs `shouldBe` last xs
+      quickCheck prop_myrev1
     it "myRev1 is myRev2" $
-      myRev1 xs `shouldBe` myRev2 xs
+      quickCheck prop_myrev1_myrev2
 
   describe "qsort - naive / inefficient version" $ do
     it "qsort example" $

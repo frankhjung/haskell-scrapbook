@@ -24,7 +24,7 @@ library
                   , CountEntries
                   , Mod35
                   , MyLast
-                  , QSort
+                  , Qsort
                   , RepMax
                   , SplitList
                   , State

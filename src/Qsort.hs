@@ -9,19 +9,22 @@ A simple implementation of <https://en.wikipedia.org/wiki/Qsort Qsort>.
 
 From "Programming in Haskell" by Graham Hutton.
 
->>> echo -e "3 5 1 2 4 2 \n" | runhaskell qsort.hs
-1 2 2 3 4 5
+>>> qsort [3,5,1,2,4,2]
+[1,2,2,3,4,5]
 
 If @a <= x@ is replaced with @a < x@, then only unique values are reported.
 
->>> echo -e "1 3 5 1 2 4 2 \n" | runhaskell qsort.hs
-1 2 3 4 5
+>>> qsort' [3,5,1,2,4,2]
+[1,2,3,4,5]
 
-To reverse sort, switch smaller and larger in qsort.
+To reverse sort, switch smaller and larger in 'qsort'.
+
+>>> qsort'' [3,5,1,2,4,2]
+[5,4,3,2,2,1]
 
 -}
 
-module QSort (qsort) where
+module Qsort (qsort) where
 
 -- | A simple implementation of <https://en.wikipedia.org/wiki/Qsort Qsort>.
 qsort :: (Show a, Ord a)

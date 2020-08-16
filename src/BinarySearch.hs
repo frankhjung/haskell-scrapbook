@@ -5,7 +5,8 @@ Description : Example binary search.
 Copyright   : © Frank Jung, 2020
 License     : GPL-3
 
-Example implementation of binary search.
+Example implementation of
+<https://en.wikipedia.org/wiki/Binary_search_algorithm binary search>.
 
 -}
 

@@ -30,13 +30,13 @@ jobs:
         run: stack setup
 
       - name: build
-        run: stack build
+        run: stack build --pedantic --no-test
 
       - name: test
         run: stack test
 
       - name: documentation
-        run: stack haddock --fast
+        run: stack haddock --no-rerun-tests --no-reconfigure
 
       - name: copy
         run: mv $(stack path --local-doc-root) public/

@@ -10,10 +10,8 @@ Example from
 
 Uses the Cont monad from the transformers package.
 
-Using callCC is better than using return as argument is a function and it
+Using @callCC@ is better than using return as argument is a function and it
 returns a suspended computation.
-
-Call `main` to run example.
 
 -}
 

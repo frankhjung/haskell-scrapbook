@@ -16,8 +16,17 @@ LHS	:= $(wildcard doc/*.lhs)
 SRC	:= $(wildcard src/*.hs app/*.hs test/*.hs)
 TGT 	:= scrapbook
 
-.DEFAULT: check
+.PHONY: default
+default:	check build test
+
+.PHONY: check
 check:	tags style lint
+
+.PHONY: all
+all:	check build test
+
+.PHONY: all
+all:	check build test doc exec
 
 .PHONY: tags
 tags:	$(SRC)
@@ -34,12 +43,14 @@ lint:	$(SRC)
 	@echo lint ...
 	@hlint --cross --color --show $(SRC)
 
-.PHONY: all
-all:	check build test
-
 .PHONY: build
 build:
+	@echo build ...
 	@stack build --pedantic --no-test
+
+.PHONY: test
+test:
+	@stack test
 
 .PHONY: doc
 doc:
@@ -53,10 +64,6 @@ exec:	$(SRC)
 	@stack exec threads
 	@echo WordCount ...
 	@cat LICENSE | stack exec wordcount
-
-.PHONY: test
-test:
-	@stack test
 
 .PHONY: setup
 setup:
