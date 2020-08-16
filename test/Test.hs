@@ -45,12 +45,12 @@ prop_pythagoras :: Int -> Int -> Bool
 prop_pythagoras a b = runCont (pythagorasCont a b) Just == Just (a*a + b*b)
 
 -- | Head of myRev1 is same as last
-prop_myrev1 :: [Int] -> Bool
-prop_myrev1 xs = (head . myRev1) xs == last xs
+prop_myRev1 :: [Int] -> Bool
+prop_myRev1 xs = (head . myRev1) xs == last xs
 
 -- | myRev1 is same as myRev2
-prop_myrev1_myrev2 :: [Int] -> Bool
-prop_myrev1_myrev2 xs = myRev1 xs == myRev2 xs
+prop_myRev1_myRev2 :: [Int] -> Bool
+prop_myRev1_myRev2 xs = myRev1 xs == myRev2 xs
 
 -- | Qsort same as 'Data.List.sort'
 prop_qsort :: [Int] -> Bool
@@ -69,12 +69,12 @@ prop_traverseMax_traverseMax' :: [Int] -> Bool
 prop_traverseMax_traverseMax' xs = traverseMax xs == traverseMax' xs
 
 -- | 'subSeqs1' same as 'subSeqs2'
-prop_subseqs_1_2 :: NonEmptyList String -> Bool
-prop_subseqs_1_2 (NonEmpty xs) = subSeqs1 xs == subSeqs2 xs
+prop_subSeqs_1_2 :: NonEmptyList String -> Bool
+prop_subSeqs_1_2 (NonEmpty xs) = subSeqs1 xs == subSeqs2 xs
 
 -- | 'subSeqs3' same as 'subSeqs4'
-prop_subseqs_3_4 :: NonEmptyList String -> Bool
-prop_subseqs_3_4 (NonEmpty xs) = subSeqs3 xs == subSeqs4 xs
+prop_subSeqs_3_4 :: NonEmptyList String -> Bool
+prop_subSeqs_3_4 (NonEmpty xs) = subSeqs3 xs == subSeqs4 xs
 
 -- | Test all modules
 main :: IO ()
@@ -97,9 +97,9 @@ main = hspec $ do
       quickCheck prop_cfold'_rev
 
   describe "continuation passing style - cps" $ do
-    it "pythangoras 3 4 is 25" $
+    it "pythagoras 3 4 is 25" $
       runCont (pythagorasCont 3 4) Just `shouldBe` Just 25
-    it "pythangoras a b is a^2 + b^2" $
+    it "pythagoras a b is a*a + b*b" $
       quickCheck prop_pythagoras
 
   describe "count directory entries" $ do
@@ -132,9 +132,9 @@ main = hspec $ do
     it "penultimate [1,2] is 1" $
       penultimate ([1,2] :: [Int]) `shouldBe` Just 1
     it "head . myRev1 is last" $
-      quickCheck prop_myrev1
+      quickCheck prop_myRev1
     it "myRev1 is myRev2" $
-      quickCheck prop_myrev1_myrev2
+      quickCheck prop_myRev1_myRev2
 
   describe "qsort - naive / inefficient version" $ do
     it "qsort example" $
@@ -174,9 +174,9 @@ main = hspec $ do
     it "subSeqs4" $
       subSeqs4 "abc" `shouldBe` ["abc","ab","ac","a","bc","b","c",""]
     it "subSeqs1 same as subSeqs2" $
-      quickCheckWith stdArgs { maxSize = 10 } prop_subseqs_1_2
+      quickCheckWith stdArgs { maxSize = 10 } prop_subSeqs_1_2
     it "subSeqs3 same as subSeqs4" $
-      quickCheckWith stdArgs { maxSize = 10 } prop_subseqs_3_4
+      quickCheckWith stdArgs { maxSize = 10 } prop_subSeqs_3_4
 
   describe "use zipWith to split a list in half" $
     it "expect equal" $

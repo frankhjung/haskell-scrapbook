@@ -10,8 +10,8 @@ From
 
 Code for what Csongor calls the repMax problem:
 
->>> Imagine you had a list, and you wanted to replace all the elements of
->>> the list with the largest element, by only passing the list once.
+> Imagine you had a list, and you wanted to replace all the elements of
+> the list with the largest element, by only passing the list once.
 
 How can we possibly do this in one pass? First, we need to find the maximum
 element, and only then can we have something to replace the other numbers
