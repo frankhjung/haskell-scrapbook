@@ -23,13 +23,23 @@ jobs:
       - name: checkout
         uses: actions/checkout@v1.0.0
         with:
+          ref: refs/heads/master
           fetch-depth: 1
 
+      - name: setup
+        run: stack setup
+
       - name: build
-        uses: docker://frankhjung/haskell:8.6
-        with:
-          entrypoint: /usr/bin/make
-          args: -f Makefile all
+        run: stack build
+
+      - name: test
+        run: stack test
+
+      - name: documentation
+        run: stack haddock --fast
+
+      - name: copy
+        run: mv $(stack path --local-doc-root) public/
 
       - name: publish
         uses: crazy-max/ghaction-github-pages@v0.4.0

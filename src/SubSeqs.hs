@@ -5,6 +5,15 @@ Description : A collection of algorithms to generate sub-sequences.
 Copyright   : © Frank Jung, 2020
 License     : GPL-3
 
+= Examples
+
+@
+subSeqs1 "abc" should be ["a","ab","abc","ac","b","bc","c"]
+subSeqs2 "abc" should be ["a","ab","abc","ac","b","bc","c"]
+subSeqs3 "abc" should be ["abc","ab","ac","a","bc","b","c",""]
+subSeqs4 "abc" should be ["abc","ab","ac","a","bc","b","c",""]
+@
+
 -}
 
 module SubSeqs (subSeqs1, subSeqs2, subSeqs3, subSeqs4) where

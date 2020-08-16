@@ -13,7 +13,7 @@
 	-pandoc -r markdown+lhs -s $< --css haskell.css -o $@
 
 LHS	:= $(wildcard doc/*.lhs)
-SRC	:= $(wildcard src/*.hs app/*.hs)
+SRC	:= $(wildcard src/*.hs app/*.hs test/*.hs)
 TGT 	:= scrapbook
 
 .DEFAULT: check
@@ -35,26 +35,28 @@ lint:	$(SRC)
 	@hlint --cross --color --show $(SRC)
 
 .PHONY: all
-all:	check build
+all:	check build test
 
 .PHONY: build
-build:	$(SRC)
+build:
 	@stack build --pedantic --no-test
 
 .PHONY: doc
 doc:
-	@stack haddock
+	@stack haddock --no-rerun-tests --no-reconfigure
+
+.PHONY: exec
+exec:	$(SRC)
+	@echo ReadFile ...
+	@stack exec readfile
+	@echo Threads ...
+	@stack exec threads
+	@echo WordCount ...
+	@cat LICENSE | stack exec wordcount
 
 .PHONY: test
-test:	$(SRC)
-	@echo Main ...
-	@stack exec $(TGT)
-	@echo ReadFile ...
-	@stack exec readfile 
-	@echo Threads ...
-	@stack exec threads 
-	@echo WordCount ...
-	@cat LICENSE | stack exec wordcount 
+test:
+	@stack test
 
 .PHONY: setup
 setup:
@@ -78,3 +80,4 @@ cleanall: clean
 	-$(RM) $(TGT)
 	-$(RM) $(patsubst %.lhs, %, $(LHS))
 	-$(RM) $(patsubst %.lhs, %.html, $(LHS))
+	-$(RM) $(patsubst %.lhs, %.pdf, $(LHS))

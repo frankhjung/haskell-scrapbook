@@ -23,13 +23,15 @@ linking a main module.
 
 The compilation using make is to validate the source files.
 
-### Check
+### Build
 
 Build using GNU Make:
 
 ```bash
-make [target]
+make build
 ```
+
+### Check
 
 To only perform code checks, run:
 
@@ -37,7 +39,21 @@ To only perform code checks, run:
 make check
 ```
 
-This is the default goal.
+This is also the default goal.
+
+### Test
+
+Test using GNU Make:
+
+```bash
+make test
+```
+
+To generate test coverage use:
+
+```bash
+stack test --coverage
+```
 
 ## Word Count in Python
 
@@ -91,16 +107,22 @@ cat $f | python3 ./wordcount.py | (read count ; test $count -eq $(wc -w $f | cut
 
 ## Literate Haskell
 
-To print [bird.lhs](./bird.lhs) to PDF, use:
+To render [bird.lhs](./bird.lhs) into a PDF, use:
 
 ```bash
 pandoc -r markdown+lhs -s bird.lhs --css haskell.css -o bird.pdf
 ```
 
+Or
+
+```bash
+make doc/bird.pdf
+```
+
 To render to HTML use:
 
 ```bash
-make bird.html
+make doc/bird.html
 ```
 
 ## Haskell Notebook
