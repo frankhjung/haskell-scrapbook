@@ -10,8 +10,8 @@ import           Qsort                      (qsort)
 import           RepMax                     (doRepMax, foldMax, traverseMax,
                                              traverseMax')
 import           SplitList                  (splitMiddle)
-import           State                      (Stack, empty, evalState, execState,
-                                             tasks)
+import           Stack                      (Stack, empty, tasks)
+import           State                      (evalState, execState)
 import           SubSeqs                    (subSeqs1, subSeqs2, subSeqs3,
                                              subSeqs4)
 import           Yahtzee                    (DiceChoice (..), DiceVals,
@@ -45,16 +45,16 @@ prop_pythagoras :: Int -> Int -> Bool
 prop_pythagoras a b = runCont (pythagorasCont a b) Just == Just (a*a + b*b)
 
 -- | Head of myRev1 is same as last
-prop_myRev1 :: [Int] -> Bool
-prop_myRev1 xs = (head . myRev1) xs == last xs
+prop_myRev1 :: NonEmptyList [Int] -> Bool
+prop_myRev1 (NonEmpty xs) = (head . myRev1) xs == last xs
 
 -- | myRev1 is same as myRev2
 prop_myRev1_myRev2 :: [Int] -> Bool
 prop_myRev1_myRev2 xs = myRev1 xs == myRev2 xs
 
 -- | Qsort same as 'Data.List.sort'
-prop_qsort :: [Int] -> Bool
-prop_qsort xs = qsort xs == sort xs
+prop_qsort :: NonEmptyList [Int] -> Bool
+prop_qsort (NonEmpty xs) = qsort xs == sort xs
 
 -- | 'doRepMax' is same as 'foldMax'
 prop_doRepMax_foldMax :: [Int] -> Bool

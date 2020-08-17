@@ -5,14 +5,10 @@ Description : Deriving the State Monad
 Copyright   : © Frank Jung, 2020
 License     : GPL-3
 
-A simple State Monad implementation to explore it's characteristics.
+A simple State monad implementation to explore it's characteristics.
+
 Based on many articles, but principally from:
-
-- <http://brandon.si/code/the-state-monad-a-tutorial-for-the-confused/ The State Monad: A Tutorial for the Confused?>
-- <https://gist.github.com/sdiehl/8d991a718f7a9c80f54b sdiehl / state.hs>
-
-> runhaskell state.hs
->
+<http://brandon.si/code/the-state-monad-a-tutorial-for-the-confused/ The State Monad: A Tutorial for the Confused?>
 
 -}
 
@@ -25,12 +21,6 @@ module State (
               , modify      -- Modify state function
               , evalState   -- Results of state function
               , execState   -- Final state
-              , Stack       -- 'Stack' as array of ints
-              , empty       -- Empty 'Stack'
-              , pop         -- Pop from top of 'Stack'
-              , push        -- Push onto 'Stack'
-              , top         -- Get element at top of 'Stack'
-              , tasks       -- Run arbitrary tasks on 'Stack'
              ) where
 
 -- | Mock of State data type. (Not yet a Monad, Functor or Applicative.)
@@ -80,36 +70,3 @@ instance Monad (State s) where
   (>>=) (State stateFx) nextFx =
     State (\s -> let (fx, s') = stateFx s
                  in runState (nextFx fx) s')
-
--- == Example of using 'State' to implement a 'Stack'.
-
--- | Stack as array of intergers.
-type Stack = [Int]
-
--- | Empty stack.
-empty :: Stack
-empty = []
-
--- | Remove element from top of stack.
-pop :: State Stack Int
-pop = State $ \(x:xs) -> (x, xs)
-
--- | Push element onto stack.
-push :: Int -> State Stack ()
-push a = State $ \xs -> ((), a:xs)
-
--- | Return element at top of stack.
-top :: State Stack Int
-top = State $ \(x:xs) -> (x, x:xs)
-
--- | Example usage of 'State' 'Stack'. 'push' & 'pop' some elements onto
--- the stack, and read the current 'top' element.
-tasks :: State Stack Int
-tasks = do
-  push 1        -- populate with some data
-  push 2
-  push 3
-  a <- pop      -- 2
-  b <- pop      -- 3
-  push (a + b)  -- 5
-  top           -- 5
