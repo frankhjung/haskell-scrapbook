@@ -56,6 +56,10 @@ prop_myRev1_myRev2 xs = myRev1 xs == myRev2 xs
 prop_qsort :: NonEmptyList [Int] -> Bool
 prop_qsort (NonEmpty xs) = qsort xs == sort xs
 
+-- | Qsort is idempotent
+prop_qsort' :: NonEmptyList [Int] -> Property
+prop_qsort' (NonEmpty xs) = qsort (qsort xs) === qsort xs
+
 -- | 'doRepMax' is same as 'foldMax'
 prop_doRepMax_foldMax :: [Int] -> Bool
 prop_doRepMax_foldMax xs = doRepMax xs == foldMax xs
@@ -67,6 +71,10 @@ prop_foldMax_traverseMax xs = foldMax xs == traverseMax xs
 -- | 'traverseMax' is same as 'traverseMax\''
 prop_traverseMax_traverseMax' :: [Int] -> Bool
 prop_traverseMax_traverseMax' xs = traverseMax xs == traverseMax' xs
+
+-- | 'traverseMax' is idempotent
+prop_traverseMax :: [Int] -> Property
+prop_traverseMax xs = traverseMax (traverseMax xs) === traverseMax xs
 
 -- | 'subSeqs1' same as 'subSeqs2'
 prop_subSeqs_1_2 :: NonEmptyList String -> Bool
@@ -141,6 +149,8 @@ main = hspec $ do
       qsort ([1,3,5,1,4,2] :: [Int]) `shouldBe` ([1,1,2,3,4,5] :: [Int])
     it "qsort same as Data.List.sort" $
       quickCheck prop_qsort
+    it "qsort is idempotent" $
+      quickCheck prop_qsort'
 
   describe "replace list with maximum element" $ do
     let xs = [-2,-3,-1,-4,-5] :: [Int]
@@ -156,7 +166,8 @@ main = hspec $ do
       quickCheck prop_foldMax_traverseMax
     it "quick check traverseMax is same as traverseMax'" $
       quickCheck prop_traverseMax_traverseMax'
-
+    it "check check traverseMax is idempotent" $
+      quickCheck prop_traverseMax
 
   describe "state using a stack" $ do
     it "evalState is 5" $
