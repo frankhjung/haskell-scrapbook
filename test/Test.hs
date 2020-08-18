@@ -52,7 +52,7 @@ prop_myRev1 (NonEmpty xs) = (head . myRev1) xs == last xs
 prop_myRev1_myRev2 :: [Int] -> Bool
 prop_myRev1_myRev2 xs = myRev1 xs == myRev2 xs
 
--- | Qsort same as 'Data.List.sort'
+-- | Qsort same as Data.List.sort
 prop_qsort :: NonEmptyList [Int] -> Bool
 prop_qsort (NonEmpty xs) = qsort xs == sort xs
 
@@ -60,31 +60,34 @@ prop_qsort (NonEmpty xs) = qsort xs == sort xs
 prop_qsort' :: NonEmptyList [Int] -> Property
 prop_qsort' (NonEmpty xs) = qsort (qsort xs) === qsort xs
 
--- | 'doRepMax' is same as 'foldMax'
+-- | doRepMax is same as foldMax
 prop_doRepMax_foldMax :: [Int] -> Bool
 prop_doRepMax_foldMax xs = doRepMax xs == foldMax xs
 
--- | 'foldMax' is same as 'traverseMax'
+-- | foldMax is same as traverseMax
 prop_foldMax_traverseMax :: [Int] -> Bool
 prop_foldMax_traverseMax xs = foldMax xs == traverseMax xs
 
--- | 'traverseMax' is same as 'traverseMax\''
+-- | traverseMax is same as traverseMax'
 prop_traverseMax_traverseMax' :: [Int] -> Bool
 prop_traverseMax_traverseMax' xs = traverseMax xs == traverseMax' xs
 
--- | 'traverseMax' is idempotent
+-- | traverseMax is idempotent
 prop_traverseMax :: [Int] -> Property
 prop_traverseMax xs = traverseMax (traverseMax xs) === traverseMax xs
 
--- | 'subSeqs1' same as 'subSeqs2'
+-- | subSeqs1 same as subSeqs2
 prop_subSeqs_1_2 :: NonEmptyList String -> Bool
 prop_subSeqs_1_2 (NonEmpty xs) = subSeqs1 xs == subSeqs2 xs
 
--- | 'subSeqs3' same as 'subSeqs4'
+-- | subSeqs3 same as subSeqs4
 prop_subSeqs_3_4 :: NonEmptyList String -> Bool
 prop_subSeqs_3_4 (NonEmpty xs) = subSeqs3 xs == subSeqs4 xs
 
--- | Test all modules
+-- | splitMiddle
+prop_splitMiddle :: String -> Bool
+prop_splitMiddle xs = splitMiddle (xs ++ xs) == (xs, xs)
+
 main :: IO ()
 main = hspec $ do
 
@@ -160,13 +163,13 @@ main = hspec $ do
       foldMax xs `shouldBe` traverseMax xs
     it "traverseMax is same as traverseMax'" $
       traverseMax xs `shouldBe` traverseMax' xs
-    it "quick check doRepMax is same as foldMax" $
+    it "quickcheck doRepMax is same as foldMax" $
       quickCheck prop_doRepMax_foldMax
-    it "quick check foldMax is same as traverseMax" $
+    it "quickcheck foldMax is same as traverseMax" $
       quickCheck prop_foldMax_traverseMax
-    it "quick check traverseMax is same as traverseMax'" $
+    it "quickcheck traverseMax is same as traverseMax'" $
       quickCheck prop_traverseMax_traverseMax'
-    it "check check traverseMax is idempotent" $
+    it "quickcheck traverseMax is idempotent" $
       quickCheck prop_traverseMax
 
   describe "state using a stack" $ do
@@ -184,16 +187,19 @@ main = hspec $ do
       subSeqs3 "abc" `shouldBe` ["abc","ab","ac","a","bc","b","c",""]
     it "subSeqs4" $
       subSeqs4 "abc" `shouldBe` ["abc","ab","ac","a","bc","b","c",""]
-    it "subSeqs1 same as subSeqs2" $
+    it "quickcheck subSeqs1 same as subSeqs2" $
       quickCheckWith stdArgs { maxSize = 10 } prop_subSeqs_1_2
-    it "subSeqs3 same as subSeqs4" $
+    it "quickcheck subSeqs3 same as subSeqs4" $
       quickCheckWith stdArgs { maxSize = 10 } prop_subSeqs_3_4
-
-  describe "use zipWith to split a list in half" $
-    it "expect equal" $
-      splitMiddle "helloworld" `shouldBe` ("hello", "world")
 
   describe "test yahtzee from given start point" $
     it "example game" $ do
       let diceVals = [Reroll, Keep 4, Keep 4, Reroll, Reroll]
       last (allRolls diceVals) `shouldBe` ([6, 4, 4, 6, 6] :: DiceVals)
+
+  describe "use zipWith to split a list in half" $ do
+    it "expect (hello, world)" $
+      splitMiddle "helloworld" `shouldBe` ("hello", "world")
+    it "quickcheck (xs, xs)" $
+      quickCheck prop_splitMiddle
+
