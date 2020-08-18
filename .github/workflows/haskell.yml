@@ -35,10 +35,14 @@ jobs:
           key: $GITHUB_REF
 
       - name: setup
-        run: stack setup
+        run: |
+          stack path
+          stack setup
 
       - name: build
-        run: stack build --pedantic --no-test
+        run: |
+          stack clean
+          stack build --pedantic --no-test
 
       - name: test
         run: stack test
