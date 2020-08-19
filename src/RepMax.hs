@@ -57,6 +57,14 @@ import           Data.Maybe       (fromJust)
 import           Data.Monoid      (First (..), getFirst)
 import           Data.Traversable (mapAccumR)
 
+-- | Replace list with maximum value in the list.
+doRepMax :: (Integral a)
+              => [a]      -- ^ input list
+              -> [a]      -- ^ list with elements replaced with maximum value
+doRepMax xs = xs'
+  where
+    (largest, xs') = repMax xs largest
+
 -- | Fold version of 'repMax'.
 -- Modified to also work with negative values.
 -- /"Everything's a fold"./
@@ -67,26 +75,6 @@ foldMax xs = xs'
   where
     m = if null xs then 0 else head xs              -- initial max value
     (xs', largest) = foldl (\(b, c) a -> (largest : b, max a c)) ([], m) xs
-
--- | Generalise 'repMax' where input is a Traversable.
--- Seed value from @First@ of @Foldable@.
-traverseMax :: (Traversable t, Integral a)
-                => t a    -- ^ traversable input
-                -> t a    -- ^ modified with maximum element
-traverseMax t = xs'
-  where
-    m = fromJust $ getFirst $ foldMap (First . Just) t
-    (largest, xs') = mapAccumR (\a b -> (max a b, largest)) m t
-
--- | Generalise 'repMax' where input is a Traversable.
--- Seed maximum value from head of list or 0 if empty.
-traverseMax' :: (Traversable t, Integral a)
-                => t a    -- ^ traversable input
-                -> t a    -- ^ modified with maximum element
-traverseMax' t = xs'
-  where
-    m = if null xs' then 0 else (head . toList) t   -- initial max value
-    (largest, xs') = mapAccumR (\a b -> (max a b, largest)) m t
 
 -- | Repeat given maximum for entire list.
 repMax :: (Integral a)
@@ -100,10 +88,22 @@ repMax (x:xs) rep = (m', rep:xs')
     (m, xs') = repMax xs rep
     m' = max m x
 
--- | Replace list with maximum value in the list.
-doRepMax :: (Integral a)
-              => [a]      -- ^ input list
-              -> [a]      -- ^ list with elements replaced with maximum value
-doRepMax xs = xs'
+-- | Generalise 'repMax' where input is a @Traversable@.
+-- Seed value from @First@ of @Foldable@.
+traverseMax :: (Traversable t, Integral a)
+                => t a    -- ^ traversable input
+                -> t a    -- ^ modified with maximum element
+traverseMax t = xs'
   where
-    (largest, xs') = repMax xs largest
+    m = fromJust $ getFirst $ foldMap (First . Just) t
+    (largest, xs') = mapAccumR (\a b -> (max a b, largest)) m t
+
+-- | Generalise 'repMax' where input is a @Traversable@.
+-- Seed maximum value from head of list or 0 if empty.
+traverseMax' :: (Traversable t, Integral a)
+                => t a    -- ^ traversable input
+                -> t a    -- ^ modified with maximum element
+traverseMax' t = xs'
+  where
+    m = if null xs' then 0 else (head . toList) t   -- initial max value
+    (largest, xs') = mapAccumR (\a b -> (max a b, largest)) m t

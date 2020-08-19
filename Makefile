@@ -13,20 +13,18 @@
 	-pandoc -r markdown+lhs -s $< --css haskell.css -o $@
 
 LHS	:= $(wildcard doc/*.lhs)
-SRC	:= $(wildcard src/*.hs app/*.hs test/*.hs)
+SRC	:= $(wildcard src/*.hs app/*.hs test/*.hs bench/*.hs)
 TGT 	:= scrapbook
+ROOT	:= $(shell stack path --local-doc-root)
 
 .PHONY: default
-default:	check build test
+default:check build test
 
 .PHONY: check
 check:	tags style lint
 
 .PHONY: all
-all:	check build test
-
-.PHONY: all
-all:	check build test doc exec
+all:	check build test bench doc exec
 
 .PHONY: tags
 tags:	$(SRC)
@@ -52,6 +50,10 @@ build:
 test:
 	@stack test
 
+.PHONY: bench
+bench:
+	@stack bench --benchmark-arguments '-o $(ROOT)/benchmark.html'
+
 .PHONY: doc
 doc:
 	@stack haddock --no-rerun-tests --no-reconfigure
@@ -76,6 +78,7 @@ setup:
 
 .PHONY: clean
 clean:
+	@stack clean
 	-$(RM) $(addsuffix .hi, $(basename $(LHS) $(SRC)))
 	-$(RM) $(addsuffix .o, $(basename $(LHS) $(SRC)))
 	-$(RM) $(addsuffix .prof, $(basename $(LHS) $(SRC)))

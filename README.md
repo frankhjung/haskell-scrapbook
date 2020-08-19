@@ -8,7 +8,9 @@ A collection of short scripts testing functions and techniques.
 documentation is available on:
 
 * [GitHub](https://frankhjung.github.io/haskell-scrapbook/)
-* [GitLab](https://frankhjung1.gitlab.io/haskell-scrapbook)
+  * [Criterion benchmarks](https://frankhjung.github.io/haskell-scrapbook/benchmark.html)
+* [GitLab](https://frankhjung1.gitlab.io/haskell-scrapbook/)
+  * [Criterion benchmarks](https://frankhjung1.gitlab.io/haskell-scrapbook/benchmark.html)
 
 ## Haskell
 
