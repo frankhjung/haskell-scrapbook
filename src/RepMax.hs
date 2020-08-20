@@ -38,6 +38,10 @@ value that /it itself returns/.
 See also <https://kcsongor.github.io/time-travel-in-haskell-for-dummies/ Time travel in Haskell for dummies>
 by Csongor Kiss.
 
+See
+<https://stackoverflow.com/questions/44558242/picture-how-mapaccumr-works this>
+for an explanation on how 'mapAccumR' works.
+
 == Example
 
 Run 'doRepMax' or 'foldMax' over some lists:
@@ -65,17 +69,6 @@ doRepMax xs = xs'
   where
     (largest, xs') = repMax xs largest
 
--- | Fold version of 'repMax'.
--- Modified to also work with negative values.
--- /"Everything's a fold"./
-foldMax :: (Integral a)
-            => [a]        -- ^ list to change
-            -> [a]        -- ^ list replaced with maximum element
-foldMax xs = xs'
-  where
-    m = if null xs then 0 else head xs              -- initial max value
-    (xs', largest) = foldl (\(b, c) a -> (largest : b, max a c)) ([], m) xs
-
 -- | Repeat given maximum for entire list.
 repMax :: (Integral a)
             => [a]        -- ^ list to replace
@@ -88,7 +81,20 @@ repMax (x:xs) rep = (m', rep:xs')
     (m, xs') = repMax xs rep
     m' = max m x
 
+-- | Fold version of 'repMax'.
+--
+-- Modified to also work with negative values.
+-- /"Everything's a fold"./
+foldMax :: (Integral a)
+            => [a]        -- ^ list to change
+            -> [a]        -- ^ list replaced with maximum element
+foldMax xs = xs'
+  where
+    m = if null xs then 0 else head xs              -- initial max value
+    (xs', largest) = foldl (\(b, c) a -> (largest : b, max a c)) ([], m) xs
+
 -- | Generalise 'repMax' where input is a @Traversable@.
+--
 -- Seed value from @First@ of @Foldable@.
 traverseMax :: (Traversable t, Integral a)
                 => t a    -- ^ traversable input
@@ -99,6 +105,7 @@ traverseMax t = xs'
     (largest, xs') = mapAccumR (\a b -> (max a b, largest)) m t
 
 -- | Generalise 'repMax' where input is a @Traversable@.
+--
 -- Seed maximum value from head of list or 0 if empty.
 traverseMax' :: (Traversable t, Integral a)
                 => t a    -- ^ traversable input
