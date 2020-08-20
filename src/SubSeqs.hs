@@ -5,6 +5,9 @@ Description : A collection of algorithms to generate sub-sequences.
 Copyright   : © Frank Jung, 2020
 License     : GPL-3
 
+This is a collection of different ways (with different performance) to
+create <https://en.wikipedia.org/wiki/Subsequence subsquences>.
+
 = Examples
 
 @
@@ -27,7 +30,7 @@ subSeqs1 [x] = [[x]]
 subSeqs1 (x:xs) = [x] : map (x :) xss ++ xss
   where xss = subSeqs1 xs
 
--- | Alternative definition using just @foldr@ and @map@.
+-- | Alternative definition using just 'foldr' and 'map'.
 subSeqs2 :: [a] -> [[a]]
 subSeqs2 = foldr (\ x s -> [x] : map (x:) s ++ s) []
 
@@ -36,6 +39,9 @@ subSeqs3 :: [a] -> [[a]]
 subSeqs3 []     = [[]]
 subSeqs3 (x:xs) = [x : subseq | subseq <- subSeqs3 xs] ++ subSeqs3 xs
 
--- | Create a power-set using @Control.Monad@.
+-- | Create a power-set using 'Control.Monad'.
+--
+-- <https://blog.ssanj.net/posts/2018-04-10-how-does-filterm-work-in-haskell.html This blog>
+-- explains 'filterM'.
 subSeqs4 :: [a] -> [[a]]
 subSeqs4 = filterM (const [True, False])

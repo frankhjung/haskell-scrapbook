@@ -47,11 +47,16 @@ jobs:
       - name: test
         run: stack test
 
-      - name: documentation
+      - name: benchmark
+        run: stack bench --benchmark-arguments '-o .stack-work/benchmark.html'
+
+      - name: document
         run: stack haddock --no-rerun-tests --no-reconfigure
 
       - name: copy
-        run: mv $(stack path --local-doc-root) public/
+        run: |
+          mv $(stack path --local-doc-root) public/
+          mv .stack-work/benchmark.html public/
 
       - name: publish
         uses: crazy-max/ghaction-github-pages@v0.4.0
