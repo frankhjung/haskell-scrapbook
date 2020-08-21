@@ -1,3 +1,29 @@
+#!/usr/bin/env runhaskell
+
+{-
+
+Perform 'myAction' until user enters @q@ in response.
+
+Haskell's ability to work with IO actions as with any other (functional and
+non-functional) values allows us to define control structures of arbitrary
+complexity.
+
+Try, for example, to define a control structure that repeats an action
+until it returns the 'False' result:
+
+@
+while :: IO Bool -> IO ()
+while action = ???
+@
+
+Most programming languages don't allow you to define control structures at
+all, and those that do often require you to use a macro-expansion system.
+In Haskell, control structures are just trivial functions anyone can write.
+
+Source: <https://wiki.haskell.org/IO_inside What is a monad?>
+
+-}
+
 module Main (bool, while, main, myAction) where
 
 -- | Replace f with a function.
@@ -25,23 +51,8 @@ myAction = do
   s <- getLine
   bool (return True) (return False) ('q' `elem` s)
 
--- | Perform 'myAction' until user enters @q@ in response.
+-- | Run 'myAction' until @q@.
 --
--- Haskell's ability to work with IO actions as with any other (functional and
--- non-functional) values allows us to define control structures of arbitrary
--- complexity.
---
--- Try, for example, to define a control structure that repeats an action
--- until it returns the @False@ result:
---
--- @while :: IO Bool -> IO ()
--- while action = ???@
---
--- Most programming languages don't allow you to define control structures at
--- all, and those that do often require you to use a macro-expansion system.
--- In Haskell, control structures are just trivial functions anyone can write.
---
--- Source: <https://wiki.haskell.org/IO_inside What is a monad?>
---
+-- >>> runghc app/While.hs
 main :: IO ()
 main = while myAction
