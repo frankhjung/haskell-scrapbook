@@ -31,7 +31,7 @@ skips abcd > ["abcd","bd","c","d"]
 
 == Notes
 
-To generate Haddock documentation, call:
+To generate Haddock documentation:
 
 @
 haddock --odir public --html --hyperlinked-source app/Skips.hs
@@ -44,12 +44,15 @@ module Main(main,skips) where
 import           Data.Traversable   (mapAccumL)
 import           System.Environment (getArgs)
 
--- | The output of @skips@ is a list of lists. The first list in the output
--- should be the same as the input list. The second list in the output
--- should contain every second element from the input list ... and the
--- /n/th list in the output should contain every /n/th element from the
--- input list.
-skips :: [a] -> [[a]]
+-- | From an input list, generate a list of /skipped/ items.
+--
+-- The output of 'skips' is a list of lists. The first list in the output
+-- is the same as the input list. The second list in the output contains
+-- every second element from the input list. In general, the /n/th list in
+-- the output contains every /n/th element from the input list.
+--
+skips :: [a]            -- ^ input list
+          -> [[a]]      -- ^ list of skipped items
 skips xs = snd $ mapAccumL accum 1 xs'
   where
     xs' = replicate (length xs) xs
@@ -59,5 +62,6 @@ skips xs = snd $ mapAccumL accum 1 xs'
     itemn c x = map snd (filter (\nx -> mod (fst nx) c == 0) (zip [1..] x))
 
 -- | Run skips function reading input from command line.
+--
 main :: IO ()
 main = getArgs >>= mapM_ (print . skips)
