@@ -7,6 +7,7 @@ import           Mod35                      (mod35)
 import           MyLast                     (myLast, myRev1, myRev2,
                                              penultimate)
 import           Qsort                      (qsort)
+import           Random                     (dice, roll, rolls, seed)
 import           RepMax                     (doRepMax, foldMax, traverseMax,
                                              traverseMax')
 import           SplitList                  (splitMiddle)
@@ -19,10 +20,12 @@ import           Yahtzee                    (DiceChoice (..), DiceVals,
 
 import           Control.Monad.Trans.Cont   (runCont)
 import           Control.Monad.Trans.Writer
+import           Data.Ix                    (inRange)
 import           Data.List                  (sort)
 import           System.Directory           (makeAbsolute)
 import           Test.Hspec                 (describe, hspec, it, shouldBe)
 import           Test.QuickCheck
+import           Test.QuickCheck.Monadic
 
 -- | Continuation Passing Style cfold (+) 0 == sum
 prop_cfold_sum :: [Int] -> Bool
@@ -60,6 +63,14 @@ prop_qsort (NonEmpty xs) = qsort xs == sort xs
 prop_qsort' :: NonEmptyList [Int] -> Property
 prop_qsort' (NonEmpty xs) = qsort (qsort xs) === qsort xs
 
+-- | Random dice rolls are bounded in range 1..6
+prop_random_dice :: Positive Int -> Property
+prop_random_dice (Positive n) = monadicIO $ do
+  ns <- run (roll n)
+  assert (all isBounded ns)
+  where
+    isBounded = inRange dice
+
 -- | doRepMax is same as foldMax
 prop_doRepMax_foldMax :: [Int] -> Bool
 prop_doRepMax_foldMax xs = doRepMax xs == foldMax xs
@@ -88,6 +99,7 @@ prop_subSeqs_3_4 (NonEmpty xs) = subSeqs3 xs == subSeqs4 xs
 prop_splitMiddle :: String -> Bool
 prop_splitMiddle xs = splitMiddle (xs ++ xs) == (xs, xs)
 
+-- | Run all tests.
 main :: IO ()
 main = hspec $ do
 
@@ -126,13 +138,13 @@ main = hspec $ do
       (snd . head) cesS `shouldBe` docs
       (snd . head) cesU `shouldBe` docs
 
-  describe "test if modulus 3 or 5" $ do
+  describe "modulus 3 or 5" $ do
       it "mod35 3 is True" $ mod35 3 `shouldBe` True
       it "mod35 5 is True" $ mod35 5 `shouldBe` True
       it "mod35 15 is True" $ mod35 15 `shouldBe` True
       it "mod35 8 is False" $ mod35 8 `shouldBe` False
 
-  describe "test last and penultimate of lists" $ do
+  describe "last and penultimate of lists" $ do
     let xs = [1..5] :: [Int]
     it "myLast [1..5] is 5" $
       last xs `shouldBe` myLast xs
@@ -147,13 +159,19 @@ main = hspec $ do
     it "myRev1 is myRev2" $
       quickCheck prop_myRev1_myRev2
 
-  describe "qsort - naive / inefficient version" $ do
+  describe "qsort inefficient version" $ do
     it "qsort example" $
       qsort ([1,3,5,1,4,2] :: [Int]) `shouldBe` ([1,1,2,3,4,5] :: [Int])
     it "qsort same as Data.List.sort" $
       quickCheck prop_qsort
     it "qsort is idempotent" $
       quickCheck prop_qsort'
+
+  describe "random with seed" $ do
+    it "roll dice t times with seed" $
+      take 5 (rolls (seed 111111)) `shouldBe` ([4,6,5,3,2] :: [Int])
+    it "dice rolls are bounded" $
+      quickCheck prop_random_dice
 
   describe "replace list with maximum element" $ do
     let xs = [-2,-3,-1,-4,-5] :: [Int]

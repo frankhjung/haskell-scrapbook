@@ -15,8 +15,8 @@ documentation is available on:
 ## Haskell
 
 These examples are meant to be run using
-[runhaskell(1)](https://www.commandlinux.com/man-page/man1/runhaskell.1.html) or
-[runghc(1)](https://manpages.debian.org/stable/ghc/runghc.1.en.html).
+[runhaskell(1)](https://manpages.debian.org/buster/ghc/runhaskell.1.html) or
+[runghc](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/runghc.html).
 
 The reason they won't link is because I've added them to their own module, and
 have not yet gotten around to build an über main yet. The idea was really to
@@ -73,6 +73,38 @@ stack exec -- haddock src/*.hs --odir=public --html
 
 Where the later does not produce a full function cross-reference.
 
+## Literate Haskell
+
+To render [bird.lhs](./bird.lhs) into a PDF, use:
+
+```bash
+pandoc -r markdown+lhs -s bird.lhs --css haskell.css -o bird.pdf
+```
+
+Or
+
+```bash
+make doc/bird.pdf
+```
+
+To render to HTML use:
+
+```bash
+make doc/bird.html
+```
+
+## Haskell Notebook
+
+Included is a Jupyter Notebook with a
+[Haskell](https://github.com/gibiansky/IHaskell) runtime.
+
+To start run this:
+
+```bash
+stack exec jupyter -- notebook
+```
+
+For more details see [IHaskell](https://github.com/gibiansky/IHaskell).
 
 ## Word Count in Python
 
@@ -123,36 +155,3 @@ This should return `38`. i.e. This should return `PASS`:
 export f=wordcount.hs
 cat $f | python3 ./wordcount.py | (read count ; test $count -eq $(wc -w $f | cut -d ' ' -f1 -) && echo "PASS")
 ```
-
-## Literate Haskell
-
-To render [bird.lhs](./bird.lhs) into a PDF, use:
-
-```bash
-pandoc -r markdown+lhs -s bird.lhs --css haskell.css -o bird.pdf
-```
-
-Or
-
-```bash
-make doc/bird.pdf
-```
-
-To render to HTML use:
-
-```bash
-make doc/bird.html
-```
-
-## Haskell Notebook
-
-Included is a Jupyter Notebook with a
-[Haskell](https://github.com/gibiansky/IHaskell) runtime.
-
-To start run this:
-
-```bash
-stack exec jupyter -- notebook
-```
-
-For more details see [IHaskell](https://github.com/gibiansky/IHaskell).
