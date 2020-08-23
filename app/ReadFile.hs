@@ -13,7 +13,7 @@ The original version:
 
 @
 main = do
-  withFile "LICENSE" ReadMode enumerateLines
+  withFile "Setup.hs" ReadMode enumerateLines
   where
     enumerateLines h = lines' h >>= mapM_ putStrLn
     lines' h' = hGetContents h' >>= return . lines
@@ -52,4 +52,4 @@ import           Control.Monad ((>=>))
 import           System.IO     (IOMode (ReadMode), hGetContents, withFile)
 
 main :: IO ()
-main = withFile "LICENSE" ReadMode (hGetContents >=> mapM_ putStrLn . lines)
+main = withFile "Setup.hs" ReadMode (hGetContents >=> mapM_ putStrLn . lines)

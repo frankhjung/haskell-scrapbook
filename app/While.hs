@@ -49,6 +49,7 @@ myAction :: IO Bool
 myAction = do
   putStrLn "enter q to quit ..."
   s <- getLine
+  putStrLn $ "Got " <> s
   bool (return True) (return False) ('q' `elem` s)
 
 -- | Run 'myAction' until @q@.
