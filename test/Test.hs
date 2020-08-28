@@ -17,6 +17,7 @@ import           SubSeqs                    (subSeqs1, subSeqs2, subSeqs3,
                                              subSeqs4)
 import           Yahtzee                    (DiceChoice (..), DiceVals,
                                              allRolls)
+import qualified ZipFold                    (zip)
 
 import           Control.Monad.Trans.Cont   (runCont)
 import           Control.Monad.Trans.Writer
@@ -98,6 +99,10 @@ prop_subSeqs_3_4 (NonEmpty xs) = subSeqs3 xs == subSeqs4 xs
 -- | splitMiddle
 prop_splitMiddle :: String -> Bool
 prop_splitMiddle xs = splitMiddle (xs ++ xs) == (xs, xs)
+
+-- | Prelude.zip same as ZipFold.zip for lists
+prop_zipfold :: NonEmptyList [Int] -> NonEmptyList String -> Property
+prop_zipfold (NonEmpty xs) (NonEmpty ys) = ZipFold.zip xs ys === zip xs ys
 
 -- | Run all tests.
 main :: IO ()
@@ -215,9 +220,12 @@ main = hspec $ do
       let diceVals = [Reroll, Keep 4, Keep 4, Reroll, Reroll]
       last (allRolls diceVals) `shouldBe` ([6, 4, 4, 6, 6] :: DiceVals)
 
+  describe "ZipFold.zip is same as Prelude.zip" $
+    it "expect same" $
+      quickCheck prop_zipfold
+
   describe "use zipWith to split a list in half" $ do
     it "expect (hello, world)" $
       splitMiddle "helloworld" `shouldBe` ("hello", "world")
     it "quickcheck (xs, xs)" $
       quickCheck prop_splitMiddle
-

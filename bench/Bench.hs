@@ -4,6 +4,7 @@ import           Criterion.Main (bench, bgroup, defaultMain, whnf)
 import           SubSeqs        (subSeqs1, subSeqs2, subSeqs3, subSeqs4)
 
 import           RepMax         (doRepMax, foldMax, traverseMax, traverseMax')
+import qualified ZipFold        (zip)
 
 main :: IO ()
 main = defaultMain
@@ -21,5 +22,10 @@ main = defaultMain
     , bench "foldMax" $ whnf foldMax ([2,3,1,4,5] :: [Int])
     , bench "traverseMax" $ whnf traverseMax ([2,3,1,4,5] :: [Int])
     , bench "traverseMax'" $ whnf traverseMax' ([2,3,1,4,5] :: [Int])
+    ],
+    bgroup "ZipFold"
+    [
+      bench "zipFold" $ whnf ZipFold.zip "abcde"
+    , bench "zip" $ whnf zip "abcde"
     ]
   ]
