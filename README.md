@@ -149,7 +149,7 @@ To test program run:
 cat wordcount.hs | python3 ./wordcount.py
 ```
 
-This should return `38`. i.e. This should return `PASS`:
+This should return `38`. That is, this should return `PASS`:
 
 ```bash
 export f=wordcount.hs
