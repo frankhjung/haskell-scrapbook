@@ -44,33 +44,8 @@ False
 
 module Main (main) where
 
-import           Data.List          (permutations)
+import           PolyDivisors       (findPolyDiv)
 import           System.Environment (getArgs)
-
--- | Find poly-divisor of input string.
-findPolyDiv :: Int -> [Int]
-findPolyDiv = filterPolyMod . perms
-
--- | Filter numbers modulo n..1
-filterPolyMod :: [Int] -> [Int]
-filterPolyMod = filter isPolyMod
-
--- | Check if poly-divisor of input.
-isPolyMod :: Int -> Bool
-isPolyMod x =
-  let
-    -- Is value modulus of length?
-    -- ie. Is 123 mod 3 = 0?
-    isModLen :: Int -> Bool
-    isModLen a = a `mod` length (show a) == 0
-    -- list of x's reduced by factor of 10 for length of x as a string
-    -- eg. 123 gives [123, 12, 1]
-    xs = map (\p -> x `div` 10^p ) [0..length (show x) - 1]
-  in foldr ((&&) . isModLen) True xs
-
--- | Permutations of argument.
-perms :: Int -> [Int]
-perms xs = map read (permutations (show xs))
 
 -- | Search for poly-divisors of digits 1..9
 main :: IO ()

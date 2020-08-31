@@ -1,14 +1,20 @@
 module Main(main) where
 
 import           Criterion.Main (bench, bgroup, defaultMain, whnf)
-import           SubSeqs        (subSeqs1, subSeqs2, subSeqs3, subSeqs4)
-
+import           PolyDivisors   (isPolyMod, isPolyMod', isPolyMod'')
 import           RepMax         (doRepMax, foldMax, traverseMax, traverseMax')
+import           SubSeqs        (subSeqs1, subSeqs2, subSeqs3, subSeqs4)
 import qualified ZipFold        (zip)
 
 main :: IO ()
 main = defaultMain
   [
+    bgroup "PolyDivisors"
+    [
+      bench "isPolyMod"    $ whnf isPolyMod    1234
+    , bench "isPolyMod'"   $ whnf isPolyMod'   1234
+    , bench "isPolyMod''"  $ whnf isPolyMod''  1234
+    ],
     bgroup "SubSeqs"
     [
       bench "subSeqs1" $ whnf subSeqs1 "abc"
