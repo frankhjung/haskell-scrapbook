@@ -1,7 +1,7 @@
 {-|
 
 Module      : CFold
-Description : Continuation passing style, fold.
+Description : Continuation passing style, fold
 Copyright   : © Frank Jung, 2020
 License     : GPL-3
 

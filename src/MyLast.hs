@@ -1,7 +1,7 @@
 {-|
 
 Module      : MyLast
-Description : Explore last.
+Description : Explore last
 Copyright   : © Frank Jung, 2020
 License     : GPL-3
 

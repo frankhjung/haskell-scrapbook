@@ -1,7 +1,7 @@
 {-|
 
 Module      : Qsort
-Description : A simple implementation of Qsort.
+Description : A simple implementation of Qsort
 Copyright   : © Frank Jung, 2019
 License     : GPL-3
 

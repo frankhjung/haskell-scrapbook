@@ -1,7 +1,7 @@
 {-|
 
 Module      : CountEntries
-Description : Count entries in a file path.
+Description : Count entries in a file path
 Copyright   : © Frank Jung, 2020
 License     : GPL-3
 

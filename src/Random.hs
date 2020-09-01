@@ -1,7 +1,7 @@
 {-|
 
 Module      : Random
-Description : Test random generators.
+Description : Test random generators
 Copyright   : © Frank Jung, 2020
 License     : GPL-3
 

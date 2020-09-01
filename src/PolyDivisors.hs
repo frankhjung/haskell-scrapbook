@@ -1,21 +1,38 @@
 {-|
 
 Module      : PolyDivisors
-Description : Find poly-divisors of a number.
+Description : Find poly-divisors of a number
 Copyright   : © Frank Jung, 2020
 License     : GPL-3
 
-Find polydivisible numbers such that we use digits from 1 to 9, and the
+Find poly-divisible numbers such that we use digits from 1 to 9, and the
 first n digits are modulo n for all digits in the number.
 
 I first read about puzzle in Matt Parkers book,
-<https://www.penguin.com.au/books/things-to-make-and-do-in-the-fourth-dimension-9780141975863 Things to make and do in the fourth dimension>
+<https://www.penguin.com.au/books/things-to-make-and-do-in-the-fourth-dimension-9780141975863 Things to make and do in the fourth dimension>.
 
 == Method
 
  * convert string input to int
  * permute a list of digits 1..9
  * filter modulo (length) for length digits
+
+== Exploration
+
+Investigate how to use a fold instead of recursion:
+
+>>> x = 123456789
+>>> n = length (show x)
+
+>>> λ> map (\p -> x `div` 10^p ) [0..n-1]
+[123456789,12345678,1234567,123456,12345,1234,123,12,1]
+
+>>> λ> f x = let n = length (show x) in x `mod` n == 0
+>>> λ> f 12
+True
+
+>>> λ> foldr (\x -> (&&) (f x)) True xs
+False
 
 == Examples
 
@@ -48,15 +65,15 @@ perms xs = map read (permutations (show xs))
 
 -- | @isPolyMod@: Test number is modulo @n ... 1@.
 isPolyMod :: Int -> Bool
-isPolyMod x = all (== True) (polyMod x (length (show x)))
+isPolyMod x = polyMod (length (show x)) x
   where
     -- Is value modulus of length?
     -- ie. Is 123 mod 3 = 0?
     isModLen :: Int -> Int -> Bool
     isModLen a n = let a' = a `div` 10 ^ n in a' `mod` length (show a') == 0
     -- fold version of recursive 'polyMod'
-    polyMod :: Int -> Int -> [Bool]
-    polyMod a n = foldr ((:) . isModLen a) [] [n-1,n-2..0]
+    polyMod :: Int -> Int -> Bool
+    polyMod n a = foldr ((&&) . isModLen a) True [0..n-1]
 
 -- | @isPolyMod'@: Test number is modulo @n ... 1@.
 isPolyMod' :: Int -> Bool

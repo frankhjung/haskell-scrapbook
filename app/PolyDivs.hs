@@ -23,23 +23,6 @@ I first read about puzzle in Matt Parkers book,
 >>> $ stack exec polydivisors 123456789
 [381654729]
 
-== Refactored
-
-Refactor to use a fold:
-
->>> x = 123456789
->>> n = length (show x)
-
->>> λ> map (\p -> x `div` 10^p ) [0..n-1]
-[123456789,12345678,1234567,123456,12345,1234,123,12,1]
-
->>> λ> f x = let n = length (show x) in x `mod` n == 0
->>> λ> f 12
-True
-
->>> λ> foldr (\x -> (&&) (f x)) True xs
-False
-
 -}
 
 module Main (main) where

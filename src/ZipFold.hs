@@ -1,7 +1,7 @@
 {-|
 
 Module      : ZipFold
-Description : Zipping with folds.
+Description : Zipping with folds
 Copyright   : © Frank Jung, 2020
 License     : GPL-3
 

@@ -1,7 +1,7 @@
 {-|
 
 Module      : SubSeqs
-Description : A collection of algorithms to generate sub-sequences.
+Description : A collection of algorithms to generate sub-sequences
 Copyright   : © Frank Jung, 2020
 License     : GPL-3
 

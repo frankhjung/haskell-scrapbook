@@ -1,7 +1,7 @@
 {-|
 
 Module      : BinarySearch
-Description : Example binary search.
+Description : Example binary search
 Copyright   : © Frank Jung, 2020
 License     : GPL-3
 
