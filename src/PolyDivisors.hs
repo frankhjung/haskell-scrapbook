@@ -63,29 +63,29 @@ findPolyDiv = filter isPolyMod . perms
 perms :: Int -> [Int]
 perms xs = map read (permutations (show xs))
 
--- | @isPolyMod@: Test number is modulo @n ... 1@.
-isPolyMod :: Int -> Bool
-isPolyMod x = polyMod (length (show x)) x
-  where
-    -- Is value modulus of length?
-    -- ie. Is 123 mod 3 = 0?
-    isModLen :: Int -> Int -> Bool
-    isModLen a n = let a' = a `div` 10 ^ n in a' `mod` length (show a') == 0
-    -- fold version of recursive 'polyMod'
-    polyMod :: Int -> Int -> Bool
-    polyMod n a = foldr ((&&) . isModLen a) True [0..n-1]
-
 -- | @isPolyMod'@: Test number is modulo @n ... 1@.
-isPolyMod' :: Int -> Bool
-isPolyMod' x = foldr ((&&) . isModLen) True xs
+isPolyMod :: Int -> Bool
+isPolyMod x = foldr ((&&) . isModLen) True xs
   where
-     -- list of x's reduced by factor of 10 for length of x as a string
-     -- eg. 123 gives [123, 12, 1]
-     xs = map (\p -> x `div` 10^p ) [0..length (show x) - 1]
-     -- Is value modulus of length?
-     -- ie. Is 123 mod 3 = 0?
-     isModLen :: Int -> Bool
-     isModLen a = a `mod` length (show a) == 0
+    -- number of digits in input
+    n = length (show x)
+    -- list of x's reduced by factor of 10 for length of x as a string
+    -- eg. 123 gives [(123, 3), (12, 2), (1,1)]
+    xs = map (\p -> (x `div` 10 ^ p, n - p) ) [0..n - 1]
+    -- Check tuple (x, n) is modulus 0
+    -- ie. Is x mod n = 0?
+    isModLen :: (Int, Int) -> Bool
+    isModLen xn = uncurry mod xn == 0
+
+-- | @isPolyMod@: Test number is modulo @n ... 1@.
+isPolyMod' :: Int -> Bool
+isPolyMod' x = all (== 0) xs
+  where
+    -- number of digits in input
+    n = length (show x)
+    -- list of x's reduced by factor of 10 for length of x as a string
+    -- eg. 123 gives [(123 % 3), (12 % 2), (1 % 1)]
+    xs = map (\p -> (x `div` 10 ^ p) `mod` (n - p) ) [0..n - 1]
 
 -- | @isPolyMod''@: Test number is modulo @n ... 1@.
 isPolyMod'' :: Int -> Bool

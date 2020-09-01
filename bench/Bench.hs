@@ -15,19 +15,19 @@ main = defaultMain
     , bench "isPolyMod'"   $ whnf isPolyMod'   1234
     , bench "isPolyMod''"  $ whnf isPolyMod''  1234
     ],
-    bgroup "SubSeqs"
-    [
-      bench "subSeqs1" $ whnf subSeqs1 "abc"
-    , bench "subSeqs2" $ whnf subSeqs2 "abc"
-    , bench "subSeqs3" $ whnf subSeqs3 "abc"
-    , bench "subSeqs4" $ whnf subSeqs4 "abc"
-    ],
     bgroup "RepMax"
     [
       bench "doRepMax" $ whnf doRepMax ([2,3,1,4,5] :: [Int])
     , bench "foldMax" $ whnf foldMax ([2,3,1,4,5] :: [Int])
     , bench "traverseMax" $ whnf traverseMax ([2,3,1,4,5] :: [Int])
     , bench "traverseMax'" $ whnf traverseMax' ([2,3,1,4,5] :: [Int])
+    ],
+    bgroup "SubSeqs"
+    [
+      bench "subSeqs1" $ whnf subSeqs1 "abc"
+    , bench "subSeqs2" $ whnf subSeqs2 "abc"
+    , bench "subSeqs3" $ whnf subSeqs3 "abc"
+    , bench "subSeqs4" $ whnf subSeqs4 "abc"
     ],
     bgroup "ZipFold"
     [
