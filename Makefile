@@ -18,7 +18,7 @@ TGT 	:= scrapbook
 ROOT	:= $(shell stack path --local-doc-root)
 
 .PHONY: default
-default:check build test
+default:check fast
 
 .PHONY: check
 check:	tags style lint
@@ -41,6 +41,11 @@ lint:	$(SRC)
 	@echo lint ...
 	@hlint --cross --color --show $(SRC)
 
+.PHONY: fast
+fast:
+	@echo fast build ...
+	@stack build --fast --test
+
 .PHONY: build
 build:
 	@echo build ...
@@ -48,15 +53,18 @@ build:
 
 .PHONY: test
 test:
+	@echo test ...
 	@stack test
 
 .PHONY: bench
 bench:
+	@echo bench ...
 	@stack bench --benchmark-arguments '-o $(ROOT)/benchmark.html'
 
 .PHONY: doc
 doc:
-	@stack haddock --no-rerun-tests --no-reconfigure
+	@echo doc ...
+	@stack haddock --no-rerun-tests --no-reconfigure --haddock-deps
 
 .PHONY: exec
 exec:	$(SRC)

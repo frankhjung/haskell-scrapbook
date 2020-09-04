@@ -55,14 +55,14 @@ import           System.FilePath            ((</>))
 --
 countEntriesS :: FilePath -> IO [(FilePath, Int)]
 countEntriesS path = do
-  contents <- listDirectory path                              -- contents of p
-  rest <- forM contents $ \name -> do                         -- for each entry
-            let newName = path </> name                       -- full path name
-            isDir <- doesDirectoryExist newName               -- is directory
+  contents <- listDirectory path                      -- contents of p
+  rest <- forM contents $ \name -> do                 -- for each entry
+            let newName = path </> name               -- full path name
+            isDir <- doesDirectoryExist newName       -- is directory
             if isDir
-              then countEntriesS newName                      -- recurse
-              else return []                                  -- termination
-  return $ (path, length contents) : concat rest              -- list and concat tuples
+              then countEntriesS newName              -- recurse
+              else return []                          -- termination
+  return $ (path, length contents) : concat rest      -- list and concat tuples
 
 -- | Count entries for a list of paths. (My version.)
 --
