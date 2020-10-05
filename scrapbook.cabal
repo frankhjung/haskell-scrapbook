@@ -23,6 +23,7 @@ library
                   , Cps
                   , CountEntries
                   , Mod35
+                  , MonTrans
                   , MyLast
                   , PolyDivisors
                   , Qsort
@@ -108,6 +109,7 @@ test-suite          test
                   , CountEntriesSpec
                   , CpsSpec
                   , Mod35Spec
+                  , MonTransSpec
                   , MyLastSpec
                   , PolyDivisorsSpec
                   , QsortSpec
