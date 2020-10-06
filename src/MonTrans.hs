@@ -14,14 +14,14 @@ Based off
 
 module MonTrans ( sumTillNegative
                 , sumTillNegative'
+                , sumTillNegative''
                 ) where
 
 sumTillNegative :: [Int] -> Int
 sumTillNegative = sum . takeWhile (>= 0)
 
 sumTillNegative' :: [Int] -> Int
-sumTillNegative' =
-    go 0
+sumTillNegative' = go 0
   where
     go !total rest =
       case rest of
@@ -29,3 +29,21 @@ sumTillNegative' =
         x:xs
           | x < 0     -> total
           | otherwise -> go (total + x) xs
+
+foldTerminate :: (b -> a -> Either b b) -> b -> [a] -> b
+foldTerminate f = go
+  where
+    go !accum rest =
+      case rest of
+        [] -> accum
+        x:xs ->
+          case f accum x of
+            Left accum'  -> accum'          -- early termination
+            Right accum' -> go accum' xs    -- keep going
+
+sumTillNegative'' :: [Int] -> Int
+sumTillNegative'' = foldTerminate go 0
+  where
+    go !total x
+      | x < 0     = Left total
+      | otherwise = Right (total + x)
