@@ -7,11 +7,11 @@ import           Test.Hspec      (Spec, describe, it, shouldBe)
 import           Test.QuickCheck
 
 
--- | sum till negative are equal
+-- | check functions for sums till negative are equal
 prop_list :: [Int] -> Bool
 prop_list xs = sumTillNegative xs == sumTillNegative' xs
 
--- | sum till negative are equal
+-- | check functions for sums till negative are equal
 prop_list'' :: [Int] -> Bool
 prop_list'' xs = sumTillNegative xs == sumTillNegative'' xs
 

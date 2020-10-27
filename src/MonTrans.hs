@@ -5,7 +5,7 @@ Description : Explorer Monad Transformers
 Copyright   : © Frank Jung, 2020
 License     : GPL-3
 
-Based off
+Code based on
 <https://www.fpcomplete.com/haskell/tutorial/monad-transformers/ FPComplete Monad Transformers>
 
 -}
@@ -21,7 +21,7 @@ module MonTrans ( sumTillNegative
 sumTillNegative :: [Int] -> Int
 sumTillNegative = sum . takeWhile (>= 0)
 
--- | Using fold with early termination.
+-- | Fold strict sum with early termination.
 sumTillNegative' :: [Int] -> Int
 sumTillNegative' = go 0
   where
@@ -33,7 +33,7 @@ sumTillNegative' = go 0
           | otherwise -> go (total + x) xs
 
 -- Returns either the total (left value)
--- or the current acculation and the rest of the list.
+-- or the current accumulation and the rest of the list.
 -- The left value will terminate the loop.
 -- See also
 -- <https://hackage.haskell.org/package/base/docs/Prelude.html#v:either either>
@@ -48,7 +48,7 @@ foldTerminate f accum0 list0 = either id id (go accum0 list0)
       go accum' xs
 
 -- | Returns either the total (left value)
--- or the current acculation and the rest of the list.
+-- or the current accumulation and the rest of the list.
 -- The left value will terminate the loop.
 -- See also
 -- <https://hackage.haskell.org/package/base/docs/Prelude.html#v:either either>

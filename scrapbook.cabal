@@ -24,7 +24,8 @@ library
                   , CountEntries
                   , Mod35
                   , MonTrans
-                  , MyLast
+                  , MyPenultimate
+                  , MyReverse
                   , PolyDivisors
                   , Qsort
                   , Random
@@ -110,7 +111,8 @@ test-suite          test
                   , CpsSpec
                   , Mod35Spec
                   , MonTransSpec
-                  , MyLastSpec
+                  , MyPenultimateSpec
+                  , MyReverseSpec
                   , PolyDivisorsSpec
                   , QsortSpec
                   , RandomSpec

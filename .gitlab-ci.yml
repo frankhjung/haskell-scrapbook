@@ -14,7 +14,7 @@ build:
   variables:
     STACK_ROOT: ${CI_PROJECT_DIR}/.stack
   script:
-    - make setup clean check build test bench doc
+    - make setup clean check build test doc bench
     - mv $(stack path --local-doc-root) public/
   artifacts:
     paths:
