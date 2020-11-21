@@ -26,6 +26,7 @@ library
                   , MonTrans
                   , MyPenultimate
                   , MyReverse
+                  , Permutation
                   , PolyDivisors
                   , Qsort
                   , Random
@@ -113,6 +114,7 @@ test-suite          test
                   , MonTransSpec
                   , MyPenultimateSpec
                   , MyReverseSpec
+                  , PermutationSpec
                   , PolyDivisorsSpec
                   , QsortSpec
                   , RandomSpec
