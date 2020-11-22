@@ -31,6 +31,7 @@ subSeqs1 (x:xs) = [x] : map (x :) xss ++ xss
   where xss = subSeqs1 xs
 
 -- | Alternative definition using just 'foldr' and 'map'.
+-- For non-empty lists only.
 subSeqs2 :: [a] -> [[a]]
 subSeqs2 = foldr (\ x s -> [x] : map (x:) s ++ s) []
 

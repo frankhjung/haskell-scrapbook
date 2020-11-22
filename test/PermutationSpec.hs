@@ -1,15 +1,13 @@
+{-# LANGUAGE ScopedTypeVariables #-}
+
 module PermutationSpec (spec) where
 
-import           Permutation     (inserts, perms1)
+import           Permutation           (inserts, perms1)
 
-import           Test.Hspec      (Spec, describe, it, shouldBe)
+import           Test.Hspec            (Spec, describe, it, shouldBe)
+import           Test.Hspec.QuickCheck (modifyMaxSize, prop)
 
-import           Data.List       (permutations, sort)
-
-import           Test.QuickCheck
-
-prop_permutations :: String -> Bool
-prop_permutations xs = (sort . perms1) xs == (sort . permutations) xs
+import           Data.List             (permutations, sort)
 
 spec :: Spec
 spec =
@@ -18,6 +16,7 @@ spec =
       inserts 1 [2] `shouldBe` ([[1,2], [2,1]] :: [[Int]])
     it "perms1 \"abc\"" $
       perms1 "abc" `shouldBe` ["abc", "bac", "bca", "acb", "cab", "cba"]
-    it "perms1 same as Data.List permutations" $
-      quickCheckWith stdArgs { maxSize = 7 } prop_permutations
+    modifyMaxSize (const 7) $
+      prop "perms1 same as Data.List permutations" $
+        \(x :: String) -> (sort . perms1) x == (sort . permutations) x
 

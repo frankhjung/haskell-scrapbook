@@ -1,25 +1,12 @@
+{-# LANGUAGE ScopedTypeVariables #-}
+
 module RepMaxSpec (spec) where
 
-import           RepMax          (doRepMax, foldMax, traverseMax, traverseMax')
+import           RepMax                (doRepMax, foldMax, traverseMax,
+                                        traverseMax')
 
-import           Test.Hspec      (Spec, describe, it, shouldBe)
-import           Test.QuickCheck
-
--- | doRepMax is same as foldMax
-prop_doRepMax_foldMax :: [Int] -> Bool
-prop_doRepMax_foldMax xs = doRepMax xs == foldMax xs
-
--- | foldMax is same as traverseMax
-prop_foldMax_traverseMax :: [Int] -> Bool
-prop_foldMax_traverseMax xs = foldMax xs == traverseMax xs
-
--- | traverseMax is same as traverseMax'
-prop_traverseMax_traverseMax' :: [Int] -> Bool
-prop_traverseMax_traverseMax' xs = traverseMax xs == traverseMax' xs
-
--- | traverseMax is idempotent
-prop_traverseMax :: [Int] -> Property
-prop_traverseMax xs = traverseMax (traverseMax xs) === traverseMax xs
+import           Test.Hspec            (Spec, describe, it, shouldBe)
+import           Test.Hspec.QuickCheck (prop)
 
 spec :: Spec
 spec =
@@ -31,11 +18,11 @@ spec =
       foldMax xs `shouldBe` traverseMax xs
     it "traverseMax is same as traverseMax'" $
       traverseMax xs `shouldBe` traverseMax' xs
-    it "quickcheck doRepMax is same as foldMax" $
-      quickCheck prop_doRepMax_foldMax
-    it "quickcheck foldMax is same as traverseMax" $
-      quickCheck prop_foldMax_traverseMax
-    it "quickcheck traverseMax is same as traverseMax'" $
-      quickCheck prop_traverseMax_traverseMax'
-    it "quickcheck traverseMax is idempotent" $
-      quickCheck prop_traverseMax
+    prop "quickcheck doRepMax is same as foldMax" $
+      \(ys :: [Int]) -> doRepMax ys == foldMax ys
+    prop "quickcheck foldMax is same as traverseMax" $
+      \(ys :: [Int]) -> foldMax ys == traverseMax ys
+    prop "quickcheck traverseMax is same as traverseMax'" $
+      \(ys :: [Int]) -> traverseMax ys == traverseMax' ys
+    prop "quickcheck traverseMax is idempotent" $
+      \(ys :: [Int]) -> traverseMax (traverseMax ys) == traverseMax ys

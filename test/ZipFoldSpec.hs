@@ -1,16 +1,18 @@
+{-# LANGUAGE ScopedTypeVariables #-}
+
 module ZipFoldSpec (spec) where
 
-import qualified ZipFold         (zip)
+import qualified ZipFold               (zip)
 
-import           Test.Hspec      (Spec, describe, it)
-import           Test.QuickCheck
+import           Test.Hspec            (Spec, describe)
+import           Test.Hspec.QuickCheck (prop)
 
 -- | Prelude.zip same as ZipFold.zip for lists
-prop_zipfold :: NonEmptyList [Int] -> NonEmptyList String -> Property
-prop_zipfold (NonEmpty xs) (NonEmpty ys) = ZipFold.zip xs ys === zip xs ys
+-- prop_zipfold :: NonEmptyList [Int] -> NonEmptyList String -> Property
+-- prop_zipfold (NonEmpty xs) (NonEmpty ys) = ZipFold.zip xs ys === zip xs ys
 
 spec :: Spec
 spec =
   describe "ZipFold.zip is same as Prelude.zip" $
-    it "expect same" $
-      quickCheck prop_zipfold
+    prop "expect same" $
+      \(xs :: [Int], ys :: String) -> ZipFold.zip xs ys == zip xs ys

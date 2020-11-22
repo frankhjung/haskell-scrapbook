@@ -1,19 +1,12 @@
+{-# LANGUAGE ScopedTypeVariables #-}
+
 module MonTransSpec (spec) where
 
-import           MonTrans        (sumTillNegative, sumTillNegative',
-                                  sumTillNegative'')
+import           MonTrans              (sumTillNegative, sumTillNegative',
+                                        sumTillNegative'')
 
-import           Test.Hspec      (Spec, describe, it, shouldBe)
-import           Test.QuickCheck
-
-
--- | check functions for sums till negative are equal
-prop_list :: [Int] -> Bool
-prop_list xs = sumTillNegative xs == sumTillNegative' xs
-
--- | check functions for sums till negative are equal
-prop_list'' :: [Int] -> Bool
-prop_list'' xs = sumTillNegative xs == sumTillNegative'' xs
+import           Test.Hspec            (Spec, describe, it, shouldBe)
+import           Test.Hspec.QuickCheck (prop)
 
 spec :: Spec
 spec =
@@ -28,8 +21,8 @@ spec =
       sumTillNegative' [1, 2, 3, -1, 4] `shouldBe` 6
     it "sumTillNegative'' equals 6" $
       sumTillNegative'' [1, 2, 3, -1, 4] `shouldBe` 6
-    it "sumTillNegative same as sumTillNegative'" $
-      quickCheckWith stdArgs prop_list
-    it "sumTillNegative same as sumTillNegative''" $
-      quickCheckWith stdArgs prop_list''
+    prop "sumTillNegative same as sumTillNegative'" $
+      \(xs :: [Int]) -> sumTillNegative xs == sumTillNegative' xs
+    prop "sumTillNegative same as sumTillNegative''" $
+      \(xs :: [Int]) -> sumTillNegative xs == sumTillNegative'' xs
 
