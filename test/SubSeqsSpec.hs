@@ -12,9 +12,9 @@ import           Test.QuickCheck.Modifiers (NonEmptyList (NonEmpty))
 spec :: Spec
 spec =
   describe "generate sub-sequences" $ do
-    it "subSeqs1" $
+    it "subSeqs1 \"abc\" is [\"a\",\"ab\",\"abc\",\"ac\",\"b\",\"bc\",\"c\"]" $
       subSeqs1 "abc" `shouldBe` ["a","ab","abc","ac","b","bc","c"]
-    it "subSeqs2" $
+    it "subSeqs2 \"abc\" is [\"a\",\"ab\",\"abc\",\"ac\",\"b\",\"bc\",\"c\"]" $
       subSeqs2 "abc" `shouldBe` ["a","ab","abc","ac","b","bc","c"]
     it "subSeqs3" $
       subSeqs3 "abc" `shouldBe` ["abc","ab","ac","a","bc","b","c",""]
