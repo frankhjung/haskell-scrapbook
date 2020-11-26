@@ -35,6 +35,7 @@ library
                   , State
                   , Stack
                   , SubSeqs
+                  , Trim
                   , Yahtzee
                   , ZipFold
   hs-source-dirs:   src
@@ -122,6 +123,7 @@ test-suite          test
                   , StackSpec
                   , SplitListSpec
                   , SubSeqsSpec
+                  , TrimSpec
                   , YahtzeeSpec
                   , ZipFoldSpec
 
