@@ -6,8 +6,13 @@ import           Trim                  (dropWhile', trim)
 
 import           Test.Hspec            (Spec, describe, it, shouldBe)
 import           Test.Hspec.QuickCheck (modifyMaxSize, prop)
+import           Test.QuickCheck       (Positive (..))
 
 import           Data.Char             (isSpace)
+
+-- | Used to pad test cases.
+spaces :: Int -> String
+spaces n = replicate n ' '
 
 spec :: Spec
 spec =
@@ -18,6 +23,5 @@ spec =
       dropWhile' isSpace " abc " `shouldBe` "abc "
     modifyMaxSize (const 10) $
       prop "dropWhile' same Prelude dropWhile" $
-        \(xs :: String,  n :: Int) ->
-          dropWhile' isSpace (replicate n ' ') <> xs == dropWhile isSpace (replicate n ' ') <> xs
-
+        \(xs :: String,  Positive (n :: Int)) ->
+          dropWhile' isSpace (spaces n) <> xs == dropWhile isSpace (spaces n) <> xs
