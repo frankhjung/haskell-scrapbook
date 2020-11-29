@@ -12,7 +12,7 @@ import           Test.QuickCheck.Monadic (assert, monadicIO, run)
 spec :: Spec
 spec =
   describe "random with seed" $ do
-    it "roll dice t times with seed" $
+    it "roll dice 5 times with seed" $
       take 5 (rolls (seed 111111)) `shouldBe` ([4,6,5,3,2] :: [Int])
     prop "dice rolls are bounded in range 1..6" $
       \(Positive (n :: Int)) -> monadicIO $ do
@@ -20,4 +20,3 @@ spec =
         assert (all isBounded ns)
         where
           isBounded = inRange dice
-
