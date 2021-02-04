@@ -24,7 +24,7 @@ default:check fast
 check:	tags style lint
 
 .PHONY: all
-all:	check build test bench doc exec
+all:	check build test doc bench exec
 
 .PHONY: tags
 tags:	$(SRC)

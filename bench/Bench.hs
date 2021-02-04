@@ -1,6 +1,7 @@
 module Main(main) where
 
 import           Criterion.Main (bench, bgroup, defaultMain, whnf)
+import           Multiply       (multiply0, multiply1, multiply2)
 import           MyReverse      (myRevl, myRevr, myRevr2)
 import           PolyDivisors   (isPolyMod, isPolyMod', isPolyMod'')
 import           RepMax         (doRepMax, foldMax, traverseMax, traverseMax')
@@ -12,21 +13,27 @@ main = defaultMain
   [
     bgroup "MyReverse"
     [
-      bench "myRevl"  $ whnf myRevl "abcdefg"
-    , bench "myRevr"  $ whnf myRevr "abcdefg"
+      bench "myRevl"  $ whnf myRevl  "abcdefg"
+    , bench "myRevr"  $ whnf myRevr  "abcdefg"
     , bench "myRevr2" $ whnf myRevr2 "abcdefg"
+    ],
+    bgroup "Multiply"
+    [
+      bench "multiply0" $ whnf multiply0 15
+    , bench "multiply1" $ whnf multiply1 15
+    , bench "multiply2" $ whnf multiply2 15
     ],
     bgroup "PolyDivisors"
     [
-      bench "isPolyMod"   $ whnf isPolyMod    1234
-    , bench "isPolyMod'"  $ whnf isPolyMod'   1234
-    , bench "isPolyMod''" $ whnf isPolyMod''  1234
+      bench "isPolyMod"   $ whnf isPolyMod   1234
+    , bench "isPolyMod'"  $ whnf isPolyMod'  1234
+    , bench "isPolyMod''" $ whnf isPolyMod'' 1234
     ],
     bgroup "RepMax"
     [
-      bench "doRepMax"     $ whnf doRepMax ([2,3,1,4,5] :: [Int])
-    , bench "foldMax"      $ whnf foldMax ([2,3,1,4,5] :: [Int])
-    , bench "traverseMax"  $ whnf traverseMax ([2,3,1,4,5] :: [Int])
+      bench "doRepMax"     $ whnf doRepMax     ([2,3,1,4,5] :: [Int])
+    , bench "foldMax"      $ whnf foldMax      ([2,3,1,4,5] :: [Int])
+    , bench "traverseMax"  $ whnf traverseMax  ([2,3,1,4,5] :: [Int])
     , bench "traverseMax'" $ whnf traverseMax' ([2,3,1,4,5] :: [Int])
     ],
     bgroup "SubSeqs"
@@ -39,6 +46,6 @@ main = defaultMain
     bgroup "ZipFold"
     [
       bench "zipFold" $ whnf ZipFold.zip "abcde"
-    , bench "zip" $ whnf zip "abcde"
+    , bench "zip"     $ whnf zip "abcde"
     ]
   ]

@@ -24,6 +24,7 @@ library
                   , CountEntries
                   , Mod35
                   , MonTrans
+                  , Multiply
                   , MyFilter
                   , MyPenultimate
                   , MyReverse
@@ -114,6 +115,7 @@ test-suite          test
                   , CpsSpec
                   , Mod35Spec
                   , MonTransSpec
+                  , MultiplySpec
                   , MyFilterSpec
                   , MyPenultimateSpec
                   , MyReverseSpec
