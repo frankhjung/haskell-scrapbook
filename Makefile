@@ -59,7 +59,12 @@ test:
 .PHONY: bench
 bench:
 	@echo bench ...
-	@stack bench --benchmark-arguments '-o $(ROOT)/benchmark.html'
+	@stack bench scrapbook:bench:multiplyBench --benchmark-arguments '-o $(ROOT)/benchmark-multiply.html'
+	@stack bench scrapbook:bench:myreverseBench --benchmark-arguments '-o $(ROOT)/benchmark-myreverse.html'
+	@stack bench scrapbook:bench:polydivisorsBench --benchmark-arguments '-o $(ROOT)/benchmark-polydivisors.html'
+	@stack bench scrapbook:bench:repmaxBench --benchmark-arguments '-o $(ROOT)/benchmark-repmax.html'
+	@stack bench scrapbook:bench:subseqsBench --benchmark-arguments '-o $(ROOT)/benchmark-subseqs.html'
+	@stack bench scrapbook:bench:zipfoldBench --benchmark-arguments '-o $(ROOT)/benchmark-zipfold.html'
 
 .PHONY: doc
 doc:

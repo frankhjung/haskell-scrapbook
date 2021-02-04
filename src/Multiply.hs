@@ -27,16 +27,15 @@ multiply1 n a
   | otherwise = r
   where r = multiply1 (n `div` 2) (a + a)
 
--- | Improved Ahmes algorithm.
+-- | Improved Ahmes algorithm using an accumulator.
 multiply2 :: Int -> Int -> Int
 multiply2 n a
   | n == 1    = a
   | otherwise = multiplyacc a (n - 1) a
-
--- | Improved algorithm which uses an accumulator.
-multiplyacc :: Int -> Int -> Int -> Int
-multiplyacc r n a
-  | n == 1    = r + a
-  | odd n     = multiplyacc (r + a) (n `div` 2) (a + a)
-  | otherwise = multiplyacc r (n `div` 2) (a + a)
+  where
+    multiplyacc :: Int -> Int -> Int -> Int
+    multiplyacc r m b
+      | m == 1    = r + b
+      | odd m     = multiplyacc (r + b) (m `div` 2) (b + b)
+      | otherwise = multiplyacc r (m `div` 2) (b + b)
 

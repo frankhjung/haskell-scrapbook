@@ -48,7 +48,13 @@ jobs:
         run: stack test
 
       - name: benchmark
-        run: stack bench --benchmark-arguments '-o .stack-work/benchmark.html'
+        run: |
+          stack bench scrapbook:bench:multiplyBench --benchmark-arguments '-o .stack-work/benchmark-multiply.html'
+          stack bench scrapbook:bench:myreverseBench --benchmark-arguments '-o .stack-work/benchmark-myreverse.html'
+          stack bench scrapbook:bench:polydivisorsBench --benchmark-arguments '-o .stack-work/benchmark-polydivisors.html'
+          stack bench scrapbook:bench:repmaxBench --benchmark-arguments '-o .stack-work/benchmark-repmax.html'
+          stack bench scrapbook:bench:subseqsBench --benchmark-arguments '-o .stack-work/benchmark-subseqs.html'
+          stack bench scrapbook:bench:zipfoldBench --benchmark-arguments '-o .stack-work/benchmark-zipfold.html'
 
       - name: document
         run: stack haddock --no-rerun-tests --no-reconfigure
@@ -56,7 +62,7 @@ jobs:
       - name: copy
         run: |
           mv $(stack path --local-doc-root) public/
-          mv .stack-work/benchmark.html public/
+          mv .stack-work/benchmark-*.html public/
 
       - name: publish
         uses: crazy-max/ghaction-github-pages@v0.4.0

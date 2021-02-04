@@ -131,10 +131,55 @@ test-suite          test
                   , YahtzeeSpec
                   , ZipFoldSpec
 
-benchmark           benchmark
-  default-language: Haskell2010
+benchmark           multiplyBench
+  main-is:          MultiplyBench.hs
   hs-source-dirs:   bench
-  main-is:          Bench.hs
+  default-language: Haskell2010
+  type:             exitcode-stdio-1.0
+  build-depends:    base
+                  , criterion
+                  , scrapbook
+
+benchmark           myreverseBench
+  main-is:          MyReverseBench.hs
+  hs-source-dirs:   bench
+  default-language: Haskell2010
+  type:             exitcode-stdio-1.0
+  build-depends:    base
+                  , criterion
+                  , scrapbook
+
+benchmark           polydivisorsBench
+  main-is:          PolyDivisorsBench.hs
+  hs-source-dirs:   bench
+  default-language: Haskell2010
+  type:             exitcode-stdio-1.0
+  build-depends:    base
+                  , criterion
+                  , scrapbook
+
+benchmark           repmaxBench
+  main-is:          RepMaxBench.hs
+  hs-source-dirs:   bench
+  default-language: Haskell2010
+  type:             exitcode-stdio-1.0
+  build-depends:    base
+                  , criterion
+                  , scrapbook
+
+benchmark           subseqsBench
+  main-is:          SubSeqsBench.hs
+  hs-source-dirs:   bench
+  default-language: Haskell2010
+  type:             exitcode-stdio-1.0
+  build-depends:    base
+                  , criterion
+                  , scrapbook
+
+benchmark           zipfoldBench
+  main-is:          ZipFoldBench.hs
+  hs-source-dirs:   bench
+  default-language: Haskell2010
   type:             exitcode-stdio-1.0
   build-depends:    base
                   , criterion
