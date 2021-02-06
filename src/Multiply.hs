@@ -13,9 +13,13 @@ Haskell implementations of mulitplication alogorithms as described by
 module Multiply ( multiply0
                 , multiply1
                 , multiply2
+                , double
+                , half
+                , halfs
                 ) where
 
--- | The "Egyptian multiplication" as described by Ahmes.
+-- | The <https://en.wikipedia.org/wiki/Ancient_Egyptian_multiplication Egyptian multiplication>
+-- as described by Ahmes.
 multiply0 :: Int -> Int -> Int
 multiply0 n a = if n == 1 then a else a + multiply0 (n - 1) a
 
@@ -25,7 +29,7 @@ multiply1 n a
   | n == 1    = a
   | odd n     = r + a
   | otherwise = r
-  where r = multiply1 (n `div` 2) (a + a)
+  where r = multiply1 (half n) (double a)
 
 -- | Improved Ahmes algorithm using an accumulator.
 multiply2 :: Int -> Int -> Int
@@ -36,6 +40,18 @@ multiply2 n a
     multiplyacc :: Int -> Int -> Int -> Int
     multiplyacc r m b
       | m == 1    = r + b
-      | odd m     = multiplyacc (r + b) (m `div` 2) (b + b)
-      | otherwise = multiplyacc r (m `div` 2) (b + b)
+      | odd m     = multiplyacc (r + b) (half m) (double b)
+      | otherwise = multiplyacc r (half m) (double b)
+
+-- | Double the current value.
+double :: Int -> Int
+double a = a + a
+
+-- | Half the current value.
+half :: Int -> Int
+half = flip div 2
+
+-- | List of halves until 1.
+halfs :: Int -> [Int]
+halfs n = takeWhile (>0) (iterate half n)
 
