@@ -49,7 +49,7 @@ multiply2 n a
 -- Based on
 -- <http://www.mathnstuff.com/math/spoken/here/2class/60/egyptm.htm MathnStuff Egyptian multiplication>.
 multiply3 :: Int -> Int -> Int
-multiply3 n a = sum $ map snd $ filter (odd . fst) $ zip (halfs n) (doubles a)
+multiply3 n a = foldr ((+) . snd) 0 $ filter (odd . fst) $ zip (halfs n) (doubles a)
 
 -- | Double the current value.
 double :: Int -> Int
