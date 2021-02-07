@@ -13,7 +13,9 @@ Haskell implementations of mulitplication alogorithms as described by
 module Multiply ( multiply0
                 , multiply1
                 , multiply2
+                , multiply3
                 , double
+                , doubles
                 , half
                 , halfs
                 ) where
@@ -43,9 +45,19 @@ multiply2 n a
       | odd m     = multiplyacc (r + b) (half m) (double b)
       | otherwise = multiplyacc r (half m) (double b)
 
+-- | Non-recursive version of Egyptian multiplication.
+-- Based on
+-- <http://www.mathnstuff.com/math/spoken/here/2class/60/egyptm.htm MathnStuff Egyptian multiplication>.
+multiply3 :: Int -> Int -> Int
+multiply3 n a = sum $ map snd $ filter (odd . fst) $ zip (halfs n) (doubles a)
+
 -- | Double the current value.
 double :: Int -> Int
 double a = a + a
+
+-- | Continuously double value.
+doubles :: Int -> [Int]
+doubles = iterate double
 
 -- | Half the current value.
 half :: Int -> Int
