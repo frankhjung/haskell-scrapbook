@@ -14,10 +14,12 @@ module Multiply ( multiply0
                 , multiply1
                 , multiply2
                 , multiply3
+                , multiply4
+                , binary
                 , double
                 , doubles
                 , half
-                , halfs
+                , halves
                 ) where
 
 -- | The <https://en.wikipedia.org/wiki/Ancient_Egyptian_multiplication Egyptian multiplication>
@@ -49,7 +51,13 @@ multiply2 n a
 -- Based on
 -- <http://www.mathnstuff.com/math/spoken/here/2class/60/egyptm.htm MathnStuff Egyptian multiplication>.
 multiply3 :: Int -> Int -> Int
-multiply3 n a = foldr ((+) . snd) 0 $ filter (odd . fst) $ zip (halfs n) (doubles a)
+multiply3 n a = foldr ((+) . snd) 0 $ filter (odd . fst) $ zip (halves n) (doubles a)
+
+-- | Non-recursive version of Egyptian multiplication
+-- by <https://mathspp.com/blog/egyptian-multiplication#comment-5257985406 Rodrigo Girão Serrão>
+multiply4 :: Int -> Int -> Int
+multiply4 n a = foldl (\s p -> s + uncurry (*) p) 0 pairs
+  where pairs = zip (iterate double a) (binary n)
 
 -- | Double the current value.
 double :: Int -> Int
@@ -64,6 +72,10 @@ half :: Int -> Int
 half = flip div 2
 
 -- | List of halves until 1.
-halfs :: Int -> [Int]
-halfs n = takeWhile (>0) (iterate half n)
+halves :: Int -> [Int]
+halves n = takeWhile (>0) (iterate half n)
 
+-- | Repeatadly half the given integer until 1
+-- then replace even entries with 0 and odd entries with 1.
+binary :: Int -> [Int]
+binary n = flip mod 2 <$> halves n
