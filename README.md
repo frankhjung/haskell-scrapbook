@@ -9,7 +9,6 @@ documentation is available on:
 
 * [GitHub](https://frankhjung.github.io/haskell-scrapbook/)
   * Criterion benchmarks
-    * [Multiply](https://frankhjung.github.io/haskell-scrapbook/benchmark-multiply.html)
     * [MyReverse](https://frankhjung.github.io/haskell-scrapbook/benchmark-myreverse.html)
     * [PolyDivisors](https://frankhjung.github.io/haskell-scrapbook/benchmark-polydivisors.html)
     * [RepMax](https://frankhjung.github.io/haskell-scrapbook/benchmark-repmax.html)
@@ -17,7 +16,6 @@ documentation is available on:
     * [ZipFold](https://frankhjung.github.io/haskell-scrapbook/benchmark-zipfold.html)
 * [GitLab](https://frankhjung1.gitlab.io/haskell-scrapbook/)
   * Criterion benchmarks
-    * [Multiply](https://frankhjung1.gitlab.io/haskell-scrapbook/benchmark-multiply.html)
     * [MyReverse](https://frankhjung1.gitlab.io/haskell-scrapbook/benchmark-myreverse.html)
     * [PolyDivisors](https://frankhjung1.gitlab.io/haskell-scrapbook/benchmark-polydivisors.html)
     * [RepMax](https://frankhjung1.gitlab.io/haskell-scrapbook/benchmark-repmax.html)

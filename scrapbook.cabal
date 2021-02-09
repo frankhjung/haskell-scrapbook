@@ -24,7 +24,6 @@ library
                   , CountEntries
                   , Mod35
                   , MonTrans
-                  , Multiply
                   , MyFilter
                   , MyPenultimate
                   , MyReverse
@@ -115,7 +114,6 @@ test-suite          test
                   , CpsSpec
                   , Mod35Spec
                   , MonTransSpec
-                  , MultiplySpec
                   , MyFilterSpec
                   , MyPenultimateSpec
                   , MyReverseSpec
@@ -130,15 +128,6 @@ test-suite          test
                   , TrimSpec
                   , YahtzeeSpec
                   , ZipFoldSpec
-
-benchmark           multiplyBench
-  main-is:          MultiplyBench.hs
-  hs-source-dirs:   bench
-  default-language: Haskell2010
-  type:             exitcode-stdio-1.0
-  build-depends:    base
-                  , criterion
-                  , scrapbook
 
 benchmark           myreverseBench
   main-is:          MyReverseBench.hs

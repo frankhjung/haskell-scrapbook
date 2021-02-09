@@ -49,7 +49,6 @@ jobs:
 
       - name: benchmark
         run: |
-          stack bench scrapbook:bench:multiplyBench --benchmark-arguments '-o .stack-work/benchmark-multiply.html'
           stack bench scrapbook:bench:myreverseBench --benchmark-arguments '-o .stack-work/benchmark-myreverse.html'
           stack bench scrapbook:bench:polydivisorsBench --benchmark-arguments '-o .stack-work/benchmark-polydivisors.html'
           stack bench scrapbook:bench:repmaxBench --benchmark-arguments '-o .stack-work/benchmark-repmax.html'
