@@ -24,7 +24,7 @@ Source: <https://wiki.haskell.org/IO_inside What is a monad?>
 
 -}
 
-module Main (bool, while, main, myAction) where
+module Main (main) where
 
 -- | Replace f with a function.
 bool :: a       -- ^ value if false

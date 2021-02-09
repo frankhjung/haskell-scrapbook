@@ -39,7 +39,7 @@ haddock --odir public --html --hyperlinked-source app/Skips.hs
 
 -}
 
-module Main(main,skips) where
+module Main(main) where
 
 import           Data.Traversable   (mapAccumL)
 import           System.Environment (getArgs)
