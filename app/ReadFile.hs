@@ -27,10 +27,14 @@ main = putStr "enter name of file to echo: "
   >>= \f -> withFile f ReadMode (hGetContents >=> mapM_ putStrLn . lines)
 @
 
-Here is my version:
+Here is one of my versions:
 
 @
-getLine >>= \\f -> withFile f ReadMode (hGetContents >=> mapM_ putStrLn . lines)
+import           Control.Monad ((>=>))
+import           System.IO     (IOMode (ReadMode), hGetContents, withFile)
+
+main = putStr "enter name of file to echo: "
+  >> getLine >>= \f -> withFile f ReadMode (hGetContents >=> mapM_ putStrLn . lines)
 @
 
 Where:
@@ -48,8 +52,9 @@ Where:
 
 module Main (main) where
 
-import           Control.Monad ((>=>))
-import           System.IO     (IOMode (ReadMode), hGetContents, withFile)
+import           System.Environment (getArgs, getProgName)
 
 main :: IO ()
-main = withFile "Setup.hs" ReadMode (hGetContents >=> mapM_ putStrLn . lines)
+main = getArgs >>= \args -> case length args of
+  1 -> mapM_ putStrLn . lines =<< readFile (head args)
+  _ -> getProgName >>= \p -> error $ "Usage: " ++ p ++ " [file_name]"
