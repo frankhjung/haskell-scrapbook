@@ -56,6 +56,13 @@ executable          polydivs
   build-depends:    base
                   , scrapbook
 
+executable          quine
+  main-is:          Quine.hs
+  hs-source-dirs:   app
+  default-language: Haskell2010
+  ghc-options:      
+  build-depends:    base
+
 executable          readfile
   main-is:          ReadFile.hs
   hs-source-dirs:   app
