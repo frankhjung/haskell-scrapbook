@@ -105,6 +105,7 @@ clean:
 
 .PHONY: cleanall
 cleanall: clean
+	@stack purge
 	-$(RM) -rf public .pytest_cache dist
 	-$(RM) *.pyc *.sublime-workspace tags
 	-$(RM) $(TGT)
