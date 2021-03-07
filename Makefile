@@ -14,10 +14,10 @@
 
 LHS	:= $(wildcard doc/*.lhs)
 SRC	:= $(wildcard src/*.hs app/*.hs test/*.hs bench/*.hs)
-ROOT	:= $(shell stack path --local-doc-root)
+TGT 	:= scrapbook
 
 .PHONY: default
-default:check test
+default:check build test
 
 .PHONY: check
 check:	tags style lint
@@ -43,67 +43,57 @@ lint:	$(SRC)
 .PHONY: build
 build:
 	@echo build ...
-	@stack build --no-test
+	@cabal new-build
 
 .PHONY: test
 test:
 	@echo test ...
-	@stack test
-
-.PHONY: doc
-doc:
-	@echo doc ...
-	@stack haddock --no-run-tests --haddock-deps
+	@cabal new-test --test-show-details=always --enable-coverage
 
 .PHONY: bench
 bench:
 	@echo bench ...
-	@stack bench scrapbook:bench:myreverseBench --benchmark-arguments '-o $(ROOT)/benchmark-myreverse.html'
-	@stack bench scrapbook:bench:polydivisorsBench --benchmark-arguments '-o $(ROOT)/benchmark-polydivisors.html'
-	@stack bench scrapbook:bench:repmaxBench --benchmark-arguments '-o $(ROOT)/benchmark-repmax.html'
-	@stack bench scrapbook:bench:subseqsBench --benchmark-arguments '-o $(ROOT)/benchmark-subseqs.html'
-	@stack bench scrapbook:bench:zipfoldBench --benchmark-arguments '-o $(ROOT)/benchmark-zipfold.html'
+	@cabal new-bench
+
+.PHONY: doc
+doc:
+	@echo doc ...
+	@cabal new-haddock --haddock-quickjump --haddock-hyperlink-source
 
 .PHONY: exec
 exec:	$(SRC)
 	@echo FPComplete ...
-	@stack exec fpcomplete
+	@cabal new-exec fpcomplete
 	@echo PolyDivisors ...
-	@stack exec polydivs 123456789
+	@cabal new-exec polydivs 123456789
 	@echo Quine ...
-	@stack exec quine
+	@cabal new-exec quine
 	@echo
 	@echo ReadFile Setup.hs ...
-	@stack exec readfile Setup.hs
+	@cabal new-exec readfile Setup.hs
 	@echo Skips ...
-	@stack exec skips abcd
+	@cabal new-exec skips abcd
 	@echo Threads ...
-	@stack exec threads
+	@cabal new-exec threads
 	@echo While ...
-	@echo "a\nb\nc\nq\n" | stack exec while
+	@echo "a\nb\nc\nq\n" | cabal new-exec while
 	@echo WordCount ...
-	@cat Setup.hs | stack exec wordcount
+	@cat LICENSE | cabal new-exec wordcount
 	@echo
 
 .PHONY: setup
 setup:
-	@stack update
-	@stack setup
-	@stack build
-	@stack query
-	@stack ls dependencies
-	#stack exec ghc-pkg -- list
+	cabal new-update
 
 .PHONY: clean
 clean:
-	@stack clean
+	@cabal new-clean
 	-$(RM) $(addsuffix .hi, $(basename $(LHS) $(SRC)))
 	-$(RM) $(addsuffix .o, $(basename $(LHS) $(SRC)))
 	-$(RM) $(addsuffix .prof, $(basename $(LHS) $(SRC)))
 
 .PHONY: cleanall
 cleanall: clean
-	@stack purge
 	-$(RM) -rf public .pytest_cache dist
 	-$(RM) *.pyc *.sublime-workspace tags
 	-$(RM) $(patsubst %.lhs, %, $(LHS))

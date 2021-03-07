@@ -3,6 +3,8 @@ cabal-version: 1.12
 name:               scrapbook
 version:            0.1.0
 description:        Please see the README on GitLab at <https://github.com/frankhjung/haskell-scrapbook#readme>
+category:           examples
+synopsis:           code examples
 homepage:           https://github.com/frankhjung/haskell-scrapbook#readme
 bug-reports:        https://github.com/frankhjung/haskell-scrapbook/issues
 author:             Frank H Jung
