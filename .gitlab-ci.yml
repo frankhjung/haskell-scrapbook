@@ -22,6 +22,8 @@ build:
   cache:
     key: ${CI_COMMIT_REF_NAME}-${CI_JOB_NAME}
     paths:
+      - /root/.stack
+      - /root/.cabal
       - .stack
       - .stack-work
 
