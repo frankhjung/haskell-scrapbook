@@ -14,6 +14,7 @@
 
 LHS	:= $(wildcard doc/*.lhs)
 SRC	:= $(wildcard src/*.hs app/*.hs test/*.hs bench/*.hs)
+TGT 	:= scrapbook
 
 .PHONY: default
 default:check build test
