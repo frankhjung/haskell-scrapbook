@@ -22,10 +22,12 @@ build:
   cache:
     key: ${CI_COMMIT_REF_NAME}-${CI_JOB_NAME}
     paths:
-      - /root/.stack
-      - /root/.cabal
-      - .stack
-      - .stack-work
+      - cabal.project.local
+      - .cabal.config
+      - dist/
+      - dist-newstyle/
+      - .stack/
+      - .stack-work/
 
 pages:
   only:

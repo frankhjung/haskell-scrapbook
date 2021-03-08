@@ -83,7 +83,7 @@ exec:	$(SRC)
 
 .PHONY: setup
 setup:
-	cabal new-update
+	cabal new-update --only-dependencies
 
 .PHONY: clean
 clean:
