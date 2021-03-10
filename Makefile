@@ -14,11 +14,10 @@
 
 LHS	:= $(wildcard doc/*.lhs)
 SRC	:= $(wildcard src/*.hs app/*.hs test/*.hs bench/*.hs)
-TGT 	:= scrapbook
 ROOT	:= $(shell stack path --local-doc-root)
 
 .PHONY: default
-default:check fast
+default:check test
 
 .PHONY: check
 check:	tags style lint
@@ -41,20 +40,20 @@ lint:	$(SRC)
 	@echo lint ...
 	@hlint --cross --color --show $(SRC)
 
-.PHONY: fast
-fast:
-	@echo fast build ...
-	@stack build --fast --test
-
 .PHONY: build
 build:
 	@echo build ...
-	@stack build --pedantic --no-test
+	@stack build --no-test
 
 .PHONY: test
 test:
 	@echo test ...
 	@stack test
+
+.PHONY: doc
+doc:
+	@echo doc ...
+	@stack haddock --no-run-tests --haddock-deps
 
 .PHONY: bench
 bench:
@@ -65,17 +64,13 @@ bench:
 	@stack bench scrapbook:bench:subseqsBench --benchmark-arguments '-o $(ROOT)/benchmark-subseqs.html'
 	@stack bench scrapbook:bench:zipfoldBench --benchmark-arguments '-o $(ROOT)/benchmark-zipfold.html'
 
-.PHONY: doc
-doc:
-	@echo doc ...
-	@stack haddock --no-rerun-tests --no-reconfigure --haddock-deps
-
 .PHONY: exec
 exec:	$(SRC)
 	@echo PolyDivisors ...
 	@stack exec polydivs 123456789
 	@echo Quine ...
 	@stack exec quine
+	@echo
 	@echo ReadFile Setup.hs ...
 	@stack exec readfile Setup.hs
 	@echo Skips ...
@@ -108,7 +103,6 @@ cleanall: clean
 	@stack purge
 	-$(RM) -rf public .pytest_cache dist
 	-$(RM) *.pyc *.sublime-workspace tags
-	-$(RM) $(TGT)
 	-$(RM) $(patsubst %.lhs, %, $(LHS))
 	-$(RM) $(patsubst %.lhs, %.html, $(LHS))
 	-$(RM) $(patsubst %.lhs, %.pdf, $(LHS))

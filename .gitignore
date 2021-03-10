@@ -4,6 +4,7 @@ cflold
 countentries
 cps
 dist/
+dist-newstyle/
 *.dyn_hi
 *.dyn_o
 .hdevtools.*
