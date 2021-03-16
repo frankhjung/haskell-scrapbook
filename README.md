@@ -2,7 +2,7 @@
 
 A collection of short scripts testing functions and techniques.
 
-## Documentation
+## Links
 
 [Haddock](https://www.haskell.org/haddock/doc/html/index.html) API
 documentation is available on:
@@ -137,7 +137,7 @@ wordcount.word_count = word_count(stream: 'file') -> 'int'
     Count words in stream.
 ```
 
-### Build
+### Python Build
 
 To format source code:
 
@@ -151,7 +151,7 @@ To lint:
 pylint *.py
 ```
 
-## Test
+## Python Test
 
 To test program run:
 
