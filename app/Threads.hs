@@ -28,9 +28,9 @@ main = do
 
   -- run main and spawn threads (main is included in completed count)
   task "main"
-  _ <- forkIO (task "forkA")
-  _ <- forkIO (task "forkB")
-  _ <- forkIO (task "forkC")
+  _ <- forkIO (task "fork1")
+  _ <- forkIO (task "fork2")
+  _ <- forkIO (task "fork3")
 
   -- check if threads have completed before terminating "main"
   atomically $ readTVar tasksCompleted >>= \x -> check (x > 3)

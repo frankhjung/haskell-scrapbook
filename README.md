@@ -165,3 +165,29 @@ This should return `38`. That is, this should return `PASS`:
 export f=wordcount.hs
 cat $f | python3 ./wordcount.py | (read count ; test $count -eq $(wc -w $f | cut -d ' ' -f1 -) && echo "PASS")
 ```
+
+## ghcid
+
+Notes on using [ghcid](https://github.com/ndmitchell/ghcid).
+
+### Installing ghcid
+
+```bash
+cabal update
+cabal install ghcid
+```
+
+Then copy executable to `$HOME/.loca/bin/`.
+
+### Using ghcid
+
+For example to monitor changes to a file [app/Threads.hs](app/Threads.hs) call:
+
+```bash
+ghcid --command 'ghci app/Threads.hs'
+```
+
+If no errors, then the screen will report something like:
+
+<span style="color:green">All good</span> (1 module, at 21:28:27)
+
