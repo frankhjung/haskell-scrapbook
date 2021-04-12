@@ -67,7 +67,7 @@ bench:
 .PHONY: exec
 exec:	$(SRC)
 	@echo FPComplete ...
-	@stack exec fpcomlete
+	@stack exec fpcomplete
 	@echo PolyDivisors ...
 	@stack exec polydivs 123456789
 	@echo Quine ...
@@ -83,6 +83,7 @@ exec:	$(SRC)
 	@echo "a\nb\nc\nq\n" | stack exec while
 	@echo WordCount ...
 	@cat Setup.hs | stack exec wordcount
+	@echo
 
 .PHONY: setup
 setup:

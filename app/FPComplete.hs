@@ -1,3 +1,7 @@
+#!/usr/bin/env runhaskell
+
+{- HLINT ignore "Use module export list" -}
+
 {-|
 
 = FPComplete: covariance and contravariance
@@ -17,19 +21,22 @@ mapMakeString :: (b -> a) -> t a -> t b
 
 Here, the 'Functor' typeclass in Haskell as a covariant functor.
 
+To run this call either of these:
+
+@
+stack exec fpcomplete
+runghc -Wno-unrecognised-pragmas app/FPComplete.hs
+@
+
 -}
 
-module Main (main, showInt', showInt, floorInt, maybeInt, maybeString,
-plus3ShowInt, plus4ShowInt, mapMakeString) where
+module Main (main) where
 
 import           Data.Functor.Contravariant (Predicate (..), contramap,
                                              getPredicate)
 
 showInt' :: Int -> String
 showInt' = show
-
-floorInt :: Double -> Int
-floorInt = floor
 
 maybeInt :: Maybe Int
 maybeInt = Just 5
@@ -84,12 +91,28 @@ plus4ShowInt = mapMakeString (+ 4) showInt
 
 
 {-
+ -
 == Example: filtering with Predicate
 
 See
 <https://hackage.haskell.org/package/base/docs/Data-Functor-Contravariant.html#t:Predicate Predicate>.
 
+  (1) first example using function composition
+  2.  use functions and Predicate type to wrap up helper functions and avoid explicit function composition
+
 -}
+
+-- | Filter ints greater than 3.
+greaterThanThree' :: Int -> Bool
+greaterThanThree' = (> 3)
+
+-- | Filter length greater than 3.
+lengthGTThree' :: [a] -> Bool
+lengthGTThree' = greaterThanThree' . length
+
+-- | Example filter English words for number 1..10 greater than 3.
+englishGTThree' :: Int -> Bool
+englishGTThree' = lengthGTThree' . english
 
 
 -- | Filter ints greater than 3.
@@ -97,10 +120,17 @@ greaterThanThree :: Predicate Int
 greaterThanThree = Predicate (> 3)
 
 -- | Filter length greater than 3.
+--
+-- @
+-- contramap :: (b -> a) -> f a -> f b
+-- contramap (g . f) = contramap f . contramap g
+-- @
 lengthGTThree :: Predicate [a]
 lengthGTThree = contramap length greaterThanThree
 
 -- | Example filter English words for number 1..10 greater than 3.
+--
+-- 'contramap' :: (a' -> a) -> f a -> f a'
 englishGTThree :: Predicate Int
 englishGTThree = contramap english lengthGTThree
 
@@ -121,7 +151,10 @@ english _  = "unknown"
 -- Run examples.
 main :: IO ()
 main = do
+  print maybeString
   putStrLn $ "plus3ShowInt 4 = " ++ makeString plus3ShowInt 4
   putStrLn $ "plus4ShowInt 4 = " ++ makeString plus4ShowInt 4
-  putStrLn "Names of numbers greater than 3:"
+  putStrLn "Names of numbers greater than 3 using function composition:"
+  print $ filter englishGTThree' [1..10]
+  putStrLn "Names of numbers greater than 3 using contravariant functions:"
   print $ filter (getPredicate englishGTThree) [1..10]
