@@ -15,7 +15,8 @@ build:
     STACK_ROOT: ${CI_PROJECT_DIR}/.stack
   script:
     - make setup clean check build test doc bench
-    - mv $(stack path --local-doc-root) public/
+    - mv dist-newstyle/build/x86_64-linux/ghc-8.8.4/scrapbook-0.1.0/hpc/vanilla/html/test/ public/
+    - cp -r dist-newstyle/build/x86_64-linux/ghc-8.8.4/scrapbook-0.1.0/doc/html/scrapbook/ public/
   artifacts:
     paths:
       - public

@@ -30,38 +30,36 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
+            cabal.project.local
+            .cabal.config
+            dist/
+            dist-newstyle/
             .stack/
+            .stack-work/
             .stack-work/
           key: $GITHUB_REF
 
       - name: setup
         run: |
-          stack path
-          stack setup
+          cabal new-update --only-dependencies
+          cabal configure --package-db=clear --package-db=global --package-db=$(stack path --snapshot-pkg-db) --package-db=$(stack path --local-pkg-db)
 
       - name: build
-        run: |
-          stack clean
-          stack build --pedantic --no-test
+        run: cabal new-build
 
       - name: test
-        run: stack test
+        run: cabal new-test --test-show-details=always --enable-coverage
 
       - name: benchmark
-        run: |
-          stack bench scrapbook:bench:myreverseBench --benchmark-arguments '-o .stack-work/benchmark-myreverse.html'
-          stack bench scrapbook:bench:polydivisorsBench --benchmark-arguments '-o .stack-work/benchmark-polydivisors.html'
-          stack bench scrapbook:bench:repmaxBench --benchmark-arguments '-o .stack-work/benchmark-repmax.html'
-          stack bench scrapbook:bench:subseqsBench --benchmark-arguments '-o .stack-work/benchmark-subseqs.html'
-          stack bench scrapbook:bench:zipfoldBench --benchmark-arguments '-o .stack-work/benchmark-zipfold.html'
+        run: cabal new-bench
 
       - name: document
-        run: stack haddock --no-rerun-tests --no-reconfigure
+        run: cabal haddock
 
       - name: copy
         run: |
-          mv $(stack path --local-doc-root) public/
-          mv .stack-work/benchmark-*.html public/
+          mv dist-newstyle/build/x86_64-linux/ghc-8.8.4/scrapbook-0.1.0/hpc/vanilla/html/test/* public/
+          cp -r dist-newstyle/build/x86_64-linux/ghc-8.8.4/scrapbook-0.1.0/doc/html/scrapbook/* public/
 
       - name: publish
         uses: crazy-max/ghaction-github-pages@v0.4.0
