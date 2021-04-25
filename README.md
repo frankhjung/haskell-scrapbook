@@ -184,7 +184,8 @@ Then copy executable to `$HOME/.loca/bin/`.
 For example to monitor changes to a file [app/Threads.hs](app/Threads.hs) call:
 
 ```bash
-ghcid --command 'ghci app/Threads.hs'
+ghcid --lint --command 'ghci app/Threads.hs'
+ghcid -lc 'ghci app/Threads.hs'
 ```
 
 If no errors, then the screen will report something like:

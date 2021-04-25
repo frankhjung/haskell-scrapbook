@@ -8,7 +8,7 @@ build:
   except:
     - tags
   image:
-    name: frankhjung/haskell:8.6.5
+    name: frankhjung/haskell:8.8.4
     entrypoint: [""]
   stage: build
   variables:

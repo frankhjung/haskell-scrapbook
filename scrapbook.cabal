@@ -22,6 +22,7 @@ library
                   , CFold
                   , Cps
                   , CountEntries
+                  , Lower
                   , Mod35
                   , MonTrans
                   , MyFilter
@@ -128,6 +129,7 @@ test-suite          test
                   , CFoldSpec
                   , CountEntriesSpec
                   , CpsSpec
+                  , LowerSpec
                   , Mod35Spec
                   , MonTransSpec
                   , MyFilterSpec
