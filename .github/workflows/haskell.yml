@@ -42,13 +42,17 @@ jobs:
       - name: setup
         run: |
           cabal new-update --only-dependencies
-          cabal configure --package-db=clear --package-db=global --package-db=$(stack path --snapshot-pkg-db) --package-db=$(stack path --local-pkg-db)
+          cabal configure \
+            --package-db=clear \
+            --package-db=global \
+            --package-db=$(stack path --snapshot-pkg-db) \
+            --package-db=$(stack path --local-pkg-db)
 
       - name: build
         run: cabal new-build
 
       - name: test
-        run: cabal new-test --test-show-details=always --enable-coverage
+        run: cabal new-test --test-show-details=always
 
       - name: benchmark
         run: cabal new-bench
@@ -58,8 +62,10 @@ jobs:
 
       - name: copy
         run: |
-          mv dist-newstyle/build/x86_64-linux/ghc-8.8.4/scrapbook-0.1.0/hpc/vanilla/html/test/* public/
-          cp -r dist-newstyle/build/x86_64-linux/ghc-8.8.4/scrapbook-0.1.0/doc/html/scrapbook/* public/
+          mkdir public/
+          cp -r \ 
+            dist-newstyle/build/x86_64-linux/ghc-*/scrapbook-*/doc/html/scrapbook/* \
+            public/
 
       - name: publish
         uses: crazy-max/ghaction-github-pages@v0.4.0
