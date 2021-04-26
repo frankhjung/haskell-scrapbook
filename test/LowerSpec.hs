@@ -2,19 +2,43 @@ module LowerSpec (spec) where
 
 {-
 
+== Notes on ASCII codes
+
+@
   +m + Data.Char (chr)
   λ> (chr 97, chr 122)
   ('a','z')
 
   λ> (chr 65, chr 90)
   ('A','Z')
+@
 
-  -- | Generate a random ISO-8859-1 (8-bit) char.
-  -- From package: random-1.2.0
+Generate a random ISO-8859-1 (8-bit) char.
+From package: random-1.2.0
+
+@
   randomChar8 :: IO Char
   randomChar8 = getStdRandom $ randomR (chr 0,chr 255)
+@
 
-  <http://www.randomhacks.net.s3-website-us-east-1.amazonaws.com/2007/03/10/haskell-8-ways-to-report-errors/ 8 Ways to Report Errors in Haskell>
+== Notes on handling error messages
+
+* <http://www.randomhacks.net.s3-website-us-east-1.amazonaws.com/2007/03/10/haskell-8-ways-to-report-errors/ 8 Ways to Report Errors in Haskell>
+
+== Notes on @(=<<)@ function
+
+The standard lambda:
+
+> \c -> fromRight '*' (mkLower c) == c
+
+Can be replaced with:
+
+> (==) =<< fromRight '*' . mkLower
+
+Where @(=<<)@ function has signature:
+
+> (=<<) :: Monad m => (a -> m b) -> m a -> m b
+Same as @>>=@, but with the arguments interchanged.
 
  -}
 
