@@ -22,10 +22,12 @@ import           Data.Char (isAlpha, isLower)
 
 newtype Lower = Lower Char deriving stock (Read, Show)
 
+-- | Make a lowercase letter.
 mkLower :: Char -> Either String Lower
-mkLower c
-  | isLower c && isAlpha c = Right (Lower c)
+mkLower x
+  | isLower x && isAlpha x = Right (Lower x)
   | otherwise              = Left "Not lowercase"
+
 
 -- {-# LANGUAGE DataKinds #-}
 -- import Data.Finite

@@ -14,12 +14,14 @@ module LowerSpec (spec) where
   randomChar8 :: IO Char
   randomChar8 = getStdRandom $ randomR (chr 0,chr 255)
 
+  <http://www.randomhacks.net.s3-website-us-east-1.amazonaws.com/2007/03/10/haskell-8-ways-to-report-errors/ 8 Ways to Report Errors in Haskell>
+
  -}
 
 import           Lower           (mkLower)
 
 import           Data.Char       (isUpper)
-import           Data.Either     (isLeft, isRight)
+import           Data.Either     (fromLeft, fromRight, isLeft, isRight)
 import           Test.Hspec      (Spec, describe, it)
 import           Test.QuickCheck (Gen, arbitrary, elements, forAll, suchThat)
 
@@ -36,5 +38,9 @@ spec =
   describe "check Lower constructors" $ do
     it "valid lowercase letters" $
       forAll genLowerAlpha $ isRight . mkLower
+    it "is lowercase letter" $
+      forAll genLowerAlpha $ \c -> either (const False) (const True) (mkLower c)
     it "invalid character" $
       forAll genInvalidLower $ isLeft . mkLower
+    it "give error message" $
+      forAll genInvalidLower $ \c -> fromLeft "expected error" (mkLower c) == "Not lowercase"
