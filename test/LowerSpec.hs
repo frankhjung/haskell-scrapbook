@@ -36,11 +36,11 @@ genInvalidLower = suchThat (arbitrary :: Gen Char) isUpper
 spec :: Spec
 spec =
   describe "check Lower constructors" $ do
-    it "valid lowercase letters" $
+    it "is valid lowercase letter" $
       forAll genLowerAlpha $ isRight . mkLower
-    it "is lowercase letter" $
-      forAll genLowerAlpha $ \c -> either (const False) (const True) (mkLower c)
-    it "invalid character" $
+    it "give lowercase letter" $ -- \c -> fromRight '*' (mkLower c) == c
+      forAll genLowerAlpha $ (==) =<< fromRight '*' . mkLower
+    it "is invalid character" $
       forAll genInvalidLower $ isLeft . mkLower
     it "give error message" $
       forAll genInvalidLower $ \c -> fromLeft "expected error" (mkLower c) == "Not lowercase"

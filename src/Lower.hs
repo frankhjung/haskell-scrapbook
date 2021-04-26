@@ -13,21 +13,15 @@ type for uppercase characters>
 
 -}
 
-module Lower
-    ( Lower      -- export type only, not constructor
-    , mkLower    -- export the smart constructor
-    ) where
+module Lower (mkLower) where
 
 import           Data.Char (isAlpha, isLower)
 
-newtype Lower = Lower Char deriving stock (Read, Show)
-
 -- | Make a lowercase letter.
-mkLower :: Char -> Either String Lower
+mkLower :: Char -> Either String Char
 mkLower x
-  | isLower x && isAlpha x = Right (Lower x)
+  | isLower x && isAlpha x = Right x
   | otherwise              = Left "Not lowercase"
-
 
 -- {-# LANGUAGE DataKinds #-}
 -- import Data.Finite
