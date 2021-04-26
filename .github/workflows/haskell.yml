@@ -42,7 +42,7 @@ jobs:
       - name: setup
         run: |
           cabal new-update --only-dependencies
-          cabal configure \
+          cabal new-configure \
             --package-db=clear \
             --package-db=global \
             --package-db=$(stack path --snapshot-pkg-db) \
@@ -58,7 +58,7 @@ jobs:
         run: cabal new-bench
 
       - name: document
-        run: cabal haddock
+        run: cabal new-haddock --haddock-quickjump --haddock-hyperlink-source
 
       - name: copy
         run: |

@@ -83,13 +83,8 @@ exec:	$(SRC)
 
 .PHONY: setup
 setup:
-	stack update
-	stack setup
-	stack build
-	stack query
-	stack ls dependencies
 	cabal new-update --only-dependencies
-	cabal configure --package-db=clear --package-db=global --package-db=$(stack path --snapshot-pkg-db) --package-db=$(stack path --local-pkg-db)
+	cabal new-configure --package-db=clear --package-db=global --package-db=$(stack path --snapshot-pkg-db) --package-db=$(stack path --local-pkg-db)
 
 .PHONY: clean
 clean:
