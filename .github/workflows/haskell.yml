@@ -30,42 +30,38 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            cabal.project.local
-            .cabal.config
-            dist/
-            dist-newstyle/
             .stack/
-            .stack-work/
             .stack-work/
           key: $GITHUB_REF
 
       - name: setup
         run: |
-          cabal new-update --only-dependencies
-          cabal new-configure \
-            --package-db=clear \
-            --package-db=global \
-            --package-db=$(stack path --snapshot-pkg-db) \
-            --package-db=$(stack path --local-pkg-db)
+          stack path
+          stack setup
 
       - name: build
-        run: cabal new-build
+        run: |
+          stack clean
+          stack build --pedantic --no-test
 
       - name: test
-        run: cabal new-test --test-show-details=always
+        run: stack test
 
       - name: benchmark
-        run: cabal new-bench
+        run: |
+          stack bench scrapbook:bench:myreverseBench --benchmark-arguments '-o .stack-work/benchmark-myreverse.html'
+          stack bench scrapbook:bench:polydivisorsBench --benchmark-arguments '-o .stack-work/benchmark-polydivisors.html'
+          stack bench scrapbook:bench:repmaxBench --benchmark-arguments '-o .stack-work/benchmark-repmax.html'
+          stack bench scrapbook:bench:subseqsBench --benchmark-arguments '-o .stack-work/benchmark-subseqs.html'
+          stack bench scrapbook:bench:zipfoldBench --benchmark-arguments '-o .stack-work/benchmark-zipfold.html'
 
       - name: document
-        run: cabal new-haddock --haddock-quickjump --haddock-hyperlink-source
+        run: stack haddock --no-rerun-tests --no-reconfigure
 
       - name: copy
         run: |
-          mkdir public/
-          cp -r \ 
-            dist-newstyle/build/x86_64-linux/ghc-*/scrapbook-*/doc/html/scrapbook/* \
-            public/
+          mv $(stack path --local-doc-root) public/
+          mv .stack-work/benchmark-*.html public/
 
       - name: publish
         uses: crazy-max/ghaction-github-pages@v0.4.0

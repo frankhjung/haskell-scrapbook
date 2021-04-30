@@ -14,7 +14,6 @@
 
 LHS	:= $(wildcard doc/*.lhs)
 SRC	:= $(wildcard src/*.hs app/*.hs test/*.hs bench/*.hs)
-TGT 	:= scrapbook
 
 .PHONY: default
 default:check build test
@@ -38,6 +37,7 @@ style:	$(SRC)
 .PHONY: lint
 lint:	$(SRC)
 	@echo lint ...
+	@cabal check
 	@hlint --cross --color --show $(SRC)
 
 .PHONY: build
@@ -83,8 +83,9 @@ exec:	$(SRC)
 
 .PHONY: setup
 setup:
+	cabal --version
 	cabal new-update --only-dependencies
-	cabal new-configure --package-db=clear --package-db=global --package-db=$(stack path --snapshot-pkg-db) --package-db=$(stack path --local-pkg-db)
+	@#cabal new-configure --one-shot --with-compiler ghc-8.8.4
 
 .PHONY: clean
 clean:
@@ -95,7 +96,7 @@ clean:
 
 .PHONY: cleanall
 cleanall: clean
-	-$(RM) -rf public .pytest_cache dist
+	-$(RM) -rf public .pytest_cache
 	-$(RM) *.pyc *.sublime-workspace tags
 	-$(RM) $(patsubst %.lhs, %, $(LHS))
 	-$(RM) $(patsubst %.lhs, %.html, $(LHS))
