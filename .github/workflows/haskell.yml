@@ -41,7 +41,7 @@ jobs:
 
       - name: setup
         run: |
-          cabal new-update --only-dependencies
+          cabal new-update --only-dependencies --allow-newer=False
           cabal new-configure \
             --package-db=clear \
             --package-db=global \
@@ -53,24 +53,3 @@ jobs:
 
       - name: test
         run: cabal new-test --test-show-details=always
-
-      - name: benchmark
-        run: cabal new-bench
-
-      - name: document
-        run: cabal new-haddock --haddock-quickjump --haddock-hyperlink-source
-
-      - name: copy
-        run: |
-          mkdir public/
-          cp -r \ 
-            dist-newstyle/build/x86_64-linux/ghc-*/scrapbook-*/doc/html/scrapbook/* \
-            public/
-
-      - name: publish
-        uses: crazy-max/ghaction-github-pages@v0.4.0
-        if: success()
-        with:
-          build_dir: public
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}
