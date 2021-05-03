@@ -84,7 +84,7 @@ exec:	$(SRC)
 .PHONY: setup
 setup:
 	cabal --version
-	cabal update --only-dependencies
+	cabal update --only-dependencies --enable-tests --enable-documentation --enable-benchmarks
 
 .PHONY: clean
 clean:

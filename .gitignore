@@ -1,4 +1,3 @@
-cabal.project*
 dist/
 dist-newstyle/
 *.dyn_hi

@@ -4,9 +4,7 @@ name: haskell scrapbook
 
 on:
   push:
-    branches:
-      - master
-      - 'feature**'
+    branches: [master, 'feature**']
   check_run:
     types: [rerequested, requested_action]
 
