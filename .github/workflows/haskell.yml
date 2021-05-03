@@ -38,9 +38,7 @@ jobs:
           stack setup
 
       - name: build
-        run: |
-          stack clean
-          stack build --pedantic --no-test
+        run: stack build --pedantic --no-test
 
       - name: test
         run: stack test
