@@ -43,53 +43,52 @@ lint:	$(SRC)
 .PHONY: build
 build:
 	@echo build ...
-	@cabal new-build
+	@cabal build
 
 .PHONY: test
 test:
 	@echo test ...
-	@cabal new-test --test-show-details=always
+	@cabal test --test-show-details=always
 
 .PHONY: bench
 bench:
 	@echo bench ...
-	@cabal new-bench
+	@cabal bench
 
 .PHONY: doc
 doc:
 	@echo doc ...
-	@cabal new-haddock --haddock-quickjump --haddock-hyperlink-source
+	@cabal haddock --haddock-quickjump --haddock-hyperlink-source
 
 .PHONY: exec
 exec:	$(SRC)
 	@echo FPComplete ...
-	@cabal new-exec fpcomplete
+	@cabal exec fpcomplete
 	@echo PolyDivisors ...
-	@cabal new-exec polydivs 123456789
+	@cabal exec polydivs 123456789
 	@echo Quine ...
-	@cabal new-exec quine
+	@cabal exec quine
 	@echo
 	@echo ReadFile Setup.hs ...
-	@cabal new-exec readfile Setup.hs
+	@cabal exec readfile Setup.hs
 	@echo Skips ...
-	@cabal new-exec skips abcd
+	@cabal exec skips abcd
 	@echo Threads ...
-	@cabal new-exec threads
+	@cabal exec threads
 	@echo While ...
-	@echo "a\nb\nc\nq\n" | cabal new-exec while
+	@echo "a\nb\nc\nq\n" | cabal exec while
 	@echo WordCount ...
-	@cat LICENSE | cabal new-exec wordcount
+	@cat LICENSE | cabal exec wordcount
 	@echo
 
 .PHONY: setup
 setup:
 	cabal --version
-	cabal new-update --only-dependencies
-	@#cabal new-configure --one-shot --with-compiler ghc-8.8.4
+	cabal update --only-dependencies
 
 .PHONY: clean
 clean:
-	@cabal new-clean
+	@cabal clean
 	-$(RM) $(addsuffix .hi, $(basename $(LHS) $(SRC)))
 	-$(RM) $(addsuffix .o, $(basename $(LHS) $(SRC)))
 	-$(RM) $(addsuffix .prof, $(basename $(LHS) $(SRC)))

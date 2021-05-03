@@ -45,11 +45,11 @@ library
   hs-source-dirs:   src
   default-language: Haskell2010
   build-depends:    base >= 4 && < 5
-                  , directory >= 1.3.3.0
-                  , filepath >= 1.4.2.1
-                  , mtl >= 2.2.2
-                  , random == 1.1
-                  , transformers >= 0.5.6.2
+                  , directory >= 1.3.3.0 && < 1.4
+                  , filepath >= 1.4.2.1 && < 1.5
+                  , mtl >= 2.2.2 && < 2.3
+                  , random == 1.1 && < 1.2
+                  , transformers >= 0.5.6.2 && < 0.5.7
 
 executable          fpcomplete
   main-is:          FPComplete.hs
@@ -95,7 +95,7 @@ executable          threads
   default-language: Haskell2010
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
   build-depends:    base
-                  , stm >= 2.5.0.0
+                  , stm >= 2.5.0.0 && < 2.6
 
 executable          while
   main-is:          While.hs
@@ -118,13 +118,13 @@ test-suite          test
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
   type:             exitcode-stdio-1.0
   build-depends:    base
-                  , directory >= 1.3.3.0
-                  , filepath >= 1.4.2.1
-                  , hspec >= 2.7.1
-                  , mtl >= 2.2.2
-                  , QuickCheck >= 2.13.2
+                  , directory >= 1.3.3.0 && < 1.4
+                  , filepath >= 1.4.2.1 && < 1.5
+                  , hspec >= 2.7.1 && < 2.8
+                  , mtl >= 2.2.2 && < 2.3
+                  , QuickCheck >= 2.13.2 && < 2.14
                   , scrapbook
-                  , transformers >= 0.5.6.2
+                  , transformers >= 0.5.6.2 && < 0.5.7
   build-tool-depends:
                     hspec-discover:hspec-discover
   other-modules:    BinarySearchSpec
@@ -155,7 +155,7 @@ benchmark           myreverseBench
   default-language: Haskell2010
   type:             exitcode-stdio-1.0
   build-depends:    base
-                  , criterion >= 1.5.6.1
+                  , criterion >= 1.5.6.1 && < 1.5.7
                   , scrapbook
 
 benchmark           polydivisorsBench
@@ -164,7 +164,7 @@ benchmark           polydivisorsBench
   default-language: Haskell2010
   type:             exitcode-stdio-1.0
   build-depends:    base
-                  , criterion >= 1.5.6.1
+                  , criterion >= 1.5.6.1 && < 1.5.7
                   , scrapbook
 
 benchmark           repmaxBench
@@ -173,7 +173,7 @@ benchmark           repmaxBench
   default-language: Haskell2010
   type:             exitcode-stdio-1.0
   build-depends:    base
-                  , criterion >= 1.5.6.1
+                  , criterion >= 1.5.6.1 && < 1.5.7
                   , scrapbook
 
 benchmark           subseqsBench
@@ -182,7 +182,7 @@ benchmark           subseqsBench
   default-language: Haskell2010
   type:             exitcode-stdio-1.0
   build-depends:    base
-                  , criterion >= 1.5.6.1
+                  , criterion >= 1.5.6.1 && < 1.5.7
                   , scrapbook
 
 benchmark           zipfoldBench
@@ -191,5 +191,5 @@ benchmark           zipfoldBench
   default-language: Haskell2010
   type:             exitcode-stdio-1.0
   build-depends:    base
-                  , criterion >= 1.5.6.1
+                  , criterion >= 1.5.6.1 && < 1.5.7
                   , scrapbook
