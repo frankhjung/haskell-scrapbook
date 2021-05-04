@@ -1,18 +1,5 @@
 #!/usr/bin/env make
 
-.SUFFIXES:
-.SUFFIXES: .o .hs .lhs .html .pdf
-
-%	: %.lhs
-	-ghc -package stm -package mtl --make $<
-
-%.html	: %.lhs
-	-pandoc -r markdown+lhs -s $< -w html --css haskell.css -o $@
-
-%.pdf	: %.lhs
-	-pandoc -r markdown+lhs -s $< --css haskell.css -o $@
-
-LHS	:= $(wildcard doc/*.lhs)
 SRC	:= $(wildcard src/*.hs app/*.hs test/*.hs bench/*.hs)
 
 .PHONY: default
@@ -89,14 +76,11 @@ setup:
 .PHONY: clean
 clean:
 	@cabal clean
-	-$(RM) $(addsuffix .hi, $(basename $(LHS) $(SRC)))
-	-$(RM) $(addsuffix .o, $(basename $(LHS) $(SRC)))
-	-$(RM) $(addsuffix .prof, $(basename $(LHS) $(SRC)))
+	-$(RM) $(addsuffix .hi, $(basename $(SRC)))
+	-$(RM) $(addsuffix .o, $(basename $(SRC)))
+	-$(RM) $(addsuffix .prof, $(basename $(SRC)))
 
 .PHONY: cleanall
 cleanall: clean
 	-$(RM) -rf public .pytest_cache
 	-$(RM) *.pyc *.sublime-workspace tags
-	-$(RM) $(patsubst %.lhs, %, $(LHS))
-	-$(RM) $(patsubst %.lhs, %.html, $(LHS))
-	-$(RM) $(patsubst %.lhs, %.pdf, $(LHS))

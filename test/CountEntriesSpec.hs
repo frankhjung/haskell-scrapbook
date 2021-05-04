@@ -9,7 +9,7 @@ import           Test.Hspec                 (Spec, describe, it, shouldBe)
 spec :: Spec
 spec =
   describe "count directory entries" $ do
-    let docs = 3              -- Number of files in @doc/@ directory
+    let docs = 1              -- Number of files in @doc/@ directory
     it ("countEntries should return " ++ show docs) $ do
       p <- makeAbsolute "doc"
       ces1 <- countEntries1 p

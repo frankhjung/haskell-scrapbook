@@ -83,26 +83,6 @@ stack exec -- haddock src/*.hs --odir=public --html
 
 Where the later does not produce a full function cross-reference.
 
-## Literate Haskell
-
-To render [bird.lhs](./bird.lhs) into a PDF, use:
-
-```bash
-pandoc -r markdown+lhs -s bird.lhs --css haskell.css -o bird.pdf
-```
-
-Or
-
-```bash
-make doc/bird.pdf
-```
-
-To render to HTML use:
-
-```bash
-make doc/bird.html
-```
-
 ## Haskell Notebook
 
 Included is a Jupyter Notebook with a
