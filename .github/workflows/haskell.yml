@@ -34,8 +34,11 @@ jobs:
 
       - name: setup
         run: |
-          stack path
+          stack update
           stack setup
+          stack path
+          stack query
+          stack ls dependencies
 
       - name: build
         run: stack build --pedantic --no-test
@@ -45,11 +48,11 @@ jobs:
 
       - name: benchmark
         run: |
-          stack bench scrapbook:bench:myreverseBench --benchmark-arguments '-o .stack-work/benchmark-myreverse.html'
-          stack bench scrapbook:bench:polydivisorsBench --benchmark-arguments '-o .stack-work/benchmark-polydivisors.html'
-          stack bench scrapbook:bench:repmaxBench --benchmark-arguments '-o .stack-work/benchmark-repmax.html'
-          stack bench scrapbook:bench:subseqsBench --benchmark-arguments '-o .stack-work/benchmark-subseqs.html'
-          stack bench scrapbook:bench:zipfoldBench --benchmark-arguments '-o .stack-work/benchmark-zipfold.html'
+          stack bench scrapbook:bench:myreverseBench --ba '-o .stack-work/benchmark-myreverse.html'
+          stack bench scrapbook:bench:polydivisorsBench --ba '-o .stack-work/benchmark-polydivisors.html'
+          stack bench scrapbook:bench:repmaxBench --ba '-o .stack-work/benchmark-repmax.html'
+          stack bench scrapbook:bench:subseqsBench --ba '-o .stack-work/benchmark-subseqs.html'
+          stack bench scrapbook:bench:zipfoldBench --ba '-o .stack-work/benchmark-zipfold.html'
 
       - name: document
         run: stack haddock --no-rerun-tests --no-reconfigure
