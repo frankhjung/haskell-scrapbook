@@ -15,4 +15,5 @@ extra-deps:
   - QuickCheck-2.13.2
   - random-1.1
   - stm-2.5.0.0
+  - text-1.2.4.0
   - transformers-0.5.6.2

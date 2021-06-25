@@ -26,16 +26,16 @@ dice :: (Int, Int)
 dice = (1, 6)
 
 -- | Seed the dice's random generator.
-seed :: Int               -- random seed
-          -> StdGen       -- random generator
+seed :: Int           -- random seed
+        -> StdGen     -- random generator
 seed = mkStdGen
 
 -- | Produce an infinite stream of 'dice' rolls.
-rolls :: StdGen           -- random generator
-          -> [Int]        -- stream of dice rolls
+rolls :: StdGen       -- random generator
+         -> [Int]     -- stream of dice rolls
 rolls = randomRs dice
 
 -- | Return /n/ rolls of the dice using the system random generator.
-roll :: Int               -- number of rolls
-          -> IO [Int]     -- list of dice rolls
+roll :: Int           -- number of rolls
+        -> IO [Int]   -- list of dice rolls
 roll n = replicateM n (randomRIO dice)

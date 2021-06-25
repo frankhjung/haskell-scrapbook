@@ -2,25 +2,17 @@
 
 A collection of short scripts testing functions and techniques.
 
+The project is built using [Cabal](https://www.haskell.org/cabal/). To
+coordinate build the various task I use [GNU
+Make](https://www.gnu.org/software/make/).
+
 ## Links
 
 [Haddock](https://www.haskell.org/haddock/doc/html/index.html) API
 documentation is available on:
 
 * [GitHub](https://frankhjung.github.io/haskell-scrapbook/)
-  * Criterion benchmarks
-    * [MyReverse](https://frankhjung.github.io/haskell-scrapbook/benchmark-myreverse.html)
-    * [PolyDivisors](https://frankhjung.github.io/haskell-scrapbook/benchmark-polydivisors.html)
-    * [RepMax](https://frankhjung.github.io/haskell-scrapbook/benchmark-repmax.html)
-    * [SubSeqs](https://frankhjung.github.io/haskell-scrapbook/benchmark-subseqs.html)
-    * [ZipFold](https://frankhjung.github.io/haskell-scrapbook/benchmark-zipfold.html)
 * [GitLab](https://frankhjung1.gitlab.io/haskell-scrapbook/)
-  * Criterion benchmarks
-    * [MyReverse](https://frankhjung1.gitlab.io/haskell-scrapbook/benchmark-myreverse.html)
-    * [PolyDivisors](https://frankhjung1.gitlab.io/haskell-scrapbook/benchmark-polydivisors.html)
-    * [RepMax](https://frankhjung1.gitlab.io/haskell-scrapbook/benchmark-repmax.html)
-    * [SubSeqs](https://frankhjung1.gitlab.io/haskell-scrapbook/benchmark-subseqs.html)
-    * [ZipFold](https://frankhjung1.gitlab.io/haskell-scrapbook/benchmark-zipfold.html)
 
 ## Haskell
 
@@ -51,9 +43,17 @@ To only perform code checks, run:
 make check
 ```
 
-This is also the default goal.
+This runs `tags`, `style` and `lint`:
 
-### Test
+```bash
+SRC=$(find * -name "*.hs")
+hasktags --ctags --extendedctag $SRC
+stylish-haskell --config=.stylish-haskell.yaml --inplace $SRC
+cabal check
+hlint --cross --color --show $SRC
+```
+
+### Unit Tests
 
 Test using GNU Make:
 
@@ -61,40 +61,34 @@ Test using GNU Make:
 make test
 ```
 
-To generate test coverage use:
+This runs:
 
 ```bash
-stack test --coverage
+cabal test --test-show-details=always
 ```
 
-### Documentation
+### Performance Benchmarks
+
+The
+[Criterion](https://hackage.haskell.org/package/criterion/docs/Criterion.html)
+benchmark HTML reports can be generated using
+[stack](https://docs.haskellstack.org/en/stable/README/). They are available
+from GitHub, here:
+
+* [Criterion benchmarks
+  * [MyReverse](https://frankhjung.github.io/haskell-scrapbook/benchmark-myreverse.html)
+  * [PolyDivisors](https://frankhjung.github.io/haskell-scrapbook/benchmark-polydivisors.html)
+  * [RepMax](https://frankhjung.github.io/haskell-scrapbook/benchmark-repmax.html)
+  * [SubSeqs](https://frankhjung.github.io/haskell-scrapbook/benchmark-subseqs.html)
+  * [ZipFold](https://frankhjung.github.io/haskell-scrapbook/benchmark-zipfold.html)
+
+### API Documentation
 
 To generate [Haddock](https://www.haskell.org/haddock/doc/html/) for source:
 
 ```bash
-stack haddock --no-rerun-tests --no-reconfigure
+cabal haddock --haddock-quickjump --haddock-hyperlink-source
 ```
-
-Which is almost the same as:
-
-```bash
-stack exec -- haddock src/*.hs --odir=public --html
-```
-
-Where the later does not produce a full function cross-reference.
-
-## Haskell Notebook
-
-Included is a Jupyter Notebook with a
-[Haskell](https://github.com/gibiansky/IHaskell) runtime.
-
-To start run this:
-
-```bash
-stack exec jupyter -- notebook
-```
-
-For more details see [IHaskell](https://github.com/gibiansky/IHaskell).
 
 ## Word Count in Python
 
