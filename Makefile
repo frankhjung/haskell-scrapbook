@@ -1,6 +1,7 @@
 #!/usr/bin/env make
 
 SRC	:= $(wildcard src/*.hs app/*.hs test/*.hs bench/*.hs)
+YAMLS	:= $(wildcard .*.yml .*/.*.yml)
 
 .PHONY: default
 default:check build test
@@ -26,6 +27,7 @@ lint:	$(SRC)
 	@echo lint ...
 	@cabal check
 	@hlint --cross --color --show $(SRC)
+	@yamllint --strict $(YAMLS)
 
 .PHONY: build
 build:

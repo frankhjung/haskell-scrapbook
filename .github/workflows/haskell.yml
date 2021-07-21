@@ -47,12 +47,14 @@ jobs:
         run: stack test
 
       - name: benchmark
+        # yamllint disable rule:line-length
         run: |
           stack bench scrapbook:bench:myreverseBench --ba '-o .stack-work/benchmark-myreverse.html'
           stack bench scrapbook:bench:polydivisorsBench --ba '-o .stack-work/benchmark-polydivisors.html'
           stack bench scrapbook:bench:repmaxBench --ba '-o .stack-work/benchmark-repmax.html'
           stack bench scrapbook:bench:subseqsBench --ba '-o .stack-work/benchmark-subseqs.html'
           stack bench scrapbook:bench:zipfoldBench --ba '-o .stack-work/benchmark-zipfold.html'
+        # yamllint enable
 
       - name: document
         run: stack haddock --no-rerun-tests --no-reconfigure
