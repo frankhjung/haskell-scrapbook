@@ -159,6 +159,7 @@ test-suite          test
                   , PolyDivisorsSpec
                   , QsortSpec
                   , RandomSpec
+                  , RecursionSchemesSpec
                   , RepMaxSpec
                   , StackSpec
                   , SplitListSpec
