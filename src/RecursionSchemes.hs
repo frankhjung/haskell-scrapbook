@@ -73,8 +73,12 @@ newtype Fix f = Fix { unFix :: f (Fix f) }
 -- This requires UndecidableInstances because the context is larger
 -- than the head and so GHC can't guarantee that the instance safely
 -- terminates. (Copied from Data.Functor.Fixedpoint).
-instance (Show (f (Fix f))) => Show (Fix f)
-  where showsPrec p (Fix f) = showsPrec p f
+instance Show (f (Fix f)) => Show (Fix f) where
+  showsPrec p (Fix f) = showsPrec p f
+
+instance Eq (f (Fix f)) => Eq (Fix f) where
+  Fix x == Fix y = x == y
+  Fix x /= Fix y = x /= y
 
 -- | Anamorphism - produce a list.
 ana :: Functor f => (a -> f a) -> a -> Fix f
@@ -87,8 +91,8 @@ cata alg = alg . fmap (cata alg) . unFix
 -- | Coalgebra is a non-recursive function to generate a `ListF` entry.
 buildCoalg :: Int -> ListF Int Int
 buildCoalg n
-    | n <  1    = NilF
-    | otherwise = ConsF n (pred n)
+  | n <  1    = NilF
+  | otherwise = ConsF n (pred n)
 
 -- | Feed coalgebra to anamorphism.
 buildListF :: Int -> Fix (ListF Int)
@@ -97,16 +101,16 @@ buildListF = ana buildCoalg
 -- | A alegbra over `ListF` to get list length.
 lengthAlg :: ListF a Int -> Int
 lengthAlg ls = case ls of
-               NilF      -> 0
-               ConsF _ x -> x + 1
+                NilF      -> 0
+                ConsF _ x -> x + 1
 
 -- | Length is a folding operation, i.e. a Catamorphism.
 lengthListF :: Fix (ListF a) -> Int
 lengthListF = cata lengthAlg
 
--- | Convert `ListF` to a standard list type.
+-- | Convert a `ListF` to a standard list.
 toList :: Fix (ListF a) -> [a]
 toList = cata alg
   where alg ls = case ls of
-                 NilF      -> []
-                 ConsF a r -> a : r
+                  NilF      -> []
+                  ConsF a r -> a : r
