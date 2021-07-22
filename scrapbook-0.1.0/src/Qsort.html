@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-comment">{-|
+
+Module      : Qsort
+Description : A simple implementation of Qsort
+Copyright   : &#169; Frank Jung, 2019
+License     : GPL-3
+
+A simple implementation of &lt;https://en.wikipedia.org/wiki/Qsort Qsort&gt;.
+
+From &quot;Programming in Haskell&quot; by Graham Hutton.
+
+&gt;&gt;&gt; qsort [3,5,1,2,4,2]
+[1,2,2,3,4,5]
+
+If @a &lt;= x@ is replaced with @a &lt; x@, then only unique values are reported.
+
+&gt;&gt;&gt; qsort' [3,5,1,2,4,2]
+[1,2,3,4,5]
+
+To reverse sort, switch smaller and larger in 'qsort'.
+
+&gt;&gt;&gt; qsort'' [3,5,1,2,4,2]
+[5,4,3,2,2,1]
+
+-}</span><span>
+</span><a name="line-26"></a><span>
+</span><a name="line-27"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Qsort</span><span> </span><span class="hs-special">(</span><a href="Qsort.html#qsort"><span class="hs-identifier hs-var">qsort</span></a><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-28"></a><span>
+</span><a name="line-29"></a><span class="hs-comment">-- | A simple implementation of &lt;https://en.wikipedia.org/wiki/Qsort Qsort&gt;.</span><span>
+</span><a name="line-30"></a><span class="hs-identifier">qsort</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-type">Show</span><span> </span><a href="#local-6989586621679043752"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">,</span><span> </span><span class="hs-identifier hs-type">Ord</span><span> </span><a href="#local-6989586621679043752"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">)</span><span>
+</span><a name="line-31"></a><span>  </span><span class="hs-glyph">=&gt;</span><span> </span><span class="hs-special">[</span><a href="#local-6989586621679043752"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">]</span><span> </span><span class="hs-comment">-- ^ list to sort</span><span>
+</span><a name="line-32"></a><span>  </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><a href="#local-6989586621679043752"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">]</span><span> </span><span class="hs-comment">-- ^ the sorted list</span><span>
+</span><a name="line-33"></a><a name="qsort"><a href="Qsort.html#qsort"><span class="hs-identifier">qsort</span></a></a><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>     </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
+</span><a name="line-34"></a><span class="hs-identifier">qsort</span><span> </span><span class="hs-special">(</span><a name="local-6989586621679043753"><a href="#local-6989586621679043753"><span class="hs-identifier">x</span></a></a><span class="hs-glyph">:</span><a name="local-6989586621679043754"><a href="#local-6989586621679043754"><span class="hs-identifier">xs</span></a></a><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="Qsort.html#qsort"><span class="hs-identifier hs-var">qsort</span></a><span> </span><a href="#local-6989586621679043755"><span class="hs-identifier hs-var">smaller</span></a><span> </span><span class="hs-operator hs-var">++</span><span> </span><span class="hs-special">[</span><a href="#local-6989586621679043753"><span class="hs-identifier hs-var">x</span></a><span class="hs-special">]</span><span> </span><span class="hs-operator hs-var">++</span><span> </span><a href="Qsort.html#qsort"><span class="hs-identifier hs-var">qsort</span></a><span> </span><a href="#local-6989586621679043756"><span class="hs-identifier hs-var">larger</span></a><span>
+</span><a name="line-35"></a><span>  </span><span class="hs-keyword">where</span><span>
+</span><a name="line-36"></a><span>    </span><a name="local-6989586621679043755"><a href="#local-6989586621679043755"><span class="hs-identifier">smaller</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><a href="#local-6989586621679043757"><span class="hs-identifier hs-var">a</span></a><span> </span><span class="hs-glyph">|</span><span> </span><a name="local-6989586621679043757"><a href="#local-6989586621679043757"><span class="hs-identifier">a</span></a></a><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="#local-6989586621679043754"><span class="hs-identifier hs-var">xs</span></a><span class="hs-special">,</span><span> </span><a href="#local-6989586621679043757"><span class="hs-identifier hs-var">a</span></a><span> </span><span class="hs-operator hs-var">&lt;=</span><span> </span><a href="#local-6989586621679043753"><span class="hs-identifier hs-var">x</span></a><span class="hs-special">]</span><span>
+</span><a name="line-37"></a><span>    </span><a name="local-6989586621679043756"><a href="#local-6989586621679043756"><span class="hs-identifier">larger</span></a></a><span>  </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><a href="#local-6989586621679043758"><span class="hs-identifier hs-var">b</span></a><span> </span><span class="hs-glyph">|</span><span> </span><a name="local-6989586621679043758"><a href="#local-6989586621679043758"><span class="hs-identifier">b</span></a></a><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="#local-6989586621679043754"><span class="hs-identifier hs-var">xs</span></a><span class="hs-special">,</span><span> </span><a href="#local-6989586621679043758"><span class="hs-identifier hs-var">b</span></a><span> </span><span class="hs-operator hs-var">&gt;</span><span> </span><a href="#local-6989586621679043753"><span class="hs-identifier hs-var">x</span></a><span class="hs-special">]</span><span>
+</span><a name="line-38"></a></pre></body></html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE LambdaCase #-}</span><span>
+</span><a name="line-2"></a><span>
+</span><a name="line-3"></a><span class="hs-comment">{-|
+
+Module      : Yahtzee
+Description : Code from &quot;Good Design an Type Safety in Yahtzee&quot;
+Copyright   : &#169; Frank Jung, 2019
+License     : GPL-3
+
+Yahtzee test suite from blog
+&lt;http://h2.jaguarpaw.co.uk/posts/good-design-and-type-safety-in-yahtzee Good Design and Type Safety in Yahtzee&gt;
+
+-}</span><span>
+</span><a name="line-14"></a><span>
+</span><a name="line-15"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Yahtzee</span><span> </span><span class="hs-special">(</span><a href="Yahtzee.html#DiceChoice"><span class="hs-identifier hs-type">DiceChoice</span></a><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><a href="Yahtzee.html#DiceVals"><span class="hs-identifier hs-type">DiceVals</span></a><span class="hs-special">,</span><span> </span><a href="Yahtzee.html#allRolls"><span class="hs-identifier hs-var">allRolls</span></a><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-16"></a><span>
+</span><a name="line-17"></a><span class="hs-comment">-- | Dice values from 1 to 6.</span><span>
+</span><a name="line-18"></a><span class="hs-keyword">type</span><span> </span><a name="DiceVals"><a href="Yahtzee.html#DiceVals"><span class="hs-identifier">DiceVals</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="hs-identifier hs-type">Integer</span><span class="hs-special">]</span><span>
+</span><a name="line-19"></a><span>
+</span><a name="line-20"></a><span class="hs-comment">-- | Keep the dice, or re-roll?</span><span>
+</span><a name="line-21"></a><span class="hs-keyword">data</span><span> </span><a name="DiceChoice"><a href="Yahtzee.html#DiceChoice"><span class="hs-identifier">DiceChoice</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a name="Keep"><a href="Yahtzee.html#Keep"><span class="hs-identifier">Keep</span></a></a><span> </span><span class="hs-identifier hs-type">Integer</span><span> </span><span class="hs-glyph">|</span><span> </span><a name="Reroll"><a href="Yahtzee.html#Reroll"><span class="hs-identifier">Reroll</span></a></a><span>
+</span><a name="line-22"></a><span>
+</span><a name="line-23"></a><span class="hs-comment">-- | Generate all rolls from a given state.</span><span>
+</span><a name="line-24"></a><span class="hs-identifier">allRolls</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><a href="Yahtzee.html#DiceChoice"><span class="hs-identifier hs-type">DiceChoice</span></a><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><a href="Yahtzee.html#DiceVals"><span class="hs-identifier hs-type">DiceVals</span></a><span class="hs-special">]</span><span>
+</span><a name="line-25"></a><a name="allRolls"><a href="Yahtzee.html#allRolls"><span class="hs-identifier">allRolls</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-var">mapM</span><span> </span><span class="hs-operator hs-var">$</span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
+</span><a name="line-26"></a><span>  </span><a href="Yahtzee.html#Reroll"><span class="hs-identifier hs-var">Reroll</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-number">1</span><span class="hs-glyph">..</span><span class="hs-number">6</span><span class="hs-special">]</span><span>
+</span><a name="line-27"></a><span>  </span><a href="Yahtzee.html#Keep"><span class="hs-identifier hs-var">Keep</span></a><span> </span><a name="local-6989586621679048011"><a href="#local-6989586621679048011"><span class="hs-identifier">v</span></a></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><a href="#local-6989586621679048011"><span class="hs-identifier hs-var">v</span></a><span class="hs-special">]</span><span>
+</span><a name="line-28"></a></pre></body></html>

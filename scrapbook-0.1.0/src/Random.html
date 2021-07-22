@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-comment">{-|
+
+Module      : Random
+Description : Test random generators
+Copyright   : &#169; Frank Jung, 2020
+License     : GPL-3
+
+Exploration of the use of 'System.Random' inspired by
+&lt;https://www.packtpub.com/product/haskell-design-patterns/9781783988723 Haskell Design Patterns by Ryan Lemmer&gt;
+
+== Example
+
+Simulate roll a fair 6-sided dice /n/ times.
+
+With a 'seed' of @111111@ then we expect @[4,6,5,3,2]@.
+
+-}</span><span>
+</span><a name="line-18"></a><span>
+</span><a name="line-19"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Random</span><span> </span><span class="hs-special">(</span><a href="Random.html#dice"><span class="hs-identifier hs-var">dice</span></a><span class="hs-special">,</span><span> </span><a href="Random.html#roll"><span class="hs-identifier hs-var">roll</span></a><span class="hs-special">,</span><span> </span><a href="Random.html#rolls"><span class="hs-identifier hs-var">rolls</span></a><span class="hs-special">,</span><span> </span><a href="Random.html#seed"><span class="hs-identifier hs-var">seed</span></a><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-20"></a><span>
+</span><a name="line-21"></a><span class="hs-keyword">import</span><span>           </span><span class="hs-identifier">Control.Monad</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-var">replicateM</span><span class="hs-special">)</span><span>
+</span><a name="line-22"></a><span class="hs-keyword">import</span><span>           </span><span class="hs-identifier">System.Random</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-type">StdGen</span><span class="hs-special">,</span><span> </span><span class="hs-identifier hs-var">mkStdGen</span><span class="hs-special">,</span><span> </span><span class="hs-identifier hs-var">randomRIO</span><span class="hs-special">,</span><span> </span><span class="hs-identifier hs-var">randomRs</span><span class="hs-special">)</span><span>
+</span><a name="line-23"></a><span>
+</span><a name="line-24"></a><span class="hs-comment">-- | Range for a 6-sided dice.</span><span>
+</span><a name="line-25"></a><span class="hs-identifier">dice</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-type">Int</span><span class="hs-special">,</span><span> </span><span class="hs-identifier hs-type">Int</span><span class="hs-special">)</span><span>
+</span><a name="line-26"></a><a name="dice"><a href="Random.html#dice"><span class="hs-identifier">dice</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="hs-number">1</span><span class="hs-special">,</span><span> </span><span class="hs-number">6</span><span class="hs-special">)</span><span>
+</span><a name="line-27"></a><span>
+</span><a name="line-28"></a><span class="hs-comment">-- | Seed the dice's random generator.</span><span>
+</span><a name="line-29"></a><span class="hs-identifier">seed</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Int</span><span>           </span><span class="hs-comment">-- random seed</span><span>
+</span><a name="line-30"></a><span>        </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">StdGen</span><span>     </span><span class="hs-comment">-- random generator</span><span>
+</span><a name="line-31"></a><a name="seed"><a href="Random.html#seed"><span class="hs-identifier">seed</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-var">mkStdGen</span><span>
+</span><a name="line-32"></a><span>
+</span><a name="line-33"></a><span class="hs-comment">-- | Produce an infinite stream of 'dice' rolls.</span><span>
+</span><a name="line-34"></a><span class="hs-identifier">rolls</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">StdGen</span><span>       </span><span class="hs-comment">-- random generator</span><span>
+</span><a name="line-35"></a><span>         </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-identifier hs-type">Int</span><span class="hs-special">]</span><span>     </span><span class="hs-comment">-- stream of dice rolls</span><span>
+</span><a name="line-36"></a><a name="rolls"><a href="Random.html#rolls"><span class="hs-identifier">rolls</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-var">randomRs</span><span> </span><a href="Random.html#dice"><span class="hs-identifier hs-var">dice</span></a><span>
+</span><a name="line-37"></a><span>
+</span><a name="line-38"></a><span class="hs-comment">-- | Return /n/ rolls of the dice using the system random generator.</span><span>
+</span><a name="line-39"></a><span class="hs-identifier">roll</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Int</span><span>           </span><span class="hs-comment">-- number of rolls</span><span>
+</span><a name="line-40"></a><span>        </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">IO</span><span> </span><span class="hs-special">[</span><span class="hs-identifier hs-type">Int</span><span class="hs-special">]</span><span>   </span><span class="hs-comment">-- list of dice rolls</span><span>
+</span><a name="line-41"></a><a name="roll"><a href="Random.html#roll"><span class="hs-identifier">roll</span></a></a><span> </span><a name="local-6989586621679045184"><a href="#local-6989586621679045184"><span class="hs-identifier">n</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-var">replicateM</span><span> </span><a href="#local-6989586621679045184"><span class="hs-identifier hs-var">n</span></a><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-var">randomRIO</span><span> </span><a href="Random.html#dice"><span class="hs-identifier hs-var">dice</span></a><span class="hs-special">)</span><span>
+</span><a name="line-42"></a></pre></body></html>

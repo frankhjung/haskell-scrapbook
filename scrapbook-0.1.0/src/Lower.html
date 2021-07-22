@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE DerivingStrategies #-}</span><span>
+</span><a name="line-2"></a><span>
+</span><a name="line-3"></a><span class="hs-comment">{-|
+
+Module      : Lower
+Description : Data type to produce only lowercase alphabetic characters.
+Copyright   : &#169; Frank Jung, 2021
+License     : GPL-3
+
+Reference
+&lt;https://stackoverflow.com/questions/23616455/haskell-type-new-type-or-data-for-only-an-upper-case-char
+type for uppercase characters&gt;
+
+-}</span><span>
+</span><a name="line-15"></a><span>
+</span><a name="line-16"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Lower</span><span> </span><span class="hs-special">(</span><a href="Lower.html#mkLower"><span class="hs-identifier hs-var">mkLower</span></a><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-17"></a><span>
+</span><a name="line-18"></a><span class="hs-keyword">import</span><span>           </span><span class="hs-identifier">Data.Char</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-var">isAlpha</span><span class="hs-special">,</span><span> </span><span class="hs-identifier hs-var">isLower</span><span class="hs-special">)</span><span>
+</span><a name="line-19"></a><span>
+</span><a name="line-20"></a><span class="hs-comment">-- | Make a lowercase letter.</span><span>
+</span><a name="line-21"></a><span class="hs-identifier">mkLower</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Char</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">Either</span><span> </span><span class="hs-identifier hs-type">String</span><span> </span><span class="hs-identifier hs-type">Char</span><span>
+</span><a name="line-22"></a><a name="mkLower"><a href="Lower.html#mkLower"><span class="hs-identifier">mkLower</span></a></a><span> </span><a name="local-6989586621679033257"><a href="#local-6989586621679033257"><span class="hs-identifier">x</span></a></a><span>
+</span><a name="line-23"></a><span>  </span><span class="hs-glyph">|</span><span> </span><span class="hs-identifier hs-var">isLower</span><span> </span><a href="#local-6989586621679033257"><span class="hs-identifier hs-var">x</span></a><span> </span><span class="hs-operator hs-var">&amp;&amp;</span><span> </span><span class="hs-identifier hs-var">isAlpha</span><span> </span><a href="#local-6989586621679033257"><span class="hs-identifier hs-var">x</span></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-var">Right</span><span> </span><a href="#local-6989586621679033257"><span class="hs-identifier hs-var">x</span></a><span>
+</span><a name="line-24"></a><span>  </span><span class="hs-glyph">|</span><span> </span><span class="hs-identifier hs-var">otherwise</span><span>              </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-var">Left</span><span> </span><span class="hs-string">&quot;Not lowercase&quot;</span><span>
+</span><a name="line-25"></a><span>
+</span><a name="line-26"></a><span class="hs-comment">-- {-# LANGUAGE DataKinds #-}</span><span>
+</span><a name="line-27"></a><span class="hs-comment">-- import Data.Finite</span><span>
+</span><a name="line-28"></a><span class="hs-comment">-- import Data.Char</span><span>
+</span><a name="line-29"></a><span class="hs-comment">--</span><span>
+</span><a name="line-30"></a><span class="hs-comment">-- newtype Letter = Letter{ getLetterIndex :: Finite 26 }</span><span>
+</span><a name="line-31"></a><span class="hs-comment">--</span><span>
+</span><a name="line-32"></a><span class="hs-comment">-- toLowerChar :: Letter -&gt; Char</span><span>
+</span><a name="line-33"></a><span class="hs-comment">-- toLowerChar = chr . (+ ord 'a') . fromIntegral . getFinite . getLetterIndex</span><span>
+</span><a name="line-34"></a><span class="hs-comment">--</span><span>
+</span><a name="line-35"></a><span class="hs-comment">-- fromLowerChar :: Char -&gt; Maybe Letter</span><span>
+</span><a name="line-36"></a><span class="hs-comment">-- fromLowerChar = fmap Letter . packFinite . fromIntegral . subtract (ord 'a') . ord</span><span>
+</span><a name="line-37"></a></pre></body></html>
