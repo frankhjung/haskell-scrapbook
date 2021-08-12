@@ -2,7 +2,7 @@
 
 module PermutationSpec (spec) where
 
-import           Permutation           (inserts, perms1, perms2, picks)
+import           Permutation           (inserts, perms1, perms2, perms3, picks)
 
 import           Test.Hspec            (Spec, describe, it, shouldBe)
 import           Test.Hspec.QuickCheck (modifyMaxSize, prop)
@@ -22,4 +22,7 @@ spec =
     modifyMaxSize (const 7) $
       prop "perms2 same as Data.List permutations" $
         \(x :: String) -> (sort . perms2) x == (sort . permutations) x
+    modifyMaxSize (const 7) $
+      prop "perms3 same as Data.List permutations" $
+        \(x :: String) -> (sort . perms3) x == (sort . permutations) x
 

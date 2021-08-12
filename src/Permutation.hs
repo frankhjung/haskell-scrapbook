@@ -10,7 +10,7 @@ From the book
 
 -}
 
-module Permutation (inserts,perms1,perms2, picks) where
+module Permutation (inserts, perms1, perms2, perms3, picks) where
 
 -- | Generate permutations using list comprehensions.
 --
@@ -53,3 +53,7 @@ picks :: [a] -> [(a, [a])]
 picks []     = []
 picks (x:xs) = (x,xs) : [(y,x:ys) | (y,ys) <- picks xs]
 
+
+-- | Use fold to generate permutaions.
+perms3 :: [a] -> [[a]]
+perms3 = foldr (concatMap . inserts) [[]]
