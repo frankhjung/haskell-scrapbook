@@ -3,21 +3,19 @@ module RecursionSchemesSpec (spec) where
 
 import           Numeric.Natural       (Natural)
 import           RecursionSchemes      (Fix (..), ListF (..), buildListF,
-                                        lengthListF, toList)
+                                        fromNat, lengthListF, lengthListF',
+                                        toList, toNat)
 
 import           Test.Hspec            (Spec, describe, it, shouldBe)
 import           Test.Hspec.QuickCheck (prop)
 import           Test.QuickCheck       (NonNegative (..))
 
--- test value
+-- list test value
 ls :: Fix (ListF Int)
 ls = Fix (ConsF 4 (Fix (ConsF 3 (Fix (ConsF 2 (Fix (ConsF 1 (Fix NilF))))))))
 
 spec :: Spec
 spec = do
-  describe "catamorphism" $
-    it "have length of 4" $
-      lengthListF ls `shouldBe` 4
   describe "anamorphism" $ do
     it "build list has length of 4" $
       (lengthListF . buildListF) 4 `shouldBe` 4
@@ -25,6 +23,14 @@ spec = do
       toList (buildListF 4) `shouldBe` toList ls
     it "build list equals constant list" $
       buildListF 4 `shouldBe` ls
+  describe "catamorphism" $ do
+    it "have length of 4" $
+      lengthListF ls `shouldBe` 4
+    prop "natural to integer" $
+      \(NonNegative (i :: Int)) -> fromNat (toNat i) `shouldBe` i
+  describe "paramorphism" $
+    it "have length of 4" $
+      lengthListF' ls `shouldBe` 4
   describe "quickcheck random list generation" $
     prop "quickcheck list length same as list build" $
       \(NonNegative (n :: Int)) -> (lengthListF . buildListF) n `shouldBe` n

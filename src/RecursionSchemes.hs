@@ -50,21 +50,27 @@ module RecursionSchemes (
                         -- * Data constructors
                           Fix(..)
                         , ListF(..)
+                        , NatF(..)
+                        , Nat
+                        , RAlgebra
                         -- * Recursion schemes
                         , ana
                         , cata
+                        , para
                         -- * Coalgebra's
                         , buildListF
                         , buildCoalg
                         -- * Algebra's
                         , lengthAlg
                         , lengthListF
+                        , lengthListF'
+                        , fromNat
+                        , toNat
                         -- * Utilities
                         , toList
                         ) where
 
--- | List Functor where r is the carrier type.
-data ListF a r = NilF | ConsF a r deriving (Functor, Show, Eq)
+import           Data.Function ((&))
 
 -- | Generalised fixed point for any functor `f`.
 -- Note that @unFix (Fix x) == x@
@@ -80,13 +86,29 @@ instance Eq (f (Fix f)) => Eq (Fix f) where
   Fix x == Fix y = x == y
   Fix x /= Fix y = x /= y
 
--- | Anamorphism - produce a list.
+-- | List Functor where r is the carrier type.
+data ListF a r = NilF | ConsF a r deriving (Functor, Show, Eq)
+
+-- | Natural numbers Functor.
+data NatF r = ZeroF | SuccF r deriving (Show, Functor)
+
+-- | Natural numbers type.
+type Nat = Fix NatF
+
+-- | R-Algebra
+type RAlgebra f a = Fix f -> f a -> a
+
+-- | Anamorphism - produce a structure.
 ana :: Functor f => (a -> f a) -> a -> Fix f
 ana coalg = Fix . fmap (ana coalg) . coalg
 
--- Catamorphism - consume a list.
+-- Catamorphism - consume a structure.
 cata :: Functor f => (f a -> a) -> Fix f -> a
 cata alg = alg . fmap (cata alg) . unFix
+
+-- Paramorphism - improved consumption of a structure.
+para :: Functor f => RAlgebra f a -> Fix f -> a
+para ralg t = unFix t & fmap (para ralg) & ralg t
 
 -- | Coalgebra is a non-recursive function to generate a `ListF` entry.
 buildCoalg :: Int -> ListF Int Int
@@ -107,6 +129,23 @@ lengthAlg ls = case ls of
 -- | Length is a folding operation, i.e. a Catamorphism.
 lengthListF :: Fix (ListF a) -> Int
 lengthListF = cata lengthAlg
+
+-- | Length using special case of paramorphism.
+lengthListF' :: Fix (ListF a) -> Int
+lengthListF' = para (const lengthAlg)
+
+-- | Convert Natural number to an integer.
+fromNat :: Nat -> Int
+fromNat = cata alg where
+  alg ZeroF     = 0
+  alg (SuccF n) = n + 1
+
+-- | Build a natural number from an interger.
+toNat :: Int -> Nat
+toNat = ana coalg where
+  coalg n
+    | n <= 0    = ZeroF
+    | otherwise = SuccF (n - 1)
 
 -- | Convert a `ListF` to a standard list.
 toList :: Fix (ListF a) -> [a]
