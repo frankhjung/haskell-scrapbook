@@ -90,56 +90,6 @@ To generate [Haddock](https://www.haskell.org/haddock/doc/html/) for source:
 cabal haddock --haddock-quickjump --haddock-hyperlink-source
 ```
 
-## Word Count in Python
-
-I've also included a Python equivalent to word count program.
-
-Get help [PyDoc](https://docs.python.org/3/library/pydoc.html) with:
-
-```bash
-pydoc3 wordcount.py
-pydoc3 wordcount.word_count
-```
-
-The later produces a short function summary:
-
-```text
-$ pydoc3 wordcount.word_count
-Help on function word_count in wordcount:
-
-wordcount.word_count = word_count(stream: 'file') -> 'int'
-    Count words in stream.
-```
-
-### Python Build
-
-To format source code:
-
-```bash
-yapf --style google --parallel -i *.py
-```
-
-To lint:
-
-```bash
-pylint *.py
-```
-
-## Python Test
-
-To test program run:
-
-```bash
-cat wordcount.hs | python3 ./wordcount.py
-```
-
-This should return `38`. That is, this should return `PASS`:
-
-```bash
-export f=wordcount.hs
-cat $f | python3 ./wordcount.py | (read count ; test $count -eq $(wc -w $f | cut -d ' ' -f1 -) && echo "PASS")
-```
-
 ## ghcid
 
 Notes on using [ghcid](https://github.com/ndmitchell/ghcid).
