@@ -14,7 +14,8 @@ module Colours (
                  Colour(..) -- Sample Colours
                ) where
 
-data Colour =  Red
+data Colour =
+              Red
             | Yellow
             | Blue
             | Green

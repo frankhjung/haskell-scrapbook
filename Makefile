@@ -88,5 +88,5 @@ clean:
 
 .PHONY: cleanall
 cleanall: clean
-	-$(RM) -rf public .pytest_cache
+	-$(RM) -rf public .pytest_cache .stack-work/
 	-$(RM) *.pyc *.sublime-workspace tags
