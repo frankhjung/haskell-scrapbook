@@ -50,7 +50,7 @@ tasks = do
   push 1        -- populate with some data
   push 2
   push 3
-  a <- pop      -- 2
-  b <- pop      -- 3
+  a <- pop      -- 3
+  b <- pop      -- 2
   push (a + b)  -- 5
   top           -- 5

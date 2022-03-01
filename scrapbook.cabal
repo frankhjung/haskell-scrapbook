@@ -23,6 +23,7 @@ library
   exposed-modules:  BinarySearch
                   , CFold
                   , Cps
+                  , Colours
                   , CountEntries
                   , Lower
                   , Mod35
@@ -147,6 +148,7 @@ test-suite          test
                     hspec-discover:hspec-discover
   other-modules:    BinarySearchSpec
                   , CFoldSpec
+                  , ColoursSpec
                   , CountEntriesSpec
                   , CpsSpec
                   , LowerSpec

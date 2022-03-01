@@ -2,7 +2,7 @@
 
 Module      : State
 Description : Deriving the State Monad
-Copyright   : © Frank Jung, 2020
+Copyright   : © Frank Jung, 2020,2021,2022
 License     : GPL-3
 
 A simple State monad implementation to explore it's characteristics.
@@ -56,9 +56,9 @@ instance Functor (State s) where
 instance Applicative (State s) where
   pure x = State (x,)
   (<*>) (State stateFx) (State nextFx) =
-    State (\s -> let (fx, s')   = stateFx s
-                     (ffx, s'') = nextFx s'
-                 in (fx ffx, s''))
+    State (\s -> let (fx', s')   = stateFx s
+                     (fx'', s'') = nextFx s'
+                 in (fx' fx'', s''))
 
 -- Monad
 instance Monad (State s) where
