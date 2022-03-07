@@ -37,7 +37,8 @@ build:
 .PHONY: test
 test:
 	@echo test ...
-	@cabal test --test-show-details=always
+#	@cabal test --test-show-details=always
+	@cabal new-test --test-show-details=failures
 
 .PHONY: bench
 bench:
@@ -51,7 +52,7 @@ doc:
 
 .PHONY: exec
 exec:	$(SRC)
-	@echo Counter ... 
+	@echo Counter ...
 	@cabal exec counter 4
 	@echo FPComplete ...
 	@cabal exec fpcomplete

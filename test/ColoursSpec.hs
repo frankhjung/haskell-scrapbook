@@ -18,5 +18,5 @@ spec =
       Blue <> Orange `shouldBe` Brown
     it "orange & blue is brown" $
       Orange <> Blue `shouldBe` Brown
-    it "(Green <> Blue) <> Yellow same as Green <> (Blue <> Yellow)" $
+    it "(green <> blue) <> yellow same as green <> (blue <> yellow)" $
       (Green <> Blue) <> Yellow `shouldBe` Green <> (Blue <> Yellow)
