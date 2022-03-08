@@ -20,14 +20,13 @@ module Compass (
                 , csucc
                 , rotate
                 , rotateMany
-                , orient
-                ) where
+                , orientate
+                , orientateMany
+               ) where
 
 -- | ToDo
 --
--- * add @rotateMany@
 -- * add @rotateManySteps@
--- * add @orientMany@
 
 -- | Cyclic bounded enumeration of compass directions.
 class (Eq a, Enum a, Bounded a) => CyclicEnum a where
@@ -96,5 +95,13 @@ rotateMany = foldl (flip rotate)
 -- direction. Any two directions can be reached from one another by one turn,
 -- so we can safely use head here. There is always exactly one element in the
 -- list.
-orient :: Direction -> Direction -> Turn
-orient d1 d2 = head $ filter (\t -> rotate t d1 == d2) every
+orientate :: Direction -> Direction -> Turn
+orientate d1 d2 = head $ filter (\t -> rotate t d1 == d2) every
+
+-- | Orientate many directions.
+--
+-- >>> orientateMany [North,East,South] [East,South,West]
+-- [TRight,TRight,TRight]
+--
+orientateMany :: [Direction] -> [Direction] -> [Turn]
+orientateMany = zipWith orientate
