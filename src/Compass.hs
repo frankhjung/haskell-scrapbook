@@ -19,6 +19,7 @@ module Compass (
                 , cpred
                 , csucc
                 , rotate
+                , rotateMany
                 , orient
                 ) where
 
@@ -67,11 +68,29 @@ every :: (Enum a, Bounded a) => [a]
 every = enumFrom minBound
 
 -- | Determine the next direction after a turn.
+--
+-- >>> rotate TLeft North
+-- West
+--
+-- >>> rotate TRight West
+-- North
+--
+-- >>> rotate TAround North
+-- South
+--
 rotate :: Turn -> Direction -> Direction
 rotate TNone   = id
 rotate TLeft   = cpred
 rotate TRight  = csucc
 rotate TAround = cpred . cpred
+
+-- | Determine the direction after a number of turns.
+--
+-- >>> rotateMany East [TLeft,TLeft,TLeft,TLeft] == East
+-- True
+--
+rotateMany :: Direction -> [Turn] -> Direction
+rotateMany = foldl (flip rotate)
 
 -- | Find a turn instruction to change from an orientation to the given
 -- direction. Any two directions can be reached from one another by one turn,

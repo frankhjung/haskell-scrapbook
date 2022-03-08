@@ -2,8 +2,8 @@
 
 module CompassSpec (spec) where
 
-import           Compass    (Direction (..), Turn (..), cpred, csucc, orient,
-                             rotate)
+import           Compass    (Direction (..), Turn (..), cpred, csucc, every,
+                             orient, rotate, rotateMany)
 import           Test.Hspec (Spec, describe, it, shouldBe)
 
 spec :: Spec
@@ -20,3 +20,6 @@ spec = do
       all (\d -> orient d (csucc d) == TRight) [minBound .. maxBound] `shouldBe` True
     it "turn around" $
       all (\d -> orient d (cpred (cpred d)) == TAround) [minBound .. maxBound] `shouldBe` True
+  describe "test compass many turns" $
+    it "many turns leading to same orientation" $
+      all (\d -> rotateMany d every == rotate TAround d) every `shouldBe` True
