@@ -2,9 +2,11 @@
 
 module CompassSpec (spec) where
 
-import           Compass    (Direction (..), Turn (..), cpred, csucc, every,
-                             orientate, orientateMany, rotate, rotateMany)
-import           Test.Hspec (Spec, describe, it, shouldBe)
+import           Compass       (Direction (..), Turn (..), cpred, csucc, every,
+                                orientate, orientateMany, rotate, rotateMany,
+                                rotateManyTurns)
+import           Control.Monad (ap)
+import           Test.Hspec    (Spec, describe, it, shouldBe)
 
 spec :: Spec
 spec = do
@@ -22,7 +24,10 @@ spec = do
       all (\d -> orientate d (cpred (cpred d)) == TAround) [minBound .. maxBound] `shouldBe` True
   describe "turn around same as all turns " $
     it "many turns leading to same orientation" $
-      all (\d -> rotateMany d every == rotate TAround d) every `shouldBe` True
+      all (ap ((==) . flip rotateMany every) (rotate TAround)) every `shouldBe` True
   describe "many directions compared to one turn right" $
     it "all turn right" $
       orientateMany every (map csucc (every :: [Direction])) `shouldBe` replicate 4 TRight
+  describe "apply many turns in succession to a direction" $
+    it "all return to start direction" $
+      fmap (last . flip rotateManyTurns (TAround : every)) every `shouldBe` every

@@ -20,13 +20,10 @@ module Compass (
                 , csucc
                 , rotate
                 , rotateMany
+                , rotateManyTurns
                 , orientate
                 , orientateMany
                ) where
-
--- | ToDo
---
--- * add @rotateManySteps@
 
 -- | Cyclic bounded enumeration of compass directions.
 class (Eq a, Enum a, Bounded a) => CyclicEnum a where
@@ -90,6 +87,17 @@ rotate TAround = cpred . cpred
 --
 rotateMany :: Direction -> [Turn] -> Direction
 rotateMany = foldl (flip rotate)
+
+-- | Get all directions when applying a list of turns.
+--
+-- >>> rotateManyTurns North [TNone,TAround]
+-- [North,North,South]
+--
+-- >>> rotateManyTurns North every
+-- [North,North,West,North,South]
+--
+rotateManyTurns :: Direction -> [Turn] -> [Direction]
+rotateManyTurns = scanl (flip rotate)
 
 -- | Find a turn instruction to change from an orientation to the given
 -- direction. Any two directions can be reached from one another by one turn,

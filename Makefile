@@ -37,8 +37,8 @@ build:
 .PHONY: test
 test:
 	@echo test ...
-#	@cabal test --test-show-details=always
-	@cabal new-test --test-show-details=failures
+	@cabal test --test-show-details=always
+#	@cabal new-test --test-show-details=failures
 
 .PHONY: bench
 bench:
