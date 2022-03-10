@@ -2,9 +2,10 @@
 
 A collection of short scripts testing functions and techniques.
 
-The project is built using [Cabal](https://www.haskell.org/cabal/). To
-coordinate build the various task I use [GNU
-Make](https://www.gnu.org/software/make/).
+The project is built using [Cabal](https://www.haskell.org/cabal/).
+
+To coordinate various build tasks I use
+[GNU Make](https://www.gnu.org/software/make/).
 
 ## Links
 
@@ -25,7 +26,7 @@ have not yet gotten around to build an über main yet. The idea was really to
 test an run code snippets quickly without having to bother with compiling and
 linking a main module.
 
-The compilation using make is to validate the source files.
+The build uses GNU make to check source files.
 
 ### Build
 
@@ -47,10 +48,10 @@ This runs `tags`, `style` and `lint`:
 
 ```bash
 SRC=$(find * -name "*.hs")
-hasktags --ctags --extendedctag $SRC
-stylish-haskell --config=.stylish-haskell.yaml --inplace $SRC
+hasktags --ctags --extendedctag ${SRC}
+stylish-haskell --config=.stylish-haskell.yaml --inplace ${SRC}
 cabal check
-hlint --cross --color --show $SRC
+hlint --cross --color --show ${SRC}
 ```
 
 ### Unit Tests
@@ -114,5 +115,5 @@ ghcid -lc 'ghci app/Threads.hs'
 
 If no errors, then the screen will report something like:
 
-<span style="color:green">All good</span> (1 module, at 21:28:27)
-
+All good (1 module, at 21:28:27)
+{: .gitlab-green}
