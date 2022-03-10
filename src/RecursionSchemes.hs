@@ -72,7 +72,7 @@ module RecursionSchemes (
 
 import           Data.Function ((&))
 
--- | Generalised fixed point for any functor `f`.
+-- | Generalised fixed point for any functor /f/.
 -- Note that @unFix (Fix x) == x@
 newtype Fix f = Fix { unFix :: f (Fix f) }
 
@@ -102,11 +102,11 @@ type RAlgebra f a = Fix f -> f a -> a
 ana :: Functor f => (a -> f a) -> a -> Fix f
 ana coalg = Fix . fmap (ana coalg) . coalg
 
--- Catamorphism - consume a structure.
+-- | Catamorphism - consume a structure.
 cata :: Functor f => (f a -> a) -> Fix f -> a
 cata alg = alg . fmap (cata alg) . unFix
 
--- Paramorphism - improved consumption of a structure.
+-- | Paramorphism - improved consumption of a structure.
 para :: Functor f => RAlgebra f a -> Fix f -> a
 para ralg t = unFix t & fmap (para ralg) & ralg t
 

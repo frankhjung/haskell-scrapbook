@@ -15,6 +15,7 @@ Chapter 2. Manipulating a radar antenna with type classes.
 module Compass (
                   Direction(..) -- Compass direction
                 , Turn(..) -- Turn instruction
+                , CyclicEnum
                 , every
                 , cpred
                 , csucc
@@ -103,8 +104,16 @@ rotateManyTurns = scanl (flip rotate)
 -- direction. Any two directions can be reached from one another by one turn,
 -- so we can safely use head here. There is always exactly one element in the
 -- list.
+--
+-- >>> orientate North South
+-- TAround
+--
+-- >>> orientate South West
+-- TRight
+--
 orientate :: Direction -> Direction -> Turn
-orientate d1 d2 = head $ filter (\t -> rotate t d1 == d2) every
+orientate d1 d2 = head $ filter ((d2 ==) . flip rotate d1) every
+-- orientate d1 d2 = head $ filter (\t -> rotate t d1 == d2) every
 
 -- | Orientate many directions.
 --

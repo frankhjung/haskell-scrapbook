@@ -14,6 +14,7 @@ module Colours (
                  Colour(..) -- Sample Colours
                ) where
 
+-- | Acceptable colours.
 data Colour =
               Red
             | Yellow
@@ -23,6 +24,7 @@ data Colour =
             | Orange
             | Brown deriving (Show,Eq)
 
+-- | Example semigroup with a colours.
 instance Semigroup Colour where
     (<>) a b  | a == b = a
               | all (`elem` [Red,Blue,Purple]) [a,b] = Purple
