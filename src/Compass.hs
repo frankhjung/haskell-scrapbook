@@ -56,6 +56,21 @@ class (Eq a, Enum a, Bounded a) => CyclicEnum a where
 data Direction = North | East | South | West
   deriving (Eq, Enum, Bounded, CyclicEnum, Show)
 
+-- | Turn instruction form a Semigroup.
+instance Semigroup Turn where
+  TNone <> t         = t
+  TLeft <> TLeft     = TAround
+  TLeft <> TRight    = TNone
+  TLeft <> TAround   = TRight
+  TRight <> TRight   = TAround
+  TRight <> TAround  = TLeft
+  TAround <> TAround = TNone
+  t1 <> t2           = t2 <> t1
+
+-- | Turn instruction form a Monoid.
+instance Monoid Turn where
+  mempty = TNone
+
 -- | Instructions for Compass turns.
 data Turn = TNone | TLeft | TRight | TAround
   deriving (Eq, Enum, Bounded, Show)
@@ -87,7 +102,9 @@ rotate TAround = cpred . cpred
 -- True
 --
 rotateMany :: Direction -> [Turn] -> Direction
-rotateMany = foldl (flip rotate)
+rotateMany = flip (rotate . mconcat)
+-- rotateMany d ts = rotate (mconcat ts) d  -- before point-free
+-- rotateMany = foldl (flip rotate)         -- prior to monoid definition
 
 -- | Get all directions when applying a list of turns.
 --

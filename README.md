@@ -47,7 +47,7 @@ make check
 This runs `tags`, `style` and `lint`:
 
 ```bash
-SRC=$(find * -name "*.hs")
+SRC=$(find * -name '*.hs')
 hasktags --ctags --extendedctag ${SRC}
 stylish-haskell --config=.stylish-haskell.yaml --inplace ${SRC}
 cabal check
@@ -115,5 +115,5 @@ ghcid -lc 'ghci app/Threads.hs'
 
 If no errors, then the screen will report something like:
 
-All good (1 module, at 21:28:27)
-{: .gitlab-green}
+> All good (1 module, at 21:28:27)
+

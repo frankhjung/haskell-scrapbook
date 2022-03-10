@@ -31,3 +31,12 @@ spec = do
   describe "apply many turns in succession to a direction" $
     it "all return to start direction" $
       fmap (last . flip rotateManyTurns (TAround : every)) every `shouldBe` every
+  describe "check monoid laws" $ do
+    it "identity" $
+      mempty `shouldBe` TNone
+    it "left identity" $
+      all (\d -> (d <> TNone ) == d) ([minBound .. maxBound] :: [Turn]) `shouldBe` True
+    it "right identity" $
+      all (\d -> (TNone <> d) == d) ([minBound .. maxBound] :: [Turn]) `shouldBe` True
+    it "associativity" $
+      all (\d -> (d <> (d <> d)) == (d <> d) <> d) ([minBound .. maxBound] :: [Turn]) `shouldBe` True
