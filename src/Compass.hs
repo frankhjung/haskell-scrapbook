@@ -74,7 +74,7 @@ instance Monoid Turn where
 
 -- | Instructions for Compass turns.
 data Turn = TNone | TLeft | TRight | TAround
-  deriving (Eq, Enum, Bounded, Show)
+  deriving (Eq, Ord, Enum, Bounded, Show)
 
 -- | Get every direction in the compass.
 every :: (Enum a, Bounded a) => [a]
@@ -130,8 +130,8 @@ rotateManyTurns = scanl (flip rotate)
 -- TRight
 --
 orientate :: Direction -> Direction -> Turn
-orientate d1 d2 = head $ filter ((d2 ==) . flip rotate d1) every
--- orientate d1 d2 = head $ filter (\t -> rotate t d1 == d2) every
+orientate d1 d2 = head $ filter (\t -> rotate t d1 == d2) every
+-- orientate d1 d2 = head $ filter ((d2 ==) . flip rotate d1) every
 
 -- | Orientate many directions.
 --
