@@ -40,6 +40,7 @@ jobs:
           stack path
           stack query
           stack ls dependencies
+          cabal check
 
       - name: build
         run: stack build --pedantic --no-test
@@ -58,7 +59,7 @@ jobs:
         # yamllint enable
 
       - name: document
-        run: stack haddock --no-rerun-tests --no-reconfigure
+        run: stack haddock
 
       - name: copy
         run: |
