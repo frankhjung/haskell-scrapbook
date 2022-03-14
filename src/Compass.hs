@@ -8,7 +8,8 @@ Copyright   : © Frank Jung, 2022
 License     : GPL-3
 
 From "Haskell in Depth" by Vitaly Bragilevsky,
-Chapter 2. Manipulating a radar antenna with type classes.
+Chapter 2. Manipulating a radar antenna with type classes. Here I've replaced
+the reference to the radar antenna with a compass.
 
 -}
 

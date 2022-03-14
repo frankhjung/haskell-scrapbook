@@ -35,8 +35,8 @@ spec = do
     it "identity" $
       mempty `shouldBe` TNone
     it "left identity" $
-      all (\d -> (d <> TNone ) == d) ([minBound .. maxBound] :: [Turn]) `shouldBe` True
+      all (\d -> (d <> TNone ) == d) (every :: [Turn]) `shouldBe` True
     it "right identity" $
-      all (\d -> (TNone <> d) == d) ([minBound .. maxBound] :: [Turn]) `shouldBe` True
+      all (\d -> (TNone <> d) == d) (every :: [Turn]) `shouldBe` True
     it "associativity" $
-      all (\d -> (d <> (d <> d)) == (d <> d) <> d) ([minBound .. maxBound] :: [Turn]) `shouldBe` True
+      all (\d -> (d <> (d <> d)) == (d <> d) <> d) (every :: [Turn]) `shouldBe` True
