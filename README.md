@@ -83,6 +83,13 @@ from GitHub, here:
   * [SubSeqs](https://frankhjung.github.io/haskell-scrapbook/benchmark-subseqs.html)
   * [ZipFold](https://frankhjung.github.io/haskell-scrapbook/benchmark-zipfold.html)
 
+Individual benchmarks can be reported as well by calling the benchmark
+executable and providing an output file. For example:
+
+```bash
+dist-newstyle/build/x86_64-linux/ghc-8.8.4/scrapbook-0.1.0/b/myfilterBench/build/myfilterBench/myfilterBench --output myfilter.html
+```
+
 ### API Documentation
 
 To generate [Haddock](https://www.haskell.org/haddock/doc/html/) for source:

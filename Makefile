@@ -43,7 +43,7 @@ test:
 .PHONY: bench
 bench:
 	@echo bench ...
-	@cabal bench
+	@cabal bench --jobs=1
 
 .PHONY: doc
 doc:
