@@ -30,7 +30,7 @@ lint:	$(SRC)
 	@yamllint --strict $(YAMLS)
 
 .PHONY: build
-build:
+build:	check
 	@echo build ...
 	@cabal build
 
@@ -38,6 +38,7 @@ build:
 test:
 	@echo test ...
 	@cabal test --test-show-details=always
+# Show just test failures
 #	@cabal new-test --test-show-details=failures
 
 .PHONY: bench
@@ -51,11 +52,15 @@ doc:
 	@cabal haddock --haddock-quickjump --haddock-hyperlink-source
 
 .PHONY: exec
-exec:	$(SRC)
+exec:	build
 	@echo Counter ...
 	@cabal exec counter 4
 	@echo FPComplete ...
 	@cabal exec fpcomplete
+	@echo knights ...
+	@cabal exec knights
+	@echo magicians ...
+	@cabal exec magicians
 	@echo PolyDivisors ...
 	@cabal exec polydivs 123456789
 	@echo Quine ...

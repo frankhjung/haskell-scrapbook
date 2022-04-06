@@ -1,7 +1,7 @@
 module Main (main) where
 
 import           Control.Concurrent          (forkIO)
-import           Control.Concurrent.STM.TVar (modifyTVar', newTVar, readTVar,
+import           Control.Concurrent.STM.TVar (modifyTVar', newTVarIO, readTVar,
                                               readTVarIO)
 import           Control.Monad.STM           (atomically, check)
 import           System.IO                   (BufferMode (LineBuffering),
@@ -18,7 +18,7 @@ main = do
   hSetBuffering stdout LineBuffering
 
   -- counter to be incremented
-  tasksCompleted <- atomically (newTVar (0 :: Int))
+  tasksCompleted <- newTVarIO (0 :: Int)
 
   -- show thread and increment task completed flag
   -- "main" will end once each thread has incremented the task complete flag

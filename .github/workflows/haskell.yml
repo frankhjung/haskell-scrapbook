@@ -59,16 +59,18 @@ jobs:
         # yamllint enable
 
       - name: document
+        if: github.ref_name == 'master'
         run: stack haddock
 
-      - name: copy
+      - name: public
+        if: github.ref_name == 'master'
         run: |
           mv $(stack path --local-doc-root) public/
           mv .stack-work/benchmark-*.html public/
 
       - name: publish
         uses: crazy-max/ghaction-github-pages@v0.4.0
-        if: success()
+        if: success() && github.ref_name == 'master'
         with:
           build_dir: public
         env:

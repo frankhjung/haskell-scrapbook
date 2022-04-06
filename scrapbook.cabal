@@ -1,4 +1,4 @@
-cabal-version: 1.12
+cabal-version:      1.12
 
 name:               scrapbook
 version:            0.1.0
@@ -8,7 +8,7 @@ homepage:           https://github.com/frankhjung/haskell-scrapbook#readme
 bug-reports:        https://github.com/frankhjung/haskell-scrapbook/issues
 author:             Frank H Jung
 maintainer:         frankhjung@linux.com
-copyright:          Copyright © 2020,2021 Frank H Jung
+copyright:          Copyright © 2020,2021,2022 Frank H Jung
 license:            BSD3
 license-file:       LICENSE
 category:           education
@@ -71,6 +71,26 @@ executable          fpcomplete
                     -Wno-unused-top-binds
                     -threaded -rtsopts -with-rtsopts=-N
   build-depends:    base
+
+executable          knights
+  main-is:          Knights.hs
+  hs-source-dirs:   app
+  default-language: Haskell2010
+  ghc-options:      -Wno-unrecognised-pragmas
+                    -Wno-unused-top-binds
+                    -threaded -rtsopts -with-rtsopts=-N
+  build-depends:    base
+                  , fmt
+
+executable          magicians
+  main-is:          Magicians.hs
+  hs-source-dirs:   app
+  default-language: Haskell2010
+  ghc-options:      -Wno-unrecognised-pragmas
+                    -Wno-unused-top-binds
+                    -threaded -rtsopts -with-rtsopts=-N
+  build-depends:    base
+                  , fmt
 
 executable          polydivs
   main-is:          PolyDivs.hs
