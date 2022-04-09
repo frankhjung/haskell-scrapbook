@@ -72,6 +72,16 @@ executable          fpcomplete
                     -threaded -rtsopts -with-rtsopts=-N
   build-depends:    base
 
+executable          grandparents
+  main-is:          Grandparents.hs
+  hs-source-dirs:   app
+  default-language: Haskell2010
+  ghc-options:      -Wno-unrecognised-pragmas
+                    -Wno-unused-top-binds
+                    -threaded -rtsopts -with-rtsopts=-N
+  build-depends:    base
+                  , logict
+
 executable          knights
   main-is:          Knights.hs
   hs-source-dirs:   app
