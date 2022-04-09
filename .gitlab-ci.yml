@@ -5,12 +5,12 @@ stages:
   - deploy
 
 build:
+  stage: build
   except:
     - tags
   image:
     name: frankhjung/haskell:8.8.4
     entrypoint: [""]
-  stage: build
   script:
     - make setup check build test doc exec bench
     - mkdir -p public/
@@ -26,11 +26,10 @@ build:
       - dist-newstyle/
 
 pages:
-  only:
-    refs:
-      - master
-  image: alpine:latest
   stage: deploy
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+  image: alpine:latest
   script:
     - echo Publishing documentation ...
   dependencies:

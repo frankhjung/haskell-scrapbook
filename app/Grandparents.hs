@@ -1,13 +1,22 @@
 {-
+
 == LogicT
 
 Example from <https://github.com/Bodigrim/logict#readme Haskell logict Package>.
+
+See also <https://medium.com/twelve-days-of-monad/day-8-logict-a-list-transformer-a03dabba79cf LogicT — A List Transformer>
+
 -}
 
 import           Control.Applicative   (empty, (<|>))
 import           Control.Monad         (guard)
 import           Control.Monad.Logic   (Logic (..), LogicT (..), observeAll)
 import           Data.Functor.Identity (Identity)
+
+-- >>> do { x <- pure 0 <|> pure 1 <|> pure 2; if even x then pure x else empty } :: [Int]
+-- [0,2]
+-- >>> [x | x <- [0..2], even x]
+-- [0,2]
 
 -- | The known parent and child.
 parents :: [ (String, String) ]
