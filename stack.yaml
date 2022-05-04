@@ -1,9 +1,7 @@
 ---
 
-arch: x86_64
-system-ghc: ghc-8.8.4
 resolver: lts-16.31
-allow-newer: true
+arch: x86_64
 flags: {}
 packages: ['.']
 extra-deps:
