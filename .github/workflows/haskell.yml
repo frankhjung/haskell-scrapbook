@@ -5,7 +5,6 @@ name: haskell scrapbook
 # yamllint disable-line rule:truthy
 on:
   push:
-    branches: [master, 'feature**']
   check_run:
     types: [rerequested, requested_action]
 # yamllint enable
