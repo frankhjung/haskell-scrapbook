@@ -46,7 +46,6 @@ jobs:
         run: stack test
 
       - name: benchmark
-        if: github.ref == 'refs/heads/master'
         # yamllint disable rule:line-length
         run: |
           stack bench scrapbook:bench:myreverseBench --ba '-o .stack-work/benchmark-myreverse.html'
@@ -67,9 +66,10 @@ jobs:
           mv .stack-work/benchmark-*.html public/
 
       - name: publish
-        uses: crazy-max/ghaction-github-pages@v0.4.0
         if: success() && github.ref == 'refs/heads/master'
+        uses: crazy-max/ghaction-github-pages@v2
         with:
+          target_branch: gh-pages
           build_dir: public
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}
