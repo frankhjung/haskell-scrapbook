@@ -10,7 +10,7 @@ See also <https://medium.com/twelve-days-of-monad/day-8-logict-a-list-transforme
 
 import           Control.Applicative   (empty, (<|>))
 import           Control.Monad         (guard)
-import           Control.Monad.Logic   (Logic (..), LogicT (..), observeAll)
+import           Control.Monad.Logic   (Logic, LogicT, observeAll)
 import           Data.Functor.Identity (Identity)
 
 -- >>> do { x <- pure 0 <|> pure 1 <|> pure 2; if even x then pure x else empty } :: [Int]
