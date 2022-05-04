@@ -68,9 +68,7 @@ jobs:
 
       - name: publish
         if: success() && github.ref == 'refs/heads/master'
-        uses: crazy-max/ghaction-github-pages@v2
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          target_branch: gh-pages
-          build_dir: public
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}
+          branch: gh-pages
+          folder: public
