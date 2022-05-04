@@ -3,8 +3,8 @@ module RecursionSchemesSpec (spec) where
 
 import           Numeric.Natural       (Natural)
 import           RecursionSchemes      (Fix (..), ListF (..), buildListF,
-                                        fromNat, lengthListF, lengthListF',
-                                        toList, toNat)
+                                        fromNat, insert, lengthListF,
+                                        lengthListF', toList, toNat)
 
 import           Test.Hspec            (Spec, describe, it, shouldBe)
 import           Test.Hspec.QuickCheck (prop)
@@ -34,3 +34,8 @@ spec = do
   describe "quickcheck random list generation" $
     prop "quickcheck list length same as list build" $
       \(NonNegative (n :: Int)) -> (lengthListF . buildListF) n `shouldBe` n
+  describe "para'" $ do
+    it "insert 1 [] is [1]" $
+      insert 1 [] `shouldBe` [1]
+    it "insert c abde is abcde" $
+      insert 'c' "abde" `shouldBe` "abcde"
