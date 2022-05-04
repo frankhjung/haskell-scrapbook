@@ -57,6 +57,7 @@ module RecursionSchemes (
                         , ana
                         , cata
                         , para
+                        , para'
                         -- * Coalgebra's
                         , buildListF
                         , buildCoalg
@@ -67,9 +68,11 @@ module RecursionSchemes (
                         , fromNat
                         , toNat
                         -- * Utilities
+                        , insert
                         , toList
                         ) where
 
+import           Data.Bool     (bool)
 import           Data.Function ((&))
 
 -- | Generalised fixed point for any functor /f/.
@@ -110,6 +113,11 @@ cata alg = alg . fmap (cata alg) . unFix
 para :: Functor f => RAlgebra f a -> Fix f -> a
 para ralg t = unFix t & fmap (para ralg) & ralg t
 
+-- | Example paramorphism where input list is first parameter.
+para' :: [t1] -> (t1 -> [t1] -> t2 -> t2) -> t2 -> t2
+para' [] op b     = b
+para' (x:xs) op b = op x xs (para' xs op b)
+
 -- | Coalgebra is a non-recursive function to generate a `ListF` entry.
 buildCoalg :: Int -> ListF Int Int
 buildCoalg n
@@ -146,6 +154,20 @@ toNat = ana coalg where
   coalg n
     | n <= 0    = ZeroF
     | otherwise = SuccF (n - 1)
+
+-- | Insert element into list at correct ordered position.
+-- >>> insert 1 [2,3,4]
+-- [1,2,3,4]
+-- >>> insert 1 []
+-- [1]
+-- >>> insert 'c' "abde"
+-- "abcde"
+-- >>> insert 'c' "abde" == "abcde"
+-- True
+insert :: Ord a => a -> [a] -> [a]
+insert e xs = para' xs go [e]
+  where
+    go y ys yse = bool (y:yse) (e:y:ys) (e < y)
 
 -- | Convert a `ListF` to a standard list.
 toList :: Fix (ListF a) -> [a]
