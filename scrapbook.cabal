@@ -208,7 +208,7 @@ benchmark           myfilterBench
   default-language: Haskell2010
   type:             exitcode-stdio-1.0
   build-depends:    base
-                  , criterion >= 1.5.6.1 && < 1.5.7
+                  , criterion >= 1.5.7.0 && < 1.5.8
                   , scrapbook
 
 benchmark           myreverseBench
@@ -217,7 +217,7 @@ benchmark           myreverseBench
   default-language: Haskell2010
   type:             exitcode-stdio-1.0
   build-depends:    base
-                  , criterion >= 1.5.6.1 && < 1.5.7
+                  , criterion
                   , scrapbook
 
 benchmark           polydivisorsBench
@@ -226,7 +226,7 @@ benchmark           polydivisorsBench
   default-language: Haskell2010
   type:             exitcode-stdio-1.0
   build-depends:    base
-                  , criterion >= 1.5.6.1 && < 1.5.7
+                  , criterion
                   , scrapbook
 
 benchmark           repmaxBench
@@ -235,7 +235,7 @@ benchmark           repmaxBench
   default-language: Haskell2010
   type:             exitcode-stdio-1.0
   build-depends:    base
-                  , criterion >= 1.5.6.1 && < 1.5.7
+                  , criterion
                   , scrapbook
 
 benchmark           subseqsBench
@@ -244,7 +244,7 @@ benchmark           subseqsBench
   default-language: Haskell2010
   type:             exitcode-stdio-1.0
   build-depends:    base
-                  , criterion >= 1.5.6.1 && < 1.5.7
+                  , criterion
                   , scrapbook
 
 benchmark           zipfoldBench
@@ -253,5 +253,5 @@ benchmark           zipfoldBench
   default-language: Haskell2010
   type:             exitcode-stdio-1.0
   build-depends:    base
-                  , criterion >= 1.5.6.1 && < 1.5.7
+                  , criterion
                   , scrapbook
