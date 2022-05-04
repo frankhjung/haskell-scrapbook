@@ -115,7 +115,7 @@ para ralg t = unFix t & fmap (para ralg) & ralg t
 
 -- | Example paramorphism where input list is first parameter.
 para' :: [t1] -> (t1 -> [t1] -> t2 -> t2) -> t2 -> t2
-para' [] op b     = b
+para' [] _ b      = b
 para' (x:xs) op b = op x xs (para' xs op b)
 
 -- | Coalgebra is a non-recursive function to generate a `ListF` entry.
