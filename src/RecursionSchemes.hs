@@ -113,8 +113,13 @@ cata alg = alg . fmap (cata alg) . unFix
 para :: Functor f => RAlgebra f a -> Fix f -> a
 para ralg t = unFix t & fmap (para ralg) & ralg t
 
--- | Example paramorphism where input list is first parameter.
-para' :: [t1] -> (t1 -> [t1] -> t2 -> t2) -> t2 -> t2
+-- | Paramorphism where input list is the first parameter.
+-- This example comes from
+-- [Making Sense of Recursion Patterns](https://dl.acm.org/doi/abs/10.5555/2663689.2663693)
+-- by Paul Bailes and Leighton Brough. It extends `foldr` by supplying to the
+-- combining operation (op) the unprocessed list tail, in addition to the head
+-- and the result of recursion on the tail as provided by `foldr`.
+para' :: [a] -> (a -> [a] -> b -> b) -> b -> b
 para' [] _ b      = b
 para' (x:xs) op b = op x xs (para' xs op b)
 
@@ -156,12 +161,16 @@ toNat = ana coalg where
     | otherwise = SuccF (n - 1)
 
 -- | Insert element into list at correct ordered position.
+--
 -- >>> insert 1 [2,3,4]
 -- [1,2,3,4]
+--
 -- >>> insert 1 []
 -- [1]
+--
 -- >>> insert 'c' "abde"
 -- "abcde"
+--
 -- >>> insert 'c' "abde" == "abcde"
 -- True
 insert :: Ord a => a -> [a] -> [a]
