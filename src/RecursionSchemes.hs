@@ -6,12 +6,11 @@
 {-|
 
 Module      : RecursionSchemes
-Description : Ana- and Cata- morphism recursion example using Types
-Copyright   : © Frank Jung, 2021
+Description : Examples of Ana/Cata/Para-morphisms recursion schemes
+Copyright   : © Frank Jung, 2021, 2022
 License     : GPL-3
 
-Source
-<https://stackoverflow.com/questions/48023348/deriving-a-functor-for-an-infinite-stream Deriving a functor for an infinite stream>
+A collection of recursion scheme examples.
 
 = Examples
 
@@ -44,6 +43,17 @@ lengthListF ls
 4
 @
 
+== Paramorphism
+
+The paramorphism examples come from "Making Sense of Recursion Patterns".
+A paramorphism is like a catamorphism, but it preserves the initial data
+structure.
+
+= References
+
+* <https://stackoverflow.com/questions/48023348/deriving-a-functor-for-an-infinite-stream Deriving a functor for an infinite stream>
+* <https://dl.acm.org/doi/abs/10.5555/2663689.2663693 Making Sense of Recursion Patterns by Paul Bailes and Leighton Brough>
+
 -}
 
 module RecursionSchemes (
@@ -58,6 +68,7 @@ module RecursionSchemes (
                         , cata
                         , para
                         , para'
+                        , para''
                         -- * Coalgebra's
                         , buildListF
                         , buildCoalg
@@ -69,6 +80,7 @@ module RecursionSchemes (
                         , toNat
                         -- * Utilities
                         , insert
+                        , insert'
                         , toList
                         ) where
 
@@ -114,14 +126,51 @@ para :: Functor f => RAlgebra f a -> Fix f -> a
 para ralg t = unFix t & fmap (para ralg) & ralg t
 
 -- | Paramorphism where input list is the first parameter.
--- This example comes from
+-- This comes from
 -- [Making Sense of Recursion Patterns](https://dl.acm.org/doi/abs/10.5555/2663689.2663693)
 -- by Paul Bailes and Leighton Brough. It extends `foldr` by supplying to the
 -- combining operation (op) the unprocessed list tail, in addition to the head
 -- and the result of recursion on the tail as provided by `foldr`.
-para' :: [a] -> (a -> [a] -> b -> b) -> b -> b
-para' [] _ b      = b
-para' (x:xs) op b = op x xs (para' xs op b)
+--
+-- Sum a list:
+--
+-- >>> para' (const . (+)) 0 [1,2,3]
+-- 6
+--
+-- Suffixes of a list:
+--
+-- >>> para' (const (:)) [] "abcd"
+-- ["bcd","cd","d",""]
+--
+para' :: (a -> [a] -> b -> b) -> b -> [a] -> b
+para' _ b []      = b
+para' op b (x:xs) = op x xs (para' op b xs)
+
+-- | Paramorphism using `foldr`.
+-- This comes from
+-- [Making Sense of Recursion Patterns](https://dl.acm.org/doi/abs/10.5555/2663689.2663693)
+-- by Paul Bailes and Leighton Brough.
+--
+-- The following shows how to get a catamorphism from a paramorphism.
+-- In this example, we are calculating the sum of items from a list.
+--
+-- Sum a list:
+--
+-- >>> para'' (const . (+)) 0 [1,2,3]
+-- 6
+--
+-- Suffixes of a list:
+--
+-- >>> para'' (\ _ xs xss -> xs : xss) [] "abcd"
+-- ["bcd","cd","d",""]
+--
+-- >>> para'' (const (:)) [] "abcd"
+-- ["bcd","cd","d",""]
+--
+para'' :: (a -> [a] -> b -> b) -> b -> [a] -> b
+para'' op b xs = snd $ foldr go ([], b) xs
+  where
+    go y (ys, ys') = (y:ys, op y ys ys')
 
 -- | Coalgebra is a non-recursive function to generate a `ListF` entry.
 buildCoalg :: Int -> ListF Int Int
@@ -160,23 +209,46 @@ toNat = ana coalg where
     | n <= 0    = ZeroF
     | otherwise = SuccF (n - 1)
 
--- | Insert element into list at correct ordered position.
+-- | Insert element into list at correct ordered position using `foldr`.
 --
 -- >>> insert 1 [2,3,4]
 -- [1,2,3,4]
 --
--- >>> insert 1 []
--- [1]
---
 -- >>> insert 'c' "abde"
 -- "abcde"
 --
--- >>> insert 'c' "abde" == "abcde"
--- True
+-- >>> insert 'f' "abcde"
+-- "abcdef"
+--
+-- >>> insert 'o' "oa"
+-- "ooa"
+--
 insert :: Ord a => a -> [a] -> [a]
-insert e xs = para' xs go [e]
+insert e = snd . foldr go ([], [e])
   where
-    go y ys yse = bool (y:yse) (e:y:ys) (e < y)
+    go y (ys, yse) = (y:ys, bool (y:yse) (e:y:ys) (e <= y))
+
+-- | Insert element into list at correct ordered position.
+--
+-- >>> insert' 1 [2,3,4]
+-- [1,2,3,4]
+--
+-- >>> insert' 1 []
+-- [1]
+--
+-- >>> insert' 'c' "abde"
+-- "abcde"
+--
+-- >>> insert' 'c' "abde" == "abcde"
+-- True
+--
+-- >>> insert' 'o' "oa"
+-- "ooa"
+--
+insert' :: Ord a => a -> [a] -> [a]
+insert' e = para' go [e]
+  where
+    go y ys yse = bool (y:yse) (e:y:ys) (e <= y)
 
 -- | Convert a `ListF` to a standard list.
 toList :: Fix (ListF a) -> [a]
