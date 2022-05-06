@@ -32,6 +32,7 @@ library
                   , MyFilter
                   , MyPenultimate
                   , MyReverse
+                  , MyTake
                   , Permutation
                   , PolyDivisors
                   , RecursionSchemes
@@ -189,6 +190,7 @@ test-suite          test
                   , MyFilterSpec
                   , MyPenultimateSpec
                   , MyReverseSpec
+                  , MyTakeSpec
                   , PermutationSpec
                   , PolyDivisorsSpec
                   , QsortSpec
