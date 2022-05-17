@@ -82,6 +82,9 @@ module RecursionSchemes (
                         , insert
                         , insert'
                         , toList
+                        , foldXs
+                        , idx
+                        , idx'
                         ) where
 
 import           Data.Bool     (bool)
@@ -256,3 +259,21 @@ toList = cata alg
   where alg ls = case ls of
                   NilF      -> []
                   ConsF a r -> a : r
+
+-- | `foldXs` is `foldr` with the structure moved as the first parameter.
+foldXs :: Foldable t => t a -> (a -> b -> b) -> b -> b
+foldXs xs op b = foldr op b xs
+
+-- | List indexing.
+--
+-- >>> idx "abcde"
+-- [0,1,2,3,4]
+idx :: (Foldable t1, Enum t2, Num t2) => t1 a -> [t2]
+idx xs = foldXs xs (\ _ f m -> m : f (succ m)) (const []) 0
+
+-- | Alternate list indexing.
+--
+-- >>> idx' "abcde"
+-- [0,1,2,3,4]
+idx' :: [b] -> [Integer]
+idx' = zipWith const [0..]

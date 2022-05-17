@@ -4,8 +4,9 @@ module RecursionSchemesSpec (spec) where
 import           Data.List                 as DL
 import           Numeric.Natural           (Natural)
 import           RecursionSchemes          (Fix (..), ListF (..), buildListF,
-                                            fromNat, lengthListF, lengthListF',
-                                            para', para'', toList, toNat)
+                                            fromNat, idx, idx', lengthListF,
+                                            lengthListF', para', para'', toList,
+                                            toNat)
 import           RecursionSchemes          as RS
 
 import           Test.Hspec                (Spec, describe, it, shouldBe)
@@ -63,3 +64,7 @@ spec = do
       \(xs :: [Int]) -> sum xs `shouldBe` para'' (const . (+)) 0 xs
     prop "para'' to produce all suffixes" $
       \(NonEmpty (xs :: String)) -> para'' (const (:)) [] xs `shouldBe` (tail . DL.tails) xs
+
+  describe "fold" $
+    prop "idx same as idx'" $
+      \(xs :: String) -> idx xs `shouldBe` idx' xs
