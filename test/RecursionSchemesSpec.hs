@@ -1,13 +1,13 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 module RecursionSchemesSpec (spec) where
 
-import           Data.List                 as DL
+import           Data.List                 as DL (insert, tails)
 import           Numeric.Natural           (Natural)
 import           RecursionSchemes          (Fix (..), ListF (..), buildListF,
-                                            fromNat, idx, idx', idx'', idx''',
-                                            lengthListF, lengthListF', para',
-                                            para'', toList, toNat)
-import           RecursionSchemes          as RS
+                                            fromNat, idx0, idx1, idx2, idx3,
+                                            idx4, lengthListF, lengthListF',
+                                            para', para'', toList, toNat)
+import           RecursionSchemes          as RS (insert, insert')
 
 import           Test.Hspec                (Spec, describe, it, shouldBe)
 import           Test.Hspec.QuickCheck     (prop)
@@ -66,9 +66,11 @@ spec = do
       \(NonEmpty (xs :: String)) -> para'' (const (:)) [] xs `shouldBe` (tail . DL.tails) xs
 
   describe "index list using fold" $ do
-    prop "idx same as idx'" $
-      \(xs :: String) -> idx xs `shouldBe` idx' xs
-    prop "idx same as idx''" $
-      \(xs :: String) -> idx xs `shouldBe` idx'' xs
-    prop "idx same as idx'''" $
-      \(xs :: String) -> idx xs `shouldBe` idx''' xs
+    prop "idx0 same as idx1" $
+      \(xs :: String) -> idx0 xs `shouldBe` idx1 xs
+    prop "idx0 same as idx2" $
+      \(xs :: String) -> idx0 xs `shouldBe` idx2 xs
+    prop "idx0 same as idx3" $
+      \(xs :: String) -> idx0 xs `shouldBe` idx3 xs
+    prop "idx0 same as idx4" $
+      \(xs :: String) -> idx0 xs `shouldBe` idx4 xs
