@@ -85,6 +85,8 @@ module RecursionSchemes (
                         , foldXs
                         , idx
                         , idx'
+                        , idx''
+                        , idx'''
                         ) where
 
 import           Data.Bool     (bool)
@@ -268,7 +270,7 @@ foldXs xs op b = foldr op b xs
 --
 -- >>> idx "abcde"
 -- [0,1,2,3,4]
-idx :: (Foldable t1, Enum t2, Num t2) => t1 a -> [t2]
+idx :: (Foldable t, Enum b, Num b) => t a -> [b]
 idx xs = foldXs xs (\ _ f m -> m : f (succ m)) (const []) 0
 
 -- | Alternate list indexing.
@@ -277,3 +279,17 @@ idx xs = foldXs xs (\ _ f m -> m : f (succ m)) (const []) 0
 -- [0,1,2,3,4]
 idx' :: [b] -> [Integer]
 idx' = zipWith const [0..]
+
+-- | List indexing using `foldr`.
+--
+-- >>> idx'' "abcde"
+-- [0,1,2,3,4]
+idx'' :: [b] -> [Integer]
+idx'' xs = foldr (\ _ f (y:ys) -> y : f ys) (const []) xs [0..]
+
+-- | List indexing using `foldr` with parameter last.
+--
+-- >>> idx''' "abcde"
+-- [0,1,2,3,4]
+idx''' :: [b] -> [Integer]
+idx''' = flip (foldr (\ _ f (y:ys) -> y : f ys) (const [])) [0..]
