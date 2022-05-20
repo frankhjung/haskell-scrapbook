@@ -26,7 +26,7 @@ the stream by swapping 'foldr' with 'foldl'.
 
 -}
 
-module ZipFold (Zip(..), zip) where
+module ZipFold (Zip(..), zip, zip') where
 
 import           Prelude hiding (zip)
 
@@ -42,3 +42,20 @@ zip xs ys = foldr xf xb xs (Zip (foldr yf yb ys))
 
     yf y yk x xk = (x,y) : xk (Zip yk)
     yb _ _ = []
+
+
+-- | Zip from fold.
+--
+-- >>> zip' [1,2,3] [4,5,6]
+-- [(1,4),(2,5),(3,6)]
+--
+-- >>> zip' "abc" []
+-- []
+--
+-- >>> zip' [] "abc"
+-- []
+zip' :: [a] -> [b] -> [(a,b)]
+zip' = foldr go (const [])
+  where
+    go _ _ []     = []
+    go x f (y:ys) = (x, y) : f ys

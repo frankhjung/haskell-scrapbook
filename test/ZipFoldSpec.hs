@@ -2,7 +2,7 @@
 
 module ZipFoldSpec (spec) where
 
-import qualified ZipFold               (zip)
+import qualified ZipFold               (zip, zip')
 
 import           Test.Hspec            (Spec, describe)
 import           Test.Hspec.QuickCheck (prop)
@@ -12,7 +12,12 @@ import           Test.Hspec.QuickCheck (prop)
 -- prop_zipfold (NonEmpty xs) (NonEmpty ys) = ZipFold.zip xs ys === zip xs ys
 
 spec :: Spec
-spec =
-  describe "ZipFold.zip is same as Prelude.zip" $
+spec = do
+
+  describe "ZipFold.zip same as Prelude.zip" $
     prop "expect same" $
       \(xs :: [Int], ys :: String) -> ZipFold.zip xs ys == zip xs ys
+
+  describe "ZipFold.zip' same as Prelude.zip" $
+    prop "expect same" $
+      \(is :: [Int], as :: String) -> ZipFold.zip' is as == zip is as
