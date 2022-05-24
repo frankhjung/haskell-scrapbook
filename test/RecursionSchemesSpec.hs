@@ -2,7 +2,6 @@
 module RecursionSchemesSpec (spec) where
 
 import           Data.List                 as DL (insert, tails)
-import           Numeric.Natural           (Natural)
 import           RecursionSchemes          (Fix (..), ListF (..), buildListF,
                                             fromNat, idx0, idx1, idx2, idx3,
                                             idx4, lengthListF, lengthListF',
@@ -67,7 +66,7 @@ spec = do
 
   describe "index list using fold" $ do
     prop "idx0 same as idx1" $
-      \(xs :: String) -> idx0 xs `shouldBe` idx1 xs
+      \(xs :: String) -> (idx0 xs :: [Integer]) `shouldBe` (idx1 xs :: [Integer])
     prop "idx0 same as idx2" $
       \(xs :: String) -> idx0 xs `shouldBe` idx2 xs
     prop "idx0 same as idx3" $

@@ -5,7 +5,6 @@ module MyTakeSpec (spec) where
 import           MyTake                (myTake)
 import           Test.Hspec            (Spec, describe)
 import           Test.Hspec.QuickCheck (prop)
-import           Test.QuickCheck       (NonNegative (..))
 
 spec :: Spec
 spec =
