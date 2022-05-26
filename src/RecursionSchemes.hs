@@ -185,30 +185,46 @@ buildCoalg n
   | otherwise = ConsF n (pred n)
 
 -- | Feed coalgebra to anamorphism.
+-- This will build a list.
+--
+-- >>> buildListF 4 :: Fix (ListF Int)
+-- ConsF 4 (ConsF 3 (ConsF 2 (ConsF 1 NilF)))
 buildListF :: Int -> Fix (ListF Int)
 buildListF = ana buildCoalg
 
--- | A alegbra over `ListF` to get list length.
+-- | An alegbra over `ListF` to get list length.
 lengthAlg :: ListF a Int -> Int
 lengthAlg ls = case ls of
                 NilF      -> 0
                 ConsF _ x -> x + 1
 
 -- | Length is a folding operation, i.e. a Catamorphism.
+--
+-- >>> (lengthListF . buildListF) 4
+-- 4
 lengthListF :: Fix (ListF a) -> Int
 lengthListF = cata lengthAlg
 
 -- | Length using special case of paramorphism.
+--
+-- >>> lengthListF' (buildListF 4)
+-- 4
 lengthListF' :: Fix (ListF a) -> Int
 lengthListF' = para (const lengthAlg)
 
 -- | Convert Natural number to an integer.
+--
+-- >>> fromNat (toNat 4)
+-- 4
 fromNat :: Nat -> Int
 fromNat = cata alg where
   alg ZeroF     = 0
   alg (SuccF n) = n + 1
 
 -- | Build a natural number from an interger.
+--
+-- >>> toNat 4
+-- SuccF (SuccF (SuccF (SuccF ZeroF)))
 toNat :: Int -> Nat
 toNat = ana coalg where
   coalg n

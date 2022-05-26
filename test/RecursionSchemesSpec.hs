@@ -1,6 +1,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 module RecursionSchemesSpec (spec) where
 
+import           Data.List                 (unfoldr)
 import           Data.List                 as DL (insert, tails)
 import           RecursionSchemes          (Fix (..), ListF (..), buildListF,
                                             fromNat, idx0, idx1, idx2, idx3,
@@ -17,18 +18,19 @@ import           Test.QuickCheck.Modifiers (NonEmptyList (NonEmpty))
 ls :: Fix (ListF Int)
 ls = Fix (ConsF 4 (Fix (ConsF 3 (Fix (ConsF 2 (Fix (ConsF 1 (Fix NilF))))))))
 
+
 spec :: Spec
 spec = do
 
-  describe "anamorphism" $ do
-    it "build list has length of 4" $
-      (lengthListF . buildListF) 4 `shouldBe` 4
-    it "build list same as constant list" $
-      toList (buildListF 4) `shouldBe` toList ls
+  describe "anamorphism (ana)" $ do
     it "build list equals constant list" $
       buildListF 4 `shouldBe` ls
+    it "build list same as constant list" $
+      toList (buildListF 4) `shouldBe` toList ls
+    prop "build list of specified length" $
+      \(NonNegative (n :: Int)) -> (lengthListF . buildListF) n `shouldBe` n
 
-  describe "catamorphism" $ do
+  describe "catamorphism (cata)" $ do
     it "has length of 4" $
       lengthListF ls `shouldBe` 4
     prop "natural to integer" $
@@ -48,9 +50,11 @@ spec = do
     prop "insert' same as Data.List.insert" $
       \(x :: Char, xs :: String) -> RS.insert' x xs `shouldBe` DL.insert x xs
 
-  describe "paramorphism (para)" $
+  describe "paramorphism (para)" $ do
     it "has length of 4" $
       lengthListF' ls `shouldBe` 4
+    prop "build list of specified length" $
+      \(NonNegative (n :: Int)) -> (lengthListF' . buildListF) n `shouldBe` n
 
   describe "paramorphism (para')" $ do
     prop "para' to sum lists" $
