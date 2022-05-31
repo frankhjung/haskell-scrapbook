@@ -25,7 +25,6 @@ library
                   , CFold
                   , Cps
                   , Colours
-                  , Compass
                   , CountEntries
                   , Lower
                   , Mod35
@@ -184,7 +183,6 @@ test-suite          test
                   , BinarySearchSpec
                   , CFoldSpec
                   , ColoursSpec
-                  , CompassSpec
                   , CountEntriesSpec
                   , CpsSpec
                   , LowerSpec
