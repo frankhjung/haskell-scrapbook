@@ -1,7 +1,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
+
 module RecursionSchemesSpec (spec) where
 
-import           Data.List                 (unfoldr)
 import           Data.List                 as DL (insert, tails)
 import           RecursionSchemes          (Fix (..), ListF (..), buildListF,
                                             fromNat, idx0, idx1, idx2, idx3,
@@ -15,24 +15,24 @@ import           Test.QuickCheck           (NonNegative (..))
 import           Test.QuickCheck.Modifiers (NonEmptyList (NonEmpty))
 
 -- list test value
-ls :: Fix (ListF Int)
-ls = Fix (ConsF 4 (Fix (ConsF 3 (Fix (ConsF 2 (Fix (ConsF 1 (Fix NilF))))))))
+test :: Fix (ListF Int)
+test = Fix (ConsF 4 (Fix (ConsF 3 (Fix (ConsF 2 (Fix (ConsF 1 (Fix NilF))))))))
 
 
 spec :: Spec
 spec = do
 
-  describe "anamorphism (ana)" $ do
+  describe "anamorphism (buildListF)" $ do
     it "build list equals constant list" $
-      buildListF 4 `shouldBe` ls
+      buildListF 4 `shouldBe` test
     it "build list same as constant list" $
-      toList (buildListF 4) `shouldBe` toList ls
+      toList (buildListF 4) `shouldBe` toList test
     prop "build list of specified length" $
       \(NonNegative (n :: Int)) -> (lengthListF . buildListF) n `shouldBe` n
 
-  describe "catamorphism (cata)" $ do
+  describe "catamorphism (lengthListF)" $ do
     it "has length of 4" $
-      lengthListF ls `shouldBe` 4
+      lengthListF test `shouldBe` 4
     prop "natural to integer" $
       \(NonNegative (i :: Int)) -> fromNat (toNat i) `shouldBe` i
     prop "quickcheck list length same as list build" $
@@ -50,9 +50,9 @@ spec = do
     prop "insert' same as Data.List.insert" $
       \(x :: Char, xs :: String) -> RS.insert' x xs `shouldBe` DL.insert x xs
 
-  describe "paramorphism (para)" $ do
+  describe "paramorphism (lengthListF')" $ do
     it "has length of 4" $
-      lengthListF' ls `shouldBe` 4
+      lengthListF' test `shouldBe` 4
     prop "build list of specified length" $
       \(NonNegative (n :: Int)) -> (lengthListF' . buildListF) n `shouldBe` n
 

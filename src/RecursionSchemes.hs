@@ -19,15 +19,15 @@ A collection of recursion scheme examples.
 Using a non-recursive coalgebra to create a `ListF`.
 
 @
-ls = buildListF 4
-show ls
+test = buildListF 4
+show test
 "ConsF 4 (ConsF 3 (ConsF 2 (ConsF 1 NilF)))"
 
-λ> :t unFix ls
-unFix ls :: ListF Int (Fix (ListF Int))
+λ> :t unFix test
+unFix test :: ListF Int (Fix (ListF Int))
 
-λ> :t ls
-ls :: Fix (ListF Int)
+λ> :t test
+test :: Fix (ListF Int)
 @
 
 == Catamorphism
@@ -36,10 +36,10 @@ Using a non-recursive algebra to measure length of `ListF` entry, use a
 catamorphism over the alegra to measure length of the entire `ListF`.
 
 @
-ls :: Int a => Fix (ListF a)
-ls = Fix (ConsF 4 (Fix (ConsF 3 (Fix (ConsF 2 (Fix (ConsF 1 (Fix NilF))))))))
+test :: Int a => Fix (ListF a)
+test = Fix (ConsF 4 (Fix (ConsF 3 (Fix (ConsF 2 (Fix (ConsF 1 (Fix NilF))))))))
 
-lengthListF ls
+lengthListF test
 4
 @
 
@@ -82,7 +82,6 @@ module RecursionSchemes (
                         , insert
                         , insert'
                         , toList
-                        , foldXs
                         , idx0
                         , idx1
                         , idx2
@@ -279,25 +278,25 @@ toList = cata alg
                   NilF      -> []
                   ConsF a r -> a : r
 
--- | `foldXs` is `foldr` with the structure moved as the first parameter.
-foldXs :: Foldable t => t a -> (a -> b -> b) -> b -> b
-foldXs xs op b = foldr op b xs
-
--- | List indexing.
+-- | Indexing a list.
 --
 -- >>> idx0 "abcde"
 -- [0,1,2,3,4]
 idx0 :: (Foldable t, Num b) => t a -> [b]
-idx0 xs = foldXs xs (\ _ f m -> m : f (m + 1)) (const []) 0
+idx0 as = foldXs as (\ _ f m -> m : f (m + 1)) (const []) 0
+  where
+    -- | `foldXs` is `foldr` with the structure moved as the first parameter.
+    foldXs :: Foldable t => t a -> (a -> b -> b) -> b -> b
+    foldXs xs op b = foldr op b xs
 
--- | List indexing.
+-- | Alternate list indexing using `foldr`.
 --
 -- >>> idx1 "abcde"
 -- [0,1,2,3,4]
 idx1 :: (Foldable t, Num b) => t a -> [b]
 idx1 xs = foldr (\ _ f m -> m : f (m + 1)) (const []) xs 0
 
--- | Alternate list indexing.
+-- | Alternate list indexing using `zipWith`.
 --
 -- >>> idx2 "abcde"
 -- [0,1,2,3,4]
