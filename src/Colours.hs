@@ -14,6 +14,9 @@ module Colours (
                  Colour(..) -- Sample Colours
                ) where
 
+import           Test.QuickCheck.Arbitrary (Arbitrary (arbitrary))
+import           Test.QuickCheck.Gen       (elements)
+
 -- | Acceptable colours.
 data Colour =
               Red
@@ -24,10 +27,14 @@ data Colour =
             | Orange
             | Brown deriving (Show,Eq)
 
--- | Example semigroup with a colours.
+-- | Example semigroup with a Colour.
 instance Semigroup Colour where
     (<>) a b  | a == b = a
               | all (`elem` [Red,Blue,Purple]) [a,b] = Purple
               | all (`elem` [Blue,Yellow,Green]) [a,b] = Green
               | all (`elem` [Red,Yellow,Orange]) [a,b] = Orange
               | otherwise = Brown
+
+-- | Declare QuickCheck generator for Colour.
+instance Arbitrary Colour where
+  arbitrary = elements [Red,Yellow,Blue,Green,Purple,Orange,Brown]

@@ -2,8 +2,9 @@
 
 module ColoursSpec (spec) where
 
-import           Colours    (Colour (..))
-import           Test.Hspec (Spec, describe, it, shouldBe)
+import           Colours               (Colour (..))
+import           Test.Hspec            (Spec, describe, it, shouldBe)
+import           Test.Hspec.QuickCheck (prop)
 
 spec :: Spec
 spec =
@@ -20,3 +21,5 @@ spec =
       Orange <> Blue `shouldBe` Brown
     it "(green <> blue) <> yellow same as green <> (blue <> yellow)" $
       (Green <> Blue) <> Yellow `shouldBe` Green <> (Blue <> Yellow)
+    prop "colours match regardless of order" $
+      \(a :: Colour, b :: Colour, c:: Colour) -> (a <> b) <> c `shouldBe` a <> (b <> c)

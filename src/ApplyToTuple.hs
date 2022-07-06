@@ -12,8 +12,8 @@ Example rank-n-type from
 
 module ApplyToTuple (applyToTuple) where
 
--- | Example of a rank N type. The `apply` function will apply the function
--- to the provided input tuple.
+-- | Example of a rank N type. This will apply the function to the provided
+-- input tuple.
 --
 -- >>> applyToTuple length ("foo", [1,2,3,4])
 -- (3,4)

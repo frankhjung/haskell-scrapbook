@@ -15,10 +15,10 @@ Yahtzee test suite from blog
 module Yahtzee (DiceChoice (..), DiceVals, allRolls) where
 
 -- | Dice values from 1 to 6.
-type DiceVals = [Integer]
+type DiceVals = [Word]
 
 -- | Keep the dice, or re-roll?
-data DiceChoice = Keep Integer | Reroll
+data DiceChoice = Keep Word | Reroll
 
 -- | Generate all rolls from a given state.
 allRolls :: [DiceChoice] -> [DiceVals]

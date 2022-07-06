@@ -53,7 +53,7 @@ import           Test.QuickCheck (Gen, arbitrary, elements, forAll, suchThat)
 genLowerAlpha :: Gen Char
 genLowerAlpha = elements ['a'..'z']
 
--- | Generate only non-lowercase characters.
+-- | Generate only uppercase characters.
 genInvalidLower :: Gen Char
 genInvalidLower = suchThat (arbitrary :: Gen Char) isUpper
 
@@ -62,8 +62,8 @@ spec =
   describe "check Lower constructors" $ do
     it "is valid lowercase letter" $
       forAll genLowerAlpha $ isRight . mkLower
-    it "give lowercase letter" $ -- \c -> fromRight '*' (mkLower c) == c
-      forAll genLowerAlpha $ (==) =<< fromRight '*' . mkLower
+    it "give lowercase letter" $
+      forAll genLowerAlpha $ \c -> fromRight '*' (mkLower c) == c
     it "is invalid character" $
       forAll genInvalidLower $ isLeft . mkLower
     it "give error message" $
