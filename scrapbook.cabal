@@ -33,6 +33,7 @@ library
                   , MyPenultimate
                   , MyReverse
                   , MyTake
+                  , MyType
                   , Permutation
                   , PolyDivisors
                   , RecursionSchemes
@@ -193,6 +194,7 @@ test-suite          test
                   , MyPenultimateSpec
                   , MyReverseSpec
                   , MyTakeSpec
+                  , MyTypeSpec
                   , PermutationSpec
                   , PolyDivisorsSpec
                   , QsortSpec
