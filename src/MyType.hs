@@ -11,14 +11,16 @@ License     : GPL-3
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeApplications    #-}
 
-module MyType (Proxy(..), typeName) where
+module MyType (typeName) where
 
-import           Data.Data (Typeable, typeRep)
+import           Data.Data  (Typeable, typeRep)
+import           Data.Proxy (Proxy (..))
 
 -- | Proxy to record type. Proxy is equivalent to the unit type, @()@. But
 -- also has a phantom type parameter @a@, which is used to keep track of
 -- the type.
-data Proxy a = Proxy
+-- (Use type from `Data.Proxy`)
+-- data Proxy a = Proxy
 
 -- | Show ambigous types.
 -- Hindley-Milner type system can only infer types to the right of the
