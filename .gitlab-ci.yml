@@ -9,7 +9,7 @@ build:
   except:
     - tags
   image:
-    name: frankhjung/haskell:8.8.4
+    name: frankhjung/haskell:8.10.7
     entrypoint: [""]
   script:
     - make setup check build test doc exec bench
