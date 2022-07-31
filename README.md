@@ -30,10 +30,19 @@ The build uses GNU make to check source files.
 
 ### Build
 
+Use a local Cabal project profile, `cabal.project` with:
+
+```
+packages: scrapbook.cabal
+with-compiler: /home/frank/.ghcup/bin/ghc-8.10.7
+```
+
+This will use the specified GHC, which can be different from the system version.
+
 Build using GNU Make:
 
 ```bash
-make build
+make setup default
 ```
 
 ### Check

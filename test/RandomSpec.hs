@@ -13,7 +13,7 @@ spec :: Spec
 spec =
   describe "random with seed" $ do
     it "roll dice 5 times with seed" $
-      take 5 (rolls (seed 111111)) `shouldBe` ([4,6,5,3,2] :: [Int])
+      take 5 (rolls (seed 111111)) `shouldBe` ([2,5,5,6,3] :: [Int])
     prop "dice rolls are bounded in range 1..6" $
       \(Positive (n :: Int)) -> monadicIO $ do
         ns <- run (roll n)

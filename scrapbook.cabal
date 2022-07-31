@@ -214,7 +214,7 @@ benchmark           myfilterBench
   default-language: Haskell2010
   type:             exitcode-stdio-1.0
   build-depends:    base
-                  , criterion >= 1.5.7.0 && < 1.5.8
+                  , criterion >= 1.5.7.0 && < 1.5.14
                   , scrapbook
 
 benchmark           myreverseBench
