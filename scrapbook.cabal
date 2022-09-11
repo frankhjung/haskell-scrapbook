@@ -58,6 +58,15 @@ library
                   , random >= 1.2.0 && < 1.3
                   , transformers >= 0.5.6.2 && < 0.5.7
 
+executable          bargain
+  hs-source-dirs:   app
+  main-is:          Bargain.hs
+  default-language: Haskell2010
+  ghc-options:      -Wno-unrecognised-pragmas
+                    -Wno-unused-top-binds
+                    -threaded -rtsopts -with-rtsopts=-N
+  build-depends:    base
+
 executable          counter
   hs-source-dirs:   app
   main-is:          Counter.hs
@@ -103,7 +112,7 @@ executable          knights
                     -Wno-unused-top-binds
                     -threaded -rtsopts -with-rtsopts=-N
   build-depends:    base
-                  , fmt
+                  , fmt >= 0.6.3.0 && < 0.6.4
 
 executable          magicians
   hs-source-dirs:   app
