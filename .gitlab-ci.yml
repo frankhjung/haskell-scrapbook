@@ -15,7 +15,7 @@ build:
     - make setup check build test doc exec bench
     - mkdir -p public/
     # yamllint disable-line rule:line-length
-    - cp -r ${CI_PROJECT_DIR}/dist-newstyle/build/x86_64-linux/ghc-8.8.4/scrapbook-0.1.0/doc/html/scrapbook/* public/
+    - cp -r ${CI_PROJECT_DIR}/dist-newstyle/build/x86_64-linux/ghc-8.10.7/scrapbook-0.1.0/doc/html/scrapbook/* public/
     # yamllint enable-line rule:line-length
   artifacts:
     paths:

@@ -1,6 +1,10 @@
 {-# LANGUAGE RecordWildCards #-}
 -- {-# LANGUAGE OverloadedRecordDot #-} -- supported in 9.2
 
+module Main (main) where
+
+{-
+
 module Main ( main
             , Player (..)
             , Team (..)
@@ -12,8 +16,6 @@ module Main ( main
             , goals
             , answers
             ) where
-
-{-
 
 == Solve the Hockey Time logic puzzle (medium)
 
@@ -38,9 +40,9 @@ on their jersey.
 
 === References
 
-- https://www.ahapuzzles.com/logic/logic-puzzles/hockey-time/
-- https://www.youtube.com/watch?v=bPyR1ttdE7o&t=1623s&ab_channel=Tweag
-- https://github.com/goldfirere/video-resources/blob/main/2022-08-12-java/Haskell.hs
+* https://www.ahapuzzles.com/logic/logic-puzzles/hockey-time/
+* https://www.youtube.com/watch?v=bPyR1ttdE7o&t=1623s&ab_channel=Tweag
+* https://github.com/goldfirere/video-resources/blob/main/2022-08-12-java/Haskell.hs
 
 -}
 
@@ -53,9 +55,13 @@ data Player = Douglas | Mahoney | Nates | Pilgrim | Quill
 data Team = Cougars | Icers | Monsters | RedBoots | Warriors
               deriving (Enum, Bounded, Show, Eq)
 
+players :: [Player]
 players = [minBound..maxBound]
+teams :: [Team]
 teams = [minBound.. maxBound]
+jerseys :: [Int]
 jerseys = [4, 7, 22, 25, 26]
+goals :: [Int]
 goals = [8, 9, 10, 11, 12]
 
 data Assignment = MkAssignment {

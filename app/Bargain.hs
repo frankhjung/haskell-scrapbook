@@ -1,7 +1,10 @@
 {-# LANGUAGE RecordWildCards #-}
 
--- module Main (main) where
-module Main ( main
+module Main (main) where
+
+{-
+
+module Main (main
             , Name
             , Item
             , Color
@@ -12,8 +15,6 @@ module Main ( main
             , colors
             , savings
             , answers ) where
-
-{-
 
 == Solve the Bargain logic puzzle (easy)
 
@@ -42,8 +43,8 @@ and the amount saved on the original selling price?
 
 === References
 
-- https://www.ahapuzzles.com/logic/logic-puzzles/a-bargain/
-- https://www.youtube.com/watch?v=bPyR1ttdE7o&t=1623s&ab_channel=Tweag
+* https://www.ahapuzzles.com/logic/logic-puzzles/a-bargain/
+* https://www.youtube.com/watch?v=bPyR1ttdE7o&t=1623s&ab_channel=Tweag
 
 -}
 
@@ -59,9 +60,13 @@ data Item = Trousers | Jacket | Umbrella
 data Color = Red | Green | Blue
               deriving (Enum, Bounded, Show, Eq)
 
+names :: [Name]
 names = [minBound..maxBound]
+items :: [Item]
 items = [minBound.. maxBound]
+colors :: [Color]
 colors = [minBound.. maxBound]
+savings :: [Float]
 savings = [5.0, 9.0, 11.5]
 
 data Assignment = MkAssignment {
@@ -82,7 +87,7 @@ type Solution = [Assignment]
 
 answers :: [Solution]
 answers = do
-  solution@[benny, carla, danni]
+  solution@[_, _, danni]    -- unused: benny, carla
     <- [zipWith4 MkAssignment names is cs ss
        | is <- permutations items
        , cs <- permutations colors
