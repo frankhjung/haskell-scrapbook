@@ -10,7 +10,6 @@ extra-deps:
   - filepath-1.4.2.1
   - fmt-0.6.3.0
   - hspec-2.7.10
-  - logict-0.7.1.0
   - mtl-2.2.2
   - QuickCheck-2.14.2
   - random-1.2.0
