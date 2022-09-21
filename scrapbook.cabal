@@ -25,6 +25,7 @@ library
   ghc-options:      -Wall
   exposed-modules:  ApplyToTuple
                   , BinarySearch
+                  , Caesar
                   , CFold
                   , Cps
                   , Colours
@@ -153,6 +154,7 @@ test-suite          test
                     hspec-discover:hspec-discover
   other-modules:    ApplyToTupleSpec
                   , BinarySearchSpec
+                  , CaesarSpec
                   , CFoldSpec
                   , ColoursSpec
                   , CountEntriesSpec
