@@ -2,38 +2,36 @@
 
 module CaesarSpec (spec) where
 
-import           Caesar                    (caesar, digits, indexOf, isDigit,
-                                            isLower, isMisc, isUpper,
-                                            lowerAlphabet, rot13, rot135,
-                                            upperAlphabet)
-import           Test.Hspec                (Spec, describe, it, shouldBe)
+import           Caesar                    (caesar)
+import           Data.Char                 (chr)
+import           Test.Hspec                (Spec, describe, it)
 import           Test.Hspec.QuickCheck     (prop)
+import           Test.QuickCheck           (Gen, arbitrary, elements, forAll,
+                                            listOf1, suchThat)
 import           Test.QuickCheck.Modifiers (NonEmptyList (NonEmpty))
+
+-- | not mod 47 positive integer
+notMod62 :: Int -> Bool
+notMod62 n = n `mod` 47 > 0
+
+-- | Printable ASCII characters after the space character.
+ascii :: String
+ascii = map chr [33..126]
+
+-- | Generate tuple of integer and string input for caesar cipher
+caesarInput :: Gen (Int, String)
+caesarInput = do
+  n <- suchThat (arbitrary :: Gen Int) notMod62 -- positive integer
+  xs <- listOf1 $ elements ascii                -- string of ascii characters
+  return (n, xs)
 
 spec :: Spec
 spec =
   describe "caesar cipher" $ do
-    it "have lowercase characters" $
-      all isLower lowerAlphabet `shouldBe` True
-    it "do not have lowercase characters" $
-      all isLower (digits ++ upperAlphabet) `shouldBe` False
-    it "have uppercase characters" $
-      all isUpper upperAlphabet `shouldBe` True
-    it "do not have uppercase characters" $
-      all isUpper (digits ++ lowerAlphabet) `shouldBe` False
-    it "have digits" $
-      all isDigit digits `shouldBe` True
-    it "do not have digits" $
-      all isDigit (digits ++ lowerAlphabet ++ upperAlphabet) `shouldBe` False
-    it "have miscellaneous characters" $
-      all isMisc ".!@#%^&*_-+{}[]():';,/?<>=" `shouldBe` True
-    it "do no have miscellaneous characters" $
-      all isMisc (digits ++ lowerAlphabet ++ upperAlphabet) `shouldBe` False
-    it "found index" $
-      map (`indexOf` "abc") "abc" `shouldBe` [0,1,2]
-    prop "apply caesar 13 twice returns the input string" $
-      \(NonEmpty (xs :: String)) -> caesar 13 (caesar 13 xs) == xs
-    prop "apply rot13 twice returns the input string" $
-      \(NonEmpty (xs :: String)) -> rot13 (rot13 xs) == xs
-    prop "apply rot135 twice returns the input string" $
-      \(NonEmpty (xs :: String)) -> rot135 (rot135 xs) == xs
+    prop "apply 47 twice returns the input string" $
+      \(NonEmpty (xs :: String)) -> caesar 47 (caesar 47 xs) == xs
+    prop "reverse n returns input string" $
+      \(NonEmpty (xs :: String), n :: Int)
+        -> caesar (94 - n `mod` 94) (caesar (n `mod` 94) xs) == xs
+    it "apply caesar n scrambles input string" $
+      forAll caesarInput $ \(n, xs) -> caesar n (caesar n xs) /= xs
