@@ -72,7 +72,11 @@ cfold :: (t1 -> t2 -> t2) -> t2 -> [t1] -> t2
 --   
 --   This is my version of a simplified <a>Caesar Cipher</a>.
 module Caesar
+
+-- | Simple implementation of Caesar Cipher.
 caesar :: Int -> String -> String
+
+-- | Rotate a ascii character.
 asciiRot :: Int -> Char -> Char
 
 
