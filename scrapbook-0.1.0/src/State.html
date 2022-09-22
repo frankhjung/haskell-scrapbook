@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-comment">{-|
+
+Module      : State
+Description : Deriving the State Monad
+Copyright   : &#169; Frank Jung, 2020,2021,2022
+License     : GPL-3
+
+A simple State monad implementation to explore it's characteristics.
+
+Based on many articles, but principally from:
+&lt;http://brandon.si/code/the-state-monad-a-tutorial-for-the-confused/ The State Monad: A Tutorial for the Confused?&gt;
+
+-}</span><span>
+</span><span id="line-14"></span><span>
+</span><span id="line-15"></span><span class="hs-pragma">{-# LANGUAGE TupleSections #-}</span><span>
+</span><span id="line-16"></span><span>
+</span><span id="line-17"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">State</span><span> </span><span class="hs-special">(</span><span>
+</span><span id="line-18"></span><span>                </span><span class="annot"><a href="State.html#State"><span class="hs-identifier">State</span></a></span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>   </span><span class="hs-comment">-- State type with runState function</span><span>
+</span><span id="line-19"></span><span>              </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="State.html#get"><span class="hs-identifier">get</span></a></span><span>         </span><span class="hs-comment">-- Get current state</span><span>
+</span><span id="line-20"></span><span>              </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="State.html#put"><span class="hs-identifier">put</span></a></span><span>         </span><span class="hs-comment">-- Set current state</span><span>
+</span><span id="line-21"></span><span>              </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="State.html#modify"><span class="hs-identifier">modify</span></a></span><span>      </span><span class="hs-comment">-- Modify state function</span><span>
+</span><span id="line-22"></span><span>              </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="State.html#evalState"><span class="hs-identifier">evalState</span></a></span><span>   </span><span class="hs-comment">-- Results of state function</span><span>
+</span><span id="line-23"></span><span>              </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="State.html#execState"><span class="hs-identifier">execState</span></a></span><span>   </span><span class="hs-comment">-- Final state</span><span>
+</span><span id="line-24"></span><span>             </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-25"></span><span>
+</span><span id="line-26"></span><span class="hs-comment">-- | Mock of State data type. (Not yet a Monad, Functor or Applicative.)</span><span>
+</span><span id="line-27"></span><span class="hs-keyword">newtype</span><span> </span><span id="State"><span class="annot"><a href="State.html#State"><span class="hs-identifier hs-var">State</span></a></span></span><span> </span><span id="local-6989586621679053056"><span class="annot"><a href="#local-6989586621679053056"><span class="hs-identifier hs-type">s</span></a></span></span><span> </span><span id="local-6989586621679053055"><span class="annot"><a href="#local-6989586621679053055"><span class="hs-identifier hs-type">a</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="State"><span class="annot"><a href="State.html#State"><span class="hs-identifier hs-var">State</span></a></span></span><span> </span><span class="hs-special">{</span><span> </span><span id="runState"><span class="annot"><span class="annottext">State s a -&gt; s -&gt; (a, s)
+</span><a href="State.html#runState"><span class="hs-identifier hs-var hs-var">runState</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="#local-6989586621679053056"><span class="hs-identifier hs-type">s</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679053055"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="#local-6989586621679053056"><span class="hs-identifier hs-type">s</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">}</span><span>
+</span><span id="line-28"></span><span>
+</span><span id="line-29"></span><span class="hs-comment">-- | Returns current state.</span><span>
+</span><span id="line-30"></span><span id="local-6989586621679053047"><span class="annot"><a href="State.html#get"><span class="hs-identifier hs-type">get</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="State.html#State"><span class="hs-identifier hs-type">State</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679053047"><span class="hs-identifier hs-type">s</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679053047"><span class="hs-identifier hs-type">s</span></a></span></span><span>
+</span><span id="line-31"></span><span id="get"><span class="annot"><span class="annottext">get :: State s s
+</span><a href="State.html#get"><span class="hs-identifier hs-var hs-var">get</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(s -&gt; (s, s)) -&gt; State s s
+forall s a. (s -&gt; (a, s)) -&gt; State s a
+</span><a href="State.html#State"><span class="hs-identifier hs-var">State</span></a></span><span> </span><span class="annot"><span class="annottext">((s -&gt; (s, s)) -&gt; State s s) -&gt; (s -&gt; (s, s)) -&gt; State s s
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679052983"><span class="annot"><span class="annottext">s
+</span><a href="#local-6989586621679052983"><span class="hs-identifier hs-var">s</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">s
+</span><a href="#local-6989586621679052983"><span class="hs-identifier hs-var">s</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">s
+</span><a href="#local-6989586621679052983"><span class="hs-identifier hs-var">s</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-32"></span><span>
+</span><span id="line-33"></span><span class="hs-comment">-- | Replace current state with the given value. Returns unit.</span><span>
+</span><span id="line-34"></span><span id="local-6989586621679053043"><span class="annot"><a href="State.html#put"><span class="hs-identifier hs-type">put</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="#local-6989586621679053043"><span class="hs-identifier hs-type">s</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="State.html#State"><span class="hs-identifier hs-type">State</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679053043"><span class="hs-identifier hs-type">s</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span></span><span>
+</span><span id="line-35"></span><span id="put"><span class="annot"><span class="annottext">put :: s -&gt; State s ()
+</span><a href="State.html#put"><span class="hs-identifier hs-var hs-var">put</span></a></span></span><span> </span><span id="local-6989586621679052982"><span class="annot"><span class="annottext">s
+</span><a href="#local-6989586621679052982"><span class="hs-identifier hs-var">s</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(s -&gt; ((), s)) -&gt; State s ()
+forall s a. (s -&gt; (a, s)) -&gt; State s a
+</span><a href="State.html#State"><span class="hs-identifier hs-var">State</span></a></span><span> </span><span class="annot"><span class="annottext">((s -&gt; ((), s)) -&gt; State s ()) -&gt; (s -&gt; ((), s)) -&gt; State s ()
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">((), s) -&gt; s -&gt; ((), s)
+forall a b. a -&gt; b -&gt; a
+</span><span class="hs-identifier hs-var">const</span></span><span> </span><span class="hs-special">(</span><span class="hs-special">(</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">s
+</span><a href="#local-6989586621679052982"><span class="hs-identifier hs-var">s</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-36"></span><span>
+</span><span id="line-37"></span><span class="hs-comment">-- | Update current state using the given function.</span><span>
+</span><span id="line-38"></span><span id="local-6989586621679052980"><span class="annot"><a href="State.html#modify"><span class="hs-identifier hs-type">modify</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679052980"><span class="hs-identifier hs-type">s</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679052980"><span class="hs-identifier hs-type">s</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="State.html#State"><span class="hs-identifier hs-type">State</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679052980"><span class="hs-identifier hs-type">s</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span></span><span>
+</span><span id="line-39"></span><span id="modify"><span class="annot"><span class="annottext">modify :: (s -&gt; s) -&gt; State s ()
+</span><a href="State.html#modify"><span class="hs-identifier hs-var hs-var">modify</span></a></span></span><span> </span><span id="local-6989586621679052979"><span class="annot"><span class="annottext">s -&gt; s
+</span><a href="#local-6989586621679052979"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">State s s
+forall s. State s s
+</span><a href="State.html#get"><span class="hs-identifier hs-var">get</span></a></span><span> </span><span class="annot"><span class="annottext">State s s -&gt; (s -&gt; State s ()) -&gt; State s ()
+forall (m :: * -&gt; *) a b. Monad m =&gt; m a -&gt; (a -&gt; m b) -&gt; m b
+</span><span class="hs-operator hs-var">&gt;&gt;=</span></span><span> </span><span class="annot"><span class="annottext">s -&gt; State s ()
+forall s. s -&gt; State s ()
+</span><a href="State.html#put"><span class="hs-identifier hs-var">put</span></a></span><span> </span><span class="annot"><span class="annottext">(s -&gt; State s ()) -&gt; (s -&gt; s) -&gt; s -&gt; State s ()
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">s -&gt; s
+</span><a href="#local-6989586621679052979"><span class="hs-identifier hs-var">f</span></a></span><span>
+</span><span id="line-40"></span><span>
+</span><span id="line-41"></span><span class="hs-comment">-- | Returns results of state function.</span><span>
+</span><span id="line-42"></span><span id="local-6989586621679052976"><span id="local-6989586621679052977"><span class="annot"><a href="State.html#evalState"><span class="hs-identifier hs-type">evalState</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="State.html#State"><span class="hs-identifier hs-type">State</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679052977"><span class="hs-identifier hs-type">s</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679052976"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679052977"><span class="hs-identifier hs-type">s</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679052976"><span class="hs-identifier hs-type">a</span></a></span></span></span><span>
+</span><span id="line-43"></span><span id="evalState"><span class="annot"><span class="annottext">evalState :: State s a -&gt; s -&gt; a
+</span><a href="State.html#evalState"><span class="hs-identifier hs-var hs-var">evalState</span></a></span></span><span> </span><span id="local-6989586621679052975"><span class="annot"><span class="annottext">State s a
+</span><a href="#local-6989586621679052975"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a, s) -&gt; a
+forall a b. (a, b) -&gt; a
+</span><span class="hs-identifier hs-var">fst</span></span><span> </span><span class="annot"><span class="annottext">((a, s) -&gt; a) -&gt; (s -&gt; (a, s)) -&gt; s -&gt; a
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">State s a -&gt; s -&gt; (a, s)
+forall s a. State s a -&gt; s -&gt; (a, s)
+</span><a href="State.html#runState"><span class="hs-identifier hs-var hs-var">runState</span></a></span><span> </span><span class="annot"><span class="annottext">State s a
+</span><a href="#local-6989586621679052975"><span class="hs-identifier hs-var">f</span></a></span><span>
+</span><span id="line-44"></span><span>
+</span><span id="line-45"></span><span class="hs-comment">-- | Returns final state.</span><span>
+</span><span id="line-46"></span><span id="local-6989586621679052973"><span id="local-6989586621679052974"><span class="annot"><a href="State.html#execState"><span class="hs-identifier hs-type">execState</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="State.html#State"><span class="hs-identifier hs-type">State</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679052974"><span class="hs-identifier hs-type">s</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679052973"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679052974"><span class="hs-identifier hs-type">s</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679052974"><span class="hs-identifier hs-type">s</span></a></span></span></span><span>
+</span><span id="line-47"></span><span id="execState"><span class="annot"><span class="annottext">execState :: State s a -&gt; s -&gt; s
+</span><a href="State.html#execState"><span class="hs-identifier hs-var hs-var">execState</span></a></span></span><span> </span><span id="local-6989586621679052972"><span class="annot"><span class="annottext">State s a
+</span><a href="#local-6989586621679052972"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a, s) -&gt; s
+forall a b. (a, b) -&gt; b
+</span><span class="hs-identifier hs-var">snd</span></span><span> </span><span class="annot"><span class="annottext">((a, s) -&gt; s) -&gt; (s -&gt; (a, s)) -&gt; s -&gt; s
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">State s a -&gt; s -&gt; (a, s)
+forall s a. State s a -&gt; s -&gt; (a, s)
+</span><a href="State.html#runState"><span class="hs-identifier hs-var hs-var">runState</span></a></span><span> </span><span class="annot"><span class="annottext">State s a
+</span><a href="#local-6989586621679052972"><span class="hs-identifier hs-var">f</span></a></span><span>
+</span><span id="line-48"></span><span>
+</span><span id="line-49"></span><span class="hs-comment">-- Functor</span><span>
+</span><span id="line-50"></span><span id="local-6989586621679052971"><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679052968"><span class="annot"><span class="hs-identifier hs-type">Functor</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="State.html#State"><span class="hs-identifier hs-type">State</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679052971"><span class="hs-identifier hs-type">s</span></a></span><span class="hs-special">)</span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-51"></span><span>  </span><span id="local-6989586621679052966"><span class="annot"><span class="annottext">fmap :: (a -&gt; b) -&gt; State s a -&gt; State s b
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">fmap</span></span></span><span> </span><span id="local-6989586621679052965"><span class="annot"><span class="annottext">a -&gt; b
+</span><a href="#local-6989586621679052965"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="State.html#State"><span class="hs-identifier hs-type">State</span></a></span><span> </span><span id="local-6989586621679052964"><span class="annot"><span class="annottext">s -&gt; (a, s)
+</span><a href="#local-6989586621679052964"><span class="hs-identifier hs-var">stateFx</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-52"></span><span>    </span><span class="annot"><span class="annottext">(s -&gt; (b, s)) -&gt; State s b
+forall s a. (s -&gt; (a, s)) -&gt; State s a
+</span><a href="State.html#State"><span class="hs-identifier hs-var">State</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679052963"><span class="annot"><span class="annottext">s
+</span><a href="#local-6989586621679052963"><span class="hs-identifier hs-var">s</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">let</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679052962"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679052962"><span class="hs-identifier hs-var">fx</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679052961"><span class="annot"><span class="annottext">s
+</span><a href="#local-6989586621679052961"><span class="hs-identifier hs-var">s'</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">s -&gt; (a, s)
+</span><a href="#local-6989586621679052964"><span class="hs-identifier hs-var">stateFx</span></a></span><span> </span><span class="annot"><span class="annottext">s
+</span><a href="#local-6989586621679052963"><span class="hs-identifier hs-var">s</span></a></span><span>
+</span><span id="line-53"></span><span>                 </span><span class="hs-keyword">in</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a -&gt; b
+</span><a href="#local-6989586621679052965"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679052962"><span class="hs-identifier hs-var">fx</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">s
+</span><a href="#local-6989586621679052961"><span class="hs-identifier hs-var">s'</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span></span><span>
+</span><span id="line-54"></span><span>
+</span><span id="line-55"></span><span class="hs-comment">-- Applicative</span><span>
+</span><span id="line-56"></span><span id="local-6989586621679052960"><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679052951"><span id="local-6989586621679052953"><span id="local-6989586621679052955"><span class="annot"><span class="hs-identifier hs-type">Applicative</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="State.html#State"><span class="hs-identifier hs-type">State</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679052960"><span class="hs-identifier hs-type">s</span></a></span><span class="hs-special">)</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-57"></span><span>  </span><span id="local-6989586621679052949"><span class="annot"><span class="annottext">pure :: a -&gt; State s a
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">pure</span></span></span><span> </span><span id="local-6989586621679052948"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679052948"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(s -&gt; (a, s)) -&gt; State s a
+forall s a. (s -&gt; (a, s)) -&gt; State s a
+</span><a href="State.html#State"><span class="hs-identifier hs-var">State</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679052948"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">,</span><span class="hs-special">)</span><span>
+</span><span id="line-58"></span><span>  </span><span id="local-6989586621679052947"><span class="annot"><span class="annottext">&lt;*&gt; :: State s (a -&gt; b) -&gt; State s a -&gt; State s b
+</span><span class="hs-operator hs-var hs-var hs-var hs-var">(&lt;*&gt;)</span></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="State.html#State"><span class="hs-identifier hs-type">State</span></a></span><span> </span><span id="local-6989586621679052946"><span class="annot"><span class="annottext">s -&gt; (a -&gt; b, s)
+</span><a href="#local-6989586621679052946"><span class="hs-identifier hs-var">stateFx</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="State.html#State"><span class="hs-identifier hs-type">State</span></a></span><span> </span><span id="local-6989586621679052945"><span class="annot"><span class="annottext">s -&gt; (a, s)
+</span><a href="#local-6989586621679052945"><span class="hs-identifier hs-var">nextFx</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-59"></span><span>    </span><span class="annot"><span class="annottext">(s -&gt; (b, s)) -&gt; State s b
+forall s a. (s -&gt; (a, s)) -&gt; State s a
+</span><a href="State.html#State"><span class="hs-identifier hs-var">State</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679052944"><span class="annot"><span class="annottext">s
+</span><a href="#local-6989586621679052944"><span class="hs-identifier hs-var">s</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">let</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679052943"><span class="annot"><span class="annottext">a -&gt; b
+</span><a href="#local-6989586621679052943"><span class="hs-identifier hs-var">fx'</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679052942"><span class="annot"><span class="annottext">s
+</span><a href="#local-6989586621679052942"><span class="hs-identifier hs-var">s'</span></a></span></span><span class="hs-special">)</span><span>   </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">s -&gt; (a -&gt; b, s)
+</span><a href="#local-6989586621679052946"><span class="hs-identifier hs-var">stateFx</span></a></span><span> </span><span class="annot"><span class="annottext">s
+</span><a href="#local-6989586621679052944"><span class="hs-identifier hs-var">s</span></a></span><span>
+</span><span id="line-60"></span><span>                     </span><span class="hs-special">(</span><span id="local-6989586621679052941"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679052941"><span class="hs-identifier hs-var">fx''</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679052940"><span class="annot"><span class="annottext">s
+</span><a href="#local-6989586621679052940"><span class="hs-identifier hs-var">s''</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">s -&gt; (a, s)
+</span><a href="#local-6989586621679052945"><span class="hs-identifier hs-var">nextFx</span></a></span><span> </span><span class="annot"><span class="annottext">s
+</span><a href="#local-6989586621679052942"><span class="hs-identifier hs-var">s'</span></a></span><span>
+</span><span id="line-61"></span><span>                 </span><span class="hs-keyword">in</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a -&gt; b
+</span><a href="#local-6989586621679052943"><span class="hs-identifier hs-var">fx'</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679052941"><span class="hs-identifier hs-var">fx''</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">s
+</span><a href="#local-6989586621679052940"><span class="hs-identifier hs-var">s''</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span></span><span>
+</span><span id="line-62"></span><span>
+</span><span id="line-63"></span><span class="hs-comment">-- Monad</span><span>
+</span><span id="line-64"></span><span id="local-6989586621679052939"><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679052935"><span class="annot"><span class="hs-identifier hs-type">Monad</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="State.html#State"><span class="hs-identifier hs-type">State</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679052939"><span class="hs-identifier hs-type">s</span></a></span><span class="hs-special">)</span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-65"></span><span>  </span><span id="local-6989586621679052932"><span class="annot"><span class="annottext">return :: a -&gt; State s a
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">return</span></span></span><span> </span><span id="local-6989586621679052931"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679052931"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(s -&gt; (a, s)) -&gt; State s a
+forall s a. (s -&gt; (a, s)) -&gt; State s a
+</span><a href="State.html#State"><span class="hs-identifier hs-var">State</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679052931"><span class="hs-identifier hs-var">a</span></a></span><span class="hs-special">,</span><span class="hs-special">)</span><span>
+</span><span id="line-66"></span><span>  </span><span class="hs-comment">-- Bind signature:</span><span>
+</span><span id="line-67"></span><span>  </span><span class="hs-comment">-- (&gt;&gt;=) :: Monad m =&gt; m a -&gt; (a -&gt; m b) -&gt; m b</span><span>
+</span><span id="line-68"></span><span>  </span><span class="hs-comment">-- (&gt;&gt;=) :: State s a -&gt; (a -&gt; State s b) -&gt; State s b</span><span>
+</span><span id="line-69"></span><span>  </span><span class="hs-comment">-- (&gt;&gt;=) :: (s -&gt; (a, s)) -&gt; (a -&gt; s -&gt; (b, s)) -&gt; (s -&gt; (b, s))</span><span>
+</span><span id="line-70"></span><span>  </span><span id="local-6989586621679052930"><span class="annot"><span class="annottext">&gt;&gt;= :: State s a -&gt; (a -&gt; State s b) -&gt; State s b
+</span><span class="hs-operator hs-var hs-var hs-var hs-var">(&gt;&gt;=)</span></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="State.html#State"><span class="hs-identifier hs-type">State</span></a></span><span> </span><span id="local-6989586621679052929"><span class="annot"><span class="annottext">s -&gt; (a, s)
+</span><a href="#local-6989586621679052929"><span class="hs-identifier hs-var">stateFx</span></a></span></span><span class="hs-special">)</span><span> </span><span id="local-6989586621679052928"><span class="annot"><span class="annottext">a -&gt; State s b
+</span><a href="#local-6989586621679052928"><span class="hs-identifier hs-var">nextFx</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-71"></span><span>    </span><span class="annot"><span class="annottext">(s -&gt; (b, s)) -&gt; State s b
+forall s a. (s -&gt; (a, s)) -&gt; State s a
+</span><a href="State.html#State"><span class="hs-identifier hs-var">State</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679052927"><span class="annot"><span class="annottext">s
+</span><a href="#local-6989586621679052927"><span class="hs-identifier hs-var">s</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">let</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679052926"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679052926"><span class="hs-identifier hs-var">fx</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679052925"><span class="annot"><span class="annottext">s
+</span><a href="#local-6989586621679052925"><span class="hs-identifier hs-var">s'</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">s -&gt; (a, s)
+</span><a href="#local-6989586621679052929"><span class="hs-identifier hs-var">stateFx</span></a></span><span> </span><span class="annot"><span class="annottext">s
+</span><a href="#local-6989586621679052927"><span class="hs-identifier hs-var">s</span></a></span><span>
+</span><span id="line-72"></span><span>                 </span><span class="hs-keyword">in</span><span> </span><span class="annot"><span class="annottext">State s b -&gt; s -&gt; (b, s)
+forall s a. State s a -&gt; s -&gt; (a, s)
+</span><a href="State.html#runState"><span class="hs-identifier hs-var hs-var">runState</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a -&gt; State s b
+</span><a href="#local-6989586621679052928"><span class="hs-identifier hs-var">nextFx</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679052926"><span class="hs-identifier hs-var">fx</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">s
+</span><a href="#local-6989586621679052925"><span class="hs-identifier hs-var">s'</span></a></span><span class="hs-special">)</span></span><span>
+</span><span id="line-73"></span></pre></body></html>

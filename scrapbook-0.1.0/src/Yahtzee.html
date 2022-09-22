@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE LambdaCase #-}</span><span>
+</span><span id="line-2"></span><span>
+</span><span id="line-3"></span><span class="hs-comment">{-|
+
+Module      : Yahtzee
+Description : Code from &quot;Good Design an Type Safety in Yahtzee&quot;
+Copyright   : &#169; Frank Jung, 2019
+License     : GPL-3
+
+Yahtzee test suite from blog
+&lt;http://h2.jaguarpaw.co.uk/posts/good-design-and-type-safety-in-yahtzee Good Design and Type Safety in Yahtzee&gt;
+
+-}</span><span>
+</span><span id="line-14"></span><span>
+</span><span id="line-15"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Yahtzee</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Yahtzee.html#DiceChoice"><span class="hs-identifier">DiceChoice</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Yahtzee.html#DiceVals"><span class="hs-identifier">DiceVals</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Yahtzee.html#allRolls"><span class="hs-identifier">allRolls</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-16"></span><span>
+</span><span id="line-17"></span><span class="hs-comment">-- | Dice values from 1 to 6.</span><span>
+</span><span id="line-18"></span><span class="hs-keyword">type</span><span> </span><span id="DiceVals"><span class="annot"><a href="Yahtzee.html#DiceVals"><span class="hs-identifier hs-var">DiceVals</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Word</span></span><span class="hs-special">]</span><span>
+</span><span id="line-19"></span><span>
+</span><span id="line-20"></span><span class="hs-comment">-- | Keep the dice, or re-roll?</span><span>
+</span><span id="line-21"></span><span class="hs-keyword">data</span><span> </span><span id="DiceChoice"><span class="annot"><a href="Yahtzee.html#DiceChoice"><span class="hs-identifier hs-var">DiceChoice</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="Keep"><span class="annot"><a href="Yahtzee.html#Keep"><span class="hs-identifier hs-var">Keep</span></a></span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Word</span></span><span> </span><span class="hs-glyph">|</span><span> </span><span id="Reroll"><span class="annot"><a href="Yahtzee.html#Reroll"><span class="hs-identifier hs-var">Reroll</span></a></span></span><span>
+</span><span id="line-22"></span><span>
+</span><span id="line-23"></span><span class="hs-comment">-- | Generate all rolls from a given state.</span><span>
+</span><span id="line-24"></span><span class="annot"><a href="Yahtzee.html#allRolls"><span class="hs-identifier hs-type">allRolls</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="Yahtzee.html#DiceChoice"><span class="hs-identifier hs-type">DiceChoice</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="Yahtzee.html#DiceVals"><span class="hs-identifier hs-type">DiceVals</span></a></span><span class="hs-special">]</span><span>
+</span><span id="line-25"></span><span id="allRolls"><span class="annot"><span class="annottext">allRolls :: [DiceChoice] -&gt; [DiceVals]
+</span><a href="Yahtzee.html#allRolls"><span class="hs-identifier hs-var hs-var">allRolls</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(DiceChoice -&gt; DiceVals) -&gt; [DiceChoice] -&gt; [DiceVals]
+forall (t :: * -&gt; *) (m :: * -&gt; *) a b.
+(Traversable t, Monad m) =&gt;
+(a -&gt; m b) -&gt; t a -&gt; m (t b)
+</span><span class="hs-identifier hs-var">mapM</span></span><span> </span><span class="annot"><span class="annottext">((DiceChoice -&gt; DiceVals) -&gt; [DiceChoice] -&gt; [DiceVals])
+-&gt; (DiceChoice -&gt; DiceVals) -&gt; [DiceChoice] -&gt; [DiceVals]
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
+</span><span id="line-26"></span><span>  </span><span class="annot"><span class="annottext">DiceChoice
+</span><a href="Yahtzee.html#Reroll"><span class="hs-identifier hs-var">Reroll</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Word
+</span><span class="hs-number">1</span></span><span class="hs-glyph">..</span><span class="annot"><span class="annottext">Word
+</span><span class="hs-number">6</span></span><span class="hs-special">]</span><span>
+</span><span id="line-27"></span><span>  </span><span class="annot"><a href="Yahtzee.html#Keep"><span class="hs-identifier hs-type">Keep</span></a></span><span> </span><span id="local-6989586621679053154"><span class="annot"><span class="annottext">Word
+</span><a href="#local-6989586621679053154"><span class="hs-identifier hs-var">v</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Word
+</span><a href="#local-6989586621679053154"><span class="hs-identifier hs-var">v</span></a></span><span class="hs-special">]</span><span>
+</span><span id="line-28"></span></pre></body></html>
