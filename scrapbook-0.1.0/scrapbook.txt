@@ -75,9 +75,13 @@ module Caesar
 
 -- | Simple implementation of Caesar Cipher.
 caesar :: Int -> String -> String
-isPrintable :: Char -> Bool
 
--- | Rotate a ascii character.
+-- | Limited ASCII character set, includes all printable characters except
+--   the space character.
+isAscii :: Char -> Bool
+
+-- | Rotate a ascii character. 94 = 126 - 33 + 1 33 is starting offset of
+--   printable characters (after space)
 asciiRot :: Int -> Char -> Char
 
 
