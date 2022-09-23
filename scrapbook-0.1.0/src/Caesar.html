@@ -14,40 +14,61 @@ This is my version of a simplified
 -}</span><span>
 </span><span id="line-15"></span><span>
 </span><span id="line-16"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Caesar</span><span> </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Caesar.html#caesar"><span class="hs-identifier">caesar</span></a></span><span>
-</span><span id="line-17"></span><span>              </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Caesar.html#asciiRot"><span class="hs-identifier">asciiRot</span></a></span><span>
-</span><span id="line-18"></span><span>              </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-19"></span><span>
-</span><span id="line-20"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.Char</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">chr</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">isAscii</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">ord</span></span><span class="hs-special">)</span><span>
-</span><span id="line-21"></span><span>
-</span><span id="line-22"></span><span class="hs-comment">-- | Rotate a ascii character.</span><span>
-</span><span id="line-23"></span><span class="annot"><a href="Caesar.html#asciiRot"><span class="hs-identifier hs-type">asciiRot</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Char</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Char</span></span><span>
-</span><span id="line-24"></span><span id="asciiRot"><span class="annot"><span class="annottext">asciiRot :: Int -&gt; Char -&gt; Char
-</span><a href="Caesar.html#asciiRot"><span class="hs-identifier hs-var hs-var">asciiRot</span></a></span></span><span> </span><span id="local-6989586621679052069"><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679052069"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span id="local-6989586621679052068"><span class="annot"><span class="annottext">Char
-</span><a href="#local-6989586621679052068"><span class="hs-identifier hs-var">x</span></a></span></span><span>
-</span><span id="line-25"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Char -&gt; Bool
-</span><span class="hs-identifier hs-var">isAscii</span></span><span> </span><span class="annot"><span class="annottext">Char
-</span><a href="#local-6989586621679052068"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Char
-</span><span class="hs-identifier hs-var">chr</span></span><span> </span><span class="hs-special">(</span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679052069"><span class="hs-identifier hs-var">n</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
+</span><span id="line-17"></span><span>              </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Caesar.html#isPrintable"><span class="hs-identifier">isPrintable</span></a></span><span>
+</span><span id="line-18"></span><span>              </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Caesar.html#asciiRot"><span class="hs-identifier">asciiRot</span></a></span><span>
+</span><span id="line-19"></span><span>              </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-20"></span><span>
+</span><span id="line-21"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.Char</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">chr</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">ord</span></span><span class="hs-special">)</span><span>
+</span><span id="line-22"></span><span>
+</span><span id="line-23"></span><span class="annot"><a href="Caesar.html#isPrintable"><span class="hs-identifier hs-type">isPrintable</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Char</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bool</span></span><span>
+</span><span id="line-24"></span><span id="isPrintable"><span class="annot"><span class="annottext">isPrintable :: Char -&gt; Bool
+</span><a href="Caesar.html#isPrintable"><span class="hs-identifier hs-var hs-var">isPrintable</span></a></span></span><span> </span><span id="local-6989586621679052116"><span class="annot"><span class="annottext">Char
+</span><a href="#local-6989586621679052116"><span class="hs-identifier hs-var">c</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Char -&gt; Int
+</span><span class="hs-identifier hs-var">ord</span></span><span> </span><span class="annot"><span class="annottext">Char
+</span><a href="#local-6989586621679052116"><span class="hs-identifier hs-var">c</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; [Int] -&gt; Bool
+forall (t :: * -&gt; *) a. (Foldable t, Eq a) =&gt; a -&gt; t a -&gt; Bool
+</span><span class="hs-operator hs-var">`elem`</span></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Int
+</span><span class="hs-number">33</span></span><span class="hs-glyph">..</span><span class="annot"><span class="annottext">Int
+</span><span class="hs-number">126</span></span><span class="hs-special">]</span><span>
+</span><span id="line-25"></span><span>
+</span><span id="line-26"></span><span class="hs-comment">-- | Rotate a ascii character.</span><span>
+</span><span id="line-27"></span><span class="annot"><a href="Caesar.html#asciiRot"><span class="hs-identifier hs-type">asciiRot</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Char</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Char</span></span><span>
+</span><span id="line-28"></span><span id="asciiRot"><span class="annot"><span class="annottext">asciiRot :: Int -&gt; Char -&gt; Char
+</span><a href="Caesar.html#asciiRot"><span class="hs-identifier hs-var hs-var">asciiRot</span></a></span></span><span> </span><span id="local-6989586621679052114"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679052114"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span id="local-6989586621679052113"><span class="annot"><span class="annottext">Char
+</span><a href="#local-6989586621679052113"><span class="hs-identifier hs-var">x</span></a></span></span><span>
+</span><span id="line-29"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Char -&gt; Bool
+</span><a href="Caesar.html#isPrintable"><span class="hs-identifier hs-var">isPrintable</span></a></span><span> </span><span class="annot"><span class="annottext">Char
+</span><a href="#local-6989586621679052113"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Char
+</span><span class="hs-identifier hs-var">chr</span></span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679052112"><span class="hs-identifier hs-var">y</span></a></span><span>
+</span><span id="line-30"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool
+</span><span class="hs-identifier hs-var">otherwise</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Char
+</span><a href="#local-6989586621679052113"><span class="hs-identifier hs-var">x</span></a></span><span>
+</span><span id="line-31"></span><span>  </span><span class="hs-keyword">where</span><span> </span><span id="local-6989586621679052112"><span class="annot"><span class="annottext">y :: Int
+</span><a href="#local-6989586621679052112"><span class="hs-identifier hs-var hs-var">y</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679052114"><span class="hs-identifier hs-var">n</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">+</span></span><span> </span><span class="annot"><span class="annottext">Char -&gt; Int
 </span><span class="hs-identifier hs-var">ord</span></span><span> </span><span class="annot"><span class="annottext">Char
-</span><a href="#local-6989586621679052068"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
+</span><a href="#local-6989586621679052113"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
+forall a. Num a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-glyph hs-var">-</span></span><span> </span><span class="annot"><span class="annottext">Int
+</span><span class="hs-number">33</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
 forall a. Integral a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">`mod`</span></span><span> </span><span class="annot"><span class="annottext">Int
-</span><span class="hs-number">128</span></span><span class="hs-special">)</span><span>
-</span><span id="line-26"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool
-</span><span class="hs-identifier hs-var">otherwise</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Char
-</span><a href="#local-6989586621679052068"><span class="hs-identifier hs-var">x</span></a></span><span>
-</span><span id="line-27"></span><span>
-</span><span id="line-28"></span><span class="hs-comment">-- | Simple implementation of Caesar Cipher.</span><span>
-</span><span id="line-29"></span><span class="annot"><a href="Caesar.html#caesar"><span class="hs-identifier hs-type">caesar</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span>
-</span><span id="line-30"></span><span id="caesar"><span class="annot"><span class="annottext">caesar :: Int -&gt; String -&gt; String
-</span><a href="Caesar.html#caesar"><span class="hs-identifier hs-var hs-var">caesar</span></a></span></span><span> </span><span id="local-6989586621679052065"><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679052065"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Char -&gt; Char) -&gt; String -&gt; String
+</span><span class="hs-number">94</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
+forall a. Num a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">+</span></span><span> </span><span class="annot"><span class="annottext">Int
+</span><span class="hs-number">33</span></span><span>
+</span><span id="line-32"></span><span>
+</span><span id="line-33"></span><span class="hs-comment">-- | Simple implementation of Caesar Cipher.</span><span>
+</span><span id="line-34"></span><span class="annot"><a href="Caesar.html#caesar"><span class="hs-identifier hs-type">caesar</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span>
+</span><span id="line-35"></span><span id="caesar"><span class="annot"><span class="annottext">caesar :: Int -&gt; String -&gt; String
+</span><a href="Caesar.html#caesar"><span class="hs-identifier hs-var hs-var">caesar</span></a></span></span><span> </span><span id="local-6989586621679052109"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679052109"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Char -&gt; Char) -&gt; String -&gt; String
 forall a b. (a -&gt; b) -&gt; [a] -&gt; [b]
 </span><span class="hs-identifier hs-var">map</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int -&gt; Char -&gt; Char
 </span><a href="Caesar.html#asciiRot"><span class="hs-identifier hs-var">asciiRot</span></a></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679052065"><span class="hs-identifier hs-var">n</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-31"></span></pre></body></html>
+</span><a href="#local-6989586621679052109"><span class="hs-identifier hs-var">n</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-36"></span></pre></body></html>

@@ -20,61 +20,61 @@ returns a suspended computation.
 </span><span id="line-20"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Control.Monad.Trans.Cont</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Cont</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">callCC</span></span><span class="hs-special">)</span><span>
 </span><span id="line-21"></span><span>
 </span><span id="line-22"></span><span class="hs-comment">-- | Continuation for add function.</span><span>
-</span><span id="line-23"></span><span id="local-6989586621679052235"><span class="annot"><a href="Cps.html#addCont"><span class="hs-identifier hs-type">addCont</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Cont</span></span><span> </span><span class="annot"><a href="#local-6989586621679052235"><span class="hs-identifier hs-type">r</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span></span><span>
+</span><span id="line-23"></span><span id="local-6989586621679052284"><span class="annot"><a href="Cps.html#addCont"><span class="hs-identifier hs-type">addCont</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Cont</span></span><span> </span><span class="annot"><a href="#local-6989586621679052284"><span class="hs-identifier hs-type">r</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span></span><span>
 </span><span id="line-24"></span><span id="addCont"><span class="annot"><span class="annottext">addCont :: Int -&gt; Int -&gt; Cont r Int
-</span><a href="Cps.html#addCont"><span class="hs-identifier hs-var hs-var">addCont</span></a></span></span><span> </span><span id="local-6989586621679052230"><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679052230"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span id="local-6989586621679052229"><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679052229"><span class="hs-identifier hs-var">y</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">((Int -&gt; Cont r Int) -&gt; Cont r Int) -&gt; Cont r Int
+</span><a href="Cps.html#addCont"><span class="hs-identifier hs-var hs-var">addCont</span></a></span></span><span> </span><span id="local-6989586621679052279"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679052279"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span id="local-6989586621679052278"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679052278"><span class="hs-identifier hs-var">y</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">((Int -&gt; Cont r Int) -&gt; Cont r Int) -&gt; Cont r Int
 forall k a (r :: k) (m :: k -&gt; *) b.
 ((a -&gt; ContT r m b) -&gt; ContT r m a) -&gt; ContT r m a
 </span><span class="hs-identifier hs-var">callCC</span></span><span> </span><span class="annot"><span class="annottext">(((Int -&gt; Cont r Int) -&gt; Cont r Int) -&gt; Cont r Int)
 -&gt; ((Int -&gt; Cont r Int) -&gt; Cont r Int) -&gt; Cont r Int
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679052228"><span class="annot"><span class="annottext">Int -&gt; Cont r Int
-</span><a href="#local-6989586621679052228"><span class="hs-identifier hs-var">k</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Cont r Int
-</span><a href="#local-6989586621679052228"><span class="hs-identifier hs-var">k</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679052230"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679052277"><span class="annot"><span class="annottext">Int -&gt; Cont r Int
+</span><a href="#local-6989586621679052277"><span class="hs-identifier hs-var">k</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Cont r Int
+</span><a href="#local-6989586621679052277"><span class="hs-identifier hs-var">k</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679052279"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">+</span></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679052229"><span class="hs-identifier hs-var">y</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679052278"><span class="hs-identifier hs-var">y</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-25"></span><span>
 </span><span id="line-26"></span><span class="hs-comment">-- | Continuation for square function.</span><span>
-</span><span id="line-27"></span><span id="local-6989586621679052236"><span class="annot"><a href="Cps.html#squareCont"><span class="hs-identifier hs-type">squareCont</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Cont</span></span><span> </span><span class="annot"><a href="#local-6989586621679052236"><span class="hs-identifier hs-type">r</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span></span><span>
+</span><span id="line-27"></span><span id="local-6989586621679052285"><span class="annot"><a href="Cps.html#squareCont"><span class="hs-identifier hs-type">squareCont</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Cont</span></span><span> </span><span class="annot"><a href="#local-6989586621679052285"><span class="hs-identifier hs-type">r</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span></span><span>
 </span><span id="line-28"></span><span id="squareCont"><span class="annot"><span class="annottext">squareCont :: Int -&gt; Cont r Int
-</span><a href="Cps.html#squareCont"><span class="hs-identifier hs-var hs-var">squareCont</span></a></span></span><span> </span><span id="local-6989586621679052226"><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679052226"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">((Int -&gt; Cont r Int) -&gt; Cont r Int) -&gt; Cont r Int
+</span><a href="Cps.html#squareCont"><span class="hs-identifier hs-var hs-var">squareCont</span></a></span></span><span> </span><span id="local-6989586621679052275"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679052275"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">((Int -&gt; Cont r Int) -&gt; Cont r Int) -&gt; Cont r Int
 forall k a (r :: k) (m :: k -&gt; *) b.
 ((a -&gt; ContT r m b) -&gt; ContT r m a) -&gt; ContT r m a
 </span><span class="hs-identifier hs-var">callCC</span></span><span> </span><span class="annot"><span class="annottext">(((Int -&gt; Cont r Int) -&gt; Cont r Int) -&gt; Cont r Int)
 -&gt; ((Int -&gt; Cont r Int) -&gt; Cont r Int) -&gt; Cont r Int
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679052225"><span class="annot"><span class="annottext">Int -&gt; Cont r Int
-</span><a href="#local-6989586621679052225"><span class="hs-identifier hs-var">k</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Cont r Int
-</span><a href="#local-6989586621679052225"><span class="hs-identifier hs-var">k</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679052226"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679052274"><span class="annot"><span class="annottext">Int -&gt; Cont r Int
+</span><a href="#local-6989586621679052274"><span class="hs-identifier hs-var">k</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Cont r Int
+</span><a href="#local-6989586621679052274"><span class="hs-identifier hs-var">k</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679052275"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">*</span></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679052226"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679052275"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-29"></span><span>
 </span><span id="line-30"></span><span class="hs-comment">-- | Continuation for pythagoras function.</span><span>
-</span><span id="line-31"></span><span id="local-6989586621679052223"><span class="annot"><a href="Cps.html#pythagorasCont"><span class="hs-identifier hs-type">pythagorasCont</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Cont</span></span><span> </span><span class="annot"><a href="#local-6989586621679052223"><span class="hs-identifier hs-type">r</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span></span><span>
+</span><span id="line-31"></span><span id="local-6989586621679052272"><span class="annot"><a href="Cps.html#pythagorasCont"><span class="hs-identifier hs-type">pythagorasCont</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Cont</span></span><span> </span><span class="annot"><a href="#local-6989586621679052272"><span class="hs-identifier hs-type">r</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span></span><span>
 </span><span id="line-32"></span><span id="pythagorasCont"><span class="annot"><span class="annottext">pythagorasCont :: Int -&gt; Int -&gt; Cont r Int
-</span><a href="Cps.html#pythagorasCont"><span class="hs-identifier hs-var hs-var">pythagorasCont</span></a></span></span><span> </span><span id="local-6989586621679052222"><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679052222"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span id="local-6989586621679052221"><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679052221"><span class="hs-identifier hs-var">y</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-33"></span><span>    </span><span id="local-6989586621679052220"><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679052220"><span class="hs-identifier hs-var">x_squared</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Cont r Int
+</span><a href="Cps.html#pythagorasCont"><span class="hs-identifier hs-var hs-var">pythagorasCont</span></a></span></span><span> </span><span id="local-6989586621679052271"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679052271"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span id="local-6989586621679052270"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679052270"><span class="hs-identifier hs-var">y</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-33"></span><span>    </span><span id="local-6989586621679052269"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679052269"><span class="hs-identifier hs-var">x_squared</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Cont r Int
 forall r. Int -&gt; Cont r Int
 </span><a href="Cps.html#squareCont"><span class="hs-identifier hs-var">squareCont</span></a></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679052222"><span class="hs-identifier hs-var">x</span></a></span><span>
-</span><span id="line-34"></span><span>    </span><span id="local-6989586621679052219"><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679052219"><span class="hs-identifier hs-var">y_squared</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Cont r Int
+</span><a href="#local-6989586621679052271"><span class="hs-identifier hs-var">x</span></a></span><span>
+</span><span id="line-34"></span><span>    </span><span id="local-6989586621679052268"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679052268"><span class="hs-identifier hs-var">y_squared</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Cont r Int
 forall r. Int -&gt; Cont r Int
 </span><a href="Cps.html#squareCont"><span class="hs-identifier hs-var">squareCont</span></a></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679052221"><span class="hs-identifier hs-var">y</span></a></span><span>
+</span><a href="#local-6989586621679052270"><span class="hs-identifier hs-var">y</span></a></span><span>
 </span><span id="line-35"></span><span>    </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Cont r Int
 forall r. Int -&gt; Int -&gt; Cont r Int
 </span><a href="Cps.html#addCont"><span class="hs-identifier hs-var">addCont</span></a></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679052220"><span class="hs-identifier hs-var">x_squared</span></a></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679052219"><span class="hs-identifier hs-var">y_squared</span></a></span><span>
+</span><a href="#local-6989586621679052269"><span class="hs-identifier hs-var">x_squared</span></a></span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679052268"><span class="hs-identifier hs-var">y_squared</span></a></span><span>
 </span><span id="line-36"></span></pre></body></html>

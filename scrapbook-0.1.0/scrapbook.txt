@@ -75,6 +75,7 @@ module Caesar
 
 -- | Simple implementation of Caesar Cipher.
 caesar :: Int -> String -> String
+isPrintable :: Char -> Bool
 
 -- | Rotate a ascii character.
 asciiRot :: Int -> Char -> Char
