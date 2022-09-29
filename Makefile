@@ -73,7 +73,8 @@ exec:	build
 	@echo While ...
 	@echo "a\nb\nc\nq\n" | cabal exec while
 	@echo WordCount ...
-	@cat LICENSE | cabal exec wordcount
+	@cabal exec wordcount
+	@cabal exec wordcount -- LICENSE
 	@echo
 
 .PHONY: setup

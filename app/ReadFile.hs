@@ -57,4 +57,4 @@ import           System.Environment (getArgs, getProgName)
 main :: IO ()
 main = getArgs >>= \args -> case length args of
   1 -> mapM_ putStrLn . lines =<< readFile (head args)
-  _ -> getProgName >>= \p -> error $ "Usage: " ++ p ++ " [file_name]"
+  _ -> getProgName >>= \p -> error $ concat ["Usage: ", p, " [file_name]"]
