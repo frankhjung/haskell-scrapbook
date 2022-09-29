@@ -28,10 +28,10 @@ caesarInput = do
 spec :: Spec
 spec =
   describe "caesar cipher" $ do
-    prop "apply 47 twice returns the input string" $
+    prop "apply `caesar 47` twice returns the input string" $
       \(NonEmpty (xs :: String)) -> caesar 47 (caesar 47 xs) == xs
-    prop "reverse n returns input string" $
+    prop "decrypt `caesar n` returns input string" $
       \(NonEmpty (xs :: String), n :: Int)
         -> caesar (94 - n `mod` 94) (caesar (n `mod` 94) xs) == xs
-    it "apply caesar n scrambles input string" $
+    it "apply `caesar n` scrambles input string" $
       forAll caesarInput $ \(n, xs) -> caesar n (caesar n xs) /= xs
