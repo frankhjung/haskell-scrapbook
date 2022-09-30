@@ -1,5 +1,7 @@
 # Haskell Scrapbook
 
+![Haskell workflow](https://github.com/frankhjung/haskell-scrapbook/actions/workflows/haskell.yml/badge.svg)
+
 A collection of short scripts testing functions and techniques.
 
 The project is built using [Cabal](https://www.haskell.org/cabal/).
@@ -85,7 +87,7 @@ benchmark HTML reports can be generated using
 [stack](https://docs.haskellstack.org/en/stable/README/). They are available
 from GitHub, here:
 
-* [Criterion benchmarks
+* Criterion benchmarks:
   * [MyReverse](https://frankhjung.github.io/haskell-scrapbook/benchmark-myreverse.html)
   * [PolyDivisors](https://frankhjung.github.io/haskell-scrapbook/benchmark-polydivisors.html)
   * [RepMax](https://frankhjung.github.io/haskell-scrapbook/benchmark-repmax.html)

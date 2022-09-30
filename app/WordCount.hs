@@ -2,9 +2,9 @@
 
 {-
 
-Count words from file read from STDIN.
+Count words in a file.
 
-Word Count as per <https://linux.die.net/man/1/wc wc(1)>.
+Similar to <https://linux.die.net/man/1/wc wc(1)>.
 
 >>> wc -w wordcount.hs
 5 Setup.hs
@@ -37,7 +37,7 @@ wordsFile file = do
   count <- length . words <$> readFile file
   putStrLn (concat [show count,  ", ", file])
 
--- | Count words in input. Input is from either STDIN or a file.
+-- | Count words in file.
 --
 -- >>> cabal exec wordcount -- Setup.hs
 -- 5, Setup.hs
