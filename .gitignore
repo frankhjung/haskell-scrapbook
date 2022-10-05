@@ -27,6 +27,7 @@ skips
 tags
 threads
 *.tix
+.trunk/
 .vscode
 while
 wordcount

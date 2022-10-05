@@ -1,5 +1,4 @@
 ---
-
 stages:
   - build
   - deploy
@@ -9,13 +8,13 @@ build:
   except:
     - tags
   image:
-    name: frankhjung/haskell:8.10.7
+    name: frankhjung/haskell:9.0.2
     entrypoint: [""]
   script:
     - make setup check build test doc exec bench
     - mkdir -p public/
     # yamllint disable-line rule:line-length
-    - cp -r ${CI_PROJECT_DIR}/dist-newstyle/build/x86_64-linux/ghc-8.10.7/scrapbook-0.1.0/doc/html/scrapbook/* public/
+    - cp -r ${CI_PROJECT_DIR}/dist-newstyle/build/x86_64-linux/ghc-9.0.2/scrapbook-0.1.0/doc/html/scrapbook/* public/
     # yamllint enable-line rule:line-length
   artifacts:
     paths:

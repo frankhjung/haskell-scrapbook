@@ -49,7 +49,7 @@ bench:
 .PHONY: doc
 doc:
 	@echo doc ...
-	@cabal haddock --haddock-quickjump --haddock-hyperlink-source
+	@cabal haddock --haddock-hyperlink-source
 
 .PHONY: exec
 exec:	build
