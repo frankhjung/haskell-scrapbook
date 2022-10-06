@@ -135,3 +135,7 @@ If no errors, then the screen will report something like:
 
 > All good (1 module, at 21:28:27)
 
+## ghcup
+
+When editing using [Visual Studio Code](https://code.visualstudio.com/), use
+[GHCup](https://www.haskell.org/ghcup/install/).

@@ -15,6 +15,6 @@ module MyTake (myTake) where
 -- >>> myTake 1 "abc"
 -- "a"
 myTake :: Int -> [a] -> [a]
-myTake n _ | n <= 0 = []
-myTake _ []         = []
-myTake n (x:xs)     = x : myTake (pred n) xs
+myTake n _      | n <= 0 = []
+myTake _ []              = []
+myTake n (x:xs)          = x : myTake (pred n) xs
