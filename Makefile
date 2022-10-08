@@ -1,6 +1,6 @@
 #!/usr/bin/env make
 
-SRC	:= $(wildcard src/*.hs app/*.hs test/*.hs bench/*.hs)
+SRC	:= $(wildcard *.hs src/*.hs app/*.hs test/*.hs bench/*.hs)
 YAMLS	:= $(wildcard *.yaml .*.yml .*/.*.yml)
 
 .PHONY: default
@@ -20,12 +20,12 @@ tags:	$(SRC)
 .PHONY: style
 style:	$(SRC)
 	@echo style ...
-	@stylish-haskell --config=.stylish-haskell.yaml --inplace $(SRC)
+	@stylish-haskell --verbose --config=.stylish-haskell.yaml --inplace $(SRC)
 
 .PHONY: lint
 lint:	$(SRC)
 	@echo lint ...
-	@cabal check
+	@cabal check --verbose=3
 	@hlint --cross --color --show $(SRC)
 	@yamllint --strict $(YAMLS)
 
