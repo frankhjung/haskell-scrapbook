@@ -20,6 +20,6 @@ spec =
     it "orange & blue is brown" $
       Orange <> Blue `shouldBe` Brown
     it "(green <> blue) <> yellow same as green <> (blue <> yellow)" $
-      (Green <> Blue) <> Yellow `shouldBe` Green <> (Blue <> Yellow)
+      (Green <> Blue) <> Yellow `shouldBe` Green <> Blue <> Yellow
     prop "colours match regardless of order" $
-      \(a :: Colour, b :: Colour, c:: Colour) -> (a <> b) <> c `shouldBe` a <> (b <> c)
+      \(a :: Colour, b :: Colour, c:: Colour) -> (a <> b) <> c `shouldBe` a <> b <> c

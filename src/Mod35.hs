@@ -16,4 +16,4 @@ module Mod35 (mod35) where
 -- | Test if modulus 3 or 5.
 mod35 :: Int      -- ^ value to test
          -> Bool  -- ^ true if modulus 3 and/or 5
-mod35 n = (n `mod` 3 == 0) || (n `mod` 5 == 0)
+mod35 n = n `mod` 3 == 0 || n `mod` 5 == 0

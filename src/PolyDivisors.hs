@@ -85,7 +85,7 @@ isPolyMod' x = all (== 0) xs
     n = length (show x)
     -- list of x's reduced by factor of 10 for length of x as a string
     -- eg. 123 gives [(123 % 3), (12 % 2), (1 % 1)]
-    xs = map (\p -> (x `div` 10 ^ p) `mod` (n - p) ) [0..n - 1]
+    xs = map (\p -> x `div` 10 ^ p `mod` (n - p) ) [0..n - 1]
 
 -- | @isPolyMod''@: Test number is modulo @n ... 1@.
 isPolyMod'' :: Int -> Bool

@@ -33,7 +33,7 @@ asciiRot :: Int -> Char -> Char
 asciiRot n x
   | isAscii x = rotate
   | otherwise = x
-  where rotate = chr $ ((n + ord x - 33) `mod` 94) + 33
+  where rotate = chr $ (n + ord x - 33) `mod` 94 + 33
 
 -- | Simple implementation of Caesar Cipher.
 caesar :: Int -> String -> String
