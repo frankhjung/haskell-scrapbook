@@ -4,9 +4,6 @@ stages:
   - build
   - deploy
 
-variables:
-  CABAL_CONFIG: dist-newstyle/cabal.config
-
 build:
   stage: build
   except:
@@ -18,14 +15,13 @@ build:
     - make setup check build test doc exec bench
     - mkdir -p public/
     # yamllint disable-line rule:line-length
-    - cp -r ${CI_PROJECT_DIR}/dist-newstyle/build/x86_64-linux/ghc-9.0.2/scrapbook-0.1.0/doc/html/scrapbook/* public/
+    - cp -r dist-newstyle/build/x86_64-linux/ghc-9.0.2/scrapbook-?.?.?/doc/html/scrapbook/* public/
     # yamllint enable-line rule:line-length
   artifacts:
     paths:
-      - dist-newstyle/
       - public
   cache:
-    key: ${CI_COMMIT_REF_NAME}-${CI_JOB_NAME}
+    key: ${CI_COMMIT_REF_SLUG}
     paths:
       - dist-newstyle/
 

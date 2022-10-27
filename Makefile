@@ -1,7 +1,7 @@
 #!/usr/bin/env make
 
-SRC	:= $(wildcard *.hs src/*.hs app/*.hs test/*.hs bench/*.hs)
-YAMLS	:= $(wildcard *.yaml .*.yml .*/.*.yml)
+SRC	:= $(wildcard *.hs **/*.hs)
+YAML	:= $(shell git ls-files | grep --perl \.y?ml)
 
 .PHONY: default
 default:check build test
@@ -27,73 +27,71 @@ lint:	$(SRC)
 	@echo lint ...
 	@cabal check --verbose=2
 	@hlint --cross --color --show $(SRC)
-	@yamllint --strict $(YAMLS)
+	@yamllint --strict $(YAML)
 
 .PHONY: build
 build:	check
 	@echo build ...
-	@cabal build
+	@cabal v2-build
 
 .PHONY: test
 test:
 	@echo test ...
-	@cabal test --test-show-details=always
+	@cabal v2-test --test-show-details=always
 # Show just test failures
 #	@cabal new-test --test-show-details=failures
 
 .PHONY: bench
 bench:
 	@echo bench ...
-	@cabal bench --jobs=1
+	@cabal v2-bench --jobs=1
 
 .PHONY: doc
 doc:
 	@echo doc ...
-	@cabal haddock --haddock-hyperlink-source
+ifeq ($(shell cabal --numeric-version), 3.4.1.0)
+	@cabal v2-haddock --haddock-hyperlink-source
+else
+	@cabal v2-haddock --haddock-hyperlink-source --haddock-quickjump
+endif
 
 .PHONY: exec
 exec:	build
 	@echo Counter ...
-	@cabal exec counter 4
+	@cabal v2-exec counter 4
 	@echo FPComplete ...
-	@cabal exec fpcomplete
+	@cabal v2-exec fpcomplete
 	@echo NumberLines ...
-	@cabal exec numberlines -- Setup.hs
+	@cabal v2-exec numberlines -- Setup.hs
 	@echo PolyDivisors ...
-	@cabal exec polydivs 123456789
+	@cabal v2-exec polydivs 123456789
 	@echo Quine ...
-	@cabal exec quine
+	@cabal v2-exec quine
 	@echo
 	@echo ReadFile Setup.hs ...
-	@cabal exec readfile Setup.hs
+	@cabal v2-exec readfile Setup.hs
 	@echo Skips ...
-	@cabal exec skips abcd
+	@cabal v2-exec skips abcd
 	@echo Threads ...
-	@cabal exec threads
+	@cabal v2-exec threads
 	@echo Vocab ...
-	@cabal exec vocab LICENSE
+	@cabal v2-exec vocab LICENSE
 	@echo While ...
-	@echo "a\nb\nc\nq\n" | cabal exec while
+	@echo "a\nb\nc\nq\n" | cabal v2-exec while
 	@echo WordCount ...
-	@cabal exec wordcount
-	@cabal exec wordcount -- LICENSE
+	@cabal v2-exec wordcount
+	@cabal v2-exec wordcount -- LICENSE
 	@echo
 
 .PHONY: setup
 setup:
 	cabal --version
-	@echo Using CABAL_CONFIG=$(CABAL_CONFIG)
-ifeq "$(wildcard $(CABAL_CONFIG))" ""
-	cabal user-config init
-else
-	cabal user-config update
-	cabal update --user --only-dependencies --disable-tests --disable-documentation --disable-benchmarks
-endif
+	cabal v2-update --only-dependencies --disable-tests --disable-documentation --disable-benchmarks
 	cabal info scrapbook
 
 .PHONY: clean
 clean:
-	@cabal clean
+	@cabal v2-clean
 	-$(RM) $(addsuffix .hi, $(basename $(SRC)))
 	-$(RM) $(addsuffix .o, $(basename $(SRC)))
 	-$(RM) $(addsuffix .prof, $(basename $(SRC)))

@@ -1,6 +1,6 @@
 module WeekdaySpec (spec) where
 
-import           Weekday               (Weekday (..), capitalised, fromString,
+import           Weekday               (Weekday (..), capitalise, fromString,
                                         fullWeek)
 
 import           Test.Hspec            (Spec, describe, it, shouldBe)
@@ -28,16 +28,19 @@ spec =
       head (fullWeek :: [Weekday]) `shouldBe` Mon
     it "fullWeek last day is Sun" $
       last (fullWeek :: [Weekday]) `shouldBe` Sun
-    it "captilised mon is Mon" $
-      capitalised "mon" `shouldBe` "Mon"
-    it "captilised Mon is Mon" $
-      capitalised "Mon" `shouldBe` "Mon"
-    it "from string mon is Mon" $
-      fromString "mon" `shouldBe` Mon
-    it "from string monday is Mon" $
-      fromString "monday" `shouldBe` Mon
-    it "read from weekday string gives weekday" $
+    it "captilised mON is Mon" $
+      capitalise "mON" `shouldBe` "Mon"
+    it "captilised Tue is Tue" $
+      capitalise "Tue" `shouldBe` "Tue"
+    it "from string sun is Just Sun" $
+      fromString "sun" `shouldBe` Just Sun
+    it "from string bad is Nothing" $
+      fromString "bad" `shouldBe` Nothing
+    it "show of read from weekday string returns weekday string" $
       forAll weekdayString $ \d -> show (read d :: Weekday) `shouldBe` d
-    prop "read from show gives Weekday" $
+    -- use weekday generator
+    prop "read from show Weekday returns Weekday" $
       \d -> read (show d) `shouldBe` (d :: Weekday)
-    prop "property read from show gives Weekday" prop_ReadShowWeekday
+    -- a better way to do the same as above
+    prop "property read from show Weekday returns Weekday"
+      prop_ReadShowWeekday
