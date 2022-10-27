@@ -25,7 +25,7 @@ style:	$(SRC)
 .PHONY: lint
 lint:	$(SRC)
 	@echo lint ...
-	@cabal check --verbose=3
+	@cabal check --verbose=2
 	@hlint --cross --color --show $(SRC)
 	@yamllint --strict $(YAMLS)
 
@@ -82,7 +82,14 @@ exec:	build
 .PHONY: setup
 setup:
 	cabal --version
-	cabal update --only-dependencies --enable-tests --enable-documentation --enable-benchmarks
+	@echo Using CABAL_CONFIG=$(CABAL_CONFIG)
+ifeq "$(wildcard $(CABAL_CONFIG))" ""
+	cabal user-config init
+else
+	cabal user-config update
+	cabal update --user --only-dependencies --disable-tests --disable-documentation --disable-benchmarks
+endif
+	cabal info scrapbook
 
 .PHONY: clean
 clean:

@@ -135,6 +135,29 @@ If no errors, then the screen will report something like:
 
 > All good (1 module, at 21:28:27)
 
+Alternatively, to monitor a couple of files:
+
+```bash
+ghcid -l src/Weekday.hs test/WeekdaySpec.hs
+```
+
+### Using ghcid in Vim
+
+To monitor a couple of files (as per above):
+
+```text
+:let g:ghcid_args="--lint src/Weekday.hs test/WeekdaySpec.hs"
+:GhcidStart
+```
+
+To stop, call:
+
+```text
+:GhcidStop
+```
+
+See also [vim-ghcid](https://github.com/alx741/vim-ghcid) plugin.
+
 ## ghcup
 
 When editing using [Visual Studio Code](https://code.visualstudio.com/), use

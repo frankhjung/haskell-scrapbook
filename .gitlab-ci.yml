@@ -1,7 +1,11 @@
 ---
+
 stages:
   - build
   - deploy
+
+variables:
+  CABAL_CONFIG: dist-newstyle/cabal.config
 
 build:
   stage: build
