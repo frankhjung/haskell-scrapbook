@@ -52,15 +52,15 @@ instance Arbitrary Weekday where
 
 -- | Read a 'Weekday' from a string.
 --
--- Some string conversion examples:
+-- Some string to 'Weekday' examples:
 --
--- >>> fromString "Mon"
--- Just Mon
+-- >>> fromString "tHU"
+-- Just Thu
 --
--- >>> fromString "sunday"
+-- >>> fromString "sun"
 -- Just Sun
 --
--- >>> fromString "badday"
+-- >>> fromString "Bad"
 -- Nothing
 fromString :: String -> Maybe Weekday
 fromString ds =
