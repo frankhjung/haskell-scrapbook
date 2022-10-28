@@ -35,6 +35,7 @@ module Weekday ( Weekday(..)
                ) where
 
 import           Data.Char       (toLower, toUpper)
+import           Data.Maybe      (listToMaybe)
 import           Test.QuickCheck (Arbitrary (arbitrary), arbitraryBoundedEnum)
 
 -- | Abbreviated days of the week from Mon (Monday) to Sun (Sunday).
@@ -63,14 +64,10 @@ instance Arbitrary Weekday where
 -- >>> fromString "Bad"
 -- Nothing
 fromString :: String -> Maybe Weekday
-fromString ds =
-  let
-    day = capitalise ds
-    weekday = map show fullWeek
-  in
-    if day `elem` weekday
-      then Just (read day)
-      else Nothing
+fromString ds = listToMaybe (map read (filter (== day) weekdays) :: [Weekday])
+  where
+    day = (capitalise . take 4) ds
+    weekdays = map show fullWeek
 
 -- | List all days of the week.
 --
