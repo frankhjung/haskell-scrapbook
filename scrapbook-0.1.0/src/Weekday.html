@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span id="local-6989586621679055901"><span id="local-6989586621679055902"><span id="local-6989586621679055903"></span></span></span><span class="hs-comment">{-|
+
+Module      : WeekDay
+Description : Enumerate week days
+Copyright   : &#169; Frank Jung, 2022
+License     : GPL-3
+
+A simple demonstration on how to map to and from a bounded, enumerated data type.
+
+In this example we use the weekdays names as our type to iterate across.
+
+  * 'fromString' is a simple conversion function to map a 'Weekday'
+     from a string
+  * 'fullWeek' returns a list of all abbreviated weekdays
+  * 'capitalise' returns the title case of a string
+
+The 'fromString' code is rather weak as any word where the first 3 letters
+map to a weekday is valid for conversion.
+
+== Other Examples
+
+=== Using enum:
+
+This example shows how use 'Weekday' from an enumeration:
+
+&gt;&gt;&gt; toEnum 0 :: WeekDay
+Mon
+
+-}</span><span>
+</span><span id="line-30"></span><span>
+</span><span id="line-31"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Weekday</span><span> </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Weekday.html#Weekday"><span class="hs-identifier">Weekday</span></a></span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-32"></span><span>               </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Weekday.html#fromString"><span class="hs-identifier">fromString</span></a></span><span>
+</span><span id="line-33"></span><span>               </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Weekday.html#fullWeek"><span class="hs-identifier">fullWeek</span></a></span><span>
+</span><span id="line-34"></span><span>               </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Weekday.html#capitalise"><span class="hs-identifier">capitalise</span></a></span><span>
+</span><span id="line-35"></span><span>               </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-36"></span><span>
+</span><span id="line-37"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.Char</span></span><span>       </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">toLower</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">toUpper</span></span><span class="hs-special">)</span><span>
+</span><span id="line-38"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Test.QuickCheck</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Arbitrary</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">arbitrary</span></span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">arbitraryBoundedEnum</span></span><span class="hs-special">)</span><span>
+</span><span id="line-39"></span><span>
+</span><span id="line-40"></span><span class="hs-comment">-- | Abbreviated days of the week from Mon (Monday) to Sun (Sunday).</span><span>
+</span><span id="line-41"></span><span class="hs-keyword">data</span><span> </span><span id="Weekday"><span class="annot"><a href="Weekday.html#Weekday"><span class="hs-identifier hs-var">Weekday</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="Mon"><span class="annot"><a href="Weekday.html#Mon"><span class="hs-identifier hs-var">Mon</span></a></span></span><span> </span><span class="hs-glyph">|</span><span> </span><span id="Tue"><span class="annot"><a href="Weekday.html#Tue"><span class="hs-identifier hs-var">Tue</span></a></span></span><span> </span><span class="hs-glyph">|</span><span> </span><span id="Wed"><span class="annot"><a href="Weekday.html#Wed"><span class="hs-identifier hs-var">Wed</span></a></span></span><span> </span><span class="hs-glyph">|</span><span> </span><span id="Thu"><span class="annot"><a href="Weekday.html#Thu"><span class="hs-identifier hs-var">Thu</span></a></span></span><span> </span><span class="hs-glyph">|</span><span> </span><span id="Fri"><span class="annot"><a href="Weekday.html#Fri"><span class="hs-identifier hs-var">Fri</span></a></span></span><span> </span><span class="hs-glyph">|</span><span> </span><span id="Sat"><span class="annot"><a href="Weekday.html#Sat"><span class="hs-identifier hs-var">Sat</span></a></span></span><span> </span><span class="hs-glyph">|</span><span> </span><span id="Sun"><span class="annot"><a href="Weekday.html#Sun"><span class="hs-identifier hs-var">Sun</span></a></span></span><span>
+</span><span id="line-42"></span><span>                </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679055872"><span id="local-6989586621679055874"><span class="annot"><span class="annottext">Weekday -&gt; Weekday -&gt; Bool
+(Weekday -&gt; Weekday -&gt; Bool)
+-&gt; (Weekday -&gt; Weekday -&gt; Bool) -&gt; Eq Weekday
+forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
+/= :: Weekday -&gt; Weekday -&gt; Bool
+$c/= :: Weekday -&gt; Weekday -&gt; Bool
+== :: Weekday -&gt; Weekday -&gt; Bool
+$c== :: Weekday -&gt; Weekday -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679055833"><span id="local-6989586621679055835"><span id="local-6989586621679055839"><span id="local-6989586621679055843"><span id="local-6989586621679055845"><span id="local-6989586621679055855"><span id="local-6989586621679055861"><span id="local-6989586621679055869"><span class="annot"><span class="annottext">Int -&gt; Weekday
+Weekday -&gt; Int
+Weekday -&gt; [Weekday]
+Weekday -&gt; Weekday
+Weekday -&gt; Weekday -&gt; [Weekday]
+Weekday -&gt; Weekday -&gt; Weekday -&gt; [Weekday]
+(Weekday -&gt; Weekday)
+-&gt; (Weekday -&gt; Weekday)
+-&gt; (Int -&gt; Weekday)
+-&gt; (Weekday -&gt; Int)
+-&gt; (Weekday -&gt; [Weekday])
+-&gt; (Weekday -&gt; Weekday -&gt; [Weekday])
+-&gt; (Weekday -&gt; Weekday -&gt; [Weekday])
+-&gt; (Weekday -&gt; Weekday -&gt; Weekday -&gt; [Weekday])
+-&gt; Enum Weekday
+forall a.
+(a -&gt; a)
+-&gt; (a -&gt; a)
+-&gt; (Int -&gt; a)
+-&gt; (a -&gt; Int)
+-&gt; (a -&gt; [a])
+-&gt; (a -&gt; a -&gt; [a])
+-&gt; (a -&gt; a -&gt; [a])
+-&gt; (a -&gt; a -&gt; a -&gt; [a])
+-&gt; Enum a
+enumFromThenTo :: Weekday -&gt; Weekday -&gt; Weekday -&gt; [Weekday]
+$cenumFromThenTo :: Weekday -&gt; Weekday -&gt; Weekday -&gt; [Weekday]
+enumFromTo :: Weekday -&gt; Weekday -&gt; [Weekday]
+$cenumFromTo :: Weekday -&gt; Weekday -&gt; [Weekday]
+enumFromThen :: Weekday -&gt; Weekday -&gt; [Weekday]
+$cenumFromThen :: Weekday -&gt; Weekday -&gt; [Weekday]
+enumFrom :: Weekday -&gt; [Weekday]
+$cenumFrom :: Weekday -&gt; [Weekday]
+fromEnum :: Weekday -&gt; Int
+$cfromEnum :: Weekday -&gt; Int
+toEnum :: Int -&gt; Weekday
+$ctoEnum :: Int -&gt; Weekday
+pred :: Weekday -&gt; Weekday
+$cpred :: Weekday -&gt; Weekday
+succ :: Weekday -&gt; Weekday
+$csucc :: Weekday -&gt; Weekday
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Enum</span></span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679055826"><span id="local-6989586621679055828"><span id="local-6989586621679055830"><span class="annot"><span class="annottext">Int -&gt; Weekday -&gt; ShowS
+[Weekday] -&gt; ShowS
+Weekday -&gt; String
+(Int -&gt; Weekday -&gt; ShowS)
+-&gt; (Weekday -&gt; String) -&gt; ([Weekday] -&gt; ShowS) -&gt; Show Weekday
+forall a.
+(Int -&gt; a -&gt; ShowS) -&gt; (a -&gt; String) -&gt; ([a] -&gt; ShowS) -&gt; Show a
+showList :: [Weekday] -&gt; ShowS
+$cshowList :: [Weekday] -&gt; ShowS
+show :: Weekday -&gt; String
+$cshow :: Weekday -&gt; String
+showsPrec :: Int -&gt; Weekday -&gt; ShowS
+$cshowsPrec :: Int -&gt; Weekday -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679055821"><span id="local-6989586621679055823"><span class="annot"><span class="annottext">Weekday
+Weekday -&gt; Weekday -&gt; Bounded Weekday
+forall a. a -&gt; a -&gt; Bounded a
+maxBound :: Weekday
+$cmaxBound :: Weekday
+minBound :: Weekday
+$cminBound :: Weekday
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Bounded</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679055803"><span id="local-6989586621679055813"><span id="local-6989586621679055816"><span id="local-6989586621679055818"><span class="annot"><span class="annottext">ReadPrec [Weekday]
+ReadPrec Weekday
+Int -&gt; ReadS Weekday
+ReadS [Weekday]
+(Int -&gt; ReadS Weekday)
+-&gt; ReadS [Weekday]
+-&gt; ReadPrec Weekday
+-&gt; ReadPrec [Weekday]
+-&gt; Read Weekday
+forall a.
+(Int -&gt; ReadS a)
+-&gt; ReadS [a] -&gt; ReadPrec a -&gt; ReadPrec [a] -&gt; Read a
+readListPrec :: ReadPrec [Weekday]
+$creadListPrec :: ReadPrec [Weekday]
+readPrec :: ReadPrec Weekday
+$creadPrec :: ReadPrec Weekday
+readList :: ReadS [Weekday]
+$creadList :: ReadS [Weekday]
+readsPrec :: Int -&gt; ReadS Weekday
+$creadsPrec :: Int -&gt; ReadS Weekday
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Read</span></span></span></span></span></span><span class="hs-special">)</span><span>
+</span><span id="line-43"></span><span>
+</span><span id="line-44"></span><span class="hs-comment">-- | Provide a random instance of a 'Weekday'.</span><span>
+</span><span id="line-45"></span><span class="hs-comment">--</span><span>
+</span><span id="line-46"></span><span class="hs-comment">-- This is for ease of use in property testing.</span><span>
+</span><span id="line-47"></span><span class="hs-comment">--</span><span>
+</span><span id="line-48"></span><span class="hs-comment">-- &gt;&gt;&gt; generate arbitrary :: IO Weekday</span><span>
+</span><span id="line-49"></span><span class="hs-comment">-- Wed</span><span>
+</span><span id="line-50"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679055798"><span class="annot"><span class="hs-identifier hs-type">Arbitrary</span></span><span> </span><span class="annot"><a href="Weekday.html#Weekday"><span class="hs-identifier hs-type">Weekday</span></a></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-51"></span><span>  </span><span id="local-6989586621679055794"><span class="annot"><span class="annottext">arbitrary :: Gen Weekday
+</span><a href="#local-6989586621679055794"><span class="hs-identifier hs-var hs-var hs-var hs-var">arbitrary</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Gen Weekday
+forall a. (Bounded a, Enum a) =&gt; Gen a
+</span><span class="hs-identifier hs-var">arbitraryBoundedEnum</span></span><span>
+</span><span id="line-52"></span><span>
+</span><span id="line-53"></span><span class="hs-comment">-- | Read a 'Weekday' from a string.</span><span>
+</span><span id="line-54"></span><span class="hs-comment">--</span><span>
+</span><span id="line-55"></span><span class="hs-comment">-- Some string conversion examples:</span><span>
+</span><span id="line-56"></span><span class="hs-comment">--</span><span>
+</span><span id="line-57"></span><span class="hs-comment">-- &gt;&gt;&gt; fromString &quot;Mon&quot;</span><span>
+</span><span id="line-58"></span><span class="hs-comment">-- Just Mon</span><span>
+</span><span id="line-59"></span><span class="hs-comment">--</span><span>
+</span><span id="line-60"></span><span class="hs-comment">-- &gt;&gt;&gt; fromString &quot;sunday&quot;</span><span>
+</span><span id="line-61"></span><span class="hs-comment">-- Just Sun</span><span>
+</span><span id="line-62"></span><span class="hs-comment">--</span><span>
+</span><span id="line-63"></span><span class="hs-comment">-- &gt;&gt;&gt; fromString &quot;badday&quot;</span><span>
+</span><span id="line-64"></span><span class="hs-comment">-- Nothing</span><span>
+</span><span id="line-65"></span><span class="annot"><a href="Weekday.html#fromString"><span class="hs-identifier hs-type">fromString</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><a href="Weekday.html#Weekday"><span class="hs-identifier hs-type">Weekday</span></a></span><span>
+</span><span id="line-66"></span><span id="fromString"><span class="annot"><span class="annottext">fromString :: String -&gt; Maybe Weekday
+</span><a href="Weekday.html#fromString"><span class="hs-identifier hs-var hs-var">fromString</span></a></span></span><span> </span><span id="local-6989586621679055793"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679055793"><span class="hs-identifier hs-var">ds</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-67"></span><span>  </span><span class="hs-keyword">let</span><span>
+</span><span id="line-68"></span><span>    </span><span id="local-6989586621679055792"><span class="annot"><span class="annottext">day :: String
+</span><a href="#local-6989586621679055792"><span class="hs-identifier hs-var hs-var">day</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ShowS
+</span><a href="Weekday.html#capitalise"><span class="hs-identifier hs-var">capitalise</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679055793"><span class="hs-identifier hs-var">ds</span></a></span><span>
+</span><span id="line-69"></span><span>    </span><span id="local-6989586621679055790"><span class="annot"><span class="annottext">weekday :: [String]
+</span><a href="#local-6989586621679055790"><span class="hs-identifier hs-var hs-var">weekday</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Weekday -&gt; String) -&gt; [Weekday] -&gt; [String]
+forall a b. (a -&gt; b) -&gt; [a] -&gt; [b]
+</span><span class="hs-identifier hs-var">map</span></span><span> </span><span class="annot"><span class="annottext">Weekday -&gt; String
+forall a. Show a =&gt; a -&gt; String
+</span><span class="hs-identifier hs-var">show</span></span><span> </span><span class="annot"><span class="annottext">[Weekday]
+</span><a href="Weekday.html#fullWeek"><span class="hs-identifier hs-var">fullWeek</span></a></span><span>
+</span><span id="line-70"></span><span>  </span><span class="hs-keyword">in</span><span>
+</span><span id="line-71"></span><span>    </span><span class="hs-keyword">if</span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679055792"><span class="hs-identifier hs-var">day</span></a></span><span> </span><span class="annot"><span class="annottext">String -&gt; [String] -&gt; Bool
+forall (t :: * -&gt; *) a. (Foldable t, Eq a) =&gt; a -&gt; t a -&gt; Bool
+</span><span class="hs-operator hs-var">`elem`</span></span><span> </span><span class="annot"><span class="annottext">[String]
+</span><a href="#local-6989586621679055790"><span class="hs-identifier hs-var">weekday</span></a></span><span>
+</span><span id="line-72"></span><span>      </span><span class="hs-keyword">then</span><span> </span><span class="annot"><span class="annottext">Weekday -&gt; Maybe Weekday
+forall a. a -&gt; Maybe a
+</span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; Weekday
+forall a. Read a =&gt; String -&gt; a
+</span><span class="hs-identifier hs-var">read</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679055792"><span class="hs-identifier hs-var">day</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-73"></span><span>      </span><span class="hs-keyword">else</span><span> </span><span class="annot"><span class="annottext">Maybe Weekday
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span>
+</span><span id="line-74"></span><span>
+</span><span id="line-75"></span><span class="hs-comment">-- | List all days of the week.</span><span>
+</span><span id="line-76"></span><span class="hs-comment">--</span><span>
+</span><span id="line-77"></span><span class="hs-comment">-- &gt;&gt;&gt; fullWeek</span><span>
+</span><span id="line-78"></span><span class="hs-comment">-- [Mon,Tue,Wed,Thu,Fri,Sat,Sun]</span><span>
+</span><span id="line-79"></span><span class="annot"><a href="Weekday.html#fullWeek"><span class="hs-identifier hs-type">fullWeek</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="Weekday.html#Weekday"><span class="hs-identifier hs-type">Weekday</span></a></span><span class="hs-special">]</span><span>
+</span><span id="line-80"></span><span id="fullWeek"><span class="annot"><span class="annottext">fullWeek :: [Weekday]
+</span><a href="Weekday.html#fullWeek"><span class="hs-identifier hs-var hs-var">fullWeek</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Weekday
+forall a. Bounded a =&gt; a
+</span><span class="hs-identifier hs-var">minBound</span></span><span class="hs-glyph">..</span><span class="annot"><span class="annottext">Weekday
+forall a. Bounded a =&gt; a
+</span><span class="hs-identifier hs-var">maxBound</span></span><span class="hs-special">]</span><span>
+</span><span id="line-81"></span><span>
+</span><span id="line-82"></span><span class="hs-comment">-- | Return title case of string.</span><span>
+</span><span id="line-83"></span><span class="hs-comment">--</span><span>
+</span><span id="line-84"></span><span class="hs-comment">-- &gt;&gt;&gt; capitalise &quot;monday&quot;</span><span>
+</span><span id="line-85"></span><span class="hs-comment">-- &quot;Monday&quot;</span><span>
+</span><span id="line-86"></span><span class="annot"><a href="Weekday.html#capitalise"><span class="hs-identifier hs-type">capitalise</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span>
+</span><span id="line-87"></span><span id="capitalise"><span class="annot"><span class="annottext">capitalise :: ShowS
+</span><a href="Weekday.html#capitalise"><span class="hs-identifier hs-var hs-var">capitalise</span></a></span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
+</span><span id="line-88"></span><span class="annot"><a href="Weekday.html#capitalise"><span class="hs-identifier hs-var">capitalise</span></a></span><span> </span><span id="local-6989586621679055784"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679055784"><span class="hs-identifier hs-var">x</span></a></span></span><span>  </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Char -&gt; Char
+</span><span class="hs-identifier hs-var">toUpper</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; Char
+forall a. [a] -&gt; a
+</span><span class="hs-identifier hs-var">head</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679055784"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Char -&gt; ShowS
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">(Char -&gt; Char) -&gt; ShowS
+forall a b. (a -&gt; b) -&gt; [a] -&gt; [b]
+</span><span class="hs-identifier hs-var">map</span></span><span> </span><span class="annot"><span class="annottext">Char -&gt; Char
+</span><span class="hs-identifier hs-var">toLower</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">ShowS
+forall a. [a] -&gt; [a]
+</span><span class="hs-identifier hs-var">tail</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679055784"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-89"></span></pre></body></html>

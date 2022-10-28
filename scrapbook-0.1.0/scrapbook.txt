@@ -470,10 +470,10 @@ module PolyDivisors
 -- | Find poly-divisor of input string.
 findPolyDiv :: Int -> [Int]
 
--- | <tt>isPolyMod'</tt>: Test number is modulo <tt>n ... 1</tt>.
+-- | <a>isPolyMod</a>: Test number is modulo <tt>n ... 1</tt>.
 isPolyMod :: Int -> Bool
 
--- | <tt>isPolyMod</tt>: Test number is modulo <tt>n ... 1</tt>.
+-- | <tt>isPolyMod'</tt>: Test number is modulo <tt>n ... 1</tt>.
 isPolyMod' :: Int -> Bool
 
 -- | <tt>isPolyMod''</tt>: Test number is modulo <tt>n ... 1</tt>.
@@ -1021,6 +1021,87 @@ trimEnd :: String -> String
 
 -- | Trim white space from start and end of string.
 trim :: String -> String
+
+
+-- | A simple demonstration on how to map to and from a bounded, enumerated
+--   data type.
+--   
+--   In this example we use the weekdays names as our type to iterate
+--   across.
+--   
+--   <ul>
+--   <li><a>fromString</a> is a simple conversion function to map a
+--   <a>Weekday</a> from a string</li>
+--   <li><a>fullWeek</a> returns a list of all abbreviated weekdays</li>
+--   <li><a>capitalise</a> returns the title case of a string</li>
+--   </ul>
+--   
+--   The <a>fromString</a> code is rather weak as any word where the first
+--   3 letters map to a weekday is valid for conversion.
+--   
+--   <h2>Other Examples</h2>
+--   
+--   <h3>Using enum:</h3>
+--   
+--   This example shows how use <a>Weekday</a> from an enumeration:
+--   
+--   <pre>
+--   &gt;&gt;&gt; toEnum 0 :: WeekDay
+--   Mon
+--   </pre>
+module Weekday
+
+-- | Abbreviated days of the week from Mon (Monday) to Sun (Sunday).
+data Weekday
+Mon :: Weekday
+Tue :: Weekday
+Wed :: Weekday
+Thu :: Weekday
+Fri :: Weekday
+Sat :: Weekday
+Sun :: Weekday
+
+-- | Read a <a>Weekday</a> from a string.
+--   
+--   Some string conversion examples:
+--   
+--   <pre>
+--   &gt;&gt;&gt; fromString "Mon"
+--   Just Mon
+--   </pre>
+--   
+--   <pre>
+--   &gt;&gt;&gt; fromString "sunday"
+--   Just Sun
+--   </pre>
+--   
+--   <pre>
+--   &gt;&gt;&gt; fromString "badday"
+--   Nothing
+--   </pre>
+fromString :: String -> Maybe Weekday
+
+-- | List all days of the week.
+--   
+--   <pre>
+--   &gt;&gt;&gt; fullWeek
+--   [Mon,Tue,Wed,Thu,Fri,Sat,Sun]
+--   </pre>
+fullWeek :: [Weekday]
+
+-- | Return title case of string.
+--   
+--   <pre>
+--   &gt;&gt;&gt; capitalise "monday"
+--   "Monday"
+--   </pre>
+capitalise :: String -> String
+instance GHC.Read.Read Weekday.Weekday
+instance GHC.Enum.Bounded Weekday.Weekday
+instance GHC.Show.Show Weekday.Weekday
+instance GHC.Enum.Enum Weekday.Weekday
+instance GHC.Classes.Eq Weekday.Weekday
+instance Test.QuickCheck.Arbitrary.Arbitrary Weekday.Weekday
 
 
 -- | Yahtzee test suite from blog <a>Good Design and Type Safety in
