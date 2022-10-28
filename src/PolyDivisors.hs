@@ -47,7 +47,7 @@ False
 
 -}
 
-module PolyDivisors (findPolyDiv
+module PolyDivisors ( findPolyDiv
                     , isPolyMod
                     , isPolyMod'
                     , isPolyMod''
@@ -63,7 +63,7 @@ findPolyDiv = filter isPolyMod . perms
 perms :: Int -> [Int]
 perms xs = map read (permutations (show xs))
 
--- | @isPolyMod'@: Test number is modulo @n ... 1@.
+-- | 'isPolyMod': Test number is modulo @n ... 1@.
 isPolyMod :: Int -> Bool
 isPolyMod x = foldr ((&&) . isModLen) True xs
   where
@@ -77,7 +77,7 @@ isPolyMod x = foldr ((&&) . isModLen) True xs
     isModLen :: (Int, Int) -> Bool
     isModLen xn = uncurry mod xn == 0
 
--- | @isPolyMod@: Test number is modulo @n ... 1@.
+-- | @isPolyMod'@: Test number is modulo @n ... 1@.
 isPolyMod' :: Int -> Bool
 isPolyMod' x = all (== 0) xs
   where
@@ -89,9 +89,12 @@ isPolyMod' x = all (== 0) xs
 
 -- | @isPolyMod''@: Test number is modulo @n ... 1@.
 isPolyMod'' :: Int -> Bool
-isPolyMod'' x = all (== 0) (polyMod (length (show x)) x)
+isPolyMod'' x = all (== 0) (polyMod n x)
   where
+    -- number of digits in input
+    n = length (show x)
+    -- recurse reducting digits of list
     polyMod :: Int -> Int -> [Int]
-    polyMod n a
-      | n == 1    = [0]
-      | otherwise = a `mod` n : polyMod (n - 1) (a `div` 10)
+    polyMod m a
+      | m == 1    = [0]  -- as m is from length this is always positive
+      | otherwise = a `mod` m : polyMod (m - 1) (a `div` 10)
