@@ -1063,20 +1063,20 @@ Sun :: Weekday
 
 -- | Read a <a>Weekday</a> from a string.
 --   
---   Some string conversion examples:
+--   Some string to <a>Weekday</a> examples:
 --   
 --   <pre>
---   &gt;&gt;&gt; fromString "Mon"
---   Just Mon
+--   &gt;&gt;&gt; fromString "tHU"
+--   Just Thu
 --   </pre>
 --   
 --   <pre>
---   &gt;&gt;&gt; fromString "sunday"
+--   &gt;&gt;&gt; fromString "sun"
 --   Just Sun
 --   </pre>
 --   
 --   <pre>
---   &gt;&gt;&gt; fromString "badday"
+--   &gt;&gt;&gt; fromString "Bad"
 --   Nothing
 --   </pre>
 fromString :: String -> Maybe Weekday

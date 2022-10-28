@@ -144,15 +144,15 @@ forall a. (Bounded a, Enum a) =&gt; Gen a
 </span><span id="line-52"></span><span>
 </span><span id="line-53"></span><span class="hs-comment">-- | Read a 'Weekday' from a string.</span><span>
 </span><span id="line-54"></span><span class="hs-comment">--</span><span>
-</span><span id="line-55"></span><span class="hs-comment">-- Some string conversion examples:</span><span>
+</span><span id="line-55"></span><span class="hs-comment">-- Some string to 'Weekday' examples:</span><span>
 </span><span id="line-56"></span><span class="hs-comment">--</span><span>
-</span><span id="line-57"></span><span class="hs-comment">-- &gt;&gt;&gt; fromString &quot;Mon&quot;</span><span>
-</span><span id="line-58"></span><span class="hs-comment">-- Just Mon</span><span>
+</span><span id="line-57"></span><span class="hs-comment">-- &gt;&gt;&gt; fromString &quot;tHU&quot;</span><span>
+</span><span id="line-58"></span><span class="hs-comment">-- Just Thu</span><span>
 </span><span id="line-59"></span><span class="hs-comment">--</span><span>
-</span><span id="line-60"></span><span class="hs-comment">-- &gt;&gt;&gt; fromString &quot;sunday&quot;</span><span>
+</span><span id="line-60"></span><span class="hs-comment">-- &gt;&gt;&gt; fromString &quot;sun&quot;</span><span>
 </span><span id="line-61"></span><span class="hs-comment">-- Just Sun</span><span>
 </span><span id="line-62"></span><span class="hs-comment">--</span><span>
-</span><span id="line-63"></span><span class="hs-comment">-- &gt;&gt;&gt; fromString &quot;badday&quot;</span><span>
+</span><span id="line-63"></span><span class="hs-comment">-- &gt;&gt;&gt; fromString &quot;Bad&quot;</span><span>
 </span><span id="line-64"></span><span class="hs-comment">-- Nothing</span><span>
 </span><span id="line-65"></span><span class="annot"><a href="Weekday.html#fromString"><span class="hs-identifier hs-type">fromString</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><a href="Weekday.html#Weekday"><span class="hs-identifier hs-type">Weekday</span></a></span><span>
 </span><span id="line-66"></span><span id="fromString"><span class="annot"><span class="annottext">fromString :: String -&gt; Maybe Weekday
