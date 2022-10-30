@@ -55,38 +55,38 @@ The functions `countEntriesS` and `countEntriesU` are based off functions from
 </span><span id="line-55"></span><span class="hs-comment">--</span><span>
 </span><span id="line-56"></span><span class="annot"><a href="CountEntries.html#countEntriesS"><span class="hs-identifier hs-type">countEntriesS</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span class="hs-special">)</span><span class="hs-special">]</span><span>
 </span><span id="line-57"></span><span id="countEntriesS"><span class="annot"><span class="annottext">countEntriesS :: FilePath -&gt; IO [(FilePath, Int)]
-</span><a href="CountEntries.html#countEntriesS"><span class="hs-identifier hs-var hs-var">countEntriesS</span></a></span></span><span> </span><span id="local-6989586621679054443"><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054443"><span class="hs-identifier hs-var">path</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-58"></span><span>  </span><span id="local-6989586621679054442"><span class="annot"><span class="annottext">[FilePath]
-</span><a href="#local-6989586621679054442"><span class="hs-identifier hs-var">contents</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">FilePath -&gt; IO [FilePath]
+</span><a href="CountEntries.html#countEntriesS"><span class="hs-identifier hs-var hs-var">countEntriesS</span></a></span></span><span> </span><span id="local-6989586621679054449"><span class="annot"><span class="annottext">FilePath
+</span><a href="#local-6989586621679054449"><span class="hs-identifier hs-var">path</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-58"></span><span>  </span><span id="local-6989586621679054448"><span class="annot"><span class="annottext">[FilePath]
+</span><a href="#local-6989586621679054448"><span class="hs-identifier hs-var">contents</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">FilePath -&gt; IO [FilePath]
 </span><span class="hs-identifier hs-var">listDirectory</span></span><span> </span><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054443"><span class="hs-identifier hs-var">path</span></a></span><span>                      </span><span class="hs-comment">-- contents of p</span><span>
-</span><span id="line-59"></span><span>  </span><span id="local-6989586621679054441"><span class="annot"><span class="annottext">[[(FilePath, Int)]]
-</span><a href="#local-6989586621679054441"><span class="hs-identifier hs-var">rest</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[FilePath]
+</span><a href="#local-6989586621679054449"><span class="hs-identifier hs-var">path</span></a></span><span>                      </span><span class="hs-comment">-- contents of p</span><span>
+</span><span id="line-59"></span><span>  </span><span id="local-6989586621679054447"><span class="annot"><span class="annottext">[[(FilePath, Int)]]
+</span><a href="#local-6989586621679054447"><span class="hs-identifier hs-var">rest</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[FilePath]
 -&gt; (FilePath -&gt; IO [(FilePath, Int)]) -&gt; IO [[(FilePath, Int)]]
 forall (t :: * -&gt; *) (m :: * -&gt; *) a b.
 (Traversable t, Monad m) =&gt;
 t a -&gt; (a -&gt; m b) -&gt; m (t b)
 </span><span class="hs-identifier hs-var">forM</span></span><span> </span><span class="annot"><span class="annottext">[FilePath]
-</span><a href="#local-6989586621679054442"><span class="hs-identifier hs-var">contents</span></a></span><span> </span><span class="annot"><span class="annottext">((FilePath -&gt; IO [(FilePath, Int)]) -&gt; IO [[(FilePath, Int)]])
+</span><a href="#local-6989586621679054448"><span class="hs-identifier hs-var">contents</span></a></span><span> </span><span class="annot"><span class="annottext">((FilePath -&gt; IO [(FilePath, Int)]) -&gt; IO [[(FilePath, Int)]])
 -&gt; (FilePath -&gt; IO [(FilePath, Int)]) -&gt; IO [[(FilePath, Int)]]
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679054440"><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054440"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>                 </span><span class="hs-comment">-- for each entry</span><span>
-</span><span id="line-60"></span><span>            </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679054439"><span class="annot"><span class="annottext">newName :: FilePath
-</span><a href="#local-6989586621679054439"><span class="hs-identifier hs-var hs-var">newName</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054443"><span class="hs-identifier hs-var">path</span></a></span><span> </span><span class="annot"><span class="annottext">FilePath -&gt; FilePath -&gt; FilePath
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679054446"><span class="annot"><span class="annottext">FilePath
+</span><a href="#local-6989586621679054446"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>                 </span><span class="hs-comment">-- for each entry</span><span>
+</span><span id="line-60"></span><span>            </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679054445"><span class="annot"><span class="annottext">newName :: FilePath
+</span><a href="#local-6989586621679054445"><span class="hs-identifier hs-var hs-var">newName</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">FilePath
+</span><a href="#local-6989586621679054449"><span class="hs-identifier hs-var">path</span></a></span><span> </span><span class="annot"><span class="annottext">FilePath -&gt; FilePath -&gt; FilePath
 </span><span class="hs-operator hs-var">&lt;/&gt;</span></span><span> </span><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054440"><span class="hs-identifier hs-var">name</span></a></span><span>               </span><span class="hs-comment">-- full path name</span><span>
-</span><span id="line-61"></span><span>            </span><span id="local-6989586621679054438"><span class="annot"><span class="annottext">Bool
-</span><a href="#local-6989586621679054438"><span class="hs-identifier hs-var">isDir</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">FilePath -&gt; IO Bool
+</span><a href="#local-6989586621679054446"><span class="hs-identifier hs-var">name</span></a></span><span>               </span><span class="hs-comment">-- full path name</span><span>
+</span><span id="line-61"></span><span>            </span><span id="local-6989586621679054444"><span class="annot"><span class="annottext">Bool
+</span><a href="#local-6989586621679054444"><span class="hs-identifier hs-var">isDir</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">FilePath -&gt; IO Bool
 </span><span class="hs-identifier hs-var">doesDirectoryExist</span></span><span> </span><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054439"><span class="hs-identifier hs-var">newName</span></a></span><span>       </span><span class="hs-comment">-- is directory</span><span>
+</span><a href="#local-6989586621679054445"><span class="hs-identifier hs-var">newName</span></a></span><span>       </span><span class="hs-comment">-- is directory</span><span>
 </span><span id="line-62"></span><span>            </span><span class="hs-keyword">if</span><span> </span><span class="annot"><span class="annottext">Bool
-</span><a href="#local-6989586621679054438"><span class="hs-identifier hs-var">isDir</span></a></span><span>
+</span><a href="#local-6989586621679054444"><span class="hs-identifier hs-var">isDir</span></a></span><span>
 </span><span id="line-63"></span><span>              </span><span class="hs-keyword">then</span><span> </span><span class="annot"><span class="annottext">FilePath -&gt; IO [(FilePath, Int)]
 </span><a href="CountEntries.html#countEntriesS"><span class="hs-identifier hs-var">countEntriesS</span></a></span><span> </span><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054439"><span class="hs-identifier hs-var">newName</span></a></span><span>              </span><span class="hs-comment">-- recurse</span><span>
+</span><a href="#local-6989586621679054445"><span class="hs-identifier hs-var">newName</span></a></span><span>              </span><span class="hs-comment">-- recurse</span><span>
 </span><span id="line-64"></span><span>              </span><span class="hs-keyword">else</span><span> </span><span class="annot"><span class="annottext">[(FilePath, Int)] -&gt; IO [(FilePath, Int)]
 forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
 </span><span class="hs-identifier hs-var">return</span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>                          </span><span class="hs-comment">-- termination</span><span>
@@ -96,15 +96,15 @@ forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
 -&gt; [(FilePath, Int)] -&gt; IO [(FilePath, Int)]
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054443"><span class="hs-identifier hs-var">path</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[FilePath] -&gt; Int
+</span><a href="#local-6989586621679054449"><span class="hs-identifier hs-var">path</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[FilePath] -&gt; Int
 forall (t :: * -&gt; *) a. Foldable t =&gt; t a -&gt; Int
 </span><span class="hs-identifier hs-var">length</span></span><span> </span><span class="annot"><span class="annottext">[FilePath]
-</span><a href="#local-6989586621679054442"><span class="hs-identifier hs-var">contents</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(FilePath, Int) -&gt; [(FilePath, Int)] -&gt; [(FilePath, Int)]
+</span><a href="#local-6989586621679054448"><span class="hs-identifier hs-var">contents</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(FilePath, Int) -&gt; [(FilePath, Int)] -&gt; [(FilePath, Int)]
 forall a. a -&gt; [a] -&gt; [a]
 </span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">[[(FilePath, Int)]] -&gt; [(FilePath, Int)]
 forall (t :: * -&gt; *) a. Foldable t =&gt; t [a] -&gt; [a]
 </span><span class="hs-identifier hs-var">concat</span></span><span> </span><span class="annot"><span class="annottext">[[(FilePath, Int)]]
-</span><a href="#local-6989586621679054441"><span class="hs-identifier hs-var">rest</span></a></span><span>      </span><span class="hs-comment">-- list and concat tuples</span><span>
+</span><a href="#local-6989586621679054447"><span class="hs-identifier hs-var">rest</span></a></span><span>      </span><span class="hs-comment">-- list and concat tuples</span><span>
 </span><span id="line-66"></span><span>
 </span><span id="line-67"></span><span class="hs-comment">-- | Count entries for a list of paths. (My version.)</span><span>
 </span><span id="line-68"></span><span class="hs-comment">--</span><span>
@@ -159,32 +159,32 @@ forall (t :: * -&gt; *) a. Foldable t =&gt; t [a] -&gt; [a]
 </span><span id="line-117"></span><span class="hs-comment">--</span><span>
 </span><span id="line-118"></span><span class="annot"><a href="CountEntries.html#countEntries1"><span class="hs-identifier hs-type">countEntries1</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span class="hs-special">)</span><span class="hs-special">]</span><span>
 </span><span id="line-119"></span><span id="countEntries1"><span class="annot"><span class="annottext">countEntries1 :: FilePath -&gt; IO [(FilePath, Int)]
-</span><a href="CountEntries.html#countEntries1"><span class="hs-identifier hs-var hs-var">countEntries1</span></a></span></span><span> </span><span id="local-6989586621679054435"><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054435"><span class="hs-identifier hs-var">p</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="CountEntries.html#countEntries1"><span class="hs-identifier hs-var hs-var">countEntries1</span></a></span></span><span> </span><span id="local-6989586621679054441"><span class="annot"><span class="annottext">FilePath
+</span><a href="#local-6989586621679054441"><span class="hs-identifier hs-var">p</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-120"></span><span>  </span><span class="hs-keyword">if</span><span> </span><span class="annot"><span class="annottext">Bool -&gt; Bool
 </span><span class="hs-identifier hs-var">not</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">FilePath -&gt; Bool
 forall (t :: * -&gt; *) a. Foldable t =&gt; t a -&gt; Bool
 </span><span class="hs-identifier hs-var">null</span></span><span> </span><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054435"><span class="hs-identifier hs-var">p</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679054441"><span class="hs-identifier hs-var">p</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-121"></span><span>    </span><span class="hs-keyword">then</span><span>
 </span><span id="line-122"></span><span>      </span><span class="annot"><span class="annottext">FilePath -&gt; IO [FilePath]
 </span><span class="hs-identifier hs-var">listDirectory</span></span><span> </span><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054435"><span class="hs-identifier hs-var">p</span></a></span><span>                                         </span><span class="hs-comment">-- contents of path</span><span>
+</span><a href="#local-6989586621679054441"><span class="hs-identifier hs-var">p</span></a></span><span>                                         </span><span class="hs-comment">-- contents of path</span><span>
 </span><span id="line-123"></span><span>      </span><span class="annot"><span class="annottext">IO [FilePath]
 -&gt; ([FilePath] -&gt; IO [(FilePath, Int)]) -&gt; IO [(FilePath, Int)]
 forall (m :: * -&gt; *) a b. Monad m =&gt; m a -&gt; (a -&gt; m b) -&gt; m b
-</span><span class="hs-operator hs-var">&gt;&gt;=</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679054432"><span class="annot"><span class="annottext">[FilePath]
-</span><a href="#local-6989586621679054432"><span class="hs-identifier hs-var">ps</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">(FilePath -&gt; IO Bool) -&gt; [FilePath] -&gt; IO [FilePath]
+</span><span class="hs-operator hs-var">&gt;&gt;=</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679054438"><span class="annot"><span class="annottext">[FilePath]
+</span><a href="#local-6989586621679054438"><span class="hs-identifier hs-var">ps</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">(FilePath -&gt; IO Bool) -&gt; [FilePath] -&gt; IO [FilePath]
 forall (m :: * -&gt; *) a.
 Applicative m =&gt;
 (a -&gt; m Bool) -&gt; [a] -&gt; m [a]
-</span><span class="hs-identifier hs-var">filterM</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679054431"><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054431"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">FilePath -&gt; IO Bool
+</span><span class="hs-identifier hs-var">filterM</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679054437"><span class="annot"><span class="annottext">FilePath
+</span><a href="#local-6989586621679054437"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">FilePath -&gt; IO Bool
 </span><span class="hs-identifier hs-var">doesDirectoryExist</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054435"><span class="hs-identifier hs-var">p</span></a></span><span> </span><span class="annot"><span class="annottext">FilePath -&gt; FilePath -&gt; FilePath
+</span><a href="#local-6989586621679054441"><span class="hs-identifier hs-var">p</span></a></span><span> </span><span class="annot"><span class="annottext">FilePath -&gt; FilePath -&gt; FilePath
 </span><span class="hs-operator hs-var">&lt;/&gt;</span></span><span> </span><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054431"><span class="hs-identifier hs-var">n</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">[FilePath]
-</span><a href="#local-6989586621679054432"><span class="hs-identifier hs-var">ps</span></a></span><span> </span><span class="hs-comment">-- sub-directories</span><span>
+</span><a href="#local-6989586621679054437"><span class="hs-identifier hs-var">n</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">[FilePath]
+</span><a href="#local-6989586621679054438"><span class="hs-identifier hs-var">ps</span></a></span><span> </span><span class="hs-comment">-- sub-directories</span><span>
 </span><span id="line-124"></span><span>      </span><span class="annot"><span class="annottext">IO [FilePath]
 -&gt; ([FilePath] -&gt; IO [[(FilePath, Int)]]) -&gt; IO [[(FilePath, Int)]]
 forall (m :: * -&gt; *) a b. Monad m =&gt; m a -&gt; (a -&gt; m b) -&gt; m b
@@ -193,30 +193,30 @@ forall (m :: * -&gt; *) a b. Monad m =&gt; m a -&gt; (a -&gt; m b) -&gt; m b
 forall (t :: * -&gt; *) (m :: * -&gt; *) a b.
 (Traversable t, Monad m) =&gt;
 (a -&gt; m b) -&gt; t a -&gt; m (t b)
-</span><span class="hs-identifier hs-var">mapM</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679054429"><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054429"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">FilePath -&gt; IO [(FilePath, Int)]
+</span><span class="hs-identifier hs-var">mapM</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679054435"><span class="annot"><span class="annottext">FilePath
+</span><a href="#local-6989586621679054435"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">FilePath -&gt; IO [(FilePath, Int)]
 </span><a href="CountEntries.html#countEntries1"><span class="hs-identifier hs-var">countEntries1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054435"><span class="hs-identifier hs-var">p</span></a></span><span> </span><span class="annot"><span class="annottext">FilePath -&gt; FilePath -&gt; FilePath
+</span><a href="#local-6989586621679054441"><span class="hs-identifier hs-var">p</span></a></span><span> </span><span class="annot"><span class="annottext">FilePath -&gt; FilePath -&gt; FilePath
 </span><span class="hs-operator hs-var">&lt;/&gt;</span></span><span> </span><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054429"><span class="hs-identifier hs-var">n</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>                </span><span class="hs-comment">-- recurse</span><span>
+</span><a href="#local-6989586621679054435"><span class="hs-identifier hs-var">n</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>                </span><span class="hs-comment">-- recurse</span><span>
 </span><span id="line-125"></span><span>      </span><span class="annot"><span class="annottext">IO [[(FilePath, Int)]]
 -&gt; ([[(FilePath, Int)]] -&gt; IO [(FilePath, Int)])
 -&gt; IO [(FilePath, Int)]
 forall (m :: * -&gt; *) a b. Monad m =&gt; m a -&gt; (a -&gt; m b) -&gt; m b
-</span><span class="hs-operator hs-var">&gt;&gt;=</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679054428"><span class="annot"><span class="annottext">[(FilePath, Int)]
-</span><a href="#local-6989586621679054428"><span class="hs-identifier hs-var">ces</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">[(FilePath, Int)] -&gt; IO [(FilePath, Int)]
+</span><span class="hs-operator hs-var">&gt;&gt;=</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679054434"><span class="annot"><span class="annottext">[(FilePath, Int)]
+</span><a href="#local-6989586621679054434"><span class="hs-identifier hs-var">ces</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">[(FilePath, Int)] -&gt; IO [(FilePath, Int)]
 forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
 </span><span class="hs-identifier hs-var">return</span></span><span> </span><span class="annot"><span class="annottext">([(FilePath, Int)] -&gt; IO [(FilePath, Int)])
 -&gt; [(FilePath, Int)] -&gt; IO [(FilePath, Int)]
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054435"><span class="hs-identifier hs-var">p</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[FilePath] -&gt; Int
+</span><a href="#local-6989586621679054441"><span class="hs-identifier hs-var">p</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[FilePath] -&gt; Int
 forall (t :: * -&gt; *) a. Foldable t =&gt; t a -&gt; Int
 </span><span class="hs-identifier hs-var">length</span></span><span> </span><span class="annot"><span class="annottext">[FilePath]
-</span><a href="#local-6989586621679054432"><span class="hs-identifier hs-var">ps</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(FilePath, Int) -&gt; [(FilePath, Int)] -&gt; [(FilePath, Int)]
+</span><a href="#local-6989586621679054438"><span class="hs-identifier hs-var">ps</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(FilePath, Int) -&gt; [(FilePath, Int)] -&gt; [(FilePath, Int)]
 forall a. a -&gt; [a] -&gt; [a]
 </span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">[(FilePath, Int)]
-</span><a href="#local-6989586621679054428"><span class="hs-identifier hs-var">ces</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">([(FilePath, Int)] -&gt; IO [(FilePath, Int)])
+</span><a href="#local-6989586621679054434"><span class="hs-identifier hs-var">ces</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">([(FilePath, Int)] -&gt; IO [(FilePath, Int)])
 -&gt; ([[(FilePath, Int)]] -&gt; [(FilePath, Int)])
 -&gt; [[(FilePath, Int)]]
 -&gt; IO [(FilePath, Int)]
@@ -232,10 +232,10 @@ forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
 </span><span id="line-129"></span><span class="hs-comment">-- Updated version using `Control.Monad.Writer.WriterT`.</span><span>
 </span><span id="line-130"></span><span class="annot"><a href="CountEntries.html#countEntriesU"><span class="hs-identifier hs-type">countEntriesU</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">WriterT</span></span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span class="hs-special">)</span><span class="hs-special">]</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
 </span><span id="line-131"></span><span id="countEntriesU"><span class="annot"><span class="annottext">countEntriesU :: FilePath -&gt; WriterT [(FilePath, Int)] IO ()
-</span><a href="CountEntries.html#countEntriesU"><span class="hs-identifier hs-var hs-var">countEntriesU</span></a></span></span><span> </span><span id="local-6989586621679054426"><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054426"><span class="hs-identifier hs-var">path</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-132"></span><span>  </span><span id="local-6989586621679054425"><span class="annot"><span class="annottext">[FilePath]
-</span><a href="#local-6989586621679054425"><span class="hs-identifier hs-var">contents</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">IO [FilePath] -&gt; WriterT [(FilePath, Int)] IO [FilePath]
+</span><a href="CountEntries.html#countEntriesU"><span class="hs-identifier hs-var hs-var">countEntriesU</span></a></span></span><span> </span><span id="local-6989586621679054432"><span class="annot"><span class="annottext">FilePath
+</span><a href="#local-6989586621679054432"><span class="hs-identifier hs-var">path</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-132"></span><span>  </span><span id="local-6989586621679054431"><span class="annot"><span class="annottext">[FilePath]
+</span><a href="#local-6989586621679054431"><span class="hs-identifier hs-var">contents</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">IO [FilePath] -&gt; WriterT [(FilePath, Int)] IO [FilePath]
 forall (m :: * -&gt; *) a. MonadIO m =&gt; IO a -&gt; m a
 </span><span class="hs-identifier hs-var">liftIO</span></span><span> </span><span class="annot"><span class="annottext">(IO [FilePath] -&gt; WriterT [(FilePath, Int)] IO [FilePath])
 -&gt; (FilePath -&gt; IO [FilePath])
@@ -247,14 +247,14 @@ forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 -&gt; FilePath -&gt; WriterT [(FilePath, Int)] IO [FilePath]
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054426"><span class="hs-identifier hs-var">path</span></a></span><span>                   </span><span class="hs-comment">-- contents of path</span><span>
+</span><a href="#local-6989586621679054432"><span class="hs-identifier hs-var">path</span></a></span><span>                   </span><span class="hs-comment">-- contents of path</span><span>
 </span><span id="line-133"></span><span>  </span><span class="annot"><span class="annottext">[(FilePath, Int)] -&gt; WriterT [(FilePath, Int)] IO ()
 forall (m :: * -&gt; *) w. Monad m =&gt; w -&gt; WriterT w m ()
 </span><span class="hs-identifier hs-var">tell</span></span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054426"><span class="hs-identifier hs-var">path</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[FilePath] -&gt; Int
+</span><a href="#local-6989586621679054432"><span class="hs-identifier hs-var">path</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[FilePath] -&gt; Int
 forall (t :: * -&gt; *) a. Foldable t =&gt; t a -&gt; Int
 </span><span class="hs-identifier hs-var">length</span></span><span> </span><span class="annot"><span class="annottext">[FilePath]
-</span><a href="#local-6989586621679054425"><span class="hs-identifier hs-var">contents</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span>                              </span><span class="hs-comment">-- show tuple</span><span>
+</span><a href="#local-6989586621679054431"><span class="hs-identifier hs-var">contents</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span>                              </span><span class="hs-comment">-- show tuple</span><span>
 </span><span id="line-134"></span><span>  </span><span class="annot"><span class="annottext">[FilePath]
 -&gt; (FilePath -&gt; WriterT [(FilePath, Int)] IO ())
 -&gt; WriterT [(FilePath, Int)] IO ()
@@ -262,20 +262,20 @@ forall (t :: * -&gt; *) (m :: * -&gt; *) a b.
 (Foldable t, Monad m) =&gt;
 t a -&gt; (a -&gt; m b) -&gt; m ()
 </span><span class="hs-identifier hs-var">forM_</span></span><span> </span><span class="annot"><span class="annottext">[FilePath]
-</span><a href="#local-6989586621679054425"><span class="hs-identifier hs-var">contents</span></a></span><span> </span><span class="annot"><span class="annottext">((FilePath -&gt; WriterT [(FilePath, Int)] IO ())
+</span><a href="#local-6989586621679054431"><span class="hs-identifier hs-var">contents</span></a></span><span> </span><span class="annot"><span class="annottext">((FilePath -&gt; WriterT [(FilePath, Int)] IO ())
  -&gt; WriterT [(FilePath, Int)] IO ())
 -&gt; (FilePath -&gt; WriterT [(FilePath, Int)] IO ())
 -&gt; WriterT [(FilePath, Int)] IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679054424"><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054424"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>                                </span><span class="hs-comment">-- for each entry</span><span>
-</span><span id="line-135"></span><span>    </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679054423"><span class="annot"><span class="annottext">newName :: FilePath
-</span><a href="#local-6989586621679054423"><span class="hs-identifier hs-var hs-var">newName</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054426"><span class="hs-identifier hs-var">path</span></a></span><span> </span><span class="annot"><span class="annottext">FilePath -&gt; FilePath -&gt; FilePath
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679054430"><span class="annot"><span class="annottext">FilePath
+</span><a href="#local-6989586621679054430"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>                                </span><span class="hs-comment">-- for each entry</span><span>
+</span><span id="line-135"></span><span>    </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679054429"><span class="annot"><span class="annottext">newName :: FilePath
+</span><a href="#local-6989586621679054429"><span class="hs-identifier hs-var hs-var">newName</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">FilePath
+</span><a href="#local-6989586621679054432"><span class="hs-identifier hs-var">path</span></a></span><span> </span><span class="annot"><span class="annottext">FilePath -&gt; FilePath -&gt; FilePath
 </span><span class="hs-operator hs-var">&lt;/&gt;</span></span><span> </span><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054424"><span class="hs-identifier hs-var">name</span></a></span><span>
-</span><span id="line-136"></span><span>    </span><span id="local-6989586621679054422"><span class="annot"><span class="annottext">Bool
-</span><a href="#local-6989586621679054422"><span class="hs-identifier hs-var">isDir</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">IO Bool -&gt; WriterT [(FilePath, Int)] IO Bool
+</span><a href="#local-6989586621679054430"><span class="hs-identifier hs-var">name</span></a></span><span>
+</span><span id="line-136"></span><span>    </span><span id="local-6989586621679054428"><span class="annot"><span class="annottext">Bool
+</span><a href="#local-6989586621679054428"><span class="hs-identifier hs-var">isDir</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">IO Bool -&gt; WriterT [(FilePath, Int)] IO Bool
 forall (m :: * -&gt; *) a. MonadIO m =&gt; IO a -&gt; m a
 </span><span class="hs-identifier hs-var">liftIO</span></span><span> </span><span class="annot"><span class="annottext">(IO Bool -&gt; WriterT [(FilePath, Int)] IO Bool)
 -&gt; (FilePath -&gt; IO Bool)
@@ -287,44 +287,44 @@ forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 -&gt; FilePath -&gt; WriterT [(FilePath, Int)] IO Bool
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054423"><span class="hs-identifier hs-var">newName</span></a></span><span>            </span><span class="hs-comment">-- is directory</span><span>
+</span><a href="#local-6989586621679054429"><span class="hs-identifier hs-var">newName</span></a></span><span>            </span><span class="hs-comment">-- is directory</span><span>
 </span><span id="line-137"></span><span>    </span><span class="annot"><span class="annottext">Bool
 -&gt; WriterT [(FilePath, Int)] IO ()
 -&gt; WriterT [(FilePath, Int)] IO ()
 forall (f :: * -&gt; *). Applicative f =&gt; Bool -&gt; f () -&gt; f ()
 </span><span class="hs-identifier hs-var">when</span></span><span> </span><span class="annot"><span class="annottext">Bool
-</span><a href="#local-6989586621679054422"><span class="hs-identifier hs-var">isDir</span></a></span><span> </span><span class="annot"><span class="annottext">(WriterT [(FilePath, Int)] IO ()
+</span><a href="#local-6989586621679054428"><span class="hs-identifier hs-var">isDir</span></a></span><span> </span><span class="annot"><span class="annottext">(WriterT [(FilePath, Int)] IO ()
  -&gt; WriterT [(FilePath, Int)] IO ())
 -&gt; WriterT [(FilePath, Int)] IO ()
 -&gt; WriterT [(FilePath, Int)] IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">FilePath -&gt; WriterT [(FilePath, Int)] IO ()
 </span><a href="CountEntries.html#countEntriesU"><span class="hs-identifier hs-var">countEntriesU</span></a></span><span> </span><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054423"><span class="hs-identifier hs-var">newName</span></a></span><span>                        </span><span class="hs-comment">-- recurse</span><span>
+</span><a href="#local-6989586621679054429"><span class="hs-identifier hs-var">newName</span></a></span><span>                        </span><span class="hs-comment">-- recurse</span><span>
 </span><span id="line-138"></span><span>
 </span><span id="line-139"></span><span class="hs-comment">-- | Count entries in directories for given path.</span><span>
 </span><span id="line-140"></span><span class="hs-comment">-- My version using `Control.Monad.Writer.WriterT`.</span><span>
 </span><span id="line-141"></span><span class="annot"><a href="CountEntries.html#countEntries2"><span class="hs-identifier hs-type">countEntries2</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">WriterT</span></span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span class="hs-special">)</span><span class="hs-special">]</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
 </span><span id="line-142"></span><span id="countEntries2"><span class="annot"><span class="annottext">countEntries2 :: FilePath -&gt; WriterT [(FilePath, Int)] IO ()
-</span><a href="CountEntries.html#countEntries2"><span class="hs-identifier hs-var hs-var">countEntries2</span></a></span></span><span> </span><span id="local-6989586621679054421"><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054421"><span class="hs-identifier hs-var">p</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="CountEntries.html#countEntries2"><span class="hs-identifier hs-var hs-var">countEntries2</span></a></span></span><span> </span><span id="local-6989586621679054427"><span class="annot"><span class="annottext">FilePath
+</span><a href="#local-6989586621679054427"><span class="hs-identifier hs-var">p</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-143"></span><span>  </span><span class="annot"><span class="annottext">IO [FilePath] -&gt; WriterT [(FilePath, Int)] IO [FilePath]
 forall (m :: * -&gt; *) a. MonadIO m =&gt; IO a -&gt; m a
 </span><span class="hs-identifier hs-var">liftIO</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">FilePath -&gt; IO [FilePath]
 </span><span class="hs-identifier hs-var">listDirectory</span></span><span> </span><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054421"><span class="hs-identifier hs-var">p</span></a></span><span class="hs-special">)</span><span>                                    </span><span class="hs-comment">-- contents of path</span><span>
+</span><a href="#local-6989586621679054427"><span class="hs-identifier hs-var">p</span></a></span><span class="hs-special">)</span><span>                                    </span><span class="hs-comment">-- contents of path</span><span>
 </span><span id="line-144"></span><span>  </span><span class="annot"><span class="annottext">WriterT [(FilePath, Int)] IO [FilePath]
 -&gt; ([FilePath] -&gt; WriterT [(FilePath, Int)] IO ())
 -&gt; WriterT [(FilePath, Int)] IO ()
 forall (m :: * -&gt; *) a b. Monad m =&gt; m a -&gt; (a -&gt; m b) -&gt; m b
-</span><span class="hs-operator hs-var">&gt;&gt;=</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679054420"><span class="annot"><span class="annottext">[FilePath]
-</span><a href="#local-6989586621679054420"><span class="hs-identifier hs-var">ps</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">[(FilePath, Int)] -&gt; WriterT [(FilePath, Int)] IO ()
+</span><span class="hs-operator hs-var">&gt;&gt;=</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679054426"><span class="annot"><span class="annottext">[FilePath]
+</span><a href="#local-6989586621679054426"><span class="hs-identifier hs-var">ps</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">[(FilePath, Int)] -&gt; WriterT [(FilePath, Int)] IO ()
 forall (m :: * -&gt; *) w. Monad m =&gt; w -&gt; WriterT w m ()
 </span><span class="hs-identifier hs-var">tell</span></span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054421"><span class="hs-identifier hs-var">p</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[FilePath] -&gt; Int
+</span><a href="#local-6989586621679054427"><span class="hs-identifier hs-var">p</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[FilePath] -&gt; Int
 forall (t :: * -&gt; *) a. Foldable t =&gt; t a -&gt; Int
 </span><span class="hs-identifier hs-var">length</span></span><span> </span><span class="annot"><span class="annottext">[FilePath]
-</span><a href="#local-6989586621679054420"><span class="hs-identifier hs-var">ps</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span>                            </span><span class="hs-comment">-- show tuple</span><span>
+</span><a href="#local-6989586621679054426"><span class="hs-identifier hs-var">ps</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span>                            </span><span class="hs-comment">-- show tuple</span><span>
 </span><span id="line-145"></span><span>  </span><span class="annot"><span class="annottext">WriterT [(FilePath, Int)] IO ()
 -&gt; WriterT [(FilePath, Int)] IO [FilePath]
 -&gt; WriterT [(FilePath, Int)] IO [FilePath]
@@ -335,28 +335,28 @@ forall (m :: * -&gt; *) a. MonadIO m =&gt; IO a -&gt; m a
 forall (m :: * -&gt; *) a.
 Applicative m =&gt;
 (a -&gt; m Bool) -&gt; [a] -&gt; m [a]
-</span><span class="hs-identifier hs-var">filterM</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679054419"><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054419"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">FilePath -&gt; IO Bool
+</span><span class="hs-identifier hs-var">filterM</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679054425"><span class="annot"><span class="annottext">FilePath
+</span><a href="#local-6989586621679054425"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">FilePath -&gt; IO Bool
 </span><span class="hs-identifier hs-var">doesDirectoryExist</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054421"><span class="hs-identifier hs-var">p</span></a></span><span> </span><span class="annot"><span class="annottext">FilePath -&gt; FilePath -&gt; FilePath
+</span><a href="#local-6989586621679054427"><span class="hs-identifier hs-var">p</span></a></span><span> </span><span class="annot"><span class="annottext">FilePath -&gt; FilePath -&gt; FilePath
 </span><span class="hs-operator hs-var">&lt;/&gt;</span></span><span> </span><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054419"><span class="hs-identifier hs-var">n</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">[FilePath]
-</span><a href="#local-6989586621679054420"><span class="hs-identifier hs-var">ps</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-comment">-- sub-directories</span><span>
+</span><a href="#local-6989586621679054425"><span class="hs-identifier hs-var">n</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">[FilePath]
+</span><a href="#local-6989586621679054426"><span class="hs-identifier hs-var">ps</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-comment">-- sub-directories</span><span>
 </span><span id="line-146"></span><span>  </span><span class="annot"><span class="annottext">WriterT [(FilePath, Int)] IO [FilePath]
 -&gt; ([FilePath] -&gt; WriterT [(FilePath, Int)] IO ())
 -&gt; WriterT [(FilePath, Int)] IO ()
 forall (m :: * -&gt; *) a b. Monad m =&gt; m a -&gt; (a -&gt; m b) -&gt; m b
-</span><span class="hs-operator hs-var">&gt;&gt;=</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679054418"><span class="annot"><span class="annottext">[FilePath]
-</span><a href="#local-6989586621679054418"><span class="hs-identifier hs-var">pss</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">(FilePath -&gt; WriterT [(FilePath, Int)] IO ())
+</span><span class="hs-operator hs-var">&gt;&gt;=</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679054424"><span class="annot"><span class="annottext">[FilePath]
+</span><a href="#local-6989586621679054424"><span class="hs-identifier hs-var">pss</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">(FilePath -&gt; WriterT [(FilePath, Int)] IO ())
 -&gt; [FilePath] -&gt; WriterT [(FilePath, Int)] IO ()
 forall (t :: * -&gt; *) (m :: * -&gt; *) a b.
 (Foldable t, Monad m) =&gt;
 (a -&gt; m b) -&gt; t a -&gt; m ()
-</span><span class="hs-identifier hs-var">mapM_</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679054416"><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054416"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">FilePath -&gt; WriterT [(FilePath, Int)] IO ()
+</span><span class="hs-identifier hs-var">mapM_</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679054422"><span class="annot"><span class="annottext">FilePath
+</span><a href="#local-6989586621679054422"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">FilePath -&gt; WriterT [(FilePath, Int)] IO ()
 </span><a href="CountEntries.html#countEntries2"><span class="hs-identifier hs-var">countEntries2</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054421"><span class="hs-identifier hs-var">p</span></a></span><span> </span><span class="annot"><span class="annottext">FilePath -&gt; FilePath -&gt; FilePath
+</span><a href="#local-6989586621679054427"><span class="hs-identifier hs-var">p</span></a></span><span> </span><span class="annot"><span class="annottext">FilePath -&gt; FilePath -&gt; FilePath
 </span><span class="hs-operator hs-var">&lt;/&gt;</span></span><span> </span><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679054416"><span class="hs-identifier hs-var">n</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">[FilePath]
-</span><a href="#local-6989586621679054418"><span class="hs-identifier hs-var">pss</span></a></span><span>       </span><span class="hs-comment">-- recurse</span><span>
+</span><a href="#local-6989586621679054422"><span class="hs-identifier hs-var">n</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">[FilePath]
+</span><a href="#local-6989586621679054424"><span class="hs-identifier hs-var">pss</span></a></span><span>       </span><span class="hs-comment">-- recurse</span><span>
 </span><span id="line-147"></span></pre></body></html>
