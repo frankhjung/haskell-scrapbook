@@ -66,8 +66,8 @@ instance Arbitrary Weekday where
 fromString :: String -> Maybe Weekday
 fromString ds = listToMaybe (map read (filter (== day) weekdays) :: [Weekday])
   where
-    day = (capitalise . take 4) ds
-    weekdays = map show fullWeek
+    day = (capitalise . take 4) ds  -- take first 3 bytes
+    weekdays = map show fullWeek    -- convert each 'Weekday's to string
 
 -- | List all days of the week.
 --

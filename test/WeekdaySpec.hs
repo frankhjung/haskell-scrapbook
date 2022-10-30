@@ -1,8 +1,10 @@
+{-# LANGUAGE ScopedTypeVariables #-}
 module WeekdaySpec (spec) where
 
 import           Weekday               (Weekday (..), capitalise, fromString,
                                         fullWeek)
 
+import           Data.Maybe            (isNothing)
 import           Test.Hspec            (Spec, describe, it, shouldBe)
 import           Test.Hspec.QuickCheck (prop)
 import           Test.QuickCheck       (Gen, elements, forAll, oneof, vectorOf)
@@ -19,8 +21,13 @@ weekdayString = oneof [return d | d <- weekdays]
 random4String :: Gen String
 random4String = vectorOf 4 $ elements ['a'..'z']
 
-prop_ReadShowWeekday :: Weekday -> Bool
-prop_ReadShowWeekday d = read (show d) == d
+-- Property that string never returns 'Weekday'.
+prop_Not_Weekday :: String -> Bool
+prop_Not_Weekday = isNothing . fromString
+
+-- Property that show then read gives back 'Weekday'.
+prop_Read_Show_Weekday :: Weekday -> Bool
+prop_Read_Show_Weekday d = read (show d) == d -- pointfree (==) =<< read . show
 
 -- | Unit Tests for Weekday
 spec :: Spec
@@ -42,11 +49,15 @@ spec =
       fromString "bad" `shouldBe` Nothing
     it "show of read from weekday string returns weekday string" $
       forAll weekdayString $ \d -> show (read d :: Weekday) `shouldBe` d
+    -- never a valid weekday
     it "invalid weekdays" $
       forAll random4String $ \d -> fromString d `shouldBe` Nothing
+    -- ... a better way to do this
+    prop "property invalid weekdays" $
+      forAll random4String prop_Not_Weekday
     -- use weekday generator
     prop "read from show Weekday returns Weekday" $
-      \d -> read (show d) `shouldBe` (d :: Weekday)
-    -- a better way to do the same as above
+      \(d :: Weekday) -> read (show d) `shouldBe` d
+    -- ... a better way to do this
     prop "property read from show Weekday returns Weekday"
-      prop_ReadShowWeekday
+      prop_Read_Show_Weekday
