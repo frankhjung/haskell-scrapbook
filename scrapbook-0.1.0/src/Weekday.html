@@ -180,14 +180,14 @@ forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 forall a. Int -&gt; [a] -&gt; [a]
 </span><span class="hs-identifier hs-var">take</span></span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">4</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679055804"><span class="hs-identifier hs-var">ds</span></a></span><span>
+</span><a href="#local-6989586621679055804"><span class="hs-identifier hs-var">ds</span></a></span><span>  </span><span class="hs-comment">-- take first 3 bytes</span><span>
 </span><span id="line-70"></span><span>    </span><span id="local-6989586621679055801"><span class="annot"><span class="annottext">weekdays :: [String]
 </span><a href="#local-6989586621679055801"><span class="hs-identifier hs-var hs-var">weekdays</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Weekday -&gt; String) -&gt; [Weekday] -&gt; [String]
 forall a b. (a -&gt; b) -&gt; [a] -&gt; [b]
 </span><span class="hs-identifier hs-var">map</span></span><span> </span><span class="annot"><span class="annottext">Weekday -&gt; String
 forall a. Show a =&gt; a -&gt; String
 </span><span class="hs-identifier hs-var">show</span></span><span> </span><span class="annot"><span class="annottext">[Weekday]
-</span><a href="Weekday.html#fullWeek"><span class="hs-identifier hs-var">fullWeek</span></a></span><span>
+</span><a href="Weekday.html#fullWeek"><span class="hs-identifier hs-var">fullWeek</span></a></span><span>    </span><span class="hs-comment">-- convert each 'Weekday's to string</span><span>
 </span><span id="line-71"></span><span>
 </span><span id="line-72"></span><span class="hs-comment">-- | List all days of the week.</span><span>
 </span><span id="line-73"></span><span class="hs-comment">--</span><span>
