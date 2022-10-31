@@ -1095,6 +1095,11 @@ fullWeek :: [Weekday]
 --   &gt;&gt;&gt; capitalise "monday"
 --   "Monday"
 --   </pre>
+--   
+--   <pre>
+--   &gt;&gt;&gt; null (capitalise "")
+--   True
+--   </pre>
 capitalise :: String -> String
 instance GHC.Read.Read Weekday.Weekday
 instance GHC.Enum.Bounded Weekday.Weekday
