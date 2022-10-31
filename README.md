@@ -100,6 +100,12 @@ from GitHub, here:
   * [SubSeqs](https://frankhjung.github.io/haskell-scrapbook/benchmark-subseqs.html)
   * [ZipFold](https://frankhjung.github.io/haskell-scrapbook/benchmark-zipfold.html)
 
+To run individual benchmark:
+
+```bash
+cabal bench PolyDivisorsBench
+```
+
 Individual benchmarks can be reported as well by calling the benchmark
 executable and providing an output file. For example:
 

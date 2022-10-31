@@ -11,6 +11,9 @@ first n digits are modulo n for all digits in the number.
 I first read about puzzle in Matt Parkers book,
 <https://www.penguin.com.au/books/things-to-make-and-do-in-the-fourth-dimension-9780141975863 Things to make and do in the fourth dimension>.
 
+The poly divisors listed here are in descending order of performance.
+i.e. @isPolyMod@ better than @isPolyMod'@ which is better than @isPolyMod''@
+
 == Method
 
  * convert string input to int
@@ -36,13 +39,18 @@ False
 
 == Examples
 
->>> $ stack exec polydivisors 123
+Load in GHCi:
+
+>>> $ cabal repl
+>>> λ> :load PolyDivisors
+
+>>> λ> findPolyDiv 123
 [123,321]
 
->>> $ stack exec polydivisors 123456
+>>> λ> findPolyDiv 123456
 [123654,321654]
 
->>> $ stack exec polydivisors 123456789
+>>> λ> findPolyDiv 123456789
 [381654729]
 
 -}
@@ -77,19 +85,9 @@ isPolyMod x = foldr ((&&) . isModLen) True xs
     isModLen :: (Int, Int) -> Bool
     isModLen xn = uncurry mod xn == 0
 
--- | @isPolyMod'@: Test number is modulo @n ... 1@.
-isPolyMod' :: Int -> Bool
-isPolyMod' x = all (== 0) xs
-  where
-    -- number of digits in input
-    n = length (show x)
-    -- list of x's reduced by factor of 10 for length of x as a string
-    -- eg. 123 gives [(123 % 3), (12 % 2), (1 % 1)]
-    xs = map (\p -> x `div` 10 ^ p `mod` (n - p) ) [0..n - 1]
-
 -- | @isPolyMod''@: Test number is modulo @n ... 1@.
-isPolyMod'' :: Int -> Bool
-isPolyMod'' x = all (== 0) (polyMod n x)
+isPolyMod' :: Int -> Bool
+isPolyMod' x = all (== 0) (polyMod n x)
   where
     -- number of digits in input
     n = length (show x)
@@ -98,3 +96,13 @@ isPolyMod'' x = all (== 0) (polyMod n x)
     polyMod m a
       | m == 1    = [0]  -- as m is from length this is always positive
       | otherwise = a `mod` m : polyMod (m - 1) (a `div` 10)
+
+-- | @isPolyMod''@: Test number is modulo @n ... 1@.
+isPolyMod'' :: Int -> Bool
+isPolyMod'' x = all (== 0) xs
+  where
+    -- number of digits in input
+    n = length (show x)
+    -- list of x's reduced by factor of 10 for length of x as a string
+    -- eg. 123 gives [(123 % 3), (12 % 2), (1 % 1)]
+    xs = map (\p -> x `div` 10 ^ p `mod` (n - p) ) [0..n - 1]
