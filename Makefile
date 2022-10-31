@@ -37,7 +37,7 @@ build:	check
 .PHONY: test
 test:
 	@echo test ...
-	@cabal v2-test --test-show-details=always
+	@cabal v2-test --test-show-details=direct
 # Show just test failures
 #	@cabal new-test --test-show-details=failures
 

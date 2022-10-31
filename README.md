@@ -79,6 +79,12 @@ This runs:
 cabal test --test-show-details=always
 ```
 
+To re-run a failed test, call:
+
+```bash
+cabal test --test-show-details=direct --test-option=--match --test-option='/Weekday/test weekday type/capitised head of string/'
+```
+
 ### Performance Benchmarks
 
 The

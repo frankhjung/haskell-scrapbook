@@ -4,6 +4,7 @@ module WeekdaySpec (spec) where
 import           Weekday               (Weekday (..), capitalise, fromString,
                                         fullWeek)
 
+import           Data.Char             (toTitle)
 import           Data.Maybe            (isNothing)
 import           Test.Hspec            (Spec, describe, it, shouldBe)
 import           Test.Hspec.QuickCheck (prop)
@@ -16,6 +17,11 @@ weekdays = map show (fullWeek :: [Weekday])
 -- | Choose a random element from weekdays.
 weekdayString :: Gen String
 weekdayString = oneof [return d | d <- weekdays]
+
+-- Property string is title case.
+prop_Is_Capitalised :: String -> Bool
+prop_Is_Capitalised []       = null (capitalise [])
+prop_Is_Capitalised xs@(x:_) = (head . capitalise) xs == toTitle x
 
 -- | Produce a lowercase string of 4 characters.
 random4String :: Gen String
@@ -39,10 +45,12 @@ spec =
       head (fullWeek :: [Weekday]) `shouldBe` Mon
     it "fullWeek last day is Sun" $
       last (fullWeek :: [Weekday]) `shouldBe` Sun
-    it "captilised mON is Mon" $
+    it "capitilised mON is Mon" $
       capitalise "mON" `shouldBe` "Mon"
-    it "captilised Tue is Tue" $
+    it "capitilised Tue is Tue" $
       capitalise "Tue" `shouldBe` "Tue"
+    prop "head of string is capitalised"
+      prop_Is_Capitalised
     it "from string sun is Just Sun" $
       fromString "sun" `shouldBe` Just Sun
     it "from string bad is Nothing" $

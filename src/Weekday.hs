@@ -34,7 +34,7 @@ module Weekday ( Weekday(..)
                , capitalise
                ) where
 
-import           Data.Char       (toLower, toUpper)
+import           Data.Char       (toLower, toTitle)
 import           Data.Maybe      (listToMaybe)
 import           Test.QuickCheck (Arbitrary (arbitrary), arbitraryBoundedEnum)
 
@@ -80,6 +80,8 @@ fullWeek = [minBound..maxBound]
 --
 -- >>> capitalise "monday"
 -- "Monday"
+--
+-- >>> null (capitalise "")
+-- True
 capitalise :: String -> String
-capitalise [] = []
-capitalise x  = toUpper (head x) : map toLower (tail x)
+capitalise = zipWith id (toTitle : repeat toLower)
