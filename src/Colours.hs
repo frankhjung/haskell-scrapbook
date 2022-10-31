@@ -14,18 +14,12 @@ module Colours (
                  Colour(..) -- Sample Colours
                ) where
 
-import           Test.QuickCheck.Arbitrary (Arbitrary (arbitrary))
-import           Test.QuickCheck.Gen       (elements)
+import           Test.QuickCheck.Arbitrary (Arbitrary (arbitrary),
+                                            arbitraryBoundedEnum)
 
 -- | Acceptable colours.
-data Colour =
-              Red
-            | Yellow
-            | Blue
-            | Green
-            | Purple
-            | Orange
-            | Brown deriving (Show,Eq)
+data Colour = Red | Yellow | Blue | Green | Purple | Orange | Brown
+                deriving (Show, Eq, Bounded, Enum)
 
 -- | Example semigroup with a Colour.
 instance Semigroup Colour where
@@ -37,4 +31,4 @@ instance Semigroup Colour where
 
 -- | Declare QuickCheck generator for Colour.
 instance Arbitrary Colour where
-  arbitrary = elements [Red,Yellow,Blue,Green,Purple,Orange,Brown]
+  arbitrary = arbitraryBoundedEnum
