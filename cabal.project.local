@@ -1,1 +1,3 @@
-ignore-project: False
+tests: True
+documentation: True
+benchmarks: True

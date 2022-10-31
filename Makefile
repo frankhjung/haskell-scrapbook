@@ -4,7 +4,7 @@ SRC	:= $(wildcard *.hs **/*.hs)
 YAML	:= $(shell git ls-files | grep --perl \.y?ml)
 
 .PHONY: default
-default:check build test
+default:	check build test
 
 .PHONY: check
 check:	tags style lint
@@ -30,9 +30,9 @@ lint:	$(SRC)
 	@yamllint --strict $(YAML)
 
 .PHONY: build
-build:	check
+build:
 	@echo build ...
-	@cabal v2-build
+	@cabal v2-build --disable-tests --disable-benchmarks --disable-documentation
 
 .PHONY: test
 test:
