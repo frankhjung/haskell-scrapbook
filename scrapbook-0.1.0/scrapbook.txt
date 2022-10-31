@@ -98,6 +98,8 @@ Green :: Colour
 Purple :: Colour
 Orange :: Colour
 Brown :: Colour
+instance GHC.Enum.Enum Colours.Colour
+instance GHC.Enum.Bounded Colours.Colour
 instance GHC.Classes.Eq Colours.Colour
 instance GHC.Show.Show Colours.Colour
 instance GHC.Base.Semigroup Colours.Colour
@@ -414,6 +416,10 @@ picks :: [a] -> [(a, [a])]
 --   I first read about puzzle in Matt Parkers book, <a>Things to make and
 --   do in the fourth dimension</a>.
 --   
+--   The poly divisors listed here are in descending order of performance.
+--   i.e. <tt>isPolyMod</tt> better than <tt>isPolyMod'</tt> which is
+--   better than <tt>isPolyMod''</tt>
+--   
 --   <h2>Method</h2>
 --   
 --   <ul>
@@ -451,18 +457,26 @@ picks :: [a] -> [(a, [a])]
 --   
 --   <h2>Examples</h2>
 --   
+--   Load in GHCi:
+--   
 --   <pre>
---   &gt;&gt;&gt; $ stack exec polydivisors 123
+--   &gt;&gt;&gt; $ cabal repl
+--   
+--   &gt;&gt;&gt; λ&gt; :load PolyDivisors
+--   </pre>
+--   
+--   <pre>
+--   &gt;&gt;&gt; λ&gt; findPolyDiv 123
 --   [123,321]
 --   </pre>
 --   
 --   <pre>
---   &gt;&gt;&gt; $ stack exec polydivisors 123456
+--   &gt;&gt;&gt; λ&gt; findPolyDiv 123456
 --   [123654,321654]
 --   </pre>
 --   
 --   <pre>
---   &gt;&gt;&gt; $ stack exec polydivisors 123456789
+--   &gt;&gt;&gt; λ&gt; findPolyDiv 123456789
 --   [381654729]
 --   </pre>
 module PolyDivisors
@@ -473,7 +487,7 @@ findPolyDiv :: Int -> [Int]
 -- | <a>isPolyMod</a>: Test number is modulo <tt>n ... 1</tt>.
 isPolyMod :: Int -> Bool
 
--- | <tt>isPolyMod'</tt>: Test number is modulo <tt>n ... 1</tt>.
+-- | <tt>isPolyMod''</tt>: Test number is modulo <tt>n ... 1</tt>.
 isPolyMod' :: Int -> Bool
 
 -- | <tt>isPolyMod''</tt>: Test number is modulo <tt>n ... 1</tt>.
