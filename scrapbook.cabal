@@ -12,7 +12,6 @@ copyright:          Copyright © 2020-2022 Frank H Jung
 license:            BSD-3-Clause
 license-file:       LICENSE
 category:           education
-build-type:         Simple
 extra-source-files: README.md
 
 source-repository   head
@@ -89,9 +88,11 @@ executable          numberlines
 
 executable          polydivs
   hs-source-dirs:   app
+                  , src
   main-is:          PolyDivs.hs
   default-language: Haskell2010
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
+  other-modules:    PolyDivisors
   build-depends:    base
                   , scrapbook
 
@@ -148,6 +149,7 @@ executable          wordcount
 
 test-suite          test
   hs-source-dirs:   test
+                  , src
   main-is:          TestsSpec.hs
   default-language: Haskell2010
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N -Wall
@@ -158,11 +160,41 @@ test-suite          test
                   , hspec
                   , mtl
                   , QuickCheck
+                  , random
                   , scrapbook
                   , transformers
   build-tool-depends:
                     hspec-discover:hspec-discover
-  other-modules:    ApplyToTupleSpec
+  other-modules:    ApplyToTuple
+                  , BinarySearch
+                  , Caesar
+                  , CFold
+                  , Cps
+                  , Colours
+                  , CountEntries
+                  , Lower
+                  , Mod35
+                  , MonTrans
+                  , MyFilter
+                  , MyPenultimate
+                  , MyReverse
+                  , MyTake
+                  , MyType
+                  , Permutation
+                  , PolyDivisors
+                  , RecursionSchemes
+                  , Qsort
+                  , Random
+                  , RepMax
+                  , SplitList
+                  , State
+                  , Stack
+                  , SubSeqs
+                  , Trim
+                  , Weekday
+                  , Yahtzee
+                  , ZipFold
+                  , ApplyToTupleSpec
                   , BinarySearchSpec
                   , CaesarSpec
                   , CFoldSpec

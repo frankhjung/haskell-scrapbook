@@ -9,6 +9,9 @@ on:
       '**'
 # yamllint enable
 
+env:
+  STACK_ROOT: "${{ github.workspace }}/.stack"
+
 jobs:
 
   build:
@@ -32,11 +35,12 @@ jobs:
 
       - name: setup
         run: |
-          stack update
           stack setup
+          stack update
           stack path
           stack query
           stack ls dependencies
+          stack clean
           cabal check
 
       - name: build
@@ -59,7 +63,7 @@ jobs:
 
       - name: document
         if: github.ref == 'refs/heads/master'
-        run: stack haddock
+        run: stack haddock --no-rerun-tests --no-run-benchmarks
 
       - name: public
         if: github.ref == 'refs/heads/master'

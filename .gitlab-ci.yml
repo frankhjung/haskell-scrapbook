@@ -4,6 +4,9 @@ stages:
   - build
   - deploy
 
+variables:
+  STACK_ROOT: ${CI_PROJECT_DIR}/.stack
+
 build:
   stage: build
   except:
@@ -12,18 +15,17 @@ build:
     name: frankhjung/haskell:9.0.2
     entrypoint: [""]
   script:
-    - make setup check build test doc exec bench
-    - mkdir -p public/
-    # yamllint disable-line rule:line-length
-    - cp -r dist-newstyle/build/x86_64-linux/ghc-9.0.2/scrapbook-?.?.?/doc/html/scrapbook/* public/
-    # yamllint enable-line rule:line-length
+    - make clean setup check build test bench doc exec
+    - mv $(stack path --local-doc-root)/scrapbook*/ public/
+    - mv .stack-work/benchmark-*.html public/
   artifacts:
     paths:
       - public
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
-      - dist-newstyle/
+      - .stack/
+      - .stack-work/
 
 pages:
   stage: deploy

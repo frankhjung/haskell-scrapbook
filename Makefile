@@ -25,78 +25,80 @@ style:	$(SRC)
 .PHONY: lint
 lint:	$(SRC)
 	@echo lint ...
-	@cabal check --verbose=2
+	@cabal check
 	@hlint --cross --color --show $(SRC)
 	@yamllint --strict $(YAML)
 
 .PHONY: build
 build:
 	@echo build ...
-	@cabal v2-build --disable-tests --disable-benchmarks --disable-documentation
+	@stack build --pedantic --no-test
 
 .PHONY: test
 test:
 	@echo test ...
-	@cabal v2-test --test-show-details=direct
-# Show just test failures
-#	@cabal new-test --test-show-details=failures
+	@stack test
 
 .PHONY: bench
 bench:
 	@echo bench ...
-	@cabal v2-bench --jobs=1
+	@stack bench scrapbook:bench:myfilterBench --ba '-o .stack-work/benchmark-myfilter.html'
+	@stack bench scrapbook:bench:myreverseBench --ba '-o .stack-work/benchmark-myreverse.html'
+	@stack bench scrapbook:bench:polydivisorsBench --ba '-o .stack-work/benchmark-polydivisors.html'
+	@stack bench scrapbook:bench:recursionschemesBench --ba '-o .stack-work/benchmark-recursionschemes.html'
+	@stack bench scrapbook:bench:repmaxBench --ba '-o .stack-work/benchmark-repmax.html'
+	@stack bench scrapbook:bench:subseqsBench --ba '-o .stack-work/benchmark-subseqs.html'
+	@stack bench scrapbook:bench:zipfoldBench --ba '-o .stack-work/benchmark-zipfold.html'
 
 .PHONY: doc
 doc:
 	@echo doc ...
-ifeq ($(shell cabal --numeric-version), 3.4.1.0)
-	@cabal v2-haddock --haddock-hyperlink-source
-else
-	@cabal v2-haddock --haddock-hyperlink-source --haddock-quickjump
-endif
+	@stack haddock
 
 .PHONY: exec
-exec:	build
+exec:
 	@echo Counter ...
-	@cabal v2-exec counter 4
+	@stack exec -- counter 4
 	@echo FPComplete ...
-	@cabal v2-exec fpcomplete
+	@stack exec -- fpcomplete
 	@echo NumberLines ...
-	@cabal v2-exec numberlines -- Setup.hs
+	@stack exec -- numberlines -- Setup.hs
 	@echo PolyDivisors ...
-	@cabal v2-exec polydivs 123456789
+	@stack exec -- polydivs 123456789
 	@echo Quine ...
-	@cabal v2-exec quine
+	@stack exec -- quine
 	@echo
 	@echo ReadFile Setup.hs ...
-	@cabal v2-exec readfile Setup.hs
+	@stack exec -- readfile Setup.hs
 	@echo Skips ...
-	@cabal v2-exec skips abcd
+	@stack exec -- skips abcd
 	@echo Threads ...
-	@cabal v2-exec threads
+	@stack exec -- threads
 	@echo Vocab ...
-	@cabal v2-exec vocab LICENSE
+	@stack exec -- vocab LICENSE
 	@echo While ...
-	@echo "a\nb\nc\nq\n" | cabal v2-exec while
+	@echo "a\nb\nc\nq\n" | stack exec -- while
 	@echo WordCount ...
-	@cabal v2-exec wordcount
-	@cabal v2-exec wordcount -- LICENSE
+	@stack exec -- wordcount
+	@stack exec -- wordcount -- LICENSE
 	@echo
 
 .PHONY: setup
 setup:
-	cabal --version
-	cabal v2-update --only-dependencies --disable-tests --disable-documentation --disable-benchmarks
-	cabal info scrapbook
+	stack path
+	stack query
+	stack ls dependencies
 
 .PHONY: clean
 clean:
-	@cabal v2-clean
+	@stack clean
+	@cabal clean
 	-$(RM) $(addsuffix .hi, $(basename $(SRC)))
 	-$(RM) $(addsuffix .o, $(basename $(SRC)))
 	-$(RM) $(addsuffix .prof, $(basename $(SRC)))
 
 .PHONY: cleanall
 cleanall: clean
+	@stack purge
 	-$(RM) -rf public .pytest_cache .stack-work/
 	-$(RM) *.pyc *.sublime-workspace tags
