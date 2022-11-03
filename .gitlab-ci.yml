@@ -17,7 +17,7 @@ build:
   script:
     - make clean setup check build test bench doc exec
     - mv $(stack path --local-doc-root)/scrapbook*/ public/
-    - mv .stack-work/benchmark-*.html public/
+    # mv .stack-work/benchmark-*.html public/
   artifacts:
     paths:
       - public

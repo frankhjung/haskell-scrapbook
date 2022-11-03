@@ -92,9 +92,9 @@ executable          polydivs
   main-is:          PolyDivs.hs
   default-language: Haskell2010
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
-  other-modules:    PolyDivisors
   build-depends:    base
                   , scrapbook
+  other-modules:    PolyDivisors
 
 executable          quine
   hs-source-dirs:   app
@@ -161,127 +161,134 @@ test-suite          test
                   , mtl
                   , QuickCheck
                   , random
-                  , scrapbook
                   , transformers
+                  , scrapbook
   build-tool-depends:
                     hspec-discover:hspec-discover
   other-modules:    ApplyToTuple
-                  , BinarySearch
-                  , Caesar
-                  , CFold
-                  , Cps
-                  , Colours
-                  , CountEntries
-                  , Lower
-                  , Mod35
-                  , MonTrans
-                  , MyFilter
-                  , MyPenultimate
-                  , MyReverse
-                  , MyTake
-                  , MyType
-                  , Permutation
-                  , PolyDivisors
-                  , RecursionSchemes
-                  , Qsort
-                  , Random
-                  , RepMax
-                  , SplitList
-                  , State
-                  , Stack
-                  , SubSeqs
-                  , Trim
-                  , Weekday
-                  , Yahtzee
-                  , ZipFold
                   , ApplyToTupleSpec
+                  , BinarySearch
                   , BinarySearchSpec
+                  , Caesar
                   , CaesarSpec
+                  , CFold
                   , CFoldSpec
+                  , Colours
                   , ColoursSpec
+                  , CountEntries
                   , CountEntriesSpec
+                  , Cps
                   , CpsSpec
+                  , Lower
                   , LowerSpec
+                  , Mod35
                   , Mod35Spec
+                  , MonTrans
                   , MonTransSpec
+                  , MyFilter
                   , MyFilterSpec
+                  , MyPenultimate
                   , MyPenultimateSpec
+                  , MyReverse
                   , MyReverseSpec
+                  , MyTake
                   , MyTakeSpec
+                  , MyType
                   , MyTypeSpec
+                  , Permutation
                   , PermutationSpec
+                  , PolyDivisors
                   , PolyDivisorsSpec
+                  , Qsort
                   , QsortSpec
+                  , Random
                   , RandomSpec
+                  , RecursionSchemes
                   , RecursionSchemesSpec
+                  , RepMax
                   , RepMaxSpec
-                  , StackSpec
+                  , SplitList
                   , SplitListSpec
+                  , Stack
+                  , StackSpec
+                  , State
+                  , SubSeqs
                   , SubSeqsSpec
+                  , Trim
                   , TrimSpec
+                  , Weekday
                   , WeekdaySpec
+                  , Yahtzee
                   , YahtzeeSpec
+                  , ZipFold
                   , ZipFoldSpec
 
 benchmark           myfilterBench
   hs-source-dirs:   bench
+                  , src
   main-is:          MyFilterBench.hs
   default-language: Haskell2010
   type:             exitcode-stdio-1.0
   build-depends:    base
                   , criterion >= 1.5.7.0 && < 1.5.14
-                  , scrapbook
+  other-modules:    MyFilter
 
 benchmark           myreverseBench
   hs-source-dirs:   bench
+                  , src
   main-is:          MyReverseBench.hs
   default-language: Haskell2010
   type:             exitcode-stdio-1.0
   build-depends:    base
                   , criterion
-                  , scrapbook
+  other-modules:    MyReverse
 
 benchmark           polydivisorsBench
   hs-source-dirs:   bench
+                  , src
   main-is:          PolyDivisorsBench.hs
   default-language: Haskell2010
   type:             exitcode-stdio-1.0
   build-depends:    base
                   , criterion
-                  , scrapbook
+  other-modules:    PolyDivisors
 
 benchmark           recursionschemesBench
   hs-source-dirs:   bench
+                  , src
   main-is:          RecursionSchemesBench.hs
   default-language: Haskell2010
   type:             exitcode-stdio-1.0
   build-depends:    base
                   , criterion
-                  , scrapbook
+  other-modules:    RecursionSchemes
 
 benchmark           repmaxBench
   hs-source-dirs:   bench
+                  , src
   main-is:          RepMaxBench.hs
   default-language: Haskell2010
   type:             exitcode-stdio-1.0
   build-depends:    base
                   , criterion
-                  , scrapbook
+  other-modules:    RepMax
 
 benchmark           subseqsBench
   hs-source-dirs:   bench
+                  , src
   main-is:          SubSeqsBench.hs
   default-language: Haskell2010
   type:             exitcode-stdio-1.0
   build-depends:    base
                   , criterion
-                  , scrapbook
+  other-modules:    SubSeqs
 
 benchmark           zipfoldBench
   hs-source-dirs:   bench
+                  , src
   main-is:          ZipFoldBench.hs
   default-language: Haskell2010
   type:             exitcode-stdio-1.0
   build-depends:    base
                   , criterion
-                  , scrapbook
+  other-modules:    ZipFold

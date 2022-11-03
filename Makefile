@@ -32,28 +32,30 @@ lint:	$(SRC)
 .PHONY: build
 build:
 	@echo build ...
-	@stack build --pedantic --no-test
+	@stack build --pedantic
 
 .PHONY: test
 test:
 	@echo test ...
-	@stack test
+	@stack test scrapbook
 
 .PHONY: bench
 bench:
 	@echo bench ...
-	@stack bench scrapbook:bench:myfilterBench --ba '-o .stack-work/benchmark-myfilter.html'
-	@stack bench scrapbook:bench:myreverseBench --ba '-o .stack-work/benchmark-myreverse.html'
-	@stack bench scrapbook:bench:polydivisorsBench --ba '-o .stack-work/benchmark-polydivisors.html'
-	@stack bench scrapbook:bench:recursionschemesBench --ba '-o .stack-work/benchmark-recursionschemes.html'
-	@stack bench scrapbook:bench:repmaxBench --ba '-o .stack-work/benchmark-repmax.html'
-	@stack bench scrapbook:bench:subseqsBench --ba '-o .stack-work/benchmark-subseqs.html'
-	@stack bench scrapbook:bench:zipfoldBench --ba '-o .stack-work/benchmark-zipfold.html'
+	@stack bench scrapbook
+	@#stack bench scrapbook:bench:myfilterBench --ba '-o .stack-work/benchmark-myfilter.html'
+	@#stack bench scrapbook:bench:myreverseBench --ba '-o .stack-work/benchmark-myreverse.html'
+	@#stack bench scrapbook:bench:polydivisorsBench --ba '-o .stack-work/benchmark-polydivisors.html'
+	@#stack bench scrapbook:bench:recursionschemesBench --ba '-o .stack-work/benchmark-recursionschemes.html'
+	@#stack bench scrapbook:bench:repmaxBench --ba '-o .stack-work/benchmark-repmax.html'
+	@#stack bench scrapbook:bench:subseqsBench --ba '-o .stack-work/benchmark-subseqs.html'
+	@#stack bench scrapbook:bench:zipfoldBench --ba '-o .stack-work/benchmark-zipfold.html'
 
 .PHONY: doc
 doc:
 	@echo doc ...
-	@stack haddock
+	stack haddock scrapbook
+	@#stack haddock scrapbook --haddock-arguments '--haddock-tests --haddock-benchmarks --haddock-executables'
 
 .PHONY: exec
 exec:
@@ -80,7 +82,7 @@ exec:
 	@echo "a\nb\nc\nq\n" | stack exec -- while
 	@echo WordCount ...
 	@stack exec -- wordcount
-	@stack exec -- wordcount -- LICENSE
+	@stack exec -- wordcount LICENSE
 	@echo
 
 .PHONY: setup
