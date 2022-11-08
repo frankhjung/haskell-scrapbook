@@ -5,12 +5,14 @@ name: haskell scrapbook
 # yamllint disable-line rule:truthy
 on:
   push:
-    branches:
-      '**'
+    branches: ['master', 'feature*']
+    tags-ignore: ['*']
+  check_run:
+    types: [rerequested, requested_action]
 # yamllint enable
 
 env:
-  STACK_ROOT: "${{ github.workspace }}/.stack"
+  STACK_ROOT: ${{ github.workspace }}/.stack
 
 jobs:
 
@@ -26,50 +28,27 @@ jobs:
         uses: actions/checkout@v3
 
       - name: cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
-            .stack/
             .stack-work/
-          key: $GITHUB_REF
-
-      - name: setup
-        run: |
-          stack setup
-          stack update
-          stack path
-          stack query
-          stack ls dependencies
-          stack clean
-          cabal check
+            ${{ env.STACK_ROOT }}
+          key: ${{ github.ref }}
 
       - name: build
-        run: stack build --pedantic --no-test
+        run: stack build --pedantic
 
       - name: test
-        run: stack test
+        run: stack test --coverage
 
       - name: benchmark
-        # yamllint disable rule:line-length
-        run: |
-          stack bench scrapbook:bench:myfilterBench --ba '-o .stack-work/benchmark-myfilter.html'
-          stack bench scrapbook:bench:myreverseBench --ba '-o .stack-work/benchmark-myreverse.html'
-          stack bench scrapbook:bench:polydivisorsBench --ba '-o .stack-work/benchmark-polydivisors.html'
-          stack bench scrapbook:bench:recursionschemesBench --ba '-o .stack-work/benchmark-recursionschemes.html'
-          stack bench scrapbook:bench:repmaxBench --ba '-o .stack-work/benchmark-repmax.html'
-          stack bench scrapbook:bench:subseqsBench --ba '-o .stack-work/benchmark-subseqs.html'
-          stack bench scrapbook:bench:zipfoldBench --ba '-o .stack-work/benchmark-zipfold.html'
-        # yamllint enable
+        run: stack bench scrapbook
 
-      - name: document
-        if: github.ref == 'refs/heads/master'
-        run: stack haddock --no-rerun-tests --no-run-benchmarks
-
-      - name: public
+      - name: haddock
         if: github.ref == 'refs/heads/master'
         run: |
-          mv $(stack path --local-doc-root) public/
-          mv .stack-work/benchmark-*.html public/
+          stack haddock
+          mv $(stack path --local-doc-root)/scrapbook*/ public/
 
       - name: publish
         if: success() && github.ref == 'refs/heads/master'

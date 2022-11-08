@@ -4,20 +4,16 @@ stages:
   - build
   - deploy
 
-variables:
-  STACK_ROOT: ${CI_PROJECT_DIR}/.stack
-
 build:
   stage: build
   except:
     - tags
-  image:
-    name: frankhjung/haskell:9.0.2
-    entrypoint: [""]
+  image: frankhjung/haskell:9.0.2
+  variables:
+    STACK_ROOT: ${CI_PROJECT_DIR}/.stack
   script:
-    - make clean setup check build test bench doc exec
+    - make clean check build test bench doc exec
     - mv $(stack path --local-doc-root)/scrapbook*/ public/
-    # mv .stack-work/benchmark-*.html public/
   artifacts:
     paths:
       - public

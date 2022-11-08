@@ -54,7 +54,7 @@ bench:
 .PHONY: doc
 doc:
 	@echo doc ...
-	stack haddock scrapbook
+	stack haddock scrapbook --only-locals
 	@#stack haddock scrapbook --haddock-arguments '--haddock-tests --haddock-benchmarks --haddock-executables'
 
 .PHONY: exec
@@ -95,12 +95,12 @@ setup:
 clean:
 	@stack clean
 	@cabal clean
-	-$(RM) $(addsuffix .hi, $(basename $(SRC)))
-	-$(RM) $(addsuffix .o, $(basename $(SRC)))
-	-$(RM) $(addsuffix .prof, $(basename $(SRC)))
+	@rm -f tags
+	@rm -f $(wildcard *.hi **/*.hi)
+	@rm -f $(wildcard *.o **/*.o)
+	@rm -f $(wildcard *.prof **/*.prof)
+	@rm -f $(wildcard *.tix **/*.tix)
 
 .PHONY: cleanall
 cleanall: clean
 	@stack purge
-	-$(RM) -rf public .pytest_cache .stack-work/
-	-$(RM) *.pyc *.sublime-workspace tags
