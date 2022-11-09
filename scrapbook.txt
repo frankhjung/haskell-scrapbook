@@ -1044,13 +1044,13 @@ trim :: String -> String
 --   across.
 --   
 --   <ul>
---   <li><a>fromString</a> is a simple conversion function to map a
+--   <li><a>makeWeekday</a> is a simple conversion function to map a
 --   <a>Weekday</a> from a string</li>
 --   <li><a>fullWeek</a> returns a list of all abbreviated weekdays</li>
 --   <li><a>capitalise</a> returns the title case of a string</li>
 --   </ul>
 --   
---   The <a>fromString</a> code is rather weak as any word where the first
+--   The <a>makeWeekday</a> code is rather weak as any word where the first
 --   3 letters map to a weekday is valid for conversion.
 --   
 --   <h2>Other Examples</h2>
@@ -1075,25 +1075,25 @@ Fri :: Weekday
 Sat :: Weekday
 Sun :: Weekday
 
--- | Read a <a>Weekday</a> from a string.
+-- | Read a <a>Weekday</a> from a String.
 --   
 --   Some string to <a>Weekday</a> examples:
 --   
 --   <pre>
---   &gt;&gt;&gt; fromString "tHU"
+--   &gt;&gt;&gt; makeWeekday "tHU"
 --   Just Thu
 --   </pre>
 --   
 --   <pre>
---   &gt;&gt;&gt; fromString "sun"
+--   &gt;&gt;&gt; makeWeekday "sun"
 --   Just Sun
 --   </pre>
 --   
 --   <pre>
---   &gt;&gt;&gt; fromString "Bad"
+--   &gt;&gt;&gt; makeWeekday "Bad"
 --   Nothing
 --   </pre>
-fromString :: String -> Maybe Weekday
+makeWeekday :: String -> Maybe Weekday
 
 -- | List all days of the week.
 --   
