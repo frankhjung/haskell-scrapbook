@@ -5,16 +5,17 @@ Description : Enumerate week days
 Copyright   : © Frank Jung, 2022
 License     : GPL-3
 
-A simple demonstration on how to map to and from a bounded, enumerated data type.
+A simple demonstration on how to map to and from a bounded, enumerated data
+type.
 
 In this example we use the weekdays names as our type to iterate across.
 
-  * 'fromString' is a simple conversion function to map a 'Weekday'
+  * 'makeWeekday' is a simple conversion function to map a 'Weekday'
      from a string
   * 'fullWeek' returns a list of all abbreviated weekdays
   * 'capitalise' returns the title case of a string
 
-The 'fromString' code is rather weak as any word where the first 3 letters
+The 'makeWeekday' code is rather weak as any word where the first 3 letters
 map to a weekday is valid for conversion.
 
 == Other Examples
@@ -29,7 +30,7 @@ Mon
 -}
 
 module Weekday ( Weekday(..)
-               , fromString
+               , makeWeekday
                , fullWeek
                , capitalise
                ) where
@@ -51,22 +52,22 @@ data Weekday = Mon | Tue | Wed | Thu | Fri | Sat | Sun
 instance Arbitrary Weekday where
   arbitrary = arbitraryBoundedEnum
 
--- | Read a 'Weekday' from a string.
+-- | Read a 'Weekday' from a String.
 --
 -- Some string to 'Weekday' examples:
 --
--- >>> fromString "tHU"
+-- >>> makeWeekday "tHU"
 -- Just Thu
 --
--- >>> fromString "sun"
+-- >>> makeWeekday "sun"
 -- Just Sun
 --
--- >>> fromString "Bad"
+-- >>> makeWeekday "Bad"
 -- Nothing
-fromString :: String -> Maybe Weekday
-fromString ds = listToMaybe (map read (filter (== day) weekdays) :: [Weekday])
+makeWeekday :: String -> Maybe Weekday
+makeWeekday ds = listToMaybe (map read (filter (== day) weekdays) :: [Weekday])
   where
-    day = (capitalise . take 4) ds  -- take first 3 bytes
+    day = (capitalise . take 4) ds  -- take first 4 bytes so days must match
     weekdays = map show fullWeek    -- convert each 'Weekday's to string
 
 -- | List all days of the week.

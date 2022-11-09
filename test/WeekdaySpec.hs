@@ -1,8 +1,8 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 module WeekdaySpec (spec) where
 
-import           Weekday               (Weekday (..), capitalise, fromString,
-                                        fullWeek)
+import           Weekday               (Weekday (..), capitalise, fullWeek,
+                                        makeWeekday)
 
 import           Data.Char             (toTitle)
 import           Data.Maybe            (isNothing)
@@ -29,7 +29,7 @@ random4String = vectorOf 4 $ elements ['a'..'z']
 
 -- Property that string never returns 'Weekday'.
 prop_Not_Weekday :: String -> Bool
-prop_Not_Weekday = isNothing . fromString
+prop_Not_Weekday = isNothing . makeWeekday
 
 -- Property that show then read gives back 'Weekday'.
 prop_Read_Show_Weekday :: Weekday -> Bool
@@ -52,14 +52,14 @@ spec =
     prop "head of string is capitalised"
       prop_Is_Capitalised
     it "from string sun is Just Sun" $
-      fromString "sun" `shouldBe` Just Sun
+      makeWeekday "sun" `shouldBe` Just Sun
     it "from string bad is Nothing" $
-      fromString "bad" `shouldBe` Nothing
+      makeWeekday "bad" `shouldBe` Nothing
     it "show of read from weekday string returns weekday string" $
       forAll weekdayString $ \d -> show (read d :: Weekday) `shouldBe` d
     -- never a valid weekday
     it "invalid weekdays" $
-      forAll random4String $ \d -> fromString d `shouldBe` Nothing
+      forAll random4String $ \d -> makeWeekday d `shouldBe` Nothing
     -- ... a better way to do this
     prop "property invalid weekdays" $
       forAll random4String prop_Not_Weekday

@@ -95,11 +95,11 @@ setup:
 clean:
 	@stack clean
 	@cabal clean
-	@rm -f tags
-	@rm -f $(wildcard *.hi **/*.hi)
-	@rm -f $(wildcard *.o **/*.o)
-	@rm -f $(wildcard *.prof **/*.prof)
-	@rm -f $(wildcard *.tix **/*.tix)
+	@$(RM) tags
+	@$(RM) $(wildcard *.hi **/*.hi)
+	@$(RM) $(wildcard *.o **/*.o)
+	@$(RM) $(wildcard *.prof **/*.prof)
+	@$(RM) $(wildcard *.tix **/*.tix)
 
 .PHONY: cleanall
 cleanall: clean
