@@ -1093,6 +1093,9 @@ Sun :: Weekday
 --   &gt;&gt;&gt; makeWeekday "Bad"
 --   Nothing
 --   </pre>
+--   
+--   Any string bigger than 3 characters also fails: &gt;&gt;&gt;
+--   makeWeekday <a>Mond</a> Nothing
 makeWeekday :: String -> Maybe Weekday
 
 -- | List all days of the week.

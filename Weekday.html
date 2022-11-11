@@ -11,7 +11,9 @@ map to a weekday is valid for conversion.</p><h2>Other Examples</h2><h3>Using en
 </code></strong>Just Sun
 </pre><pre class="screen"><code class="prompt">&gt;&gt;&gt; </code><strong class="userinput"><code>makeWeekday &quot;Bad&quot;
 </code></strong>Nothing
-</pre></div></div><div class="top"><p class="src"><a id="v:fullWeek" class="def">fullWeek</a> :: [<a href="Weekday.html#t:Weekday" title="Weekday">Weekday</a>] <a href="src/Weekday.html#fullWeek" class="link">Source</a> <a href="#v:fullWeek" class="selflink">#</a></p><div class="doc"><p>List all days of the week.</p><pre class="screen"><code class="prompt">&gt;&gt;&gt; </code><strong class="userinput"><code>fullWeek
+</pre><p>Any string bigger than 3 characters also fails:
+ &gt;&gt;&gt; makeWeekday <a href="Mond.html">Mond</a>
+ Nothing</p></div></div><div class="top"><p class="src"><a id="v:fullWeek" class="def">fullWeek</a> :: [<a href="Weekday.html#t:Weekday" title="Weekday">Weekday</a>] <a href="src/Weekday.html#fullWeek" class="link">Source</a> <a href="#v:fullWeek" class="selflink">#</a></p><div class="doc"><p>List all days of the week.</p><pre class="screen"><code class="prompt">&gt;&gt;&gt; </code><strong class="userinput"><code>fullWeek
 </code></strong>[Mon,Tue,Wed,Thu,Fri,Sat,Sun]
 </pre></div></div><div class="top"><p class="src"><a id="v:capitalise" class="def">capitalise</a> :: <a href="../base-4.15.1.0/Data-String.html#t:String" title="Data.String">String</a> -&gt; <a href="../base-4.15.1.0/Data-String.html#t:String" title="Data.String">String</a> <a href="src/Weekday.html#capitalise" class="link">Source</a> <a href="#v:capitalise" class="selflink">#</a></p><div class="doc"><p>Return title case of string.</p><pre class="screen"><code class="prompt">&gt;&gt;&gt; </code><strong class="userinput"><code>capitalise &quot;monday&quot;
 </code></strong>&quot;Monday&quot;

@@ -156,8 +156,12 @@ forall a. (Bounded a, Enum a) =&gt; Gen a
 </span><span id="line-64"></span><span class="hs-comment">--</span><span>
 </span><span id="line-65"></span><span class="hs-comment">-- &gt;&gt;&gt; makeWeekday &quot;Bad&quot;</span><span>
 </span><span id="line-66"></span><span class="hs-comment">-- Nothing</span><span>
-</span><span id="line-67"></span><span class="annot"><a href="Weekday.html#makeWeekday"><span class="hs-identifier hs-type">makeWeekday</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><a href="Weekday.html#Weekday"><span class="hs-identifier hs-type">Weekday</span></a></span><span>
-</span><span id="line-68"></span><span id="makeWeekday"><span class="annot"><span class="annottext">makeWeekday :: String -&gt; Maybe Weekday
+</span><span id="line-67"></span><span class="hs-comment">--</span><span>
+</span><span id="line-68"></span><span class="hs-comment">-- Any string bigger than 3 characters also fails:</span><span>
+</span><span id="line-69"></span><span class="hs-comment">-- &gt;&gt;&gt; makeWeekday &quot;Mond&quot;</span><span>
+</span><span id="line-70"></span><span class="hs-comment">-- Nothing</span><span>
+</span><span id="line-71"></span><span class="annot"><a href="Weekday.html#makeWeekday"><span class="hs-identifier hs-type">makeWeekday</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><a href="Weekday.html#Weekday"><span class="hs-identifier hs-type">Weekday</span></a></span><span>
+</span><span id="line-72"></span><span id="makeWeekday"><span class="annot"><span class="annottext">makeWeekday :: String -&gt; Maybe Weekday
 </span><a href="Weekday.html#makeWeekday"><span class="hs-identifier hs-var hs-var">makeWeekday</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String -&gt; Maybe Weekday
 forall a. Read a =&gt; String -&gt; Maybe a
 </span><span class="hs-identifier hs-var">readMaybe</span></span><span> </span><span class="annot"><span class="annottext">(String -&gt; Maybe Weekday) -&gt; ShowS -&gt; String -&gt; Maybe Weekday
@@ -169,28 +173,28 @@ forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 forall a. Int -&gt; [a] -&gt; [a]
 </span><span class="hs-identifier hs-var">take</span></span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">4</span></span><span>
-</span><span id="line-69"></span><span>
-</span><span id="line-70"></span><span class="hs-comment">-- | List all days of the week.</span><span>
-</span><span id="line-71"></span><span class="hs-comment">--</span><span>
-</span><span id="line-72"></span><span class="hs-comment">-- &gt;&gt;&gt; fullWeek</span><span>
-</span><span id="line-73"></span><span class="hs-comment">-- [Mon,Tue,Wed,Thu,Fri,Sat,Sun]</span><span>
-</span><span id="line-74"></span><span class="annot"><a href="Weekday.html#fullWeek"><span class="hs-identifier hs-type">fullWeek</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="Weekday.html#Weekday"><span class="hs-identifier hs-type">Weekday</span></a></span><span class="hs-special">]</span><span>
-</span><span id="line-75"></span><span id="fullWeek"><span class="annot"><span class="annottext">fullWeek :: [Weekday]
+</span><span id="line-73"></span><span>
+</span><span id="line-74"></span><span class="hs-comment">-- | List all days of the week.</span><span>
+</span><span id="line-75"></span><span class="hs-comment">--</span><span>
+</span><span id="line-76"></span><span class="hs-comment">-- &gt;&gt;&gt; fullWeek</span><span>
+</span><span id="line-77"></span><span class="hs-comment">-- [Mon,Tue,Wed,Thu,Fri,Sat,Sun]</span><span>
+</span><span id="line-78"></span><span class="annot"><a href="Weekday.html#fullWeek"><span class="hs-identifier hs-type">fullWeek</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="Weekday.html#Weekday"><span class="hs-identifier hs-type">Weekday</span></a></span><span class="hs-special">]</span><span>
+</span><span id="line-79"></span><span id="fullWeek"><span class="annot"><span class="annottext">fullWeek :: [Weekday]
 </span><a href="Weekday.html#fullWeek"><span class="hs-identifier hs-var hs-var">fullWeek</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Weekday
 forall a. Bounded a =&gt; a
 </span><span class="hs-identifier hs-var">minBound</span></span><span class="hs-glyph">..</span><span class="annot"><span class="annottext">Weekday
 forall a. Bounded a =&gt; a
 </span><span class="hs-identifier hs-var">maxBound</span></span><span class="hs-special">]</span><span>
-</span><span id="line-76"></span><span>
-</span><span id="line-77"></span><span class="hs-comment">-- | Return title case of string.</span><span>
-</span><span id="line-78"></span><span class="hs-comment">--</span><span>
-</span><span id="line-79"></span><span class="hs-comment">-- &gt;&gt;&gt; capitalise &quot;monday&quot;</span><span>
-</span><span id="line-80"></span><span class="hs-comment">-- &quot;Monday&quot;</span><span>
-</span><span id="line-81"></span><span class="hs-comment">--</span><span>
-</span><span id="line-82"></span><span class="hs-comment">-- &gt;&gt;&gt; null (capitalise &quot;&quot;)</span><span>
-</span><span id="line-83"></span><span class="hs-comment">-- True</span><span>
-</span><span id="line-84"></span><span class="annot"><a href="Weekday.html#capitalise"><span class="hs-identifier hs-type">capitalise</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span>
-</span><span id="line-85"></span><span id="capitalise"><span class="annot"><span class="annottext">capitalise :: ShowS
+</span><span id="line-80"></span><span>
+</span><span id="line-81"></span><span class="hs-comment">-- | Return title case of string.</span><span>
+</span><span id="line-82"></span><span class="hs-comment">--</span><span>
+</span><span id="line-83"></span><span class="hs-comment">-- &gt;&gt;&gt; capitalise &quot;monday&quot;</span><span>
+</span><span id="line-84"></span><span class="hs-comment">-- &quot;Monday&quot;</span><span>
+</span><span id="line-85"></span><span class="hs-comment">--</span><span>
+</span><span id="line-86"></span><span class="hs-comment">-- &gt;&gt;&gt; null (capitalise &quot;&quot;)</span><span>
+</span><span id="line-87"></span><span class="hs-comment">-- True</span><span>
+</span><span id="line-88"></span><span class="annot"><a href="Weekday.html#capitalise"><span class="hs-identifier hs-type">capitalise</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span>
+</span><span id="line-89"></span><span id="capitalise"><span class="annot"><span class="annottext">capitalise :: ShowS
 </span><a href="Weekday.html#capitalise"><span class="hs-identifier hs-var hs-var">capitalise</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">((Char -&gt; Char) -&gt; Char -&gt; Char) -&gt; [Char -&gt; Char] -&gt; ShowS
 forall a b c. (a -&gt; b -&gt; c) -&gt; [a] -&gt; [b] -&gt; [c]
 </span><span class="hs-identifier hs-var">zipWith</span></span><span> </span><span class="annot"><span class="annottext">(Char -&gt; Char) -&gt; Char -&gt; Char
@@ -202,4 +206,4 @@ forall a. a -&gt; [a] -&gt; [a]
 forall a. a -&gt; [a]
 </span><span class="hs-identifier hs-var">repeat</span></span><span> </span><span class="annot"><span class="annottext">Char -&gt; Char
 </span><span class="hs-identifier hs-var">toLower</span></span><span class="hs-special">)</span><span>
-</span><span id="line-86"></span></pre></body></html>
+</span><span id="line-90"></span></pre></body></html>
