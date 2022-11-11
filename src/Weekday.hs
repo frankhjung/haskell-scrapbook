@@ -64,10 +64,12 @@ instance Arbitrary Weekday where
 --
 -- >>> makeWeekday "Bad"
 -- Nothing
+--
+-- Any string bigger than 3 characters also fails:
+-- >>> makeWeekday "Mond"
+-- Nothing
 makeWeekday :: String -> Maybe Weekday
-makeWeekday ds = readMaybe day :: Maybe Weekday
-  where
-    day = (capitalise . take 4) ds  -- take first 4 bytes so days must match
+makeWeekday = readMaybe . capitalise . take 4
 
 -- | List all days of the week.
 --
