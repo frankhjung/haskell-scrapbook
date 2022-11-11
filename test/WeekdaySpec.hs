@@ -19,21 +19,21 @@ weekdayString :: Gen String
 weekdayString = oneof [return d | d <- weekdays]
 
 -- Property string is title case.
-prop_Is_Capitalised :: String -> Bool
-prop_Is_Capitalised []       = null (capitalise [])
-prop_Is_Capitalised xs@(x:_) = (head . capitalise) xs == toTitle x
+propIsCapitalised :: String -> Bool
+propIsCapitalised []       = null (capitalise [])
+propIsCapitalised xs@(x:_) = (head . capitalise) xs == toTitle x
 
 -- | Produce a lowercase string of 4 characters.
 random4String :: Gen String
 random4String = vectorOf 4 $ elements ['a'..'z']
 
 -- Property that string never returns 'Weekday'.
-prop_Not_Weekday :: String -> Bool
-prop_Not_Weekday = isNothing . makeWeekday
+propNotWeekday :: String -> Bool
+propNotWeekday = isNothing . makeWeekday
 
 -- Property that show then read gives back 'Weekday'.
-prop_Read_Show_Weekday :: Weekday -> Bool
-prop_Read_Show_Weekday d = read (show d) == d -- pointfree (==) =<< read . show
+propReadShowWeekday :: Weekday -> Bool
+propReadShowWeekday d = read (show d) == d -- pointfree (==) =<< read . show
 
 -- | Unit Tests for Weekday
 spec :: Spec
@@ -50,7 +50,7 @@ spec =
     it "capitilised Tue is Tue" $
       capitalise "Tue" `shouldBe` "Tue"
     prop "head of string is capitalised"
-      prop_Is_Capitalised
+      propIsCapitalised
     it "from string sun is Just Sun" $
       makeWeekday "sun" `shouldBe` Just Sun
     it "from string bad is Nothing" $
@@ -62,10 +62,10 @@ spec =
       forAll random4String $ \d -> makeWeekday d `shouldBe` Nothing
     -- ... a better way to do this
     prop "property invalid weekdays" $
-      forAll random4String prop_Not_Weekday
+      forAll random4String propNotWeekday
     -- use weekday generator
     prop "read from show Weekday returns Weekday" $
       \(d :: Weekday) -> read (show d) `shouldBe` d
     -- ... a better way to do this
     prop "property read from show Weekday returns Weekday"
-      prop_Read_Show_Weekday
+      propReadShowWeekday
