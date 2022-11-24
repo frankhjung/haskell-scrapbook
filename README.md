@@ -34,7 +34,7 @@ The build uses GNU make to check source files.
 
 Use a local Cabal project profile, `cabal.project` with:
 
-```
+```config
 packages: scrapbook.cabal
 with-compiler: /home/frank/.ghcup/bin/ghc-8.10.7
 ```
