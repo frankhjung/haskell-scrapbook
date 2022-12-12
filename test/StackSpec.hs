@@ -1,7 +1,7 @@
 module StackSpec (spec) where
 
+import           MyState    (evalState, execState)
 import           Stack      (Stack, empty, tasks)
-import           State      (evalState, execState)
 
 import           Test.Hspec (Spec, describe, it, shouldBe)
 

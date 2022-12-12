@@ -1,6 +1,6 @@
 {-|
 
-Module      : State
+Module      : MyState
 Description : Deriving the State Monad
 Copyright   : © Frank Jung, 2020,2021,2022
 License     : GPL-3
@@ -14,8 +14,8 @@ Based on many articles, but principally from:
 
 {-# LANGUAGE TupleSections #-}
 
-module State (
-                State(..)   -- State type with runState function
+module MyState (
+                MyState(..)   -- MyState type with runState function
               , get         -- Get current state
               , put         -- Set current state
               , modify      -- Modify state function
@@ -23,50 +23,50 @@ module State (
               , execState   -- Final state
              ) where
 
--- | Mock of State data type. (Not yet a Monad, Functor or Applicative.)
-newtype State s a = State { runState :: s -> (a, s) }
+-- | Mock of MyState data type. (Not yet a Monad, Functor or Applicative.)
+newtype MyState s a = MyState { runState :: s -> (a, s) }
 
 -- | Returns current state.
-get :: State s s
-get = State $ \s -> (s, s)
+get :: MyState s s
+get = MyState $ \s -> (s, s)
 
 -- | Replace current state with the given value. Returns unit.
-put :: s -> State s ()
-put s = State $ const ((), s)
+put :: s -> MyState s ()
+put s = MyState $ const ((), s)
 
 -- | Update current state using the given function.
-modify :: (s -> s) -> State s ()
+modify :: (s -> s) -> MyState s ()
 modify f = get >>= put . f
 
 -- | Returns results of state function.
-evalState :: State s a -> s -> a
+evalState :: MyState s a -> s -> a
 evalState f = fst . runState f
 
 -- | Returns final state.
-execState :: State s a -> s -> s
+execState :: MyState s a -> s -> s
 execState f = snd . runState f
 
 -- Functor
-instance Functor (State s) where
-  fmap f (State stateFx) =
-    State (\s -> let (fx, s') = stateFx s
+instance Functor (MyState s) where
+  fmap f (MyState stateFx) =
+    MyState (\s -> let (fx, s') = stateFx s
                  in (f fx, s'))
 
 -- Applicative
-instance Applicative (State s) where
-  pure x = State (x,)
-  (<*>) (State stateFx) (State nextFx) =
-    State (\s -> let (fx', s')   = stateFx s
-                     (fx'', s'') = nextFx s'
-                 in (fx' fx'', s''))
+instance Applicative (MyState s) where
+  pure x = MyState (x,)
+  (<*>) (MyState stateFx) (MyState nextFx) =
+    MyState (\s -> let (fx', s')   = stateFx s
+                       (fx'', s'') = nextFx s'
+                   in (fx' fx'', s''))
 
 -- Monad
-instance Monad (State s) where
-  return a = State (a,)
+instance Monad (MyState s) where
+  return a = MyState (a,)
   -- Bind signature:
   -- (>>=) :: Monad m => m a -> (a -> m b) -> m b
-  -- (>>=) :: State s a -> (a -> State s b) -> State s b
+  -- (>>=) :: MyState s a -> (a -> MyState s b) -> MyState s b
   -- (>>=) :: (s -> (a, s)) -> (a -> s -> (b, s)) -> (s -> (b, s))
-  (>>=) (State stateFx) nextFx =
-    State (\s -> let (fx, s') = stateFx s
+  (>>=) (MyState stateFx) nextFx =
+    MyState (\s -> let (fx, s') = stateFx s
                  in runState (nextFx fx) s')

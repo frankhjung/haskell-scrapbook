@@ -44,7 +44,7 @@ library
                   , Random
                   , RepMax
                   , SplitList
-                  , State
+                  , MyState
                   , Stack
                   , SubSeqs
                   , Trim
@@ -211,7 +211,7 @@ test-suite          test
                   , SplitListSpec
                   , Stack
                   , StackSpec
-                  , State
+                  , MyState
                   , SubSeqs
                   , SubSeqsSpec
                   , Trim

@@ -1,11 +1,11 @@
 {-|
 
 Module      : Stack
-Description : Example using the State Monad
+Description : Example using the MyState Monad
 Copyright   : © Frank Jung, 2020
 License     : GPL-3
 
-Use the 'State' monad to implement a
+Use the 'MyState' monad to implement a
 <https://en.wikipedia.org/wiki/Stack_(abstract_data_type) Stack>.
 
 Source:
@@ -22,7 +22,7 @@ module Stack (
               , tasks       -- Run arbitrary tasks on 'Stack'
              ) where
 
-import           State (State (..))
+import           MyState (MyState (..))
 
 -- | Stack as array of intergers.
 type Stack = [Int]
@@ -32,20 +32,20 @@ empty :: Stack
 empty = []
 
 -- | Remove element from top of stack.
-pop :: State Stack Int
-pop = State $ \(x:xs) -> (x, xs)
+pop :: MyState Stack Int
+pop = MyState $ \(x:xs) -> (x, xs)
 
 -- | Push element onto stack.
-push :: Int -> State Stack ()
-push a = State $ \xs -> ((), a:xs)
+push :: Int -> MyState Stack ()
+push a = MyState $ \xs -> ((), a:xs)
 
 -- | Return element at top of stack.
-top :: State Stack Int
-top = State $ \(x:xs) -> (x, x:xs)
+top :: MyState Stack Int
+top = MyState $ \(x:xs) -> (x, x:xs)
 
--- | Example usage of 'State' 'Stack'. 'push' & 'pop' some elements onto
+-- | Example usage of 'MyState' 'Stack'. 'push' & 'pop' some elements onto
 -- the stack, and read the current 'top' element.
-tasks :: State Stack Int
+tasks :: MyState Stack Int
 tasks = do
   push 1        -- populate with some data
   push 2
