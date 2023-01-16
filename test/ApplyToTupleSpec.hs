@@ -4,7 +4,6 @@ import           ApplyToTuple (applyToTuple)
 
 import           Test.Hspec   (Spec, describe, it, shouldBe)
 
-
 spec :: Spec
 spec =
   describe "apply length to tuple" $

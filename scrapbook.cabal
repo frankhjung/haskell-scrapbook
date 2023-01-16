@@ -33,6 +33,7 @@ library
                   , Mod35
                   , MonTrans
                   , MyFilter
+                  , MyFreeMonad
                   , MyPenultimate
                   , MyReverse
                   , MyTake
@@ -54,6 +55,7 @@ library
   build-depends:    base >= 4 && < 5
                   , directory >= 1.3.3.0 && < 1.4
                   , filepath >= 1.4.2.1 && < 1.5
+                  , free >= 5.1.9 && < 5.2
                   , hspec >= 2.7 && < 2.9
                   , mtl >= 2.2.2 && < 2.3
                   , QuickCheck >= 2.13.2 && < 2.15
@@ -165,6 +167,7 @@ test-suite          test
   build-depends:    base
                   , directory
                   , filepath
+                  , free
                   , hspec
                   , mtl
                   , QuickCheck
@@ -195,6 +198,8 @@ test-suite          test
                   , MonTransSpec
                   , MyFilter
                   , MyFilterSpec
+                  , MyFreeMonad
+                  , MyFreeMonadSpec
                   , MyPenultimate
                   , MyPenultimateSpec
                   , MyReverse

@@ -10,6 +10,7 @@ extra-deps:
   - exceptions-0.10.5
   - filepath-1.4.2.1
   - fmt-0.6.3.0
+  - free-5.1.9
   - hspec-2.8.5
   - mtl-2.2.2
   - QuickCheck-2.14.2
