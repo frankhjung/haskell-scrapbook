@@ -40,27 +40,27 @@ forall s a. (s -&gt; (a, s)) -&gt; MyState s a
 </span><a href="MyState.html#MyState"><span class="hs-identifier hs-var">MyState</span></a></span><span> </span><span class="annot"><span class="annottext">((Stack -&gt; (Int, Stack)) -&gt; MyState Stack Int)
 -&gt; (Stack -&gt; (Int, Stack)) -&gt; MyState Stack Int
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-special">(</span><span id="local-6989586621679055890"><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679055890"><span class="hs-identifier hs-var">x</span></a></span></span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span id="local-6989586621679055889"><span class="annot"><span class="annottext">Stack
-</span><a href="#local-6989586621679055889"><span class="hs-identifier hs-var">xs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679055890"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Stack
-</span><a href="#local-6989586621679055889"><span class="hs-identifier hs-var">xs</span></a></span><span class="hs-special">)</span><span>
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-special">(</span><span id="local-6989586621679065237"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679065237"><span class="hs-identifier hs-var">x</span></a></span></span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span id="local-6989586621679065236"><span class="annot"><span class="annottext">Stack
+</span><a href="#local-6989586621679065236"><span class="hs-identifier hs-var">xs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679065237"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Stack
+</span><a href="#local-6989586621679065236"><span class="hs-identifier hs-var">xs</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-37"></span><span>
 </span><span id="line-38"></span><span class="hs-comment">-- | Push element onto stack.</span><span>
 </span><span id="line-39"></span><span class="annot"><a href="Stack.html#push"><span class="hs-identifier hs-type">push</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="MyState.html#MyState"><span class="hs-identifier hs-type">MyState</span></a></span><span> </span><span class="annot"><a href="Stack.html#Stack"><span class="hs-identifier hs-type">Stack</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
 </span><span id="line-40"></span><span id="push"><span class="annot"><span class="annottext">push :: Int -&gt; MyState Stack ()
-</span><a href="Stack.html#push"><span class="hs-identifier hs-var hs-var">push</span></a></span></span><span> </span><span id="local-6989586621679055888"><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679055888"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Stack -&gt; ((), Stack)) -&gt; MyState Stack ()
+</span><a href="Stack.html#push"><span class="hs-identifier hs-var hs-var">push</span></a></span></span><span> </span><span id="local-6989586621679065235"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679065235"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Stack -&gt; ((), Stack)) -&gt; MyState Stack ()
 forall s a. (s -&gt; (a, s)) -&gt; MyState s a
 </span><a href="MyState.html#MyState"><span class="hs-identifier hs-var">MyState</span></a></span><span> </span><span class="annot"><span class="annottext">((Stack -&gt; ((), Stack)) -&gt; MyState Stack ())
 -&gt; (Stack -&gt; ((), Stack)) -&gt; MyState Stack ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679055887"><span class="annot"><span class="annottext">Stack
-</span><a href="#local-6989586621679055887"><span class="hs-identifier hs-var">xs</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="hs-special">(</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679055888"><span class="hs-identifier hs-var">a</span></a></span><span class="annot"><span class="annottext">Int -&gt; Stack -&gt; Stack
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679065234"><span class="annot"><span class="annottext">Stack
+</span><a href="#local-6989586621679065234"><span class="hs-identifier hs-var">xs</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="hs-special">(</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679065235"><span class="hs-identifier hs-var">a</span></a></span><span class="annot"><span class="annottext">Int -&gt; Stack -&gt; Stack
 forall a. a -&gt; [a] -&gt; [a]
 </span><span class="hs-glyph hs-var">:</span></span><span class="annot"><span class="annottext">Stack
-</span><a href="#local-6989586621679055887"><span class="hs-identifier hs-var">xs</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679065234"><span class="hs-identifier hs-var">xs</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-41"></span><span>
 </span><span id="line-42"></span><span class="hs-comment">-- | Return element at top of stack.</span><span>
 </span><span id="line-43"></span><span class="annot"><a href="Stack.html#top"><span class="hs-identifier hs-type">top</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="MyState.html#MyState"><span class="hs-identifier hs-type">MyState</span></a></span><span> </span><span class="annot"><a href="Stack.html#Stack"><span class="hs-identifier hs-type">Stack</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span>
@@ -70,14 +70,14 @@ forall s a. (s -&gt; (a, s)) -&gt; MyState s a
 </span><a href="MyState.html#MyState"><span class="hs-identifier hs-var">MyState</span></a></span><span> </span><span class="annot"><span class="annottext">((Stack -&gt; (Int, Stack)) -&gt; MyState Stack Int)
 -&gt; (Stack -&gt; (Int, Stack)) -&gt; MyState Stack Int
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-special">(</span><span id="local-6989586621679055886"><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679055886"><span class="hs-identifier hs-var">x</span></a></span></span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span id="local-6989586621679055885"><span class="annot"><span class="annottext">Stack
-</span><a href="#local-6989586621679055885"><span class="hs-identifier hs-var">xs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679055886"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679055886"><span class="hs-identifier hs-var">x</span></a></span><span class="annot"><span class="annottext">Int -&gt; Stack -&gt; Stack
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-special">(</span><span id="local-6989586621679065233"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679065233"><span class="hs-identifier hs-var">x</span></a></span></span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span id="local-6989586621679065232"><span class="annot"><span class="annottext">Stack
+</span><a href="#local-6989586621679065232"><span class="hs-identifier hs-var">xs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679065233"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679065233"><span class="hs-identifier hs-var">x</span></a></span><span class="annot"><span class="annottext">Int -&gt; Stack -&gt; Stack
 forall a. a -&gt; [a] -&gt; [a]
 </span><span class="hs-glyph hs-var">:</span></span><span class="annot"><span class="annottext">Stack
-</span><a href="#local-6989586621679055885"><span class="hs-identifier hs-var">xs</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679065232"><span class="hs-identifier hs-var">xs</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-45"></span><span>
 </span><span id="line-46"></span><span class="hs-comment">-- | Example usage of 'MyState' 'Stack'. 'push' &amp; 'pop' some elements onto</span><span>
 </span><span id="line-47"></span><span class="hs-comment">-- the stack, and read the current 'top' element.</span><span>
@@ -93,18 +93,18 @@ forall a. a -&gt; [a] -&gt; [a]
 </span><span id="line-52"></span><span>  </span><span class="annot"><span class="annottext">Int -&gt; MyState Stack ()
 </span><a href="Stack.html#push"><span class="hs-identifier hs-var">push</span></a></span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">3</span></span><span>
-</span><span id="line-53"></span><span>  </span><span id="local-6989586621679055884"><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679055884"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">MyState Stack Int
+</span><span id="line-53"></span><span>  </span><span id="local-6989586621679065231"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679065231"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">MyState Stack Int
 </span><a href="Stack.html#pop"><span class="hs-identifier hs-var">pop</span></a></span><span>      </span><span class="hs-comment">-- 3</span><span>
-</span><span id="line-54"></span><span>  </span><span id="local-6989586621679055883"><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679055883"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">MyState Stack Int
+</span><span id="line-54"></span><span>  </span><span id="local-6989586621679065230"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679065230"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">MyState Stack Int
 </span><a href="Stack.html#pop"><span class="hs-identifier hs-var">pop</span></a></span><span>      </span><span class="hs-comment">-- 2</span><span>
 </span><span id="line-55"></span><span>  </span><span class="annot"><span class="annottext">Int -&gt; MyState Stack ()
 </span><a href="Stack.html#push"><span class="hs-identifier hs-var">push</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679055884"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
+</span><a href="#local-6989586621679065231"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">+</span></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679055883"><span class="hs-identifier hs-var">b</span></a></span><span class="hs-special">)</span><span>  </span><span class="hs-comment">-- 5</span><span>
+</span><a href="#local-6989586621679065230"><span class="hs-identifier hs-var">b</span></a></span><span class="hs-special">)</span><span>  </span><span class="hs-comment">-- 5</span><span>
 </span><span id="line-56"></span><span>  </span><span class="annot"><span class="annottext">MyState Stack Int
 </span><a href="Stack.html#top"><span class="hs-identifier hs-var">top</span></a></span><span>           </span><span class="hs-comment">-- 5</span><span>
 </span><span id="line-57"></span></pre></body></html>

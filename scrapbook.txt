@@ -302,6 +302,43 @@ module MyFilter
 myFilter :: (Foldable t, Ord a) => (a -> Bool) -> t a -> [a]
 
 
+-- | The code was originally provided by ChatGPT. It had to be modified to
+--   compile. I added tests.
+module MyFreeMonad
+
+-- | Arithmetic free monad.
+type ArithM = Free ArithF
+
+-- | Arithmetic functor.
+data ArithF x
+Add :: Int -> x -> ArithF x
+Sub :: Int -> x -> ArithF x
+Mul :: Int -> x -> ArithF x
+Div :: Int -> x -> ArithF x
+addA :: Int -> ArithM ()
+subA :: Int -> ArithM ()
+mulA :: Int -> ArithM ()
+divA :: Int -> ArithM ()
+
+-- | Given Arithmetic free monad, return its value.
+evalArith :: Free ArithF Int -> Int
+
+-- | A simple example on how to use DSL:
+--   
+--   <pre>
+--   example 0 = ((((0+10)*2)-10)/2) == 5
+--   </pre>
+--   
+--   Get back the integer value with:
+--   
+--   <pre>
+--   evalArith (example 0)
+--   </pre>
+example :: Int -> ArithM Int
+instance GHC.Base.Functor MyFreeMonad.ArithF
+instance GHC.Show.Show x => GHC.Show.Show (MyFreeMonad.ArithF x)
+
+
 -- | Get the penultimate of a list.
 module MyPenultimate
 
