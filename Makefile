@@ -32,12 +32,12 @@ lint:	$(SRC)
 .PHONY: build
 build:
 	@echo build ...
-	@stack build --pedantic
+	@stack build --pedantic --fast
 
 .PHONY: test
 test:
 	@echo test ...
-	@stack test scrapbook
+	@stack test --fast
 
 .PHONY: bench
 bench:

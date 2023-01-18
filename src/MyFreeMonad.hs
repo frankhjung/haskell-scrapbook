@@ -33,7 +33,7 @@ data ArithF x = Add Int x | Sub Int x | Mul Int x | Div Int x deriving (Show, Fu
 type ArithM = Free ArithF
 
 -- | Given Arithmetic free monad, return its value.
-evalArith :: ArithM Int -> Int
+evalArith :: Free ArithF Int -> Int
 evalArith (Free (Add x n)) = evalArith n + x
 evalArith (Free (Sub x n)) = evalArith n - x
 evalArith (Free (Mul x n)) = evalArith n * x
