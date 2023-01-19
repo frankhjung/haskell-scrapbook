@@ -16,12 +16,13 @@ compile. I added tests.
 
 module MyFreeMonad ( ArithM
                    , ArithF (..)
-                   , addA
-                   , subA
-                   , mulA
-                   , divA
+                   , addM
+                   , subM
+                   , mulM
+                   , divM
                    , evalArith
                    , example
+                   , example'
                    ) where
 
 import           Control.Monad.Free (Free (..), liftF)
@@ -40,17 +41,17 @@ evalArith (Free (Mul x n)) = evalArith n * x
 evalArith (Free (Div x n)) = evalArith n `div` x
 evalArith (Pure x)         = x
 
-addA :: Int -> ArithM ()
-addA x = liftF (Add x ())
+addM :: Int -> ArithM ()
+addM x = liftF (Add x ())
 
-subA :: Int -> ArithM ()
-subA x = liftF (Sub x ())
+subM :: Int -> ArithM ()
+subM x = liftF (Sub x ())
 
-mulA :: Int -> ArithM ()
-mulA x = liftF (Mul x ())
+mulM :: Int -> ArithM ()
+mulM x = liftF (Mul x ())
 
-divA :: Int -> ArithM ()
-divA x = liftF (Div x ())
+divM :: Int -> ArithM ()
+divM x = liftF (Div x ())
 
 -- | A simple example on how to use DSL:
 --
@@ -61,8 +62,15 @@ divA x = liftF (Div x ())
 -- @evalArith (example 0)@
 example :: Int -> ArithM Int
 example n =
-  divA 2
-  >> subA 10
-  >> mulA 2
-  >> addA 10
+  divM 2
+  >> subM 10
+  >> mulM 2
+  >> addM 10
+  >> return n
+
+-- | Another example on how to use this DSL:
+example' :: Int -> ArithM Int
+example' n =
+  divM 2
+  >> mulM 2
   >> return n
