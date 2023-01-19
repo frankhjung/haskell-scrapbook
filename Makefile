@@ -43,6 +43,7 @@ test:
 bench:
 	@echo bench ...
 	@stack bench scrapbook
+	@#stack bench scrapbook:bench:monTransBench --ba '-o .stack-work/benchmark-monTransBench.html'
 	@#stack bench scrapbook:bench:myfilterBench --ba '-o .stack-work/benchmark-myfilter.html'
 	@#stack bench scrapbook:bench:myreverseBench --ba '-o .stack-work/benchmark-myreverse.html'
 	@#stack bench scrapbook:bench:polydivisorsBench --ba '-o .stack-work/benchmark-polydivisors.html'
