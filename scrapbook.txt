@@ -315,10 +315,10 @@ Add :: Int -> x -> ArithF x
 Sub :: Int -> x -> ArithF x
 Mul :: Int -> x -> ArithF x
 Div :: Int -> x -> ArithF x
-addA :: Int -> ArithM ()
-subA :: Int -> ArithM ()
-mulA :: Int -> ArithM ()
-divA :: Int -> ArithM ()
+addM :: Int -> ArithM ()
+subM :: Int -> ArithM ()
+mulM :: Int -> ArithM ()
+divM :: Int -> ArithM ()
 
 -- | Given Arithmetic free monad, return its value.
 evalArith :: Free ArithF Int -> Int
@@ -335,6 +335,9 @@ evalArith :: Free ArithF Int -> Int
 --   evalArith (example 0)
 --   </pre>
 example :: Int -> ArithM Int
+
+-- | Another example on how to use this DSL:
+example' :: Int -> ArithM Int
 instance GHC.Base.Functor MyFreeMonad.ArithF
 instance GHC.Show.Show x => GHC.Show.Show (MyFreeMonad.ArithF x)
 
