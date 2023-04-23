@@ -25,8 +25,12 @@ import           Data.Text  (Text)
 data MyJson = MyJson
   { name       :: Text
   , identifier :: Int
+  , modifier   :: Float
   } deriving stock (Eq, Show)
 
 instance FromJSON MyJson where
-  parseJSON (Object v) = MyJson <$> v .: "name" <*> v .: "identifier"
+  parseJSON (Object v) =  MyJson
+                            <$> v .: "name"
+                            <*> v .: "identifier"
+                            <*> v .: "modifier"
   parseJSON _          = fail "Expected an object"

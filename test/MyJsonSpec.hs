@@ -15,10 +15,12 @@ import           Test.Hspec                    (Spec, describe, it, shouldBe)
 import           MyJson                        (MyJson (..))
 
 jsonByteString :: ByteString
-jsonByteString = "{\"name\":\"Frank\",\"identifier\":1}"
+jsonByteString = "{ \"name\":\"Frank\"\
+                 \,\"identifier\":1\
+                 \,\"modifier\":2.14}"
 
 spec :: Spec
 spec =
   describe "test decode utf-8 input" $
     it "returns an instance of MyJson type" $
-      eitherDecode jsonByteString `shouldBe` Right (MyJson "Frank" 1)
+      eitherDecode jsonByteString `shouldBe` Right (MyJson "Frank" 1 2.14)
