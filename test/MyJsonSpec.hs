@@ -36,12 +36,14 @@ myJsonSpecial = MyJson "François" 2 3.14
 spec :: Spec
 spec = do
   describe "test decode" $ do
-    it "decode regular byte string" $
+    it "decode regular" $
       eitherDecode jsonRegularString `shouldBe` Right myJsonRegular
-    it "decode special byte string" $
+    it "decode special" $
       eitherDecodeSpecial jsonSpecialString `shouldBe` Right myJsonSpecial
   describe "test encode" $ do
     it "encode regular" $
       (eitherDecode . encode) myJsonRegular `shouldBe` Right myJsonRegular
     it "encode special" $
       (eitherDecode . encodeSpecial) myJsonSpecial `shouldBe` Right myJsonSpecial
+    it "encode special custom" $
+      (eitherDecode . encode) myJsonSpecial `shouldBe` Right myJsonSpecial

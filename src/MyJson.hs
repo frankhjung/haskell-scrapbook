@@ -27,7 +27,8 @@ module MyJson ( MyJson (..)
               ) where
 
 import           Data.Aeson                    (FromJSON, ToJSON, Value (..),
-                                                eitherDecode, parseJSON, (.:))
+                                                eitherDecode, object, parseJSON,
+                                                toJSON, (.:), (.=))
 import           Data.Aeson.Text               (encodeToLazyText)
 import           Data.ByteString.Lazy.Internal (ByteString (..))
 import           Data.Text                     (Text)
@@ -51,11 +52,16 @@ instance FromJSON MyJson where
   parseJSON _          = fail "Expected an object"
 
 -- TODO can we encode UTF-8 when encoding to JSON?
-instance ToJSON MyJson
+instance ToJSON MyJson where
+  toJSON (MyJson _name _identifier _modifier) = object
+    [ "name"       .= _name
+    , "identifier" .= _identifier
+    , "modifier"   .= _modifier
+    ]
 
 -- | Decode Special Characters.
 --
--- Data.Text.Lazy.Encoding.decodeUtf8 :: ByteString -> Text
+-- Data.Text.Lazy.Encoding.decodeLatin1 :: ByteString -> Text
 -- Data.Text.Lazy.Encoding.encodeUtf8 :: Text -> ByteString
 -- Data.Aeson.eitherDecode :: ByteString -> Either String a
 --
