@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE DeriveGeneric      #-}</span><span>
+</span><span id="line-2"></span><span class="hs-pragma">{-# LANGUAGE DerivingStrategies #-}</span><span>
+</span><span id="line-3"></span><span class="hs-pragma">{-# LANGUAGE FlexibleContexts   #-}</span><span>
+</span><span id="line-4"></span><span class="hs-pragma">{-# LANGUAGE OverloadedStrings  #-}</span><span>
+</span><span id="line-5"></span><span>
+</span><span id="line-6"></span><span class="hs-comment">{-|
+
+Module      : MyJson
+Description : Decode JSON
+Copyright   : &#169; Frank Jung, 2023
+License     : GPL-3
+
+Decode JSON which contains special characters like '&#176;' (ASCII decimal \176).
+
+== References
+
+I found this a good guide when dealing with JSON and special characters:
+https://guide.aelve.com/haskell/aeson-cookbook-amra6lk6
+
+-}</span><span>
+</span><span id="line-21"></span><span>
+</span><span id="line-22"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">MyJson</span><span> </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="MyJson.html#MyJson"><span class="hs-identifier">MyJson</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-23"></span><span>              </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">FromJSON</span></span><span>
+</span><span id="line-24"></span><span>              </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">ToJSON</span></span><span>
+</span><span id="line-25"></span><span>              </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="MyJson.html#eitherDecodeSpecial"><span class="hs-identifier">eitherDecodeSpecial</span></a></span><span>
+</span><span id="line-26"></span><span>              </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="MyJson.html#encodeSpecial"><span class="hs-identifier">encodeSpecial</span></a></span><span>
+</span><span id="line-27"></span><span>              </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-28"></span><span>
+</span><span id="line-29"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.Aeson</span></span><span>                    </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">FromJSON</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">ToJSON</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">Value</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><span id="line-30"></span><span>                                                </span><span class="annot"><span class="hs-identifier">eitherDecode</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">parseJSON</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-operator">(.:)</span></span><span class="hs-special">)</span><span>
+</span><span id="line-31"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.Aeson.Text</span></span><span>               </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">encodeToLazyText</span></span><span class="hs-special">)</span><span>
+</span><span id="line-32"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.ByteString.Lazy.Internal</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">ByteString</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-33"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.Text</span></span><span>                     </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Text</span></span><span class="hs-special">)</span><span>
+</span><span id="line-34"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.Text.Lazy.Encoding</span></span><span>       </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">decodeLatin1</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">encodeUtf8</span></span><span class="hs-special">)</span><span>
+</span><span id="line-35"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">GHC.Generics</span></span><span>                  </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Generic</span></span><span class="hs-special">)</span><span>
+</span><span id="line-36"></span><span>
+</span><span id="line-37"></span><span>
+</span><span id="line-38"></span><span class="hs-comment">-- | Define a test data type.</span><span>
+</span><span id="line-39"></span><span class="hs-comment">-- TODO parse a datetime string.</span><span>
+</span><span id="line-40"></span><span id="local-6989586621679094493"><span id="local-6989586621679094494"></span></span><span class="hs-keyword">data</span><span> </span><span id="MyJson"><span class="annot"><a href="MyJson.html#MyJson"><span class="hs-identifier hs-var">MyJson</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="MyJson"><span class="annot"><a href="MyJson.html#MyJson"><span class="hs-identifier hs-var">MyJson</span></a></span></span><span>
+</span><span id="line-41"></span><span>  </span><span class="hs-special">{</span><span> </span><span id="name"><span class="annot"><span class="annottext">MyJson -&gt; Text
+</span><a href="MyJson.html#name"><span class="hs-identifier hs-var hs-var">name</span></a></span></span><span>       </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span>
+</span><span id="line-42"></span><span>  </span><span class="hs-special">,</span><span> </span><span id="identifier"><span class="annot"><span class="annottext">MyJson -&gt; Int
+</span><a href="MyJson.html#identifier"><span class="hs-identifier hs-var hs-var">identifier</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span>
+</span><span id="line-43"></span><span>  </span><span class="hs-special">,</span><span> </span><span id="modifier"><span class="annot"><span class="annottext">MyJson -&gt; Float
+</span><a href="MyJson.html#modifier"><span class="hs-identifier hs-var hs-var">modifier</span></a></span></span><span>   </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Float</span></span><span>
+</span><span id="line-44"></span><span>  </span><span class="hs-special">}</span><span> </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679094479"><span id="local-6989586621679094487"><span class="annot"><span class="annottext">MyJson -&gt; MyJson -&gt; Bool
+(MyJson -&gt; MyJson -&gt; Bool)
+-&gt; (MyJson -&gt; MyJson -&gt; Bool) -&gt; Eq MyJson
+forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
+/= :: MyJson -&gt; MyJson -&gt; Bool
+$c/= :: MyJson -&gt; MyJson -&gt; Bool
+== :: MyJson -&gt; MyJson -&gt; Bool
+$c== :: MyJson -&gt; MyJson -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679094464"><span id="local-6989586621679094466"><span id="local-6989586621679094476"><span class="annot"><span class="annottext">Int -&gt; MyJson -&gt; ShowS
+[MyJson] -&gt; ShowS
+MyJson -&gt; String
+(Int -&gt; MyJson -&gt; ShowS)
+-&gt; (MyJson -&gt; String) -&gt; ([MyJson] -&gt; ShowS) -&gt; Show MyJson
+forall a.
+(Int -&gt; a -&gt; ShowS) -&gt; (a -&gt; String) -&gt; ([a] -&gt; ShowS) -&gt; Show a
+showList :: [MyJson] -&gt; ShowS
+$cshowList :: [MyJson] -&gt; ShowS
+show :: MyJson -&gt; String
+$cshow :: MyJson -&gt; String
+showsPrec :: Int -&gt; MyJson -&gt; ShowS
+$cshowsPrec :: Int -&gt; MyJson -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">(forall x. MyJson -&gt; Rep MyJson x)
+-&gt; (forall x. Rep MyJson x -&gt; MyJson) -&gt; Generic MyJson
+forall x. Rep MyJson x -&gt; MyJson
+forall x. MyJson -&gt; Rep MyJson x
+forall a.
+(forall x. a -&gt; Rep a x) -&gt; (forall x. Rep a x -&gt; a) -&gt; Generic a
+$cto :: forall x. Rep MyJson x -&gt; MyJson
+$cfrom :: forall x. MyJson -&gt; Rep MyJson x
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">Generic</span></span><span class="hs-special">)</span><span>
+</span><span id="line-45"></span><span>
+</span><span id="line-46"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679094457"><span class="annot"><span class="hs-identifier hs-type">FromJSON</span></span><span> </span><span class="annot"><a href="MyJson.html#MyJson"><span class="hs-identifier hs-type">MyJson</span></a></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-47"></span><span>  </span><span id="local-6989586621679094438"><span class="annot"><span class="annottext">parseJSON :: Value -&gt; Parser MyJson
+</span><a href="#local-6989586621679094438"><span class="hs-identifier hs-var hs-var hs-var hs-var">parseJSON</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Object</span></span><span> </span><span id="local-6989586621679094436"><span class="annot"><span class="annottext">Object
+</span><a href="#local-6989586621679094436"><span class="hs-identifier hs-var">v</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>  </span><span class="annot"><span class="annottext">Text -&gt; Int -&gt; Float -&gt; MyJson
+</span><a href="MyJson.html#MyJson"><span class="hs-identifier hs-var">MyJson</span></a></span><span>
+</span><span id="line-48"></span><span>                            </span><span class="annot"><span class="annottext">(Text -&gt; Int -&gt; Float -&gt; MyJson)
+-&gt; Parser Text -&gt; Parser (Int -&gt; Float -&gt; MyJson)
+forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
+</span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">Object
+</span><a href="#local-6989586621679094436"><span class="hs-identifier hs-var">v</span></a></span><span> </span><span class="annot"><span class="annottext">Object -&gt; Key -&gt; Parser Text
+forall a. FromJSON a =&gt; Object -&gt; Key -&gt; Parser a
+</span><span class="hs-operator hs-var">.:</span></span><span> </span><span class="annot"><span class="annottext">Key
+</span><span class="hs-string">&quot;name&quot;</span></span><span>
+</span><span id="line-49"></span><span>                            </span><span class="annot"><span class="annottext">Parser (Int -&gt; Float -&gt; MyJson)
+-&gt; Parser Int -&gt; Parser (Float -&gt; MyJson)
+forall (f :: * -&gt; *) a b. Applicative f =&gt; f (a -&gt; b) -&gt; f a -&gt; f b
+</span><span class="hs-operator hs-var">&lt;*&gt;</span></span><span> </span><span class="annot"><span class="annottext">Object
+</span><a href="#local-6989586621679094436"><span class="hs-identifier hs-var">v</span></a></span><span> </span><span class="annot"><span class="annottext">Object -&gt; Key -&gt; Parser Int
+forall a. FromJSON a =&gt; Object -&gt; Key -&gt; Parser a
+</span><span class="hs-operator hs-var">.:</span></span><span> </span><span class="annot"><span class="annottext">Key
+</span><span class="hs-string">&quot;identifier&quot;</span></span><span>
+</span><span id="line-50"></span><span>                            </span><span class="annot"><span class="annottext">Parser (Float -&gt; MyJson) -&gt; Parser Float -&gt; Parser MyJson
+forall (f :: * -&gt; *) a b. Applicative f =&gt; f (a -&gt; b) -&gt; f a -&gt; f b
+</span><span class="hs-operator hs-var">&lt;*&gt;</span></span><span> </span><span class="annot"><span class="annottext">Object
+</span><a href="#local-6989586621679094436"><span class="hs-identifier hs-var">v</span></a></span><span> </span><span class="annot"><span class="annottext">Object -&gt; Key -&gt; Parser Float
+forall a. FromJSON a =&gt; Object -&gt; Key -&gt; Parser a
+</span><span class="hs-operator hs-var">.:</span></span><span> </span><span class="annot"><span class="annottext">Key
+</span><span class="hs-string">&quot;modifier&quot;</span></span><span>
+</span><span id="line-51"></span><span>  </span><span class="annot"><span class="hs-identifier hs-var">parseJSON</span></span><span> </span><span class="annot"><span class="annottext">Value
+</span><span class="hs-identifier">_</span></span><span>          </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String -&gt; Parser MyJson
+forall (m :: * -&gt; *) a. MonadFail m =&gt; String -&gt; m a
+</span><span class="hs-identifier hs-var">fail</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;Expected an object&quot;</span></span><span>
+</span><span id="line-52"></span><span>
+</span><span id="line-53"></span><span class="hs-comment">-- TODO can we encode UTF-8 when encoding to JSON?</span><span>
+</span><span id="line-54"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679094427"><span id="local-6989586621679094429"><span id="local-6989586621679094431"><span id="local-6989586621679094433"><span class="annot"><span class="hs-identifier hs-type">ToJSON</span></span><span> </span><span class="annot"><a href="MyJson.html#MyJson"><span class="hs-identifier hs-type">MyJson</span></a></span></span></span></span></span><span>
+</span><span id="line-55"></span><span>
+</span><span id="line-56"></span><span class="hs-comment">-- | Decode Special Characters.</span><span>
+</span><span id="line-57"></span><span class="hs-comment">--</span><span>
+</span><span id="line-58"></span><span class="hs-comment">-- Data.Text.Lazy.Encoding.decodeUtf8 :: ByteString -&gt; Text</span><span>
+</span><span id="line-59"></span><span class="hs-comment">-- Data.Text.Lazy.Encoding.encodeUtf8 :: Text -&gt; ByteString</span><span>
+</span><span id="line-60"></span><span class="hs-comment">-- Data.Aeson.eitherDecode :: ByteString -&gt; Either String a</span><span>
+</span><span id="line-61"></span><span class="hs-comment">--</span><span>
+</span><span id="line-62"></span><span class="hs-comment">-- This will successfully decode a ByteString containing special characters such</span><span>
+</span><span id="line-63"></span><span class="hs-comment">-- as '&#176;' (ASCII decimal \176).</span><span>
+</span><span id="line-64"></span><span id="local-6989586621679094641"><span class="annot"><a href="MyJson.html#eitherDecodeSpecial"><span class="hs-identifier hs-type">eitherDecodeSpecial</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FromJSON</span></span><span> </span><span class="annot"><a href="#local-6989586621679094641"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ByteString</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="annot"><a href="#local-6989586621679094641"><span class="hs-identifier hs-type">a</span></a></span></span><span>
+</span><span id="line-65"></span><span id="eitherDecodeSpecial"><span class="annot"><span class="annottext">eitherDecodeSpecial :: forall a. FromJSON a =&gt; ByteString -&gt; Either String a
+</span><a href="MyJson.html#eitherDecodeSpecial"><span class="hs-identifier hs-var hs-var">eitherDecodeSpecial</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ByteString -&gt; Either String a
+forall a. FromJSON a =&gt; ByteString -&gt; Either String a
+</span><span class="hs-identifier hs-var">eitherDecode</span></span><span> </span><span class="annot"><span class="annottext">(ByteString -&gt; Either String a)
+-&gt; (ByteString -&gt; ByteString) -&gt; ByteString -&gt; Either String a
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Text -&gt; ByteString
+</span><span class="hs-identifier hs-var">encodeUtf8</span></span><span> </span><span class="annot"><span class="annottext">(Text -&gt; ByteString)
+-&gt; (ByteString -&gt; Text) -&gt; ByteString -&gt; ByteString
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">ByteString -&gt; Text
+</span><span class="hs-identifier hs-var">decodeLatin1</span></span><span>
+</span><span id="line-66"></span><span>
+</span><span id="line-67"></span><span class="hs-comment">-- | Encode Special Characters.</span><span>
+</span><span id="line-68"></span><span class="hs-comment">--</span><span>
+</span><span id="line-69"></span><span class="hs-comment">-- Data.Aeson.Text.encodeToLazyText :: ToJSON a =&gt; a -&gt; Text</span><span>
+</span><span id="line-70"></span><span class="hs-comment">-- Data.Text.Lazy.Encoding.encodeUtf8 :: Text -&gt; ByteString</span><span>
+</span><span id="line-71"></span><span id="local-6989586621679094634"><span class="annot"><a href="MyJson.html#encodeSpecial"><span class="hs-identifier hs-type">encodeSpecial</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ToJSON</span></span><span> </span><span class="annot"><a href="#local-6989586621679094634"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679094634"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ByteString</span></span></span><span>
+</span><span id="line-72"></span><span id="encodeSpecial"><span class="annot"><span class="annottext">encodeSpecial :: forall a. ToJSON a =&gt; a -&gt; ByteString
+</span><a href="MyJson.html#encodeSpecial"><span class="hs-identifier hs-var hs-var">encodeSpecial</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text -&gt; ByteString
+</span><span class="hs-identifier hs-var">encodeUtf8</span></span><span> </span><span class="annot"><span class="annottext">(Text -&gt; ByteString) -&gt; (a -&gt; Text) -&gt; a -&gt; ByteString
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">a -&gt; Text
+forall a. ToJSON a =&gt; a -&gt; Text
+</span><span class="hs-identifier hs-var">encodeToLazyText</span></span><span>
+</span><span id="line-73"></span></pre></body></html>
