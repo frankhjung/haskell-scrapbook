@@ -15,7 +15,7 @@ Decode JSON which contains special characters like '°' (ASCII decimal \176).
 == References
 
 I found this a good guide when dealing with JSON and special characters:
-https://guide.aelve.com/haskell/aeson-cookbook-amra6lk6
+<https://guide.aelve.com/haskell/aeson-cookbook-amra6lk6>
 
 -}
 
@@ -42,6 +42,7 @@ data MyJson = MyJson
   , identifier :: Int
   , modifier   :: Float
   , created    :: !UTCTime
+  , series     :: [Int]
   } deriving stock (Eq, Show, Generic)
 
 instance FromJSON MyJson where
@@ -50,21 +51,27 @@ instance FromJSON MyJson where
                             <*> v .: "identifier"
                             <*> v .: "modifier"
                             <*> v .: "created"
+                            <*> v .: "series"
   parseJSON _          = fail "Expected an object"
 
 instance ToJSON MyJson where
-  toJSON (MyJson _name _identifier _modifier _created) = object
+  toJSON (MyJson _name _identifier _modifier _created _series) = object
     [ "name"       .= _name
     , "identifier" .= _identifier
     , "modifier"   .= _modifier
     , "created"    .= _created
+    , "series"     .= _series
     ]
 
 -- | Decode Special Characters.
 --
+-- Where:
+--
+-- @
 -- Data.Text.Lazy.Encoding.decodeLatin1 :: ByteString -> Text
 -- Data.Text.Lazy.Encoding.encodeUtf8 :: Text -> ByteString
 -- Data.Aeson.eitherDecode :: ByteString -> Either String a
+-- @
 --
 -- This will successfully decode a ByteString containing special characters such
 -- as '°' (ASCII decimal \176).
@@ -73,7 +80,12 @@ eitherDecodeSpecial = eitherDecode . encodeUtf8 . decodeLatin1
 
 -- | Encode Special Characters.
 --
+-- Where:
+--
+-- @
 -- Data.Aeson.Text.encodeToLazyText :: ToJSON a => a -> Text
 -- Data.Text.Lazy.Encoding.encodeUtf8 :: Text -> ByteString
+-- @
+--
 encodeSpecial :: ToJSON a => a -> ByteString
 encodeSpecial = encodeUtf8 . encodeToLazyText

@@ -26,19 +26,21 @@ jsonRegularString :: ByteString
 jsonRegularString = "{\"name\":\"Frank\"\
                     \,\"identifier\":1\
                     \,\"modifier\":2.14\
-                    \,\"created\":\"2019-12-31T12:00:00Z\"}"
+                    \,\"created\":\"2019-12-31T12:00:00Z\"\
+                    \,\"series\":[1,2,3,4,5]}"
 
 jsonSpecialString :: ByteString
 jsonSpecialString = "{\"name\":\"François\"\
                     \,\"identifier\":2\
                     \,\"modifier\":3.14\
-                    \,\"created\":\"2019-12-31T12:00:00Z\"}"
+                    \,\"created\":\"2019-12-31T12:00:00Z\"\
+                    \,\"series\":[6,7,9,10]}"
 
 myJsonRegular :: MyJson
-myJsonRegular = MyJson "Frank" 1 2.14 myDate
+myJsonRegular = MyJson "Frank" 1 2.14 myDate [1,2,3,4,5]
 
 myJsonSpecial :: MyJson
-myJsonSpecial = MyJson "François" 2 3.14 myDate
+myJsonSpecial = MyJson "François" 2 3.14 myDate [6,7,9,10]
 
 spec :: Spec
 spec = do
