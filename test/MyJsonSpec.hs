@@ -11,6 +11,7 @@ module MyJsonSpec (spec) where
 import           Data.Aeson                    (eitherDecode, encode)
 import           Data.ByteString.Lazy.Internal (ByteString (..))
 
+import           Data.Either                   (isLeft)
 import           Test.Hspec                    (Spec, describe, it, shouldBe)
 
 import           Data.Time.Calendar            (fromGregorian)
@@ -22,6 +23,7 @@ import           MyJson                        (MyJson (..),
 myDate :: UTCTime
 myDate = UTCTime (fromGregorian 2019 12 31) (3600*12)
 
+-- From JSON string.
 jsonRegularString :: ByteString
 jsonRegularString = "{\"name\":\"Frank\"\
                     \,\"identifier\":1\
@@ -29,6 +31,7 @@ jsonRegularString = "{\"name\":\"Frank\"\
                     \,\"created\":\"2019-12-31T12:00:00Z\"\
                     \,\"series\":[1,2,3,4,5]}"
 
+-- From JSON string.
 jsonSpecialString :: ByteString
 jsonSpecialString = "{\"name\":\"François\"\
                     \,\"identifier\":2\
@@ -36,9 +39,11 @@ jsonSpecialString = "{\"name\":\"François\"\
                     \,\"created\":\"2019-12-31T12:00:00Z\"\
                     \,\"series\":[6,7,9,10]}"
 
+-- To 'MyJson'.
 myJsonRegular :: MyJson
 myJsonRegular = MyJson "Frank" 1 2.14 myDate [1,2,3,4,5]
 
+-- To 'MyJson'.
 myJsonSpecial :: MyJson
 myJsonSpecial = MyJson "François" 2 3.14 myDate [6,7,9,10]
 
@@ -49,10 +54,12 @@ spec = do
       eitherDecode jsonRegularString `shouldBe` Right myJsonRegular
     it "decode special" $
       eitherDecodeSpecial jsonSpecialString `shouldBe` Right myJsonSpecial
+    it "decode special using default should fail" $
+      isLeft (eitherDecode jsonSpecialString :: Either String MyJson)
   describe "test encode" $ do
-    it "encode regular" $
+    it "encode regular using encode" $
       (eitherDecode . encode) myJsonRegular `shouldBe` Right myJsonRegular
-    it "encode special" $
+    it "encode special using encodeSpecial" $
       (eitherDecode . encodeSpecial) myJsonSpecial `shouldBe` Right myJsonSpecial
-    it "encode special string using regular" $
+    it "encode special using encode" $
       (eitherDecode . encode) myJsonSpecial `shouldBe` Right myJsonSpecial
