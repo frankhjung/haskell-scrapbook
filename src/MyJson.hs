@@ -33,15 +33,15 @@ import           Data.Aeson.Text               (encodeToLazyText)
 import           Data.ByteString.Lazy.Internal (ByteString (..))
 import           Data.Text                     (Text)
 import           Data.Text.Lazy.Encoding       (decodeLatin1, encodeUtf8)
+import           Data.Time.Clock               (UTCTime)
 import           GHC.Generics                  (Generic)
 
-
 -- | Define a test data type.
--- TODO parse a datetime string.
 data MyJson = MyJson
   { name       :: Text
   , identifier :: Int
   , modifier   :: Float
+  , created    :: !UTCTime
   } deriving stock (Eq, Show, Generic)
 
 instance FromJSON MyJson where
@@ -49,14 +49,15 @@ instance FromJSON MyJson where
                             <$> v .: "name"
                             <*> v .: "identifier"
                             <*> v .: "modifier"
+                            <*> v .: "created"
   parseJSON _          = fail "Expected an object"
 
--- TODO can we encode UTF-8 when encoding to JSON?
 instance ToJSON MyJson where
-  toJSON (MyJson _name _identifier _modifier) = object
+  toJSON (MyJson _name _identifier _modifier _created) = object
     [ "name"       .= _name
     , "identifier" .= _identifier
     , "modifier"   .= _modifier
+    , "created"    .= _created
     ]
 
 -- | Decode Special Characters.
