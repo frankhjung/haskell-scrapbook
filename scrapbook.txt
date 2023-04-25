@@ -349,16 +349,17 @@ instance GHC.Show.Show x => GHC.Show.Show (MyFreeMonad.ArithF x)
 --   
 --   I found this a good guide when dealing with JSON and special
 --   characters:
---   https:/<i>guide.aelve.com</i>haskell/aeson-cookbook-amra6lk6
+--   <a>https://guide.aelve.com/haskell/aeson-cookbook-amra6lk6</a>
 module MyJson
 
 -- | Define a test data type.
 data MyJson
-MyJson :: Text -> Int -> Float -> !UTCTime -> MyJson
+MyJson :: Text -> Int -> Float -> !UTCTime -> [Int] -> MyJson
 [name] :: MyJson -> Text
 [identifier] :: MyJson -> Int
 [modifier] :: MyJson -> Float
 [created] :: MyJson -> !UTCTime
+[series] :: MyJson -> [Int]
 
 -- | A type that can be converted from JSON, with the possibility of
 --   failure.
@@ -547,9 +548,13 @@ class ToJSON a
 
 -- | Decode Special Characters.
 --   
+--   Where:
+--   
+--   <pre>
 --   Data.Text.Lazy.Encoding.decodeLatin1 :: ByteString -&gt; Text
 --   Data.Text.Lazy.Encoding.encodeUtf8 :: Text -&gt; ByteString
 --   Data.Aeson.eitherDecode :: ByteString -&gt; Either String a
+--   </pre>
 --   
 --   This will successfully decode a ByteString containing special
 --   characters such as <tt>°</tt> (ASCII decimal 176).
@@ -557,8 +562,12 @@ eitherDecodeSpecial :: FromJSON a => ByteString -> Either String a
 
 -- | Encode Special Characters.
 --   
+--   Where:
+--   
+--   <pre>
 --   Data.Aeson.Text.encodeToLazyText :: ToJSON a =&gt; a -&gt; Text
 --   Data.Text.Lazy.Encoding.encodeUtf8 :: Text -&gt; ByteString
+--   </pre>
 encodeSpecial :: ToJSON a => a -> ByteString
 instance GHC.Generics.Generic MyJson.MyJson
 instance GHC.Show.Show MyJson.MyJson
