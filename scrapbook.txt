@@ -352,12 +352,13 @@ instance GHC.Show.Show x => GHC.Show.Show (MyFreeMonad.ArithF x)
 --   https:/<i>guide.aelve.com</i>haskell/aeson-cookbook-amra6lk6
 module MyJson
 
--- | Define a test data type. TODO parse a datetime string.
+-- | Define a test data type.
 data MyJson
-MyJson :: Text -> Int -> Float -> MyJson
+MyJson :: Text -> Int -> Float -> !UTCTime -> MyJson
 [name] :: MyJson -> Text
 [identifier] :: MyJson -> Int
 [modifier] :: MyJson -> Float
+[created] :: MyJson -> !UTCTime
 
 -- | A type that can be converted from JSON, with the possibility of
 --   failure.
@@ -546,7 +547,7 @@ class ToJSON a
 
 -- | Decode Special Characters.
 --   
---   Data.Text.Lazy.Encoding.decodeUtf8 :: ByteString -&gt; Text
+--   Data.Text.Lazy.Encoding.decodeLatin1 :: ByteString -&gt; Text
 --   Data.Text.Lazy.Encoding.encodeUtf8 :: Text -&gt; ByteString
 --   Data.Aeson.eitherDecode :: ByteString -&gt; Either String a
 --   
