@@ -1,5 +1,3 @@
-#!/usr/bin/env runhaskell
-
 {-
 
 Find polydivisible numbers such that we use digits from 1 to 9, and the

@@ -28,14 +28,19 @@ Parse JSON when the first key is variable. Based of code from
 - The JSON is represented as the `Thing` type. The type contains three
   fields: `version`, `items`, and `description`.
 
+You can run this program with
+
+@
+$ stack runghc -- app/Json.hs --package aeson-2.0.3.0
+@
+
 The output of the above program is:
 
 @
-Right (
-  fromList [
-    ("THING1",Thing {version = 1.0, items = ["T11"], description = "single"})
-   ,("THING2",Thing {version = 2.4, items = ["T21","T22"], description = "paired"})
-  ])
+fromList [
+  ("THING1",Thing {version = 1.0, items = ["T11"], description = "single"})
+ ,("THING2",Thing {version = 2.4, items = ["T21","T22"], description = "paired"})
+]
 @
 
 -}
@@ -80,4 +85,4 @@ jsonString =
 --    Left message -> print message
 --    Right parsed -> print parsed
 main :: IO ()
-main = either print print (eitherDecode jsonString :: Either String (Map Text Thing))
+main = either fail print (eitherDecode jsonString :: Either String (Map Text Thing))
