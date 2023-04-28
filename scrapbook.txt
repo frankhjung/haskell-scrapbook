@@ -345,8 +345,8 @@ instance GHC.Show.Show x => GHC.Show.Show (MyFreeMonad.ArithF x)
 -- | Decode JSON which contains special characters like <tt>°</tt> (ASCII
 --   decimal 176).
 --   
---   See also `app/Json.hs` for an example of how to parse JSON when the
---   first key is variable. This is common in APIs such as the Alpha
+--   See also <a>app/Json.hs</a> for an example of how to parse JSON when
+--   the first key is variable. This is common in APIs such as the Alpha
 --   Vantage weekly stock prices. In that case, the first key is the date
 --   of that weeks summary data.
 --   
