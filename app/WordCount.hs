@@ -23,6 +23,7 @@ import           Fmt                (fmtLn, (+|), (|+))
 import           System.Environment (getArgs)
 
 -- | Parse command line arguments.
+-- This can be replaced by `listToMaybe` from `Data.Maybe`.
 parseArgs :: [String] -> Maybe FilePath
 parseArgs [file] = Just file
 parseArgs _      = Nothing

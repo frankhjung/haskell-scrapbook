@@ -55,7 +55,7 @@ bench:
 .PHONY: doc
 doc:
 	@echo doc ...
-	stack haddock scrapbook
+	@stack haddock scrapbook
 	@#stack haddock scrapbook --haddock-arguments '--haddock-tests --haddock-benchmarks --haddock-executables'
 
 .PHONY: exec

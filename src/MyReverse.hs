@@ -9,25 +9,34 @@ Reverse a list using foldl and foldr.
 
 -}
 
-module MyReverse (myRevl, myRevr, myRevr2) where
+module MyReverse (myRevl, myRevr, myRevRec) where
 
 import           Control.Arrow ((>>>))
 
 -- | Reverse a list using foldl.
 myRevl :: [a] -> [a]
-myRevl = foldl (flip (:)) []
+myRevl = foldl revOp []
 
 -- | Reverse a list using foldr.
+-- This is the best performing version.
+-- Same as:
+-- @
+-- myRevr xs = foldr (\ x acc -> (x :) >>> acc) id xs []
+-- @
 myRevr :: [a] -> [a]
-myRevr xs = foldr (\ x acc -> (x :) >>> acc) id xs []
+myRevr = flip (foldr ((>>>) . (:)) id) []
 
 -- | Reverse using recursion and reverse operation.
-myRevr2 :: [a] -> [a]
-myRevr2 = rev revOp []
+myRevRec :: [a] -> [a]
+myRevRec = rev revOp []
   where
     rev _ acc []      = acc
     rev op acc (x:xs) = rev op (acc `op` x) xs
 
 -- | Operation to place element at the beginning of a list.
+-- Same as:
+-- @
+-- revOp xs x = x : xs
+-- @
 revOp :: [a] -> a -> [a]
-revOp xs x = x : xs
+revOp = flip (:)

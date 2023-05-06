@@ -2,7 +2,7 @@
 
 module MyReverseSpec (spec) where
 
-import           MyReverse                 (myRevl, myRevr, myRevr2)
+import           MyReverse                 (myRevRec, myRevl, myRevr)
 import           Test.Hspec                (Spec, describe)
 import           Test.Hspec.QuickCheck     (prop)
 import           Test.QuickCheck.Modifiers (NonEmptyList (NonEmpty))
@@ -14,6 +14,6 @@ spec =
       \(xs :: [Int]) -> (myRevl . myRevl) xs == xs
     prop "myRevl same as myRevr" $        -- for non-trivial lists
       \(NonEmpty (xs :: [Int])) -> myRevl xs == myRevr xs
-    prop "myRevr same as myRevr2" $       -- for non-trivial lists
-      \(NonEmpty (xs :: [Int])) -> myRevr xs == myRevr2 xs
+    prop "myRevr same as myRevRec" $       -- for non-trivial lists
+      \(NonEmpty (xs :: [Int])) -> myRevr xs == myRevRec xs
 
