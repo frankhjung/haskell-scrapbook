@@ -77,5 +77,5 @@ countNonBlankLines ls =
 main :: IO ()
 main = do
   args <- getArgs
-  let mfile = parseArgs args
-  maybe (usage "Missing file path") numberlines mfile
+  let f = parseArgs args
+  maybe (usage "Missing file path") numberlines f

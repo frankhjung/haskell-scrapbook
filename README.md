@@ -136,11 +136,11 @@ Then copy executable to `$HOME/.loca/bin/`.
 
 ### Using ghcid
 
-For example to monitor changes to a file [app/Threads.hs](app/Threads.hs) call:
+For example to monitor changes for one file [app/Threads.hs](app/Threads.hs)
+call:
 
 ```bash
-ghcid --lint --command 'ghci app/Threads.hs'
-ghcid -lc 'ghci app/Threads.hs'
+ghcid -l -c 'ghci -package stm app/Threads.hs'
 ```
 
 If no errors, then the screen will report something like:
@@ -151,6 +151,12 @@ Alternatively, to monitor a couple of files:
 
 ```bash
 ghcid -l src/Weekday.hs test/WeekdaySpec.hs
+```
+
+To monitor the entire project, use:
+
+```bash
+ghcid -l
 ```
 
 ### Using ghcid in Vim
