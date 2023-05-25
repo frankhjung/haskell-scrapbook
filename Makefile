@@ -42,15 +42,15 @@ test:
 .PHONY: bench
 bench:
 	@echo bench ...
-	@stack bench scrapbook
-	@#stack bench scrapbook:bench:monTransBench --ba '-o .stack-work/benchmark-monTransBench.html'
-	@#stack bench scrapbook:bench:myfilterBench --ba '-o .stack-work/benchmark-myfilter.html'
-	@#stack bench scrapbook:bench:myreverseBench --ba '-o .stack-work/benchmark-myreverse.html'
-	@#stack bench scrapbook:bench:polydivisorsBench --ba '-o .stack-work/benchmark-polydivisors.html'
-	@#stack bench scrapbook:bench:recursionschemesBench --ba '-o .stack-work/benchmark-recursionschemes.html'
-	@#stack bench scrapbook:bench:repmaxBench --ba '-o .stack-work/benchmark-repmax.html'
-	@#stack bench scrapbook:bench:subseqsBench --ba '-o .stack-work/benchmark-subseqs.html'
-	@#stack bench scrapbook:bench:zipfoldBench --ba '-o .stack-work/benchmark-zipfold.html'
+	@#stack bench scrapbook
+	@stack bench scrapbook:bench:monTransBench --ba '-o .stack-work/benchmark-monTransBench.html'
+	@stack bench scrapbook:bench:myfilterBench --ba '-o .stack-work/benchmark-myfilter.html'
+	@stack bench scrapbook:bench:myreverseBench --ba '-o .stack-work/benchmark-myreverse.html'
+	@stack bench scrapbook:bench:polydivisorsBench --ba '-o .stack-work/benchmark-polydivisors.html'
+	@stack bench scrapbook:bench:recursionschemesBench --ba '-o .stack-work/benchmark-recursionschemes.html'
+	@stack bench scrapbook:bench:repmaxBench --ba '-o .stack-work/benchmark-repmax.html'
+	@stack bench scrapbook:bench:subseqsBench --ba '-o .stack-work/benchmark-subseqs.html'
+	@stack bench scrapbook:bench:zipfoldBench --ba '-o .stack-work/benchmark-zipfold.html'
 
 .PHONY: doc
 doc:

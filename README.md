@@ -17,6 +17,8 @@ documentation is available on:
 * [GitHub](https://frankhjung.github.io/haskell-scrapbook/)
 * [GitLab](https://frankhjung1.gitlab.io/haskell-scrapbook/)
 
+(See also benchmark reports below.)
+
 ## Haskell
 
 These examples are meant to be run using
@@ -94,8 +96,11 @@ benchmark HTML reports can be generated using
 from GitHub, here:
 
 * Criterion benchmarks:
+  * [MonTransBench](https://frankhjung.github.io/haskell-scrapbook/benchmark-monTransBench.html)
+  * [MyFilter](https://frankhjung.github.io/haskell-scrapbook/benchmark-myfilter.html)
   * [MyReverse](https://frankhjung.github.io/haskell-scrapbook/benchmark-myreverse.html)
   * [PolyDivisors](https://frankhjung.github.io/haskell-scrapbook/benchmark-polydivisors.html)
+  * [RecursionSchemes](https://frankhjung.github.io/haskell-scrapbook/benchmark-recursionschemes.html)
   * [RepMax](https://frankhjung.github.io/haskell-scrapbook/benchmark-repmax.html)
   * [SubSeqs](https://frankhjung.github.io/haskell-scrapbook/benchmark-subseqs.html)
   * [ZipFold](https://frankhjung.github.io/haskell-scrapbook/benchmark-zipfold.html)

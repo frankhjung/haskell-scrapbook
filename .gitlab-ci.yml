@@ -12,8 +12,11 @@ build:
   variables:
     STACK_ROOT: ${CI_PROJECT_DIR}/.stack
   script:
-    - make clean check build test bench doc exec
+    - make clean check build test bench doc
     - mv $(stack path --local-doc-root)/scrapbook*/ public/
+    - cp .stack-work/benchmark-*.html public/
+    - make exec
+
   artifacts:
     paths:
       - public
