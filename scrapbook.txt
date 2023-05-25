@@ -594,11 +594,13 @@ module MyReverse
 -- | Reverse a list using foldl.
 myRevl :: [a] -> [a]
 
--- | Reverse a list using foldr.
+-- | Reverse a list using foldr. This is the best performing version. Same
+--   as: <tt> myRevr xs = foldr ( x acc -&gt; (x :) &gt;&gt;&gt; acc) id xs
+--   [] </tt>
 myRevr :: [a] -> [a]
 
 -- | Reverse using recursion and reverse operation.
-myRevr2 :: [a] -> [a]
+myRevRec :: [a] -> [a]
 
 
 -- | A simple State monad implementation to explore it's characteristics.
