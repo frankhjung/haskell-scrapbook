@@ -588,15 +588,18 @@ module MyPenultimate
 penultimate :: [a] -> Maybe a
 
 
--- | Reverse a list using foldl and foldr.
+-- | Reverse a list using <a>foldl</a> and <a>foldr</a>.
 module MyReverse
 
--- | Reverse a list using foldl.
+-- | Reverse a list using <a>foldl</a>.
 myRevl :: [a] -> [a]
 
--- | Reverse a list using foldr. This is the best performing version. Same
---   as: <tt> myRevr xs = foldr ( x acc -&gt; (x :) &gt;&gt;&gt; acc) id xs
---   [] </tt>
+-- | Reverse a list using <a>foldr</a>. This is the best performing
+--   version. Same as:
+--   
+--   <pre>
+--   myRevr xs = foldr (\ x acc -&gt; (x :) &gt;&gt;&gt; acc) id xs []
+--   </pre>
 myRevr :: [a] -> [a]
 
 -- | Reverse using recursion and reverse operation.
