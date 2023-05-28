@@ -63,7 +63,7 @@ This runs `tags`, `style` and `lint`:
 SRC=$(find * -name '*.hs')
 hasktags --ctags --extendedctag ${SRC}
 stylish-haskell --config=.stylish-haskell.yaml --inplace ${SRC}
-cabal check
+cabal check --verbose
 hlint --cross --color --show ${SRC}
 ```
 
@@ -185,3 +185,30 @@ See also [vim-ghcid](https://github.com/alx741/vim-ghcid) plugin.
 
 When editing using [Visual Studio Code](https://code.visualstudio.com/), use
 [GHCup](https://www.haskell.org/ghcup/install/).
+
+```bash
+ghcup tui
+```
+
+To show current installation:
+
+```bash
+ghcup list
+```
+
+Example output:
+
+```text
+$ ghcup list -c installed
+[ Warn  ] New ghc version available. If you want to install this latest version, run 'ghcup install ghc 9.6.2'
+[ Warn  ] New cabal version available. If you want to install this latest version, run 'ghcup install cabal 3.10.1.0'
+[ Warn  ] New stack version available. If you want to install this latest version, run 'ghcup install stack 2.11.1'
+   Tool  Version  Tags               Notes
+✔✔ ghc   9.0.2    base-4.15.1.0      hls-powered
+✔✔ cabal 3.6.2.0  recommended
+✓  hls   1.10.0.0 recommended
+✔✔ hls   2.0.0.0  latest
+✓  stack 2.9.1
+✔✔ stack 2.9.3    recommended
+✔✔ ghcup 0.1.19.2 latest,recommended
+```

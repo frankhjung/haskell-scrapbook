@@ -95,6 +95,7 @@ exec:
 
 .PHONY: setup
 setup:
+	cabal check --verbose
 	stack path
 	stack query
 	stack ls dependencies
