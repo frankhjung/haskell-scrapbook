@@ -110,7 +110,7 @@ instance Test.QuickCheck.Arbitrary.Arbitrary Colours.Colour
 --   O'Sullivan, Don Stewart, and John Goerzen</a>.
 --   
 --   The function <a>countEntries1</a> is my version of
---   <tt>countEntriesTrad</tt> from this chapter (<a>countEntriesS</a>,
+--   <tt>countEntriesTrad</tt> from this chapter (<tt>countEntriesS</tt>,
 --   <tt>S</tt> means standard or traditional).
 --   
 --   The Monad Transformer version is <a>countEntries2</a> which is my
@@ -131,10 +131,29 @@ instance Test.QuickCheck.Arbitrary.Arbitrary Colours.Colour
 --   This is a really good introduction to Monad Transformers, <a>Monday
 --   Morning Haskell: Monad Transformers</a>.
 --   
---   The functions <a>countEntriesS</a> and <a>countEntriesU</a> are based
---   off functions from <a>Chapter 18, Monad Transformers, Real World
+--   The functions <tt>countEntriesS</tt> and <tt>countEntriesU</tt> are
+--   based off functions from <a>Chapter 18, Monad Transformers, Real World
 --   Haskell by Bryan O'Sullivan, Don Stewart, and John Goerzen</a>.
 module CountEntries
+
+-- | Count entries in directories for given path.
+--   
+--   This is the standard version from "Real World Haskell".
+--   
+--   <pre>
+--   &gt;&gt;&gt; p = "public"
+--   </pre>
+--   
+--   <pre>
+--   &gt;&gt;&gt; :t listDirectory p
+--   listDirectory p :: IO [FilePath]
+--   </pre>
+--   
+--   <pre>
+--   &gt;&gt;&gt; countEntries0 p
+--   [("public",25),("public/src",16)]
+--   </pre>
+countEntries0 :: FilePath -> IO [(FilePath, Int)]
 
 -- | Count entries for a list of paths. (My version.)
 --   
@@ -206,31 +225,17 @@ module CountEntries
 --   </pre>
 countEntries1 :: FilePath -> IO [(FilePath, Int)]
 
+-- | My updated version to count entries in directories for given path.
+--   
+--   This updated version of <a>countEntries1</a> uses <a>WriterT</a>.
+countEntries2 :: FilePath -> IO [(FilePath, Int)]
+
 -- | Count entries in directories for given path. My version using
 --   <a>WriterT</a>.
-countEntries2 :: FilePath -> WriterT [(FilePath, Int)] IO ()
-
--- | Count entries in directories for given path. Standard version as
---   documented in Real World Haskell.
 --   
---   <pre>
---   &gt;&gt;&gt; p = "public"
---   </pre>
---   
---   <pre>
---   &gt;&gt;&gt; :t listDirectory p
---   listDirectory p :: IO [FilePath]
---   </pre>
---   
---   <pre>
---   &gt;&gt;&gt; countEntriesS p
---   [("public",25),("public/src",16)]
---   </pre>
-countEntriesS :: FilePath -> IO [(FilePath, Int)]
-
--- | Count entries in directories for given path. Updated version using
---   <a>WriterT</a>.
-countEntriesU :: FilePath -> WriterT [(FilePath, Int)] IO ()
+--   To get values you need to use <a>execWriterT</a> which will return `IO
+--   [(FilePath, Int)]`.
+countEntries3 :: FilePath -> IO [(FilePath, Int)]
 
 
 -- | Example from <a>Wikibooks Continuation Passing Style</a>.
@@ -595,7 +600,9 @@ module MyReverse
 myRevl :: [a] -> [a]
 
 -- | Reverse a list using <a>foldr</a>. This is the best performing
---   version. Same as:
+--   version.
+--   
+--   This pointfree form is the same as:
 --   
 --   <pre>
 --   myRevr xs = foldr (\ x acc -&gt; (x :) &gt;&gt;&gt; acc) id xs []
