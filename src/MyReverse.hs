@@ -19,7 +19,8 @@ myRevl = foldl revOp []
 
 -- | Reverse a list using `foldr`.
 -- This is the best performing version.
--- Same as:
+--
+-- This pointfree form is the same as:
 --
 -- > myRevr xs = foldr (\ x acc -> (x :) >>> acc) id xs []
 myRevr :: [a] -> [a]
