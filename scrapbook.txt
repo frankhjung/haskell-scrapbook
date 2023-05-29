@@ -245,12 +245,12 @@ countEntries2 :: FilePath -> IO [(FilePath, Int)]
 --   function <a>countEntries3</a>` that uses WriterT to accumulate the log
 --   of <tt>(FilePath, Int)</tt> pairs. The <a>countEntries3</a>` function
 --   first uses <a>listDirectory</a> to get the contents of the directory
---   specified by the <a>FilePath</a> argument. It then uses tell to add a
---   tuple of the directory path and the number of entries in the directory
---   to the log. Next, it uses <a>filterM</a> and <a>doesDirectoryExist</a>
---   to get a list of sub-directories in the directory. Finally, it uses
---   <a>mapM_</a> to recurse into each sub-directory and accumulate the
---   log.
+--   specified by the <a>FilePath</a> argument. It then uses <a>tell</a> to
+--   add a tuple of the directory path and the number of entries in the
+--   directory to the log. Next, it uses <a>filterM</a> and
+--   <a>doesDirectoryExist</a> to get a list of sub-directories in the
+--   directory. Finally, it uses <a>mapM_</a> to recurse into each
+--   sub-directory and accumulate the log.
 --   
 --   The <a>countEntries3</a> function is defined using function
 --   composition, where <a>countEntries3</a>` is composed with

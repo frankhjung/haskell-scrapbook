@@ -337,7 +337,7 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span id="line-162"></span><span class="hs-comment">-- `countEntries3'` that uses WriterT to accumulate the log of @(FilePath, Int)@</span><span>
 </span><span id="line-163"></span><span class="hs-comment">-- pairs. The `countEntries3'` function first uses `listDirectory` to get the</span><span>
 </span><span id="line-164"></span><span class="hs-comment">-- contents of the directory specified by the `FilePath` argument. It then uses</span><span>
-</span><span id="line-165"></span><span class="hs-comment">-- tell to add a tuple of the directory path and the number of entries in the</span><span>
+</span><span id="line-165"></span><span class="hs-comment">-- `tell` to add a tuple of the directory path and the number of entries in the</span><span>
 </span><span id="line-166"></span><span class="hs-comment">-- directory to the log. Next, it uses `filterM` and `doesDirectoryExist` to get</span><span>
 </span><span id="line-167"></span><span class="hs-comment">-- a list of sub-directories in the directory. Finally, it uses `mapM_` to</span><span>
 </span><span id="line-168"></span><span class="hs-comment">-- recurse into each sub-directory and accumulate the log.</span><span>
