@@ -254,9 +254,10 @@ countEntries2 :: FilePath -> IO [(FilePath, Int)]
 --   
 --   The <a>countEntries3</a> function is defined using function
 --   composition, where <a>countEntries3</a>` is composed with
---   <a>execWriterT</a> using the @@ operator. This creates a new function
---   that first applies <a>countEntries3</a>` to its input, and then
---   applies <a>execWriterT</a> to the output of <a>countEntries3</a>`.
+--   <a>execWriterT</a> using the <tt>.</tt> operator. This creates a new
+--   function that first applies <a>countEntries3</a>` to its input, and
+--   then applies <a>execWriterT</a> to the output of
+--   <a>countEntries3</a>`.
 countEntries3 :: FilePath -> IO [(FilePath, Int)]
 
 
