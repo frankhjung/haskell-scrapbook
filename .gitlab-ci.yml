@@ -10,6 +10,7 @@ build:
     - tags
   image: frankhjung/haskell:9.0.2
   variables:
+    RTSOPTS: "+RTS -N1"
     STACK_ROOT: ${CI_PROJECT_DIR}/.stack
   script:
     - make clean check build test bench doc
