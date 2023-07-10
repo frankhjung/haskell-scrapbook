@@ -242,22 +242,21 @@ countEntries2 :: FilePath -> IO [(FilePath, Int)]
 --   number of entries in each directory.
 --   
 --   The <a>countEntries3</a> function is defined in terms of a helper
---   function <a>countEntries3</a>` that uses WriterT to accumulate the log
---   of <tt>(FilePath, Int)</tt> pairs. The <a>countEntries3</a>` function
---   first uses <a>listDirectory</a> to get the contents of the directory
---   specified by the <a>FilePath</a> argument. It then uses <a>tell</a> to
---   add a tuple of the directory path and the number of entries in the
---   directory to the log. Next, it uses <a>filterM</a> and
---   <a>doesDirectoryExist</a> to get a list of sub-directories in the
---   directory. Finally, it uses <a>mapM_</a> to recurse into each
---   sub-directory and accumulate the log.
+--   function <tt>go</tt> that uses WriterT to accumulate the log of
+--   <tt>(FilePath, Int)</tt> pairs. The <tt>go</tt> function first uses
+--   <a>listDirectory</a> to get the contents of the directory specified by
+--   the <a>FilePath</a> argument. It then uses <a>tell</a> to add a tuple
+--   of the directory path and the number of entries in the directory to
+--   the log. Next, it uses <a>filterM</a> and <a>doesDirectoryExist</a> to
+--   get a list of sub-directories in the directory. Finally, it uses
+--   <a>mapM_</a> to recurse into each sub-directory and accumulate the
+--   log.
 --   
 --   The <a>countEntries3</a> function is defined using function
---   composition, where <a>countEntries3</a>` is composed with
---   <a>execWriterT</a> using the <tt>.</tt> operator. This creates a new
---   function that first applies <a>countEntries3</a>` to its input, and
---   then applies <a>execWriterT</a> to the output of
---   <a>countEntries3</a>`.
+--   composition, where <tt>go</tt> is composed with <a>execWriterT</a>
+--   using the <tt>.</tt> operator. This creates a new function that first
+--   applies <tt>go</tt> to its input, and then applies <a>execWriterT</a>
+--   to the output of <tt>go</tt>.
 countEntries3 :: FilePath -> IO [(FilePath, Int)]
 
 

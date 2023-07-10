@@ -39,15 +39,14 @@ this code.</p><h2>GHCi Session</h2><p>To test these functions in GHCi you need t
  of the writer monad and discard the log. The writer monad is used to
  accumulate a list of <code>(FilePath, Int)</code> pairs representing the number of
  entries in each directory.</p><p>The <code><a href="CountEntries.html#v:countEntries3" title="CountEntries">countEntries3</a></code> function is defined in terms of a helper function
- <code><a href="CountEntries.html#v:countEntries3" title="CountEntries">countEntries3</a></code>` that uses WriterT to accumulate the log of <code>(FilePath,
- Int)</code> pairs. The <code><a href="CountEntries.html#v:countEntries3" title="CountEntries">countEntries3</a></code>` function first uses <code><a href="../directory-1.3.6.2/System-Directory.html#v:listDirectory" title="System.Directory">listDirectory</a></code> to
- get the contents of the directory specified by the <code><a href="../base-4.15.1.0/System-IO.html#t:FilePath" title="System.IO">FilePath</a></code> argument.
+ <code>go</code> that uses WriterT to accumulate the log of <code>(FilePath, Int)</code> pairs.
+ The <code>go</code> function first uses <code><a href="../directory-1.3.6.2/System-Directory.html#v:listDirectory" title="System.Directory">listDirectory</a></code> to get the contents of the
+ directory specified by the <code><a href="../base-4.15.1.0/System-IO.html#t:FilePath" title="System.IO">FilePath</a></code> argument.
  It then uses <code><a href="../transformers-0.5.6.2/Control-Monad-Trans-Writer-Lazy.html#v:tell" title="Control.Monad.Trans.Writer.Lazy">tell</a></code> to add a tuple of the directory path and the number
  of entries in the directory to the log. Next, it uses <code><a href="../base-4.15.1.0/Control-Monad.html#v:filterM" title="Control.Monad">filterM</a></code> and
  <code><a href="../directory-1.3.6.2/System-Directory.html#v:doesDirectoryExist" title="System.Directory">doesDirectoryExist</a></code> to get a list of sub-directories in the directory.
  Finally, it uses <code><a href="../base-4.15.1.0/Data-Foldable.html#v:mapM_" title="Data.Foldable">mapM_</a></code> to recurse into each sub-directory and
  accumulate the log.</p><p>The <code><a href="CountEntries.html#v:countEntries3" title="CountEntries">countEntries3</a></code> function is defined using function composition,
- where <code><a href="CountEntries.html#v:countEntries3" title="CountEntries">countEntries3</a></code>` is composed with <code><a href="../mtl-2.2.2/Control-Monad-Writer-Lazy.html#v:execWriterT" title="Control.Monad.Writer.Lazy">execWriterT</a></code> using the <code>.</code>
- operator. This creates a new function that first applies
- <code><a href="CountEntries.html#v:countEntries3" title="CountEntries">countEntries3</a></code>` to its input, and then applies <code><a href="../mtl-2.2.2/Control-Monad-Writer-Lazy.html#v:execWriterT" title="Control.Monad.Writer.Lazy">execWriterT</a></code> to the
- output of <code><a href="CountEntries.html#v:countEntries3" title="CountEntries">countEntries3</a></code>`.</p></div></div></div></div><div id="footer"><p>Produced by <a href="http://www.haskell.org/haddock/">Haddock</a> version 2.25.1</p></div></body></html>
+ where <code>go</code> is composed with <code><a href="../mtl-2.2.2/Control-Monad-Writer-Lazy.html#v:execWriterT" title="Control.Monad.Writer.Lazy">execWriterT</a></code> using the <code>.</code> operator. This
+ creates a new function that first applies <code>go</code> to its input, and then
+ applies <code><a href="../mtl-2.2.2/Control-Monad-Writer-Lazy.html#v:execWriterT" title="Control.Monad.Writer.Lazy">execWriterT</a></code> to the output of <code>go</code>.</p></div></div></div></div><div id="footer"><p>Produced by <a href="http://www.haskell.org/haddock/">Haddock</a> version 2.25.1</p></div></body></html>
