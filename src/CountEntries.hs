@@ -159,9 +159,9 @@ countEntries2 = execWriterT . countEntries2'
 -- entries in each directory.
 --
 -- The `countEntries3` function is defined in terms of a helper function
--- `countEntries3'` that uses WriterT to accumulate the log of @(FilePath,
--- Int)@ pairs. The `countEntries3'` function first uses `listDirectory` to
--- get the contents of the directory specified by the `FilePath` argument.
+-- `go` that uses WriterT to accumulate the log of @(FilePath, Int)@ pairs.
+-- The `go` function first uses `listDirectory` to get the contents of the
+-- directory specified by the `FilePath` argument.
 -- It then uses `tell` to add a tuple of the directory path and the number
 -- of entries in the directory to the log. Next, it uses `filterM` and
 -- `doesDirectoryExist` to get a list of sub-directories in the directory.
@@ -169,17 +169,16 @@ countEntries2 = execWriterT . countEntries2'
 -- accumulate the log.
 --
 -- The `countEntries3` function is defined using function composition,
--- where `countEntries3'` is composed with `execWriterT` using the @.@
--- operator. This creates a new function that first applies
--- `countEntries3'` to its input, and then applies `execWriterT` to the
--- output of `countEntries3'`.
+-- where `go` is composed with `execWriterT` using the @.@ operator. This
+-- creates a new function that first applies `go` to its input, and then
+-- applies `execWriterT` to the output of `go`.
 --
 countEntries3 :: FilePath -> IO [(FilePath, Int)]
-countEntries3 = execWriterT . countEntries3'
+countEntries3 = execWriterT . go
   where
-    countEntries3' :: FilePath -> WriterT [(FilePath, Int)] IO ()
-    countEntries3' p =
+    go :: FilePath -> WriterT [(FilePath, Int)] IO ()
+    go p =
       liftIO (listDirectory p)                                -- contents of path
       >>= \ps -> tell [(p, length ps)]                        -- show tuple
       >> liftIO (filterM (\n -> doesDirectoryExist (p </> n)) ps) -- sub-directories
-      >>= \pss -> mapM_ (\n -> countEntries3' (p </> n)) pss  -- recurse into sub-directories
+      >>= \pss -> mapM_ (\n -> go (p </> n)) pss              -- recurse into sub-directories
