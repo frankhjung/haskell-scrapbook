@@ -7,7 +7,7 @@
 --   Please see the README on GitLab at
 --   <a>https://github.com/frankhjung/haskell-scrapbook#readme</a>
 @package scrapbook
-@version 0.1.0
+@version 0.2.0
 
 
 -- | Example rank-n-type from <a>Explaining Haskell RankNTypes for all</a>.

@@ -23,19 +23,16 @@ Yahtzee test suite from blog
 </span><span id="line-23"></span><span class="hs-comment">-- | Generate all rolls from a given state.</span><span>
 </span><span id="line-24"></span><span class="annot"><a href="Yahtzee.html#allRolls"><span class="hs-identifier hs-type">allRolls</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="Yahtzee.html#DiceChoice"><span class="hs-identifier hs-type">DiceChoice</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="Yahtzee.html#DiceVals"><span class="hs-identifier hs-type">DiceVals</span></a></span><span class="hs-special">]</span><span>
 </span><span id="line-25"></span><span id="allRolls"><span class="annot"><span class="annottext">allRolls :: [DiceChoice] -&gt; [DiceVals]
-</span><a href="Yahtzee.html#allRolls"><span class="hs-identifier hs-var hs-var">allRolls</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(DiceChoice -&gt; DiceVals) -&gt; [DiceChoice] -&gt; [DiceVals]
-forall (t :: * -&gt; *) (m :: * -&gt; *) a b.
+</span><a href="Yahtzee.html#allRolls"><span class="hs-identifier hs-var hs-var">allRolls</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">forall (t :: * -&gt; *) (m :: * -&gt; *) a b.
 (Traversable t, Monad m) =&gt;
 (a -&gt; m b) -&gt; t a -&gt; m (t b)
-</span><span class="hs-identifier hs-var">mapM</span></span><span> </span><span class="annot"><span class="annottext">((DiceChoice -&gt; DiceVals) -&gt; [DiceChoice] -&gt; [DiceVals])
--&gt; (DiceChoice -&gt; DiceVals) -&gt; [DiceChoice] -&gt; [DiceVals]
-forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-identifier hs-var">mapM</span></span><span> </span><span class="annot"><span class="annottext">forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
 </span><span id="line-26"></span><span>  </span><span class="annot"><span class="annottext">DiceChoice
 </span><a href="Yahtzee.html#Reroll"><span class="hs-identifier hs-var">Reroll</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Word
 </span><span class="hs-number">1</span></span><span class="hs-glyph">..</span><span class="annot"><span class="annottext">Word
 </span><span class="hs-number">6</span></span><span class="hs-special">]</span><span>
-</span><span id="line-27"></span><span>  </span><span class="annot"><a href="Yahtzee.html#Keep"><span class="hs-identifier hs-type">Keep</span></a></span><span> </span><span id="local-6989586621679095962"><span class="annot"><span class="annottext">Word
-</span><a href="#local-6989586621679095962"><span class="hs-identifier hs-var">v</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Word
-</span><a href="#local-6989586621679095962"><span class="hs-identifier hs-var">v</span></a></span><span class="hs-special">]</span><span>
+</span><span id="line-27"></span><span>  </span><span class="annot"><a href="Yahtzee.html#Keep"><span class="hs-identifier hs-type">Keep</span></a></span><span> </span><span id="local-6989586621679123218"><span class="annot"><span class="annottext">Word
+</span><a href="#local-6989586621679123218"><span class="hs-identifier hs-var">v</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Word
+</span><a href="#local-6989586621679123218"><span class="hs-identifier hs-var">v</span></a></span><span class="hs-special">]</span><span>
 </span><span id="line-28"></span></pre></body></html>
