@@ -2,6 +2,7 @@
 {-# LANGUAGE DerivingStrategies   #-}
 {-# LANGUAGE FlexibleInstances    #-}
 {-# LANGUAGE UndecidableInstances #-}
+{-# OPTIONS_GHC -fno-warn-incomplete-uni-patterns #-}
 
 {-|
 

@@ -62,7 +62,7 @@ instance Applicative (MyState s) where
 
 -- Monad
 instance Monad (MyState s) where
-  return a = MyState (a,)
+  return = pure
   -- Bind signature:
   -- (>>=) :: Monad m => m a -> (a -> m b) -> m b
   -- (>>=) :: MyState s a -> (a -> MyState s b) -> MyState s b

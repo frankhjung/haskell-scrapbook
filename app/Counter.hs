@@ -1,4 +1,5 @@
 {-# LANGUAGE FlexibleContexts #-}
+{-# OPTIONS_GHC -fno-warn-incomplete-uni-patterns #-}
 
 {-
 

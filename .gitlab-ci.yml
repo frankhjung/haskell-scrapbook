@@ -8,7 +8,7 @@ build:
   stage: build
   except:
     - tags
-  image: frankhjung/haskell:9.0.2
+  image: frankhjung/haskell:9.2.8
   variables:
     RTSOPTS: "+RTS -N1"
     STACK_ROOT: ${CI_PROJECT_DIR}/.stack
