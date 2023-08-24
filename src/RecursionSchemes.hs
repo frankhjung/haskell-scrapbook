@@ -8,7 +8,7 @@
 
 Module      : RecursionSchemes
 Description : Examples of Ana/Cata/Para-morphisms recursion schemes
-Copyright   : © Frank Jung, 2021, 2022
+Copyright   : © Frank Jung, 2021-2023
 License     : GPL-3
 
 A collection of recursion scheme examples.
@@ -116,7 +116,24 @@ data NatF r = ZeroF | SuccF r deriving (Show, Functor)
 -- | Natural numbers type.
 type Nat = Fix NatF
 
--- | R-Algebra
+-- | The code defines a type synonym RAlgebra that represents a recursive
+-- algebra for a functor f. An R-algebra is a function that takes a fixed point
+-- of a functor Fix f and a value of type f a, and returns a value of type a.
+--
+-- The Fix type is used to define recursive data structures in Haskell. It is a
+-- type constructor that takes a functor f as an argument and returns a fixed
+-- point of f. The Fix type is used to define recursive data structures by
+-- wrapping a value of type f (Fix f) in a Fix constructor.
+--
+-- The RAlgebra type synonym is used to define a function that takes a fixed
+-- point of a functor Fix f and a value of type f a, and returns a value of type
+-- a. This function is used to define recursive functions that operate on data
+-- structures defined using Fix.
+--
+-- The RAlgebra type synonym is a higher-order type that takes two type
+-- arguments: f, which is a functor, and a, which is the return type of the
+-- algebra. The RAlgebra type synonym is used to define recursive functions that
+-- operate on data structures defined using Fix.
 type RAlgebra f a = Fix f -> f a -> a
 
 -- | Anamorphism - produce a structure.
