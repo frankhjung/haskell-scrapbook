@@ -4,23 +4,23 @@ SRC	:= $(wildcard *.hs **/*.hs)
 YAML	:= $(shell git ls-files | grep --perl \.y?ml)
 
 .PHONY: default
-default:	check build test
+default:	format check build test
 
 .PHONY: check
-check:	tags style lint
+check:	tags lint
 
 .PHONY: all
-all:	check build test doc bench exec
+all:	format check build test doc bench exec
+
+.PHONY: format
+format:	$(SRC)
+	@echo format ...
+	@stylish-haskell --verbose --config=.stylish-haskell.yaml --inplace $(SRC)
 
 .PHONY: tags
 tags:	$(SRC)
 	@echo tags ...
 	@hasktags --ctags --extendedctag $(SRC)
-
-.PHONY: style
-style:	$(SRC)
-	@echo style ...
-	@stylish-haskell --verbose --config=.stylish-haskell.yaml --inplace $(SRC)
 
 .PHONY: lint
 lint:	$(SRC)
