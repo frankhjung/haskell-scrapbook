@@ -29,6 +29,7 @@ library
                   , Cps
                   , Colours
                   , CountEntries
+                  , Expr
                   , Lower
                   , Mod35
                   , MonTrans
@@ -219,6 +220,8 @@ test-suite          test
                   , CountEntriesSpec
                   , Cps
                   , CpsSpec
+                  , Expr
+                  , ExprSpec
                   , Lower
                   , LowerSpec
                   , Mod35
