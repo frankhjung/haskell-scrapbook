@@ -197,6 +197,7 @@ test-suite          test
                   , filepath
                   , free
                   , hspec
+                  , hspec-discover
                   , mtl
                   , QuickCheck
                   , random
