@@ -16,6 +16,7 @@ all:	format check build test doc bench exec
 format:	$(SRC)
 	@echo format ...
 	@stylish-haskell --verbose --config=.stylish-haskell.yaml --inplace $(SRC)
+	@cabal-fmt --inplace scrapbook.cabal
 
 .PHONY: tags
 tags:	$(SRC)

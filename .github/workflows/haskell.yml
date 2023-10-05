@@ -58,7 +58,7 @@ jobs:
         if: github.ref == 'refs/heads/master'
         run: |
           stack haddock
-          mv $(stack path --local-doc-root)/scrapbook*/ public/
+          mv $(stack path --local-doc-root)/ public/
           cp .stack-work/benchmark-*.html public/
 
       - name: publish

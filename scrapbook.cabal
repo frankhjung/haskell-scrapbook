@@ -1,8 +1,10 @@
 cabal-version:      3.0
-
 name:               scrapbook
-version:            0.2.0
-description:        Please see the README on GitLab at <https://github.com/frankhjung/haskell-scrapbook#readme>
+version:            0.3.0
+description:
+  Please see the README on GitLab at
+  <https://github.com/frankhjung/haskell-scrapbook#readme>
+
 synopsis:           code examples
 homepage:           https://github.com/frankhjung/haskell-scrapbook#readme
 bug-reports:        https://github.com/frankhjung/haskell-scrapbook/issues
@@ -14,339 +16,350 @@ license-file:       LICENSE
 category:           education
 extra-source-files: README.md
 
-source-repository   head
-  type:             git
-  location:         https://github.com/frankhjung/haskell-scrapbook
+source-repository head
+  type:     git
+  location: https://github.com/frankhjung/haskell-scrapbook
 
 library
   hs-source-dirs:   src
   default-language: Haskell2010
   ghc-options:      -Wall
-  exposed-modules:  ApplyToTuple
-                  , BinarySearch
-                  , Caesar
-                  , CFold
-                  , Cps
-                  , Colours
-                  , CountEntries
-                  , Expr
-                  , Lower
-                  , Mod35
-                  , MonTrans
-                  , MyFilter
-                  , MyFreeMonad
-                  , MyJson
-                  , MyPenultimate
-                  , MyReverse
-                  , MyTake
-                  , MyType
-                  , Permutation
-                  , PolyDivisors
-                  , RecursionSchemes
-                  , Qsort
-                  , Random
-                  , RepMax
-                  , SplitList
-                  , MyState
-                  , Stack
-                  , SubSeqs
-                  , Trim
-                  , Weekday
-                  , Yahtzee
-                  , ZipFold
-  build-depends:    base >= 4 && < 5
-                  , aeson
-                  , bytestring
-                  , directory
-                  , filepath
-                  , free
-                  , hspec
-                  , mtl
-                  , QuickCheck
-                  , random
-                  , text
-                  , time
-                  , transformers
+  exposed-modules:
+    ApplyToTuple
+    BinarySearch
+    Caesar
+    CFold
+    Colours
+    CountEntries
+    Cps
+    Expr
+    Lower
+    Mod35
+    MonTrans
+    MyFilter
+    MyFreeMonad
+    MyJson
+    MyPenultimate
+    MyReverse
+    MyState
+    MyTake
+    MyType
+    Permutation
+    PolyDivisors
+    Qsort
+    Random
+    RecursionSchemes
+    RepMax
+    SplitList
+    Stack
+    SubSeqs
+    Trim
+    Weekday
+    Yahtzee
+    ZipFold
 
-executable          counter
+  build-depends:
+    , aeson
+    , base          >=4 && <5
+    , bytestring
+    , directory
+    , filepath
+    , free
+    , hspec
+    , mtl
+    , QuickCheck
+    , random
+    , text
+    , time
+    , transformers
+
+executable counter
   hs-source-dirs:   app
   main-is:          Counter.hs
   default-language: Haskell2010
-  ghc-options:      -Wno-unrecognised-pragmas
-                    -Wno-unused-top-binds
-                    -threaded -rtsopts -with-rtsopts=-N
   build-depends:    base
+  ghc-options:
+    -Wno-unrecognised-pragmas -Wno-unused-top-binds -threaded -rtsopts
+    -with-rtsopts=-N
 
-executable          fpcomplete
+executable fpcomplete
   hs-source-dirs:   app
   main-is:          FPComplete.hs
   default-language: Haskell2010
-  ghc-options:      -Wno-unrecognised-pragmas
-                    -Wno-unused-top-binds
-                    -threaded -rtsopts -with-rtsopts=-N
   build-depends:    base
+  ghc-options:
+    -Wno-unrecognised-pragmas -Wno-unused-top-binds -threaded -rtsopts
+    -with-rtsopts=-N
 
-executable          json
+executable json
   hs-source-dirs:   app
   main-is:          Json.hs
   default-language: Haskell2010
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
-  build-depends:    base
-                  , aeson
-                  , bytestring
-                  , containers
-                  , text
+  build-depends:
+    , aeson
+    , base
+    , bytestring
+    , containers
+    , text
 
-executable          numberlines
+executable numberlines
   hs-source-dirs:   app
   main-is:          NumberLines.hs
   default-language: Haskell2010
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
-  build-depends:    base
-                  , fmt
+  build-depends:
+    , base
+    , fmt
 
-executable          polydivs
-  hs-source-dirs:   app
-                  , src
+executable polydivs
+  hs-source-dirs:   app src
   main-is:          PolyDivs.hs
   default-language: Haskell2010
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
-  build-depends:    base
-                  , scrapbook
   other-modules:    PolyDivisors
+  build-depends:
+    , base
+    , scrapbook
 
-executable          quine
+executable quine
   hs-source-dirs:   app
   main-is:          Quine.hs
   default-language: Haskell2010
   ghc-options:
   build-depends:    base
 
-executable          readfile
+executable readfile
   hs-source-dirs:   app
   main-is:          ReadFile.hs
   default-language: Haskell2010
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
   build-depends:    base
 
-executable          skips
+executable skips
   hs-source-dirs:   app
   main-is:          Skips.hs
   default-language: Haskell2010
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
   build-depends:    base
 
-executable          stategame
+executable stategame
   hs-source-dirs:   app
   main-is:          StateGame.hs
   default-language: Haskell2010
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
-  build-depends:    base
-                  , mtl
+  build-depends:
+    , base
+    , mtl
 
-executable          threads
+executable threads
   hs-source-dirs:   app
   main-is:          Threads.hs
   default-language: Haskell2010
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
-  build-depends:    base
-                  , stm
+  build-depends:
+    , base
+    , stm
 
-executable          vocab
+executable vocab
   hs-source-dirs:   app
   main-is:          Vocab.hs
   default-language: Haskell2010
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
-  build-depends:    base
-                  , text
+  build-depends:
+    , base
+    , text
 
-executable          while
+executable while
   hs-source-dirs:   app
   main-is:          While.hs
   default-language: Haskell2010
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
   build-depends:    base
 
-executable          wordcount
+executable wordcount
   hs-source-dirs:   app
   main-is:          WordCount.hs
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
   default-language: Haskell2010
-  build-depends:    base
-                  , fmt
+  build-depends:
+    , base
+    , fmt
 
-executable          wordcountarrow
+executable wordcountarrow
   hs-source-dirs:   app
   main-is:          WordCountArrow.hs
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
   default-language: Haskell2010
-  build-depends:    base
-                  , fmt
+  build-depends:
+    , base
+    , fmt
 
-test-suite          test
-  hs-source-dirs:   test
-                  , src
-  main-is:          TestsSpec.hs
-  default-language: Haskell2010
-  ghc-options:      -threaded -rtsopts -with-rtsopts=-N -Wall
-  type:             exitcode-stdio-1.0
-  build-depends:    base
-                  , aeson
-                  , bytestring
-                  , directory
-                  , filepath
-                  , free
-                  , hspec
-                  , hspec-discover
-                  , mtl
-                  , QuickCheck
-                  , random
-                  , text
-                  , transformers
-                  , time
-                  , scrapbook
-  build-tool-depends:
-                    hspec-discover:hspec-discover
-  other-modules:    ApplyToTuple
-                  , ApplyToTupleSpec
-                  , BinarySearch
-                  , BinarySearchSpec
-                  , Caesar
-                  , CaesarSpec
-                  , CFold
-                  , CFoldSpec
-                  , Colours
-                  , ColoursSpec
-                  , CountEntries
-                  , CountEntriesSpec
-                  , Cps
-                  , CpsSpec
-                  , Expr
-                  , ExprSpec
-                  , Lower
-                  , LowerSpec
-                  , Mod35
-                  , Mod35Spec
-                  , MonTrans
-                  , MonTransSpec
-                  , MyFilter
-                  , MyFilterSpec
-                  , MyFreeMonad
-                  , MyFreeMonadSpec
-                  , MyJson
-                  , MyJsonSpec
-                  , MyPenultimate
-                  , MyPenultimateSpec
-                  , MyReverse
-                  , MyReverseSpec
-                  , MyTake
-                  , MyTakeSpec
-                  , MyType
-                  , MyTypeSpec
-                  , Permutation
-                  , PermutationSpec
-                  , PolyDivisors
-                  , PolyDivisorsSpec
-                  , Qsort
-                  , QsortSpec
-                  , Random
-                  , RandomSpec
-                  , RecursionSchemes
-                  , RecursionSchemesSpec
-                  , RepMax
-                  , RepMaxSpec
-                  , SplitList
-                  , SplitListSpec
-                  , Stack
-                  , StackSpec
-                  , MyState
-                  , SubSeqs
-                  , SubSeqsSpec
-                  , Trim
-                  , TrimSpec
-                  , Weekday
-                  , WeekdaySpec
-                  , Yahtzee
-                  , YahtzeeSpec
-                  , ZipFold
-                  , ZipFoldSpec
+test-suite test
+  hs-source-dirs:     test src
+  main-is:            TestsSpec.hs
+  default-language:   Haskell2010
+  ghc-options:        -threaded -rtsopts -with-rtsopts=-N -Wall
+  type:               exitcode-stdio-1.0
+  build-tool-depends: hspec-discover:hspec-discover
+  build-depends:
+    , aeson
+    , base
+    , bytestring
+    , directory
+    , filepath
+    , free
+    , hspec
+    , hspec-discover
+    , mtl
+    , QuickCheck
+    , random
+    , scrapbook
+    , text
+    , time
+    , transformers
 
-benchmark           monTransBench
-  hs-source-dirs:   bench
-                  , src
+  other-modules:
+    ApplyToTuple
+    ApplyToTupleSpec
+    BinarySearch
+    BinarySearchSpec
+    Caesar
+    CaesarSpec
+    CFold
+    CFoldSpec
+    Colours
+    ColoursSpec
+    CountEntries
+    CountEntriesSpec
+    Cps
+    CpsSpec
+    Expr
+    ExprSpec
+    Lower
+    LowerSpec
+    Mod35
+    Mod35Spec
+    MonTrans
+    MonTransSpec
+    MyFilter
+    MyFilterSpec
+    MyFreeMonad
+    MyFreeMonadSpec
+    MyJson
+    MyJsonSpec
+    MyPenultimate
+    MyPenultimateSpec
+    MyReverse
+    MyReverseSpec
+    MyState
+    MyTake
+    MyTakeSpec
+    MyType
+    MyTypeSpec
+    Permutation
+    PermutationSpec
+    PolyDivisors
+    PolyDivisorsSpec
+    Qsort
+    QsortSpec
+    Random
+    RandomSpec
+    RecursionSchemes
+    RecursionSchemesSpec
+    RepMax
+    RepMaxSpec
+    SplitList
+    SplitListSpec
+    Stack
+    StackSpec
+    SubSeqs
+    SubSeqsSpec
+    Trim
+    TrimSpec
+    Weekday
+    WeekdaySpec
+    Yahtzee
+    YahtzeeSpec
+    ZipFold
+    ZipFoldSpec
+
+benchmark monTransBench
+  hs-source-dirs:   bench src
   main-is:          MonTransBench.hs
   default-language: Haskell2010
   type:             exitcode-stdio-1.0
-  build-depends:    base
-                  , criterion
   other-modules:    MonTrans
+  build-depends:
+    , base
+    , criterion
 
-benchmark           myfilterBench
-  hs-source-dirs:   bench
-                  , src
+benchmark myfilterBench
+  hs-source-dirs:   bench src
   main-is:          MyFilterBench.hs
   default-language: Haskell2010
   type:             exitcode-stdio-1.0
-  build-depends:    base
-                  , criterion
   other-modules:    MyFilter
+  build-depends:
+    , base
+    , criterion
 
-benchmark           myreverseBench
-  hs-source-dirs:   bench
-                  , src
+benchmark myreverseBench
+  hs-source-dirs:   bench src
   main-is:          MyReverseBench.hs
   default-language: Haskell2010
   type:             exitcode-stdio-1.0
-  build-depends:    base
-                  , criterion
   other-modules:    MyReverse
+  build-depends:
+    , base
+    , criterion
 
-benchmark           polydivisorsBench
-  hs-source-dirs:   bench
-                  , src
+benchmark polydivisorsBench
+  hs-source-dirs:   bench src
   main-is:          PolyDivisorsBench.hs
   default-language: Haskell2010
   type:             exitcode-stdio-1.0
-  build-depends:    base
-                  , criterion
   other-modules:    PolyDivisors
+  build-depends:
+    , base
+    , criterion
 
-benchmark           recursionschemesBench
-  hs-source-dirs:   bench
-                  , src
+benchmark recursionschemesBench
+  hs-source-dirs:   bench src
   main-is:          RecursionSchemesBench.hs
   default-language: Haskell2010
   type:             exitcode-stdio-1.0
-  build-depends:    base
-                  , criterion
   other-modules:    RecursionSchemes
+  build-depends:
+    , base
+    , criterion
 
-benchmark           repmaxBench
-  hs-source-dirs:   bench
-                  , src
+benchmark repmaxBench
+  hs-source-dirs:   bench src
   main-is:          RepMaxBench.hs
   default-language: Haskell2010
   type:             exitcode-stdio-1.0
-  build-depends:    base
-                  , criterion
   other-modules:    RepMax
+  build-depends:
+    , base
+    , criterion
 
-benchmark           subseqsBench
-  hs-source-dirs:   bench
-                  , src
+benchmark subseqsBench
+  hs-source-dirs:   bench src
   main-is:          SubSeqsBench.hs
   default-language: Haskell2010
   type:             exitcode-stdio-1.0
-  build-depends:    base
-                  , criterion
   other-modules:    SubSeqs
+  build-depends:
+    , base
+    , criterion
 
-benchmark           zipfoldBench
-  hs-source-dirs:   bench
-                  , src
+benchmark zipfoldBench
+  hs-source-dirs:   bench src
   main-is:          ZipFoldBench.hs
   default-language: Haskell2010
   type:             exitcode-stdio-1.0
-  build-depends:    base
-                  , criterion
   other-modules:    ZipFold
+  build-depends:
+    , base
+    , criterion
