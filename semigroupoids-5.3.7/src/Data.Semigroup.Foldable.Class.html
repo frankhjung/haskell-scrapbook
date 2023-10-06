@@ -1,0 +1,976 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE CPP, TypeOperators #-}</span><span class="hs-cpp">
+
+#if __GLASGOW_HASKELL__ &gt;= 702
+</span><span class="hs-pragma">{-# LANGUAGE Trustworthy #-}</span><span class="hs-cpp">
+#endif
+</span><span>
+</span><span id="line-7"></span><span class="hs-comment">-----------------------------------------------------------------------------</span><span>
+</span><span id="line-8"></span><span class="hs-comment">-- |</span><span>
+</span><span id="line-9"></span><span class="hs-comment">-- Copyright   :  (C) 2011-2015 Edward Kmett</span><span>
+</span><span id="line-10"></span><span class="hs-comment">-- License     :  BSD-style (see the file LICENSE)</span><span>
+</span><span id="line-11"></span><span class="hs-comment">--</span><span>
+</span><span id="line-12"></span><span class="hs-comment">-- Maintainer  :  Edward Kmett &lt;ekmett@gmail.com&gt;</span><span>
+</span><span id="line-13"></span><span class="hs-comment">-- Stability   :  provisional</span><span>
+</span><span id="line-14"></span><span class="hs-comment">-- Portability :  portable</span><span>
+</span><span id="line-15"></span><span class="hs-comment">--</span><span>
+</span><span id="line-16"></span><span class="hs-comment">----------------------------------------------------------------------------</span><span>
+</span><span id="line-17"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Data.Semigroup.Foldable.Class</span><span>
+</span><span id="line-18"></span><span>  </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier">Foldable1</span></a></span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-19"></span><span>  </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Bifoldable1"><span class="hs-identifier">Bifoldable1</span></a></span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-20"></span><span>  </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-21"></span><span>
+</span><span id="line-22"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Control.Applicative</span></span><span>
+</span><span id="line-23"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Control.Applicative.Backwards</span></span><span>
+</span><span id="line-24"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Control.Applicative.Lift</span></span><span>
+</span><span id="line-25"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Control.Monad.Trans.Identity</span></span><span>
+</span><span id="line-26"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Bifoldable</span></span><span>
+</span><span id="line-27"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Bifunctor.Biff</span></span><span>
+</span><span id="line-28"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Bifunctor.Clown</span></span><span>
+</span><span id="line-29"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Bifunctor.Flip</span></span><span>
+</span><span id="line-30"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Bifunctor.Join</span></span><span>
+</span><span id="line-31"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Bifunctor.Product</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Bifunctor</span></span><span>
+</span><span id="line-32"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Bifunctor.Joker</span></span><span>
+</span><span id="line-33"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Bifunctor.Tannen</span></span><span>
+</span><span id="line-34"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Bifunctor.Wrapped</span></span><span>
+</span><span id="line-35"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Foldable</span></span><span>
+</span><span id="line-36"></span><span>
+</span><span id="line-37"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Functor.Identity</span></span><span>
+</span><span id="line-38"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Functor.Product</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Functor</span></span><span>
+</span><span id="line-39"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Functor.Reverse</span></span><span>
+</span><span id="line-40"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Functor.Sum</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Functor</span></span><span>
+</span><span id="line-41"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Functor.Compose</span></span><span>
+</span><span id="line-42"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.List.NonEmpty</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">NonEmpty</span></span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span class="hs-cpp">
+
+#if MIN_VERSION_base(4,4,0)
+</span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Complex</span></span><span class="hs-cpp">
+#endif
+</span><span class="hs-cpp">
+#ifdef MIN_VERSION_tagged
+</span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Tagged</span></span><span class="hs-cpp">
+#endif
+</span><span>
+</span><span id="line-52"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Data.Traversable.Instances.html"><span class="hs-identifier">Data.Traversable.Instances</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span class="hs-cpp">
+
+#ifdef MIN_VERSION_containers
+</span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Tree</span></span><span class="hs-cpp">
+#endif
+</span><span>
+</span><span id="line-58"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.Monoid</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Monoid</span></span><span>
+</span><span id="line-59"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Semigroup</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Semigroup</span></span><span> </span><span class="hs-keyword">hiding</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Product</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">Sum</span></span><span class="hs-special">)</span><span>
+</span><span id="line-60"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Orphans</span></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
+</span><span id="line-61"></span><span class="hs-comment">-- import Data.Ord -- missing Foldable, https://ghc.haskell.org/trac/ghc/ticket/15098#ticket</span><span class="hs-cpp">
+
+#ifdef MIN_VERSION_generic_deriving
+</span><span class="hs-keyword">import</span><span> </span><span class="hs-identifier">Generics.Deriving.Base</span><span class="hs-cpp">
+#else
+</span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">GHC.Generics</span></span><span class="hs-cpp">
+#endif
+</span><span>
+</span><span id="line-69"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prelude</span></span><span> </span><span class="hs-keyword">hiding</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">foldr</span></span><span class="hs-special">)</span><span>
+</span><span id="line-70"></span><span>
+</span><span id="line-71"></span><span class="hs-keyword">class</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Foldable</span></span><span> </span><span class="annot"><a href="#local-6989586621679098088"><span class="hs-identifier hs-type">t</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span id="Foldable1"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-var">Foldable1</span></a></span></span><span> </span><span id="local-6989586621679098088"><span class="annot"><a href="#local-6989586621679098088"><span class="hs-identifier hs-type">t</span></a></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-72"></span><span>  </span><span id="fold1"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#fold1"><span class="hs-identifier hs-type">fold1</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span id="local-6989586621679098110"><span class="annot"><span class="hs-identifier hs-type">Semigroup</span></span><span> </span><span class="annot"><a href="#local-6989586621679098110"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679098088"><span class="hs-identifier hs-type">t</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098110"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679098110"><span class="hs-identifier hs-type">m</span></a></span></span><span>
+</span><span id="line-73"></span><span>  </span><span id="foldMap1"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-type">foldMap1</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span id="local-6989586621679098090"><span id="local-6989586621679098091"><span class="annot"><span class="hs-identifier hs-type">Semigroup</span></span><span> </span><span class="annot"><a href="#local-6989586621679098090"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679098091"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679098090"><span class="hs-identifier hs-type">m</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679098088"><span class="hs-identifier hs-type">t</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098091"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679098090"><span class="hs-identifier hs-type">m</span></a></span></span></span><span>
+</span><span id="line-74"></span><span>  </span><span id="toNonEmpty"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#toNonEmpty"><span class="hs-identifier hs-type">toNonEmpty</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span id="local-6989586621679098112"><span class="annot"><a href="#local-6989586621679098088"><span class="hs-identifier hs-type">t</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098112"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">NonEmpty</span></span><span> </span><span class="annot"><a href="#local-6989586621679098112"><span class="hs-identifier hs-type">a</span></a></span></span><span>
+</span><span id="line-75"></span><span>
+</span><span id="line-76"></span><span>  </span><span id="local-6989586621679098506"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var">foldMap1</span></a></span><span> </span><span id="local-6989586621679098514"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098514"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">m -&gt; (m -&gt; m) -&gt; OptionCompat m -&gt; m
+forall b a. b -&gt; (a -&gt; b) -&gt; Maybe a -&gt; b
+</span><span class="hs-identifier hs-var">maybe</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">[Char] -&gt; m
+forall a. HasCallStack =&gt; [Char] -&gt; a
+</span><span class="hs-identifier hs-var">error</span></span><span> </span><span class="annot"><span class="annottext">[Char]
+</span><span class="hs-string">&quot;foldMap1&quot;</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">m -&gt; m
+forall a. a -&gt; a
+</span><span class="hs-identifier hs-var">id</span></span><span> </span><span class="annot"><span class="annottext">(OptionCompat m -&gt; m) -&gt; (t a -&gt; OptionCompat m) -&gt; t a -&gt; m
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">OptionCompat m -&gt; OptionCompat m
+forall a. OptionCompat a -&gt; OptionCompat a
+</span><a href="Data.Semigroup.Foldable.Class.html#getOptionCompat"><span class="hs-identifier hs-var">getOptionCompat</span></a></span><span> </span><span class="annot"><span class="annottext">(OptionCompat m -&gt; OptionCompat m)
+-&gt; (t a -&gt; OptionCompat m) -&gt; t a -&gt; OptionCompat m
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">(a -&gt; OptionCompat m) -&gt; t a -&gt; OptionCompat m
+forall m a. Monoid m =&gt; (a -&gt; m) -&gt; t a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable t, Monoid m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><span class="hs-identifier hs-var">foldMap</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">OptionCompat m -&gt; OptionCompat m
+forall a. OptionCompat a -&gt; OptionCompat a
+</span><a href="Data.Semigroup.Foldable.Class.html#optionCompat"><span class="hs-identifier hs-var">optionCompat</span></a></span><span> </span><span class="annot"><span class="annottext">(OptionCompat m -&gt; OptionCompat m)
+-&gt; (a -&gt; OptionCompat m) -&gt; a -&gt; OptionCompat m
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">m -&gt; OptionCompat m
+forall a. a -&gt; Maybe a
+</span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">(m -&gt; OptionCompat m) -&gt; (a -&gt; m) -&gt; a -&gt; OptionCompat m
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098514"><span class="hs-identifier hs-var">f</span></a></span><span class="hs-special">)</span></span><span>
+</span><span id="line-77"></span><span>  </span><span id="local-6989586621679098522"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#fold1"><span class="hs-identifier hs-var hs-var">fold1</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(m -&gt; m) -&gt; t m -&gt; m
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; t a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">m -&gt; m
+forall a. a -&gt; a
+</span><span class="hs-identifier hs-var">id</span></span></span><span>
+</span><span id="line-78"></span><span>  </span><span id="local-6989586621679098526"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#toNonEmpty"><span class="hs-identifier hs-var hs-var">toNonEmpty</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; NonEmpty a) -&gt; t a -&gt; NonEmpty a
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; t a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a -&gt; [a] -&gt; NonEmpty a
+forall a. a -&gt; [a] -&gt; NonEmpty a
+</span><span class="hs-operator hs-var">:|</span></span><span class="hs-special">[</span><span class="hs-special">]</span><span class="hs-special">)</span></span><span>
+</span><span id="line-79"></span><span>
+</span><span id="line-80"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098534"><span id="local-6989586621679098541"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Monoid.Sum</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-81"></span><span>  </span><span id="local-6989586621679098545"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; Sum a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679098546"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098546"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Monoid.Sum</span></span><span> </span><span id="local-6989586621679098547"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098547"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098546"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098547"><span class="hs-identifier hs-var">a</span></a></span><span>
+</span><span id="line-82"></span><span>
+</span><span id="line-83"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098552"><span id="local-6989586621679098559"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Monoid.Product</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-84"></span><span>  </span><span id="local-6989586621679098562"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; Product a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679098563"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098563"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Monoid.Product</span></span><span> </span><span id="local-6989586621679098564"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098564"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098563"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098564"><span class="hs-identifier hs-var">a</span></a></span><span>
+</span><span id="line-85"></span><span>
+</span><span id="line-86"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098569"><span id="local-6989586621679098576"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Monoid.Dual</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-87"></span><span>  </span><span id="local-6989586621679098579"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; Dual a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679098580"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098580"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Monoid.Dual</span></span><span> </span><span id="local-6989586621679098582"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098582"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098580"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098582"><span class="hs-identifier hs-var">a</span></a></span><span class="hs-cpp">
+
+#if MIN_VERSION_base(4,8,0)
+</span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098131"><span id="local-6989586621679098589"><span id="local-6989586621679098596"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098131"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Monoid.Alt</span></span><span> </span><span class="annot"><a href="#local-6989586621679098131"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">)</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-91"></span><span>  </span><span id="local-6989586621679098601"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; Alt f a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679098602"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098602"><span class="hs-identifier hs-var">g</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Monoid.Alt</span></span><span> </span><span id="local-6989586621679098604"><span class="annot"><span class="annottext">f a
+</span><a href="#local-6989586621679098604"><span class="hs-identifier hs-var">m</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; m) -&gt; f a -&gt; m
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; f a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098602"><span class="hs-identifier hs-var">g</span></a></span><span> </span><span class="annot"><span class="annottext">f a
+</span><a href="#local-6989586621679098604"><span class="hs-identifier hs-var">m</span></a></span><span class="hs-cpp">
+#endif
+</span><span>
+</span><span id="line-94"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098609"><span id="local-6989586621679098616"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Semigroup.First</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-95"></span><span>  </span><span id="local-6989586621679098619"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; First a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679098620"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098620"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Semigroup.First</span></span><span> </span><span id="local-6989586621679098622"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098622"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098620"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098622"><span class="hs-identifier hs-var">a</span></a></span><span>
+</span><span id="line-96"></span><span>
+</span><span id="line-97"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098627"><span id="local-6989586621679098634"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Semigroup.Last</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-98"></span><span>  </span><span id="local-6989586621679098637"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; Last a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679098638"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098638"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Semigroup.Last</span></span><span> </span><span id="local-6989586621679098640"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098640"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098638"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098640"><span class="hs-identifier hs-var">a</span></a></span><span>
+</span><span id="line-99"></span><span>
+</span><span id="line-100"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098645"><span id="local-6989586621679098652"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Semigroup.Min</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-101"></span><span>  </span><span id="local-6989586621679098655"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; Min a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679098656"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098656"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Semigroup.Min</span></span><span> </span><span id="local-6989586621679098658"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098658"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098656"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098658"><span class="hs-identifier hs-var">a</span></a></span><span>
+</span><span id="line-102"></span><span>
+</span><span id="line-103"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098663"><span id="local-6989586621679098670"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Semigroup.Max</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-104"></span><span>  </span><span id="local-6989586621679098673"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; Max a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679098674"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098674"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Semigroup.Max</span></span><span> </span><span id="local-6989586621679098676"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098676"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098674"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098676"><span class="hs-identifier hs-var">a</span></a></span><span>
+</span><span id="line-105"></span><span>
+</span><span id="line-106"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098153"><span id="local-6989586621679098683"><span id="local-6989586621679098690"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098153"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Rec1</span></span><span> </span><span class="annot"><a href="#local-6989586621679098153"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">)</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-107"></span><span>  </span><span id="local-6989586621679098695"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; Rec1 f a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679098696"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098696"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Rec1</span></span><span> </span><span id="local-6989586621679098698"><span class="annot"><span class="annottext">f a
+</span><a href="#local-6989586621679098698"><span class="hs-keyword hs-var">as</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; m) -&gt; f a -&gt; m
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; f a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098696"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">f a
+</span><a href="#local-6989586621679098698"><span class="hs-keyword hs-var">as</span></a></span><span>
+</span><span id="line-108"></span><span>
+</span><span id="line-109"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098164"><span id="local-6989586621679098165"><span id="local-6989586621679098166"><span id="local-6989586621679098705"><span id="local-6989586621679098712"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098164"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">M1</span></span><span> </span><span class="annot"><a href="#local-6989586621679098165"><span class="hs-identifier hs-type">i</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098166"><span class="hs-identifier hs-type">c</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098164"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">)</span></span></span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-110"></span><span>  </span><span id="local-6989586621679098717"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; M1 i c f a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679098718"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098718"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">M1</span></span><span> </span><span id="local-6989586621679098720"><span class="annot"><span class="annottext">f a
+</span><a href="#local-6989586621679098720"><span class="hs-keyword hs-var">as</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; m) -&gt; f a -&gt; m
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; f a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098718"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">f a
+</span><a href="#local-6989586621679098720"><span class="hs-keyword hs-var">as</span></a></span><span>
+</span><span id="line-111"></span><span>
+</span><span id="line-112"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098725"><span id="local-6989586621679098732"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Par1</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-113"></span><span>  </span><span id="local-6989586621679098735"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; Par1 a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679098736"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098736"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Par1</span></span><span> </span><span id="local-6989586621679098738"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098738"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098736"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098738"><span class="hs-identifier hs-var">a</span></a></span><span>
+</span><span id="line-114"></span><span>
+</span><span id="line-115"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098177"><span id="local-6989586621679098178"><span id="local-6989586621679098747"><span id="local-6989586621679098754"><span class="hs-special">(</span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098177"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098178"><span class="hs-identifier hs-type">g</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679098177"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><span class="hs-operator hs-type">:*:</span></span><span> </span><span class="annot"><a href="#local-6989586621679098178"><span class="hs-identifier hs-type">g</span></a></span><span class="hs-special">)</span></span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-116"></span><span>  </span><span id="local-6989586621679098762"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; (:*:) f g a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679098763"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098763"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679098764"><span class="annot"><span class="annottext">f a
+</span><a href="#local-6989586621679098764"><span class="hs-keyword hs-var">as</span></a></span></span><span> </span><span class="annot"><span class="hs-operator hs-type">:*:</span></span><span> </span><span id="local-6989586621679098766"><span class="annot"><span class="annottext">g a
+</span><a href="#local-6989586621679098766"><span class="hs-identifier hs-var">bs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; m) -&gt; f a -&gt; m
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; f a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098763"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">f a
+</span><a href="#local-6989586621679098764"><span class="hs-keyword hs-var">as</span></a></span><span> </span><span class="annot"><span class="annottext">m -&gt; m -&gt; m
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">(a -&gt; m) -&gt; g a -&gt; m
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; g a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098763"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">g a
+</span><a href="#local-6989586621679098766"><span class="hs-identifier hs-var">bs</span></a></span><span>
+</span><span id="line-117"></span><span>
+</span><span id="line-118"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098187"><span id="local-6989586621679098188"><span id="local-6989586621679098775"><span id="local-6989586621679098782"><span class="hs-special">(</span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098187"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098188"><span class="hs-identifier hs-type">g</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679098187"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><span class="hs-operator hs-type">:+:</span></span><span> </span><span class="annot"><a href="#local-6989586621679098188"><span class="hs-identifier hs-type">g</span></a></span><span class="hs-special">)</span></span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-119"></span><span>  </span><span id="local-6989586621679098789"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; (:+:) f g a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679098790"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098790"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">L1</span></span><span> </span><span id="local-6989586621679098792"><span class="annot"><span class="annottext">f a
+</span><a href="#local-6989586621679098792"><span class="hs-keyword hs-var">as</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; m) -&gt; f a -&gt; m
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; f a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098790"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">f a
+</span><a href="#local-6989586621679098792"><span class="hs-keyword hs-var">as</span></a></span><span>
+</span><span id="line-120"></span><span>  </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span id="local-6989586621679098793"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098793"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">R1</span></span><span> </span><span id="local-6989586621679098795"><span class="annot"><span class="annottext">g a
+</span><a href="#local-6989586621679098795"><span class="hs-identifier hs-var">bs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; m) -&gt; g a -&gt; m
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; g a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098793"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">g a
+</span><a href="#local-6989586621679098795"><span class="hs-identifier hs-var">bs</span></a></span><span>
+</span><span id="line-121"></span><span>
+</span><span id="line-122"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098800"><span id="local-6989586621679098807"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">V1</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-123"></span><span>  </span><span id="local-6989586621679098812"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; V1 a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621679098813"><span class="annot"><span class="annottext">V1 a
+</span><a href="#local-6989586621679098813"><span class="hs-identifier hs-var">v</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">V1 a
+</span><a href="#local-6989586621679098813"><span class="hs-identifier hs-var">v</span></a></span><span> </span><span class="annot"><span class="annottext">V1 a -&gt; m -&gt; m
+forall a b. a -&gt; b -&gt; b
+</span><span class="hs-operator hs-var">`seq`</span></span><span> </span><span class="annot"><span class="annottext">m
+forall a. HasCallStack =&gt; a
+</span><span class="hs-identifier hs-var">undefined</span></span><span>
+</span><span id="line-124"></span><span>
+</span><span id="line-125"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098203"><span id="local-6989586621679098204"><span id="local-6989586621679098823"><span id="local-6989586621679098830"><span class="hs-special">(</span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098203"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098204"><span class="hs-identifier hs-type">g</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679098203"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><span class="hs-operator hs-type">:.:</span></span><span> </span><span class="annot"><a href="#local-6989586621679098204"><span class="hs-identifier hs-type">g</span></a></span><span class="hs-special">)</span></span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-126"></span><span>  </span><span id="local-6989586621679098837"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; (:.:) f g a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679098838"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098838"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Comp1</span></span><span> </span><span id="local-6989586621679098840"><span class="annot"><span class="annottext">f (g a)
+</span><a href="#local-6989586621679098840"><span class="hs-identifier hs-var">m</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(g a -&gt; m) -&gt; f (g a) -&gt; m
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; f a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">(a -&gt; m) -&gt; g a -&gt; m
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; g a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098838"><span class="hs-identifier hs-var">f</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">f (g a)
+</span><a href="#local-6989586621679098840"><span class="hs-identifier hs-var">m</span></a></span><span>
+</span><span id="line-127"></span><span>
+</span><span id="line-128"></span><span class="hs-keyword">class</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bifoldable</span></span><span> </span><span class="annot"><a href="#local-6989586621679098207"><span class="hs-identifier hs-type">t</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span id="Bifoldable1"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Bifoldable1"><span class="hs-identifier hs-var">Bifoldable1</span></a></span></span><span> </span><span id="local-6989586621679098207"><span class="annot"><a href="#local-6989586621679098207"><span class="hs-identifier hs-type">t</span></a></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-129"></span><span>  </span><span id="bifold1"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#bifold1"><span class="hs-identifier hs-type">bifold1</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span id="local-6989586621679098210"><span class="annot"><span class="hs-identifier hs-type">Semigroup</span></span><span> </span><span class="annot"><a href="#local-6989586621679098210"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679098207"><span class="hs-identifier hs-type">t</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098210"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098210"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679098210"><span class="hs-identifier hs-type">m</span></a></span></span><span>
+</span><span id="line-130"></span><span>  </span><span id="local-6989586621679098844"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#bifold1"><span class="hs-identifier hs-var hs-var">bifold1</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(m -&gt; m) -&gt; (m -&gt; m) -&gt; t m m -&gt; m
+forall m a b. Semigroup m =&gt; (a -&gt; m) -&gt; (b -&gt; m) -&gt; t a b -&gt; m
+forall (t :: * -&gt; * -&gt; *) m a b.
+(Bifoldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; (b -&gt; m) -&gt; t a b -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-identifier hs-var">bifoldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">m -&gt; m
+forall a. a -&gt; a
+</span><span class="hs-identifier hs-var">id</span></span><span> </span><span class="annot"><span class="annottext">m -&gt; m
+forall a. a -&gt; a
+</span><span class="hs-identifier hs-var">id</span></span></span><span>
+</span><span id="line-131"></span><span>  </span><span class="hs-pragma">{-# INLINE</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#bifold1"><span class="hs-pragma hs-type">bifold1</span></a></span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><span id="line-132"></span><span>
+</span><span id="line-133"></span><span>  </span><span id="bifoldMap1"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-identifier hs-type">bifoldMap1</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span id="local-6989586621679098212"><span id="local-6989586621679098213"><span id="local-6989586621679098214"><span class="annot"><span class="hs-identifier hs-type">Semigroup</span></span><span> </span><span class="annot"><a href="#local-6989586621679098212"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679098213"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679098212"><span class="hs-identifier hs-type">m</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679098214"><span class="hs-identifier hs-type">b</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679098212"><span class="hs-identifier hs-type">m</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679098207"><span class="hs-identifier hs-type">t</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098213"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098214"><span class="hs-identifier hs-type">b</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679098212"><span class="hs-identifier hs-type">m</span></a></span></span></span></span><span>
+</span><span id="line-134"></span><span>  </span><span id="local-6989586621679098849"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-identifier hs-var hs-var">bifoldMap1</span></a></span><span> </span><span id="local-6989586621679098856"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098856"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span id="local-6989586621679098857"><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679098857"><span class="hs-identifier hs-var">g</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">m -&gt; (m -&gt; m) -&gt; OptionCompat m -&gt; m
+forall b a. b -&gt; (a -&gt; b) -&gt; Maybe a -&gt; b
+</span><span class="hs-identifier hs-var">maybe</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">[Char] -&gt; m
+forall a. HasCallStack =&gt; [Char] -&gt; a
+</span><span class="hs-identifier hs-var">error</span></span><span> </span><span class="annot"><span class="annottext">[Char]
+</span><span class="hs-string">&quot;bifoldMap1&quot;</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">m -&gt; m
+forall a. a -&gt; a
+</span><span class="hs-identifier hs-var">id</span></span><span>
+</span><span id="line-135"></span><span>                 </span><span class="annot"><span class="annottext">(OptionCompat m -&gt; m) -&gt; (t a b -&gt; OptionCompat m) -&gt; t a b -&gt; m
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">OptionCompat m -&gt; OptionCompat m
+forall a. OptionCompat a -&gt; OptionCompat a
+</span><a href="Data.Semigroup.Foldable.Class.html#getOptionCompat"><span class="hs-identifier hs-var">getOptionCompat</span></a></span><span>
+</span><span id="line-136"></span><span>                 </span><span class="annot"><span class="annottext">(OptionCompat m -&gt; OptionCompat m)
+-&gt; (t a b -&gt; OptionCompat m) -&gt; t a b -&gt; OptionCompat m
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">(a -&gt; OptionCompat m)
+-&gt; (b -&gt; OptionCompat m) -&gt; t a b -&gt; OptionCompat m
+forall m a b. Monoid m =&gt; (a -&gt; m) -&gt; (b -&gt; m) -&gt; t a b -&gt; m
+forall (p :: * -&gt; * -&gt; *) m a b.
+(Bifoldable p, Monoid m) =&gt;
+(a -&gt; m) -&gt; (b -&gt; m) -&gt; p a b -&gt; m
+</span><span class="hs-identifier hs-var">bifoldMap</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">OptionCompat m -&gt; OptionCompat m
+forall a. OptionCompat a -&gt; OptionCompat a
+</span><a href="Data.Semigroup.Foldable.Class.html#optionCompat"><span class="hs-identifier hs-var">optionCompat</span></a></span><span> </span><span class="annot"><span class="annottext">(OptionCompat m -&gt; OptionCompat m)
+-&gt; (a -&gt; OptionCompat m) -&gt; a -&gt; OptionCompat m
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">m -&gt; OptionCompat m
+forall a. a -&gt; Maybe a
+</span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">(m -&gt; OptionCompat m) -&gt; (a -&gt; m) -&gt; a -&gt; OptionCompat m
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098856"><span class="hs-identifier hs-var">f</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">OptionCompat m -&gt; OptionCompat m
+forall a. OptionCompat a -&gt; OptionCompat a
+</span><a href="Data.Semigroup.Foldable.Class.html#optionCompat"><span class="hs-identifier hs-var">optionCompat</span></a></span><span> </span><span class="annot"><span class="annottext">(OptionCompat m -&gt; OptionCompat m)
+-&gt; (b -&gt; OptionCompat m) -&gt; b -&gt; OptionCompat m
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">m -&gt; OptionCompat m
+forall a. a -&gt; Maybe a
+</span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">(m -&gt; OptionCompat m) -&gt; (b -&gt; m) -&gt; b -&gt; OptionCompat m
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679098857"><span class="hs-identifier hs-var">g</span></a></span><span class="hs-special">)</span></span><span>
+</span><span id="line-137"></span><span>  </span><span class="hs-pragma">{-# INLINE</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-pragma hs-type">bifoldMap1</span></a></span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><span id="line-138"></span><span>
+</span><span id="line-139"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098863"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Bifoldable1"><span class="hs-identifier hs-type">Bifoldable1</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Arg</span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-140"></span><span>  </span><span id="local-6989586621679098872"><span class="annot"><span class="annottext">bifoldMap1 :: forall m a b. Semigroup m =&gt; (a -&gt; m) -&gt; (b -&gt; m) -&gt; Arg a b -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">bifoldMap1</span></a></span></span><span> </span><span id="local-6989586621679098873"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098873"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span id="local-6989586621679098874"><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679098874"><span class="hs-identifier hs-var">g</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Arg</span></span><span> </span><span id="local-6989586621679098876"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098876"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679098877"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679098877"><span class="hs-identifier hs-var">b</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098873"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098876"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">m -&gt; m -&gt; m
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679098874"><span class="hs-identifier hs-var">g</span></a></span><span> </span><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679098877"><span class="hs-identifier hs-var">b</span></a></span><span>
+</span><span id="line-141"></span><span>
+</span><span id="line-142"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098882"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Bifoldable1"><span class="hs-identifier hs-type">Bifoldable1</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Either</span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-143"></span><span>  </span><span id="local-6989586621679098889"><span class="annot"><span class="annottext">bifoldMap1 :: forall m a b.
+Semigroup m =&gt;
+(a -&gt; m) -&gt; (b -&gt; m) -&gt; Either a b -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">bifoldMap1</span></a></span></span><span> </span><span id="local-6989586621679098890"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098890"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="annot"><span class="annottext">b -&gt; m
+</span><span class="hs-identifier">_</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Left</span></span><span> </span><span id="local-6989586621679098891"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098891"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098890"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098891"><span class="hs-identifier hs-var">a</span></a></span><span>
+</span><span id="line-144"></span><span>  </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-identifier hs-var">bifoldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621679098892"><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679098892"><span class="hs-identifier hs-var">g</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Right</span></span><span> </span><span id="local-6989586621679098893"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679098893"><span class="hs-identifier hs-var">b</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679098892"><span class="hs-identifier hs-var">g</span></a></span><span> </span><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679098893"><span class="hs-identifier hs-var">b</span></a></span><span>
+</span><span id="line-145"></span><span>  </span><span class="hs-pragma">{-# INLINE</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-pragma hs-type">bifoldMap1</span></a></span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><span id="line-146"></span><span>
+</span><span id="line-147"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098898"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Bifoldable1"><span class="hs-identifier hs-type">Bifoldable1</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">,</span><span class="hs-special">)</span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-148"></span><span>  </span><span id="local-6989586621679098906"><span class="annot"><span class="annottext">bifoldMap1 :: forall m a b. Semigroup m =&gt; (a -&gt; m) -&gt; (b -&gt; m) -&gt; (a, b) -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">bifoldMap1</span></a></span></span><span> </span><span id="local-6989586621679098907"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098907"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span id="local-6989586621679098908"><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679098908"><span class="hs-identifier hs-var">g</span></a></span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679098909"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098909"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679098910"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679098910"><span class="hs-identifier hs-var">b</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098907"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098909"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">m -&gt; m -&gt; m
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679098908"><span class="hs-identifier hs-var">g</span></a></span><span> </span><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679098910"><span class="hs-identifier hs-var">b</span></a></span><span>
+</span><span id="line-149"></span><span>  </span><span class="hs-pragma">{-# INLINE</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-pragma hs-type">bifoldMap1</span></a></span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><span id="line-150"></span><span>
+</span><span id="line-151"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098237"><span id="local-6989586621679098915"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Bifoldable1"><span class="hs-identifier hs-type">Bifoldable1</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">(</span><span class="hs-special">,</span><span class="hs-special">,</span><span class="hs-special">)</span><span> </span><span class="annot"><a href="#local-6989586621679098237"><span class="hs-identifier hs-type">x</span></a></span><span class="hs-special">)</span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-152"></span><span>  </span><span id="local-6989586621679098923"><span class="annot"><span class="annottext">bifoldMap1 :: forall m a b. Semigroup m =&gt; (a -&gt; m) -&gt; (b -&gt; m) -&gt; (x, a, b) -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">bifoldMap1</span></a></span></span><span> </span><span id="local-6989586621679098924"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098924"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span id="local-6989586621679098925"><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679098925"><span class="hs-identifier hs-var">g</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">x
+</span><span class="hs-identifier">_</span></span><span class="hs-special">,</span><span id="local-6989586621679098926"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098926"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">,</span><span id="local-6989586621679098927"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679098927"><span class="hs-identifier hs-var">b</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098924"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098926"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">m -&gt; m -&gt; m
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679098925"><span class="hs-identifier hs-var">g</span></a></span><span> </span><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679098927"><span class="hs-identifier hs-var">b</span></a></span><span>
+</span><span id="line-153"></span><span>  </span><span class="hs-pragma">{-# INLINE</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-pragma hs-type">bifoldMap1</span></a></span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><span id="line-154"></span><span>
+</span><span id="line-155"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098244"><span id="local-6989586621679098245"><span id="local-6989586621679098932"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Bifoldable1"><span class="hs-identifier hs-type">Bifoldable1</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">(</span><span class="hs-special">,</span><span class="hs-special">,</span><span class="hs-special">,</span><span class="hs-special">)</span><span> </span><span class="annot"><a href="#local-6989586621679098244"><span class="hs-identifier hs-type">x</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098245"><span class="hs-identifier hs-type">y</span></a></span><span class="hs-special">)</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-156"></span><span>  </span><span id="local-6989586621679098940"><span class="annot"><span class="annottext">bifoldMap1 :: forall m a b.
+Semigroup m =&gt;
+(a -&gt; m) -&gt; (b -&gt; m) -&gt; (x, y, a, b) -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">bifoldMap1</span></a></span></span><span> </span><span id="local-6989586621679098941"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098941"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span id="local-6989586621679098942"><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679098942"><span class="hs-identifier hs-var">g</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">x
+</span><span class="hs-identifier">_</span></span><span class="hs-special">,</span><span class="annot"><span class="annottext">y
+</span><span class="hs-identifier">_</span></span><span class="hs-special">,</span><span id="local-6989586621679098943"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098943"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">,</span><span id="local-6989586621679098944"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679098944"><span class="hs-identifier hs-var">b</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098941"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098943"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">m -&gt; m -&gt; m
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679098942"><span class="hs-identifier hs-var">g</span></a></span><span> </span><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679098944"><span class="hs-identifier hs-var">b</span></a></span><span>
+</span><span id="line-157"></span><span>  </span><span class="hs-pragma">{-# INLINE</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-pragma hs-type">bifoldMap1</span></a></span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><span id="line-158"></span><span>
+</span><span id="line-159"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098253"><span id="local-6989586621679098254"><span id="local-6989586621679098255"><span id="local-6989586621679098949"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Bifoldable1"><span class="hs-identifier hs-type">Bifoldable1</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">(</span><span class="hs-special">,</span><span class="hs-special">,</span><span class="hs-special">,</span><span class="hs-special">,</span><span class="hs-special">)</span><span> </span><span class="annot"><a href="#local-6989586621679098253"><span class="hs-identifier hs-type">x</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098254"><span class="hs-identifier hs-type">y</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098255"><span class="hs-identifier hs-type">z</span></a></span><span class="hs-special">)</span></span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-160"></span><span>  </span><span id="local-6989586621679098957"><span class="annot"><span class="annottext">bifoldMap1 :: forall m a b.
+Semigroup m =&gt;
+(a -&gt; m) -&gt; (b -&gt; m) -&gt; (x, y, z, a, b) -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">bifoldMap1</span></a></span></span><span> </span><span id="local-6989586621679098958"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098958"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span id="local-6989586621679098959"><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679098959"><span class="hs-identifier hs-var">g</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">x
+</span><span class="hs-identifier">_</span></span><span class="hs-special">,</span><span class="annot"><span class="annottext">y
+</span><span class="hs-identifier">_</span></span><span class="hs-special">,</span><span class="annot"><span class="annottext">z
+</span><span class="hs-identifier">_</span></span><span class="hs-special">,</span><span id="local-6989586621679098960"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098960"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">,</span><span id="local-6989586621679098961"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679098961"><span class="hs-identifier hs-var">b</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098958"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098960"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">m -&gt; m -&gt; m
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679098959"><span class="hs-identifier hs-var">g</span></a></span><span> </span><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679098961"><span class="hs-identifier hs-var">b</span></a></span><span>
+</span><span id="line-161"></span><span>  </span><span class="hs-pragma">{-# INLINE</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-pragma hs-type">bifoldMap1</span></a></span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><span id="line-162"></span><span>
+</span><span id="line-163"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098966"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Bifoldable1"><span class="hs-identifier hs-type">Bifoldable1</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Const</span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-164"></span><span>  </span><span id="local-6989586621679098973"><span class="annot"><span class="annottext">bifoldMap1 :: forall m a b. Semigroup m =&gt; (a -&gt; m) -&gt; (b -&gt; m) -&gt; Const a b -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">bifoldMap1</span></a></span></span><span> </span><span id="local-6989586621679098974"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098974"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="annot"><span class="annottext">b -&gt; m
+</span><span class="hs-identifier">_</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Const</span></span><span> </span><span id="local-6989586621679098976"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098976"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679098974"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679098976"><span class="hs-identifier hs-var">a</span></a></span><span>
+</span><span id="line-165"></span><span>  </span><span class="hs-pragma">{-# INLINE</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-pragma hs-type">bifoldMap1</span></a></span><span> </span><span class="hs-pragma">#-}</span><span class="hs-cpp">
+
+#ifdef MIN_VERSION_tagged
+</span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098981"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Bifoldable1"><span class="hs-identifier hs-type">Bifoldable1</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Tagged</span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-169"></span><span>  </span><span id="local-6989586621679098988"><span class="annot"><span class="annottext">bifoldMap1 :: forall m a b.
+Semigroup m =&gt;
+(a -&gt; m) -&gt; (b -&gt; m) -&gt; Tagged a b -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">bifoldMap1</span></a></span></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621679098989"><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679098989"><span class="hs-identifier hs-var">g</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Tagged</span></span><span> </span><span id="local-6989586621679098991"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679098991"><span class="hs-identifier hs-var">b</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679098989"><span class="hs-identifier hs-var">g</span></a></span><span> </span><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679098991"><span class="hs-identifier hs-var">b</span></a></span><span>
+</span><span id="line-170"></span><span>  </span><span class="hs-pragma">{-# INLINE</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-pragma hs-type">bifoldMap1</span></a></span><span> </span><span class="hs-pragma">#-}</span><span class="hs-cpp">
+#endif
+</span><span>
+</span><span id="line-173"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098277"><span id="local-6989586621679098278"><span id="local-6989586621679098279"><span id="local-6989586621679099002"><span class="hs-special">(</span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Bifoldable1"><span class="hs-identifier hs-type">Bifoldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098277"><span class="hs-identifier hs-type">p</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098278"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098279"><span class="hs-identifier hs-type">g</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Bifoldable1"><span class="hs-identifier hs-type">Bifoldable1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Biff</span></span><span> </span><span class="annot"><a href="#local-6989586621679098277"><span class="hs-identifier hs-type">p</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098278"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098279"><span class="hs-identifier hs-type">g</span></a></span><span class="hs-special">)</span></span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-174"></span><span>  </span><span id="local-6989586621679099015"><span class="annot"><span class="annottext">bifoldMap1 :: forall m a b.
+Semigroup m =&gt;
+(a -&gt; m) -&gt; (b -&gt; m) -&gt; Biff p f g a b -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">bifoldMap1</span></a></span></span><span> </span><span id="local-6989586621679099016"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099016"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span id="local-6989586621679099017"><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679099017"><span class="hs-identifier hs-var">g</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(f a -&gt; m) -&gt; (g b -&gt; m) -&gt; p (f a) (g b) -&gt; m
+forall m a b. Semigroup m =&gt; (a -&gt; m) -&gt; (b -&gt; m) -&gt; p a b -&gt; m
+forall (t :: * -&gt; * -&gt; *) m a b.
+(Bifoldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; (b -&gt; m) -&gt; t a b -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-identifier hs-var">bifoldMap1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">(a -&gt; m) -&gt; f a -&gt; m
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; f a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099016"><span class="hs-identifier hs-var">f</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">(b -&gt; m) -&gt; g b -&gt; m
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; g a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679099017"><span class="hs-identifier hs-var">g</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(p (f a) (g b) -&gt; m)
+-&gt; (Biff p f g a b -&gt; p (f a) (g b)) -&gt; Biff p f g a b -&gt; m
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Biff p f g a b -&gt; p (f a) (g b)
+forall {k1} {k2} {k3} {k4} (p :: k1 -&gt; k2 -&gt; *) (f :: k3 -&gt; k1)
+       (g :: k4 -&gt; k2) (a :: k3) (b :: k4).
+Biff p f g a b -&gt; p (f a) (g b)
+</span><span class="hs-identifier hs-var">runBiff</span></span><span>
+</span><span id="line-175"></span><span>  </span><span class="hs-pragma">{-# INLINE</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-pragma hs-type">bifoldMap1</span></a></span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><span id="line-176"></span><span>
+</span><span id="line-177"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098296"><span id="local-6989586621679099025"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098296"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Bifoldable1"><span class="hs-identifier hs-type">Bifoldable1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Clown</span></span><span> </span><span class="annot"><a href="#local-6989586621679098296"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">)</span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-178"></span><span>  </span><span id="local-6989586621679099034"><span class="annot"><span class="annottext">bifoldMap1 :: forall m a b.
+Semigroup m =&gt;
+(a -&gt; m) -&gt; (b -&gt; m) -&gt; Clown f a b -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">bifoldMap1</span></a></span></span><span> </span><span id="local-6989586621679099035"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099035"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="annot"><span class="annottext">b -&gt; m
+</span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; m) -&gt; f a -&gt; m
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; f a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099035"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">(f a -&gt; m) -&gt; (Clown f a b -&gt; f a) -&gt; Clown f a b -&gt; m
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Clown f a b -&gt; f a
+forall {k1} {k2} (f :: k1 -&gt; *) (a :: k1) (b :: k2).
+Clown f a b -&gt; f a
+</span><span class="hs-identifier hs-var">runClown</span></span><span>
+</span><span id="line-179"></span><span>  </span><span class="hs-pragma">{-# INLINE</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-pragma hs-type">bifoldMap1</span></a></span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><span id="line-180"></span><span>
+</span><span id="line-181"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098309"><span id="local-6989586621679099043"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Bifoldable1"><span class="hs-identifier hs-type">Bifoldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098309"><span class="hs-identifier hs-type">p</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Bifoldable1"><span class="hs-identifier hs-type">Bifoldable1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Flip</span></span><span> </span><span class="annot"><a href="#local-6989586621679098309"><span class="hs-identifier hs-type">p</span></a></span><span class="hs-special">)</span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-182"></span><span>  </span><span id="local-6989586621679099052"><span class="annot"><span class="annottext">bifoldMap1 :: forall m a b.
+Semigroup m =&gt;
+(a -&gt; m) -&gt; (b -&gt; m) -&gt; Flip p a b -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">bifoldMap1</span></a></span></span><span> </span><span id="local-6989586621679099053"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099053"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span id="local-6989586621679099054"><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679099054"><span class="hs-identifier hs-var">g</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(b -&gt; m) -&gt; (a -&gt; m) -&gt; p b a -&gt; m
+forall m a b. Semigroup m =&gt; (a -&gt; m) -&gt; (b -&gt; m) -&gt; p a b -&gt; m
+forall (t :: * -&gt; * -&gt; *) m a b.
+(Bifoldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; (b -&gt; m) -&gt; t a b -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-identifier hs-var">bifoldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679099054"><span class="hs-identifier hs-var">g</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099053"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">(p b a -&gt; m) -&gt; (Flip p a b -&gt; p b a) -&gt; Flip p a b -&gt; m
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Flip p a b -&gt; p b a
+forall {k1} {k2} (p :: k1 -&gt; k2 -&gt; *) (a :: k2) (b :: k1).
+Flip p a b -&gt; p b a
+</span><span class="hs-identifier hs-var">runFlip</span></span><span>
+</span><span id="line-183"></span><span>  </span><span class="hs-pragma">{-# INLINE</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-pragma hs-type">bifoldMap1</span></a></span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><span id="line-184"></span><span>
+</span><span id="line-185"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098322"><span id="local-6989586621679099062"><span id="local-6989586621679099069"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Bifoldable1"><span class="hs-identifier hs-type">Bifoldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098322"><span class="hs-identifier hs-type">p</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Join</span></span><span> </span><span class="annot"><a href="#local-6989586621679098322"><span class="hs-identifier hs-type">p</span></a></span><span class="hs-special">)</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-186"></span><span>  </span><span id="local-6989586621679099074"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; Join p a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679099075"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099075"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Join</span></span><span> </span><span id="local-6989586621679099077"><span class="annot"><span class="annottext">p a a
+</span><a href="#local-6989586621679099077"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; m) -&gt; (a -&gt; m) -&gt; p a a -&gt; m
+forall m a b. Semigroup m =&gt; (a -&gt; m) -&gt; (b -&gt; m) -&gt; p a b -&gt; m
+forall (t :: * -&gt; * -&gt; *) m a b.
+(Bifoldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; (b -&gt; m) -&gt; t a b -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-identifier hs-var">bifoldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099075"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099075"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">p a a
+</span><a href="#local-6989586621679099077"><span class="hs-identifier hs-var">a</span></a></span><span>
+</span><span id="line-187"></span><span>  </span><span class="hs-pragma">{-# INLINE</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-pragma hs-type">foldMap1</span></a></span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><span id="line-188"></span><span>
+</span><span id="line-189"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098329"><span id="local-6989586621679099084"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098329"><span class="hs-identifier hs-type">g</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Bifoldable1"><span class="hs-identifier hs-type">Bifoldable1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Joker</span></span><span> </span><span class="annot"><a href="#local-6989586621679098329"><span class="hs-identifier hs-type">g</span></a></span><span class="hs-special">)</span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-190"></span><span>  </span><span id="local-6989586621679099093"><span class="annot"><span class="annottext">bifoldMap1 :: forall m a b.
+Semigroup m =&gt;
+(a -&gt; m) -&gt; (b -&gt; m) -&gt; Joker g a b -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">bifoldMap1</span></a></span></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621679099094"><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679099094"><span class="hs-identifier hs-var">g</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(b -&gt; m) -&gt; g b -&gt; m
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; g a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679099094"><span class="hs-identifier hs-var">g</span></a></span><span> </span><span class="annot"><span class="annottext">(g b -&gt; m) -&gt; (Joker g a b -&gt; g b) -&gt; Joker g a b -&gt; m
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Joker g a b -&gt; g b
+forall {k1} {k2} (g :: k1 -&gt; *) (a :: k2) (b :: k1).
+Joker g a b -&gt; g b
+</span><span class="hs-identifier hs-var">runJoker</span></span><span>
+</span><span id="line-191"></span><span>  </span><span class="hs-pragma">{-# INLINE</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-pragma hs-type">bifoldMap1</span></a></span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><span id="line-192"></span><span>
+</span><span id="line-193"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098344"><span id="local-6989586621679098345"><span id="local-6989586621679099104"><span class="hs-special">(</span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Bifoldable1"><span class="hs-identifier hs-type">Bifoldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098344"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Bifoldable1"><span class="hs-identifier hs-type">Bifoldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098345"><span class="hs-identifier hs-type">g</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Bifoldable1"><span class="hs-identifier hs-type">Bifoldable1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Bifunctor.Product</span></span><span> </span><span class="annot"><a href="#local-6989586621679098344"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098345"><span class="hs-identifier hs-type">g</span></a></span><span class="hs-special">)</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-194"></span><span>  </span><span id="local-6989586621679099116"><span class="annot"><span class="annottext">bifoldMap1 :: forall m a b.
+Semigroup m =&gt;
+(a -&gt; m) -&gt; (b -&gt; m) -&gt; Product f g a b -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">bifoldMap1</span></a></span></span><span> </span><span id="local-6989586621679099117"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099117"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span id="local-6989586621679099118"><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679099118"><span class="hs-identifier hs-var">g</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Bifunctor.Pair</span></span><span> </span><span id="local-6989586621679099120"><span class="annot"><span class="annottext">f a b
+</span><a href="#local-6989586621679099120"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span id="local-6989586621679099121"><span class="annot"><span class="annottext">g a b
+</span><a href="#local-6989586621679099121"><span class="hs-identifier hs-var">y</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; m) -&gt; (b -&gt; m) -&gt; f a b -&gt; m
+forall m a b. Semigroup m =&gt; (a -&gt; m) -&gt; (b -&gt; m) -&gt; f a b -&gt; m
+forall (t :: * -&gt; * -&gt; *) m a b.
+(Bifoldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; (b -&gt; m) -&gt; t a b -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-identifier hs-var">bifoldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099117"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679099118"><span class="hs-identifier hs-var">g</span></a></span><span> </span><span class="annot"><span class="annottext">f a b
+</span><a href="#local-6989586621679099120"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">m -&gt; m -&gt; m
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">(a -&gt; m) -&gt; (b -&gt; m) -&gt; g a b -&gt; m
+forall m a b. Semigroup m =&gt; (a -&gt; m) -&gt; (b -&gt; m) -&gt; g a b -&gt; m
+forall (t :: * -&gt; * -&gt; *) m a b.
+(Bifoldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; (b -&gt; m) -&gt; t a b -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-identifier hs-var">bifoldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099117"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679099118"><span class="hs-identifier hs-var">g</span></a></span><span> </span><span class="annot"><span class="annottext">g a b
+</span><a href="#local-6989586621679099121"><span class="hs-identifier hs-var">y</span></a></span><span>
+</span><span id="line-195"></span><span>  </span><span class="hs-pragma">{-# INLINE</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-pragma hs-type">bifoldMap1</span></a></span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><span id="line-196"></span><span>
+</span><span id="line-197"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098355"><span id="local-6989586621679098356"><span id="local-6989586621679099130"><span class="hs-special">(</span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098355"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Bifoldable1"><span class="hs-identifier hs-type">Bifoldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098356"><span class="hs-identifier hs-type">p</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Bifoldable1"><span class="hs-identifier hs-type">Bifoldable1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Tannen</span></span><span> </span><span class="annot"><a href="#local-6989586621679098355"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098356"><span class="hs-identifier hs-type">p</span></a></span><span class="hs-special">)</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-198"></span><span>  </span><span id="local-6989586621679099141"><span class="annot"><span class="annottext">bifoldMap1 :: forall m a b.
+Semigroup m =&gt;
+(a -&gt; m) -&gt; (b -&gt; m) -&gt; Tannen f p a b -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">bifoldMap1</span></a></span></span><span> </span><span id="local-6989586621679099142"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099142"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span id="local-6989586621679099143"><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679099143"><span class="hs-identifier hs-var">g</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(p a b -&gt; m) -&gt; f (p a b) -&gt; m
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; f a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">(a -&gt; m) -&gt; (b -&gt; m) -&gt; p a b -&gt; m
+forall m a b. Semigroup m =&gt; (a -&gt; m) -&gt; (b -&gt; m) -&gt; p a b -&gt; m
+forall (t :: * -&gt; * -&gt; *) m a b.
+(Bifoldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; (b -&gt; m) -&gt; t a b -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-identifier hs-var">bifoldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099142"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679099143"><span class="hs-identifier hs-var">g</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(f (p a b) -&gt; m)
+-&gt; (Tannen f p a b -&gt; f (p a b)) -&gt; Tannen f p a b -&gt; m
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Tannen f p a b -&gt; f (p a b)
+forall {k1} {k2} {k3} (f :: k1 -&gt; *) (p :: k2 -&gt; k3 -&gt; k1)
+       (a :: k2) (b :: k3).
+Tannen f p a b -&gt; f (p a b)
+</span><span class="hs-identifier hs-var">runTannen</span></span><span>
+</span><span id="line-199"></span><span>  </span><span class="hs-pragma">{-# INLINE</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-pragma hs-type">bifoldMap1</span></a></span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><span id="line-200"></span><span>
+</span><span id="line-201"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098371"><span id="local-6989586621679099151"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Bifoldable1"><span class="hs-identifier hs-type">Bifoldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098371"><span class="hs-identifier hs-type">p</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Bifoldable1"><span class="hs-identifier hs-type">Bifoldable1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">WrappedBifunctor</span></span><span> </span><span class="annot"><a href="#local-6989586621679098371"><span class="hs-identifier hs-type">p</span></a></span><span class="hs-special">)</span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-202"></span><span>  </span><span id="local-6989586621679099160"><span class="annot"><span class="annottext">bifoldMap1 :: forall m a b.
+Semigroup m =&gt;
+(a -&gt; m) -&gt; (b -&gt; m) -&gt; WrappedBifunctor p a b -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">bifoldMap1</span></a></span></span><span> </span><span id="local-6989586621679099161"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099161"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span id="local-6989586621679099162"><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679099162"><span class="hs-identifier hs-var">g</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; m) -&gt; (b -&gt; m) -&gt; p a b -&gt; m
+forall m a b. Semigroup m =&gt; (a -&gt; m) -&gt; (b -&gt; m) -&gt; p a b -&gt; m
+forall (t :: * -&gt; * -&gt; *) m a b.
+(Bifoldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; (b -&gt; m) -&gt; t a b -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-identifier hs-var">bifoldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099161"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">b -&gt; m
+</span><a href="#local-6989586621679099162"><span class="hs-identifier hs-var">g</span></a></span><span> </span><span class="annot"><span class="annottext">(p a b -&gt; m)
+-&gt; (WrappedBifunctor p a b -&gt; p a b) -&gt; WrappedBifunctor p a b -&gt; m
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">WrappedBifunctor p a b -&gt; p a b
+forall {k1} {k2} (p :: k1 -&gt; k2 -&gt; *) (a :: k1) (b :: k2).
+WrappedBifunctor p a b -&gt; p a b
+</span><span class="hs-identifier hs-var">unwrapBifunctor</span></span><span>
+</span><span id="line-203"></span><span>  </span><span class="hs-pragma">{-# INLINE</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#bifoldMap1"><span class="hs-pragma hs-type">bifoldMap1</span></a></span><span> </span><span class="hs-pragma">#-}</span><span class="hs-cpp">
+
+#if MIN_VERSION_base(4,4,0)
+</span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679099168"><span id="local-6989586621679099175"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Complex</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-207"></span><span>  </span><span id="local-6989586621679099179"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; Complex a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679099180"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099180"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679099181"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679099181"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span class="annot"><span class="hs-operator hs-type">:+</span></span><span> </span><span id="local-6989586621679099183"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679099183"><span class="hs-identifier hs-var">b</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099180"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679099181"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">m -&gt; m -&gt; m
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099180"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679099183"><span class="hs-identifier hs-var">b</span></a></span><span>
+</span><span id="line-208"></span><span>  </span><span class="hs-pragma">{-# INLINE</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-pragma hs-type">foldMap1</span></a></span><span> </span><span class="hs-pragma">#-}</span><span class="hs-cpp">
+#endif
+</span><span class="hs-cpp">
+#ifdef MIN_VERSION_containers
+</span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679099188"><span id="local-6989586621679099195"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Tree</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-213"></span><span>  </span><span id="local-6989586621679099204"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; Tree a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679099205"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099205"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Node</span></span><span> </span><span id="local-6989586621679099207"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679099207"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099205"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679099207"><span class="hs-identifier hs-var">a</span></a></span><span>
+</span><span id="line-214"></span><span>  </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span id="local-6989586621679099208"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099208"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Node</span></span><span> </span><span id="local-6989586621679099209"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679099209"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679099210"><span class="annot"><span class="annottext">Tree a
+</span><a href="#local-6989586621679099210"><span class="hs-identifier hs-var">x</span></a></span></span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span id="local-6989586621679099211"><span class="annot"><span class="annottext">[Tree a]
+</span><a href="#local-6989586621679099211"><span class="hs-identifier hs-var">xs</span></a></span></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099208"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679099209"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">m -&gt; m -&gt; m
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">(Tree a -&gt; m) -&gt; NonEmpty (Tree a) -&gt; m
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; NonEmpty a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">(a -&gt; m) -&gt; Tree a -&gt; m
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; Tree a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099208"><span class="hs-identifier hs-var">f</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Tree a
+</span><a href="#local-6989586621679099210"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">Tree a -&gt; [Tree a] -&gt; NonEmpty (Tree a)
+forall a. a -&gt; [a] -&gt; NonEmpty a
+</span><span class="hs-operator hs-var">:|</span></span><span> </span><span class="annot"><span class="annottext">[Tree a]
+</span><a href="#local-6989586621679099211"><span class="hs-identifier hs-var">xs</span></a></span><span class="hs-special">)</span><span class="hs-cpp">
+#endif
+</span><span>
+</span><span id="line-217"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679099216"><span id="local-6989586621679099223"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Identity</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-218"></span><span>  </span><span id="local-6989586621679099226"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; Identity a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679099227"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099227"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099227"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">(a -&gt; m) -&gt; (Identity a -&gt; a) -&gt; Identity a -&gt; m
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Identity a -&gt; a
+forall a. Identity a -&gt; a
+</span><span class="hs-identifier hs-var">runIdentity</span></span><span class="hs-cpp">
+
+#ifdef MIN_VERSION_tagged
+</span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098397"><span id="local-6989586621679099233"><span id="local-6989586621679099240"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Tagged</span></span><span> </span><span class="annot"><a href="#local-6989586621679098397"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">)</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-222"></span><span>  </span><span id="local-6989586621679099243"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; Tagged a a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679099244"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099244"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Tagged</span></span><span> </span><span id="local-6989586621679099245"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679099245"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099244"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679099245"><span class="hs-identifier hs-var">a</span></a></span><span class="hs-cpp">
+#endif
+</span><span>
+</span><span id="line-225"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098404"><span id="local-6989586621679099252"><span id="local-6989586621679099259"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098404"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">IdentityT</span></span><span> </span><span class="annot"><a href="#local-6989586621679098404"><span class="hs-identifier hs-type">m</span></a></span><span class="hs-special">)</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-226"></span><span>  </span><span id="local-6989586621679099264"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; IdentityT m a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679099265"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099265"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; m) -&gt; m a -&gt; m
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; m a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099265"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">(m a -&gt; m) -&gt; (IdentityT m a -&gt; m a) -&gt; IdentityT m a -&gt; m
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">IdentityT m a -&gt; m a
+forall {k} (f :: k -&gt; *) (a :: k). IdentityT f a -&gt; f a
+</span><span class="hs-identifier hs-var">runIdentityT</span></span><span>
+</span><span id="line-227"></span><span>
+</span><span id="line-228"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098414"><span id="local-6989586621679099273"><span id="local-6989586621679099280"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098414"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Backwards</span></span><span> </span><span class="annot"><a href="#local-6989586621679098414"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">)</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-229"></span><span>  </span><span id="local-6989586621679099285"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; Backwards f a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679099286"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099286"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; m) -&gt; f a -&gt; m
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; f a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099286"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">(f a -&gt; m) -&gt; (Backwards f a -&gt; f a) -&gt; Backwards f a -&gt; m
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Backwards f a -&gt; f a
+forall {k} (f :: k -&gt; *) (a :: k). Backwards f a -&gt; f a
+</span><span class="hs-identifier hs-var">forwards</span></span><span>
+</span><span id="line-230"></span><span>
+</span><span id="line-231"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098426"><span id="local-6989586621679098427"><span id="local-6989586621679099296"><span id="local-6989586621679099303"><span class="hs-special">(</span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098426"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098427"><span class="hs-identifier hs-type">g</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Compose</span></span><span> </span><span class="annot"><a href="#local-6989586621679098426"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098427"><span class="hs-identifier hs-type">g</span></a></span><span class="hs-special">)</span></span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-232"></span><span>  </span><span id="local-6989586621679099310"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; Compose f g a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679099311"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099311"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(g a -&gt; m) -&gt; f (g a) -&gt; m
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; f a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">(a -&gt; m) -&gt; g a -&gt; m
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; g a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099311"><span class="hs-identifier hs-var">f</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(f (g a) -&gt; m) -&gt; (Compose f g a -&gt; f (g a)) -&gt; Compose f g a -&gt; m
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Compose f g a -&gt; f (g a)
+forall {k1} {k2} (f :: k1 -&gt; *) (g :: k2 -&gt; k1) (a :: k2).
+Compose f g a -&gt; f (g a)
+</span><span class="hs-identifier hs-var">getCompose</span></span><span>
+</span><span id="line-233"></span><span>
+</span><span id="line-234"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098439"><span id="local-6989586621679099319"><span id="local-6989586621679099326"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098439"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Lift</span></span><span> </span><span class="annot"><a href="#local-6989586621679098439"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">)</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-235"></span><span>  </span><span id="local-6989586621679099331"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; Lift f a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679099332"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099332"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Pure</span></span><span> </span><span id="local-6989586621679099334"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679099334"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-special">)</span><span>  </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099332"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679099334"><span class="hs-identifier hs-var">x</span></a></span><span>
+</span><span id="line-236"></span><span>  </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span id="local-6989586621679099335"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099335"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Other</span></span><span> </span><span id="local-6989586621679099337"><span class="annot"><span class="annottext">f a
+</span><a href="#local-6989586621679099337"><span class="hs-identifier hs-var">y</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; m) -&gt; f a -&gt; m
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; f a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099335"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">f a
+</span><a href="#local-6989586621679099337"><span class="hs-identifier hs-var">y</span></a></span><span>
+</span><span id="line-237"></span><span>
+</span><span id="line-238"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098448"><span id="local-6989586621679098449"><span id="local-6989586621679099346"><span id="local-6989586621679099353"><span class="hs-special">(</span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098448"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098449"><span class="hs-identifier hs-type">g</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Functor.Product</span></span><span> </span><span class="annot"><a href="#local-6989586621679098448"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098449"><span class="hs-identifier hs-type">g</span></a></span><span class="hs-special">)</span></span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-239"></span><span>  </span><span id="local-6989586621679099361"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; Product f g a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679099362"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099362"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Functor.Pair</span></span><span> </span><span id="local-6989586621679099364"><span class="annot"><span class="annottext">f a
+</span><a href="#local-6989586621679099364"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679099365"><span class="annot"><span class="annottext">g a
+</span><a href="#local-6989586621679099365"><span class="hs-identifier hs-var">b</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; m) -&gt; f a -&gt; m
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; f a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099362"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">f a
+</span><a href="#local-6989586621679099364"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">m -&gt; m -&gt; m
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">(a -&gt; m) -&gt; g a -&gt; m
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; g a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099362"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">g a
+</span><a href="#local-6989586621679099365"><span class="hs-identifier hs-var">b</span></a></span><span>
+</span><span id="line-240"></span><span>
+</span><span id="line-241"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098456"><span id="local-6989586621679099372"><span id="local-6989586621679099379"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098456"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Reverse</span></span><span> </span><span class="annot"><a href="#local-6989586621679098456"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">)</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-242"></span><span>  </span><span id="local-6989586621679099385"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; Reverse f a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679099386"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099386"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Dual m -&gt; m
+forall a. Dual a -&gt; a
+</span><span class="hs-identifier hs-var">getDual</span></span><span> </span><span class="annot"><span class="annottext">(Dual m -&gt; m) -&gt; (Reverse f a -&gt; Dual m) -&gt; Reverse f a -&gt; m
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">(a -&gt; Dual m) -&gt; f a -&gt; Dual m
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; f a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">m -&gt; Dual m
+forall a. a -&gt; Dual a
+</span><span class="hs-identifier hs-var">Dual</span></span><span> </span><span class="annot"><span class="annottext">(m -&gt; Dual m) -&gt; (a -&gt; m) -&gt; a -&gt; Dual m
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099386"><span class="hs-identifier hs-var">f</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(f a -&gt; Dual m) -&gt; (Reverse f a -&gt; f a) -&gt; Reverse f a -&gt; Dual m
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Reverse f a -&gt; f a
+forall {k} (f :: k -&gt; *) (a :: k). Reverse f a -&gt; f a
+</span><span class="hs-identifier hs-var">getReverse</span></span><span>
+</span><span id="line-243"></span><span>
+</span><span id="line-244"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098471"><span id="local-6989586621679098472"><span id="local-6989586621679099397"><span id="local-6989586621679099404"><span class="hs-special">(</span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098471"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098472"><span class="hs-identifier hs-type">g</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Functor.Sum</span></span><span> </span><span class="annot"><a href="#local-6989586621679098471"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098472"><span class="hs-identifier hs-type">g</span></a></span><span class="hs-special">)</span></span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-245"></span><span>  </span><span id="local-6989586621679099411"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; Sum f g a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679099412"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099412"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Functor.InL</span></span><span> </span><span id="local-6989586621679099414"><span class="annot"><span class="annottext">f a
+</span><a href="#local-6989586621679099414"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; m) -&gt; f a -&gt; m
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; f a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099412"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">f a
+</span><a href="#local-6989586621679099414"><span class="hs-identifier hs-var">x</span></a></span><span>
+</span><span id="line-246"></span><span>  </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span id="local-6989586621679099415"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099415"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Functor.InR</span></span><span> </span><span id="local-6989586621679099417"><span class="annot"><span class="annottext">g a
+</span><a href="#local-6989586621679099417"><span class="hs-identifier hs-var">y</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; m) -&gt; g a -&gt; m
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; g a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099415"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">g a
+</span><a href="#local-6989586621679099417"><span class="hs-identifier hs-var">y</span></a></span><span>
+</span><span id="line-247"></span><span>
+</span><span id="line-248"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679099422"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">NonEmpty</span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-249"></span><span>  </span><span id="local-6989586621679099432"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; NonEmpty a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679099433"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099433"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679099434"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679099434"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span class="annot"><span class="hs-operator hs-type">:|</span></span><span> </span><span id="local-6989586621679099435"><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679099435"><span class="hs-keyword hs-var">as</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; (a -&gt; m) -&gt; a -&gt; m) -&gt; (a -&gt; m) -&gt; [a] -&gt; a -&gt; m
+forall a b. (a -&gt; b -&gt; b) -&gt; b -&gt; [a] -&gt; b
+forall (t :: * -&gt; *) a b.
+Foldable t =&gt;
+(a -&gt; b -&gt; b) -&gt; b -&gt; t a -&gt; b
+</span><span class="hs-identifier hs-var">foldr</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679099436"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679099436"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span id="local-6989586621679099437"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099437"><span class="hs-identifier hs-var">g</span></a></span></span><span> </span><span id="local-6989586621679099438"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679099438"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099433"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679099438"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">m -&gt; m -&gt; m
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099437"><span class="hs-identifier hs-var">g</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679099436"><span class="hs-identifier hs-var">b</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099433"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679099435"><span class="hs-keyword hs-var">as</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679099434"><span class="hs-identifier hs-var">a</span></a></span><span>
+</span><span id="line-250"></span><span>  </span><span id="local-6989586621679099439"><span class="annot"><span class="annottext">toNonEmpty :: forall a. NonEmpty a -&gt; NonEmpty a
+</span><a href="Data.Semigroup.Foldable.Class.html#toNonEmpty"><span class="hs-identifier hs-var hs-var hs-var hs-var">toNonEmpty</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">NonEmpty a -&gt; NonEmpty a
+forall a. a -&gt; a
+</span><span class="hs-identifier hs-var">id</span></span><span>
+</span><span id="line-251"></span><span>
+</span><span id="line-252"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098483"><span id="local-6989586621679099444"><span id="local-6989586621679099451"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">(</span><span class="hs-special">,</span><span class="hs-special">)</span><span> </span><span class="annot"><a href="#local-6989586621679098483"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">)</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-253"></span><span>  </span><span id="local-6989586621679099454"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; (a, a) -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679099455"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099455"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a
+</span><span class="hs-identifier">_</span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679099456"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679099456"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099455"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679099456"><span class="hs-identifier hs-var">x</span></a></span><span>
+</span><span id="line-254"></span><span>
+</span><span id="line-255"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679098492"><span id="local-6989586621679098493"><span id="local-6989586621679099463"><span id="local-6989586621679099470"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098492"><span class="hs-identifier hs-type">g</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#Foldable1"><span class="hs-identifier hs-type">Foldable1</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Joker</span></span><span> </span><span class="annot"><a href="#local-6989586621679098492"><span class="hs-identifier hs-type">g</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098493"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">)</span></span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-256"></span><span>  </span><span id="local-6989586621679099475"><span class="annot"><span class="annottext">foldMap1 :: forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; Joker g a a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var hs-var hs-var hs-var">foldMap1</span></a></span></span><span> </span><span id="local-6989586621679099476"><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099476"><span class="hs-identifier hs-var">g</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; m) -&gt; g a -&gt; m
+forall m a. Semigroup m =&gt; (a -&gt; m) -&gt; g a -&gt; m
+forall (t :: * -&gt; *) m a.
+(Foldable1 t, Semigroup m) =&gt;
+(a -&gt; m) -&gt; t a -&gt; m
+</span><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-identifier hs-var">foldMap1</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; m
+</span><a href="#local-6989586621679099476"><span class="hs-identifier hs-var">g</span></a></span><span> </span><span class="annot"><span class="annottext">(g a -&gt; m) -&gt; (Joker g a a -&gt; g a) -&gt; Joker g a a -&gt; m
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Joker g a a -&gt; g a
+forall {k1} {k2} (g :: k1 -&gt; *) (a :: k2) (b :: k1).
+Joker g a b -&gt; g b
+</span><span class="hs-identifier hs-var">runJoker</span></span><span>
+</span><span id="line-257"></span><span>  </span><span class="hs-pragma">{-# INLINE</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#foldMap1"><span class="hs-pragma hs-type">foldMap1</span></a></span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><span id="line-258"></span><span>
+</span><span id="line-259"></span><span class="hs-comment">-- The default implementations of foldMap1 and bifoldMap1 above require the use</span><span>
+</span><span id="line-260"></span><span class="hs-comment">-- of a Maybe type with the following Monoid instance:</span><span>
+</span><span id="line-261"></span><span class="hs-comment">--</span><span>
+</span><span id="line-262"></span><span class="hs-comment">--   instance Semigroup a =&gt; Monoid (Maybe a) where ...</span><span>
+</span><span id="line-263"></span><span class="hs-comment">--</span><span>
+</span><span id="line-264"></span><span class="hs-comment">-- Unfortunately, Maybe has only had such an instance since base-4.11. Prior</span><span>
+</span><span id="line-265"></span><span class="hs-comment">-- to that, its Monoid instance had an instance context of Monoid a, which is</span><span>
+</span><span id="line-266"></span><span class="hs-comment">-- too strong. To compensate, we use CPP to define an OptionCompat type</span><span>
+</span><span id="line-267"></span><span class="hs-comment">-- synonym, which is an alias for Maybe on recent versions of base and an alias</span><span>
+</span><span id="line-268"></span><span class="hs-comment">-- for Data.Semigroup.Option on older versions of base. We don't want to use</span><span>
+</span><span id="line-269"></span><span class="hs-comment">-- Option on recent versions of base, as it has been removed.</span><span class="hs-cpp">
+#if MIN_VERSION_base(4,11,0)
+</span><span class="hs-keyword">type</span><span> </span><span id="OptionCompat"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#OptionCompat"><span class="hs-identifier hs-var">OptionCompat</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span>
+</span><span id="line-272"></span><span>
+</span><span id="line-273"></span><span id="local-6989586621679099477"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#optionCompat"><span class="hs-identifier hs-type">optionCompat</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><a href="#local-6989586621679099477"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#OptionCompat"><span class="hs-identifier hs-type">OptionCompat</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679099477"><span class="hs-identifier hs-type">a</span></a></span></span><span>
+</span><span id="line-274"></span><span id="optionCompat"><span class="annot"><span class="annottext">optionCompat :: forall a. OptionCompat a -&gt; OptionCompat a
+</span><a href="Data.Semigroup.Foldable.Class.html#optionCompat"><span class="hs-identifier hs-var hs-var">optionCompat</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe a -&gt; Maybe a
+forall a. a -&gt; a
+</span><span class="hs-identifier hs-var">id</span></span><span>
+</span><span id="line-275"></span><span>
+</span><span id="line-276"></span><span id="local-6989586621679098105"><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#getOptionCompat"><span class="hs-identifier hs-type">getOptionCompat</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Data.Semigroup.Foldable.Class.html#OptionCompat"><span class="hs-identifier hs-type">OptionCompat</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679098105"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><a href="#local-6989586621679098105"><span class="hs-identifier hs-type">a</span></a></span></span><span>
+</span><span id="line-277"></span><span id="getOptionCompat"><span class="annot"><span class="annottext">getOptionCompat :: forall a. OptionCompat a -&gt; OptionCompat a
+</span><a href="Data.Semigroup.Foldable.Class.html#getOptionCompat"><span class="hs-identifier hs-var hs-var">getOptionCompat</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">OptionCompat a -&gt; OptionCompat a
+forall a. a -&gt; a
+</span><span class="hs-identifier hs-var">id</span></span><span class="hs-cpp">
+#else
+</span><span class="hs-keyword">type</span><span> </span><span class="hs-identifier">OptionCompat</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier">Option</span><span>
+</span><span id="line-280"></span><span>
+</span><span id="line-281"></span><span class="hs-identifier">optionCompat</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">Maybe</span><span> </span><span class="hs-identifier">a</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier">OptionCompat</span><span> </span><span class="hs-identifier">a</span><span>
+</span><span id="line-282"></span><span class="hs-identifier">optionCompat</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier">Option</span><span>
+</span><span id="line-283"></span><span>
+</span><span id="line-284"></span><span class="hs-identifier">getOptionCompat</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">OptionCompat</span><span> </span><span class="hs-identifier">a</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier">Maybe</span><span> </span><span class="hs-identifier">a</span><span>
+</span><span id="line-285"></span><span class="hs-identifier">getOptionCompat</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier">getOption</span><span class="hs-cpp">
+#endif
+</span></pre></body></html>
