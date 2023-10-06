@@ -7,7 +7,7 @@
 --   Please see the README on GitLab at
 --   <a>https://github.com/frankhjung/haskell-scrapbook#readme</a>
 @package scrapbook
-@version 0.2.0
+@version 0.3.0
 
 
 -- | Example rank-n-type from <a>Explaining Haskell RankNTypes for all</a>.
@@ -54,7 +54,7 @@ module CFold
 --   </pre>
 cfold' :: (t1 -> t2 -> (t2 -> t2) -> t2) -> t2 -> [t1] -> t2
 
--- | Wrapper function to <a>cfold</a>`.
+-- | Wrapper function to <a>cfold'</a>.
 --   
 --   <pre>
 --   &gt;&gt;&gt; λ&gt; cfold (+) 0 [1..3]
@@ -493,6 +493,12 @@ MyJson :: Text -> Int -> Float -> !UTCTime -> [Int] -> MyJson
 --   instance <a>FromJSON</a> Coord
 --   </pre>
 --   
+--   or using the <a>DerivingVia extension</a>
+--   
+--   <pre>
+--   deriving via <a>Generically</a> Coord instance <a>FromJSON</a> Coord
+--   </pre>
+--   
 --   The default implementation will be equivalent to <tt>parseJSON =
 --   <a>genericParseJSON</a> <a>defaultOptions</a></tt>; if you need
 --   different options, you can customize the generic decoding by defining:
@@ -505,7 +511,7 @@ MyJson :: Text -> Int -> Float -> !UTCTime -> [Int] -> MyJson
 --   instance <a>FromJSON</a> Coord where
 --       <a>parseJSON</a> = <a>genericParseJSON</a> customOptions
 --   </pre>
-class FromJSON a
+class () => FromJSON a
 
 -- | A type that can be converted to JSON.
 --   
@@ -555,6 +561,12 @@ class FromJSON a
 --       <a>toEncoding</a> = <a>genericToEncoding</a> <a>defaultOptions</a>
 --   </pre>
 --   
+--   or more conveniently using the <a>DerivingVia extension</a>
+--   
+--   <pre>
+--   deriving via <a>Generically</a> Coord instance <a>ToJSON</a> Coord
+--   </pre>
+--   
 --   If on the other hand you wish to customize the generic decoding, you
 --   have to implement both methods:
 --   
@@ -572,10 +584,10 @@ class FromJSON a
 --   Adding <a>toEncoding</a> had two reasons:
 --   
 --   <ol>
---   <li>toEncoding is more efficient for the common case that the output
---   of <a>toJSON</a> is directly serialized to a <tt>ByteString</tt>.
---   Further, expressing either method in terms of the other would be
---   non-optimal.</li>
+--   <li><a>toEncoding</a> is more efficient for the common case that the
+--   output of <a>toJSON</a> is directly serialized to a
+--   <tt>ByteString</tt>. Further, expressing either method in terms of the
+--   other would be non-optimal.</li>
 --   <li>The choice of defaults allows a smooth transition for existing
 --   users: Existing instances that do not define <a>toEncoding</a> still
 --   compile and have the correct semantics. This is ensured by making the
@@ -587,7 +599,7 @@ class FromJSON a
 --   generically decoding instance, but there probably exists no good
 --   reason to not specify <a>toEncoding</a> in new instances.)</li>
 --   </ol>
-class ToJSON a
+class () => ToJSON a
 
 -- | Decode Special Characters.
 --   
