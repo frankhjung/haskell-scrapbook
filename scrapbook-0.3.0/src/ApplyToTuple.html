@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE RankNTypes #-}</span><span>
+</span><span id="line-2"></span><span class="annot"><span class="hs-comment">{-|
+
+Module      : ApplyToTuple
+Description : Example rank-n-type
+Copyright   : &#169; Frank Jung, 2021
+License     : GPL-3
+
+Example rank-n-type from
+&lt;http://sleepomeno.github.io/blog/2014/02/12/Explaining-Haskell-RankNTypes-for-all Explaining Haskell RankNTypes for all&gt;.
+-}</span></span><span>
+</span><span id="line-12"></span><span>
+</span><span id="line-13"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">ApplyToTuple</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="ApplyToTuple.html#applyToTuple"><span class="hs-identifier">applyToTuple</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-14"></span><span>
+</span><span id="line-15"></span><span class="hs-comment">-- | Example of a rank N type. This will apply the function to the provided</span><span>
+</span><span id="line-16"></span><span class="hs-comment">-- input tuple.</span><span>
+</span><span id="line-17"></span><span class="hs-comment">--</span><span>
+</span><span id="line-18"></span><span class="hs-comment">-- &gt;&gt;&gt; applyToTuple length (&quot;foo&quot;, [1,2,3,4])</span><span>
+</span><span id="line-19"></span><span class="hs-comment">-- (3,4)</span><span>
+</span><span id="line-20"></span><span class="annot"><a href="ApplyToTuple.html#applyToTuple"><span class="hs-identifier hs-type">applyToTuple</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621679094118"><span class="annot"><a href="#local-6989586621679094118"><span class="hs-identifier hs-type">b</span></a></span></span><span> </span><span id="local-6989586621679094119"><span class="annot"><a href="#local-6989586621679094119"><span class="hs-identifier hs-type">c</span></a></span></span><span class="hs-operator">.</span><span> </span><span class="hs-special">(</span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621679094117"><span class="annot"><a href="#local-6989586621679094117"><span class="hs-identifier hs-type">a</span></a></span></span><span class="hs-operator">.</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679094117"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679094118"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">]</span><span class="hs-special">,</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679094119"><span class="hs-identifier hs-type">c</span></a></span><span class="hs-special">]</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span class="hs-special">)</span><span>
+</span><span id="line-21"></span><span id="applyToTuple"><span class="annot"><span class="annottext">applyToTuple :: forall b c. (forall a. [a] -&gt; Int) -&gt; ([b], [c]) -&gt; (Int, Int)
+</span><a href="ApplyToTuple.html#applyToTuple"><span class="hs-identifier hs-var hs-var">applyToTuple</span></a></span></span><span> </span><span id="local-6989586621679094123"><span class="annot"><span class="annottext">forall a. [a] -&gt; Int
+</span><a href="#local-6989586621679094123"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679094124"><span class="annot"><span class="annottext">[b]
+</span><a href="#local-6989586621679094124"><span class="hs-identifier hs-var">xs</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679094125"><span class="annot"><span class="annottext">[c]
+</span><a href="#local-6989586621679094125"><span class="hs-identifier hs-var">ys</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">[b] -&gt; Int
+forall a. [a] -&gt; Int
+</span><a href="#local-6989586621679094123"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">[b]
+</span><a href="#local-6989586621679094124"><span class="hs-identifier hs-var">xs</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[c] -&gt; Int
+forall a. [a] -&gt; Int
+</span><a href="#local-6989586621679094123"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">[c]
+</span><a href="#local-6989586621679094125"><span class="hs-identifier hs-var">ys</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-22"></span></pre></body></html>
