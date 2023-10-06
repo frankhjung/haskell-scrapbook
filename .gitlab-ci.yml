@@ -11,11 +11,11 @@ build:
   image: frankhjung/haskell:9.4.7
   variables:
     RTSOPTS: "+RTS -N1"
-    STACK_ROOT: ${CI_PROJECT_DIR}/.stack
+    STACK_ROOT: ${CI_PROJECT_DIR}/.stack-work
   script:
     - make check build test bench doc
     - mv $(stack path --local-doc-root)/ public/
-    - cp .stack-work/benchmark-*.html public/
+    - cp ${STACK_ROOT}/benchmark-*.html public/
     - make exec
   artifacts:
     paths:
@@ -23,8 +23,7 @@ build:
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
-      - .stack/
-      - .stack-work/
+      - ${STACK_ROOT}
 
 pages:
   stage: deploy

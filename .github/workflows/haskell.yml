@@ -12,7 +12,7 @@ on:
 # yamllint enable
 
 env:
-  STACK_ROOT: ${{ github.workspace }}/.stack
+  STACK_ROOT: ${{ github.workspace }}/.stack-work
 
 jobs:
 
@@ -22,6 +22,9 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+
     steps:
 
       - name: checkout
@@ -30,9 +33,7 @@ jobs:
       - name: cache
         uses: actions/cache@v3
         with:
-          path: |
-            .stack-work/
-            ${{ env.STACK_ROOT }}
+          path: ${{ env.STACK_ROOT }}
           key: ${{ github.ref }}
 
       - name: build
@@ -59,7 +60,7 @@ jobs:
         run: |
           stack haddock
           mv $(stack path --local-doc-root)/ public/
-          cp .stack-work/benchmark-*.html public/
+          cp ${{ env.STACK_ROOT }}/benchmark-*.html public/
 
       - name: publish
         if: success() && github.ref == 'refs/heads/master'
