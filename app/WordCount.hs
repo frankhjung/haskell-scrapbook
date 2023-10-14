@@ -6,10 +6,10 @@ Count words in a file.
 
 Similar to <https://linux.die.net/man/1/wc wc(1)>.
 
->>> wc -w wordcount.hs
+>>> wc -w Setup.hs
 5 Setup.hs
 
->>> cabal exec wordcount -- Setup.hs
+>>> stack exec -- wordcount Setup.hs
 5, Setup.hs
 
 -}
@@ -30,20 +30,15 @@ parseArgs _      = Nothing
 
 -- | Show usage message.
 usage :: String -> IO ()
-usage msg = putStr (unlines [msg, "Usage: wordcount <file path>"])
+usage = putStr . unlines . (: ["Usage: wordcount <file path>"])
 
 -- | Count words from a file path.
 wordsFile :: FilePath -> IO ()
-wordsFile file = do
-  count <- length . words <$> readFile file
-  fmtLn $ "" +|count|+ ", " +|file|+ ""
+wordsFile file = fmtLn . ("" +|) . (|+ " " +|file|+ "") . length . words =<< readFile file
 
 -- | Count words in file.
 --
 -- >>> cabal exec wordcount -- Setup.hs
 -- 5, Setup.hs
 main :: IO ()
-main = do
-  args <- getArgs
-  let fname = parseArgs args
-  maybe (usage "Missing file path") wordsFile fname
+main = maybe (usage "Error: Missing file path") wordsFile . parseArgs =<< getArgs

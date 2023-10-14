@@ -33,7 +33,7 @@ seed = mkStdGen
 -- | Return /n/ rolls of the dice using the system random generator.
 roll :: Int           -- number of rolls
         -> IO [Int]   -- list of dice rolls
-roll n = replicateM n (randomRIO dice)
+roll = flip replicateM (randomRIO dice)
 
 -- | Produce an infinite stream of 'dice' rolls.
 rolls :: StdGen       -- random generator

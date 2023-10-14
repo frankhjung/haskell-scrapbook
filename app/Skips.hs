@@ -61,7 +61,6 @@ skips xs = snd $ mapAccumL accum 1 xs'
     itemn :: Int -> [a] -> [a]
     itemn c x = map snd (filter (\nx -> mod (fst nx) c == 0) (zip [1..] x))
 
--- | Run skips function reading input from command line.
---
+-- | Run skips function reading an input string from the command line.
 main :: IO ()
 main = getArgs >>= mapM_ (print . skips)

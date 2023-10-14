@@ -23,6 +23,7 @@ module Main ( main
             , countNonBlankLines
             ) where
 
+import           Control.Monad      ((>=>))
 import           Data.Char          (isSpace)
 import           Fmt                (padLeftF, (+|), (|+))
 import           System.Environment (getArgs)
@@ -50,32 +51,34 @@ parseArgs _      = Nothing
 
 -- | Show usage message.
 usage :: String -> IO ()
-usage err = putStrLn (unlines [err, "Usage: numberlines <file path>"])
+usage = putStrLn . unlines . (: ["Usage: numberlines <file path>"])
 
--- | Count words from a file path.
+-- | Print & number non-blank lines in a file.
+--
+-- readFile :: (FilePath -> IO String)
+-- (>=>) :: Monad m => (a -> m b) -> (b -> m c) -> a -> m c
+-- lines :: (String -> [String])
+-- countNonBlankLines :: ([String] -> [NumberedLine])
+-- (.) :: (b -> c) -> (a -> b) -> a -> c
 numberlines :: FilePath -> IO ()
-numberlines file = do
-  content <- lines <$> readFile file
-  let counted = countNonBlankLines content
-  mapM_ print counted
+numberlines = readFile >=> mapM_ print . countNonBlankLines . lines
 
 -- | Count non-blank lines.
-countNonBlankLines :: [Line] -> [NumberedLine]
-countNonBlankLines ls =
-  let go :: LineNumber -> [Line] -> [NumberedLine]
-      go _ [] = []
-      go n (x:xs)
-        | all isSpace x = Blank : go n xs
-        | otherwise = Numbered n x : go (succ n) xs
-  in go 1 ls
-
--- | Number lines of a file.
 --
--- >>> cabal exec numberlines -- Setup.hs
--- 1  import Distribution.Simple
--- 2  main = defaultMain
+-- zipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
+-- Numbered :: LineNumber -> Line -> NumberedLine
+-- [1..] :: [LineNumber]
+-- filter :: (a -> Bool) -> [a] -> [a]
+-- all :: (a -> Bool) -> [a] -> Bool
+-- isSpace :: Char -> Bool
+countNonBlankLines :: [Line] -> [NumberedLine]
+countNonBlankLines = zipWith Numbered [1..] . filter (not . all isSpace)
+
+-- | Number lines of a given file.
+--
+-- getArgs :: IO [String]
+-- parseArgs :: [String] -> Maybe FilePath
+-- numberlines :: FilePath -> IO ()
+-- maybe :: b -> (a -> b) -> Maybe a -> b
 main :: IO ()
-main = do
-  args <- getArgs
-  let f = parseArgs args
-  maybe (usage "Missing file path") numberlines f
+main = maybe (usage "Error: Missing file path") numberlines . parseArgs =<< getArgs

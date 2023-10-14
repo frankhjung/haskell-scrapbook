@@ -17,6 +17,7 @@ See also `WordCount`.
 -}
 
 module Main ( main
+            , usage
             , wordsFile
             ) where
 
@@ -27,23 +28,22 @@ import           System.Environment (getArgs)
 
 -- | Show usage message.
 usage :: String -> IO ()
-usage msg = putStr (unlines [msg, "Usage: wordcountarrow <file path>"])
+usage = putStr . unlines . (: ["Usage: wordcountarrow <file path>"])
 
 -- | Count words from a file path.
 wordsFile :: FilePath -> IO ()
 wordsFile file = runKleisli go file
   where
+    -- | Count words from a file path.
     go :: Kleisli IO FilePath ()
     go = Kleisli readFile >>> arr words >>> arr length >>> Kleisli printCount
+    -- | Print count and file path.
     printCount :: Int -> IO ()
-    printCount count = fmtLn $ "" +| count |+ ", " +| file |+ ""
+    printCount count = fmtLn $ "" +| count |+ " " +| file |+ ""
 
 -- | Count words in file.
 --
--- >>> cabal exec wordcountarrow -- Setup.hs
--- 5
+-- >>> stack exec wordcountarrow -- Setup.hs
+-- 5, Setup.hs
 main :: IO ()
-main = do
-  args <- getArgs
-  let fname = listToMaybe args :: Maybe FilePath
-  maybe (usage "Missing file path") wordsFile fname
+main = maybe (usage "Error: Missing file path") wordsFile . listToMaybe =<< getArgs
