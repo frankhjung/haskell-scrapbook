@@ -10,10 +10,9 @@ build:
     - tags
   image: frankhjung/haskell:9.4.7
   variables:
-    RTSOPTS: "+RTS -N1"
     STACK_ROOT: ${CI_PROJECT_DIR}/.stack-work
   script:
-    - make check build test bench doc
+    - make check test bench doc
     - mv $(stack path --local-doc-root)/ public/
     - cp ${STACK_ROOT}/benchmark-*.html public/
     - make exec
@@ -21,7 +20,7 @@ build:
     paths:
       - public
   cache:
-    key: ${CI_COMMIT_REF_SLUG}
+    key: ${CI_COMMIT_REF_NAME}
     paths:
       - ${STACK_ROOT}
 

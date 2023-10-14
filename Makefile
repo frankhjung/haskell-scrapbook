@@ -1,22 +1,22 @@
 #!/usr/bin/env make
 
 SRC	:= $(wildcard *.hs **/*.hs)
-YAML	:= $(shell git ls-files | grep --perl \.y?ml)
+YAML	:= $(shell git ls-files "*.y*ml")
 
 .PHONY: default
-default:	format check build test
-
-.PHONY: check
-check:	tags lint
+default:	format check test
 
 .PHONY: all
-all:	format check build test doc bench exec
+	format check build test doc bench exec
 
 .PHONY: format
 format:	$(SRC)
 	@echo format ...
-	@stylish-haskell --verbose --config=.stylish-haskell.yaml --inplace $(SRC)
 	@cabal-fmt --inplace scrapbook.cabal
+	@stylish-haskell --verbose --config=.stylish-haskell.yaml --inplace $(SRC)
+
+.PHONY: check
+check:	tags lint
 
 .PHONY: tags
 tags:	$(SRC)
@@ -32,18 +32,15 @@ lint:	$(SRC)
 
 .PHONY: build
 build:
-	@echo build ...
 	@stack build --pedantic --fast
 
 .PHONY: test
 test:
-	@echo test ...
 	@stack test --fast
 
 .PHONY: bench
 bench:
 	@echo bench ...
-	@#stack bench scrapbook
 	@stack bench scrapbook:bench:monTransBench --ba '-o .stack-work/benchmark-monTransBench.html'
 	@stack bench scrapbook:bench:myfilterBench --ba '-o .stack-work/benchmark-myfilter.html'
 	@stack bench scrapbook:bench:myreverseBench --ba '-o .stack-work/benchmark-myreverse.html'
@@ -55,43 +52,26 @@ bench:
 
 .PHONY: doc
 doc:
-	@echo doc ...
 	@stack haddock scrapbook
-	@#stack haddock scrapbook --haddock-arguments '--haddock-tests --haddock-benchmarks --haddock-executables'
 
 .PHONY: exec
 exec:
-	@echo Counter ...
-	@stack exec -- counter 4
-	@echo FPComplete ...
-	@stack exec -- fpcomplete
-	@echo JSON ...
-	@stack exec -- json
-	@echo NumberLines ...
-	@stack exec -- numberlines LICENSE
-	@echo PolyDivisors ...
-	@stack exec -- polydivs 123456789
-	@echo Quine ...
-	@stack exec -- quine
-	@echo
-	@echo ReadFile Setup.hs ...
-	@stack exec -- readfile Setup.hs
-	@echo Skips ...
-	@stack exec -- skips abcd
-	@echo StateGame ...
-	@stack exec -- stategame abcaaacbbcabbab
-	@echo Threads ...
-	@stack exec -- threads
-	@echo Vocab ...
-	@stack exec -- vocab LICENSE
-	@echo While ...
-	@echo "a\nb\nc\nq\n" | stack exec -- while
-	@echo WordCount ...
-	@stack exec -- wordcount
-	@stack exec -- wordcount LICENSE
-	@echo WordCountArrow ...
-	@stack exec -- wordcountarrow
-	@stack exec -- wordcountarrow LICENSE
+	stack exec -- counter 4
+	stack exec -- fpcomplete
+	stack exec -- json
+	stack exec -- numberlines LICENSE
+	stack exec -- polydivs 123456789
+	stack exec -- quine
+	stack exec -- readfile Setup.hs
+	stack exec -- skips abcd
+	stack exec -- stategame abcaaacbbcabbab
+	stack exec -- threads
+	stack exec -- vocab LICENSE
+	echo "a\nb\nc\nq\n" | stack exec -- while
+	stack exec -- wordcount
+	stack exec -- wordcount LICENSE
+	stack exec -- wordcountarrow
+	stack exec -- wordcountarrow LICENSE
 	@echo
 
 .PHONY: setup
@@ -105,12 +85,8 @@ setup:
 clean:
 	@stack clean
 	@cabal clean
-	@$(RM) tags
-	@$(RM) $(wildcard *.hi **/*.hi)
-	@$(RM) $(wildcard *.o **/*.o)
-	@$(RM) $(wildcard *.prof **/*.prof)
-	@$(RM) $(wildcard *.tix **/*.tix)
 
 .PHONY: cleanall
 cleanall: clean
+	@$(RM) tags
 	@stack purge
