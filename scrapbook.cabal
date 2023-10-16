@@ -24,6 +24,21 @@ library
   hs-source-dirs:   src
   default-language: Haskell2010
   ghc-options:      -Wall
+  build-depends:
+    , aeson
+    , base          ^>=4.17
+    , bytestring
+    , directory
+    , filepath
+    , free
+    , hspec
+    , mtl
+    , QuickCheck
+    , random
+    , text
+    , time
+    , transformers
+
   exposed-modules:
     ApplyToTuple
     BinarySearch
@@ -57,21 +72,6 @@ library
     Weekday
     Yahtzee
     ZipFold
-
-  build-depends:
-    , aeson
-    , base          ^>=4.17
-    , bytestring
-    , directory
-    , filepath
-    , free
-    , hspec
-    , mtl
-    , QuickCheck
-    , random
-    , text
-    , time
-    , transformers
 
 executable counter
   hs-source-dirs:   app
