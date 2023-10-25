@@ -3,7 +3,7 @@
 
 {-
 
-Use 'fix' to recurse.
+Use 'fix' to recurse rather than explicit recursion.
 
 Modified from algorithm described in
 <https://blog.sumtypeofway.com/posts/introduction-to-recursion-schemes.html Introduction to recursion schemes>.
@@ -22,23 +22,53 @@ whose children are of type @(Y f)@.
 module Main (main) where
 
 import           Data.Function      (fix)
-import           Data.List          (unfoldr)
 import           Numeric.Natural    (Natural)
 import           System.Environment (getArgs)
+import           Text.Read          (readMaybe)
 
--- | A counter from 1 to a natural number, `n`.
--- Same as @[1..n]@
+-- | Usage message
+usage :: String -> IO ()
+usage = putStr . unlines . (:[ "Usage: [number]"
+                           , "Count up to a given natural number."
+                           , "Count down from a given natural number."
+                           ])
+
+-- | Run the counter.
+runCounter :: Natural -> IO ()
+runCounter n = mapM_ print [countUp n, countDown n]
+
+-- | A counter from 0 to a natural number, `n`.
+-- Returns the same as @[0..n]@
+--
+-- In this implementation, we use fix to define a recursive function loop
+-- that takes a list of natural numbers and returns a list of natural
+-- numbers. The loop function checks if the first element of the list is
+-- greater than or equal to 1, and if so, it returns the result of calling
+-- loop with a new list that starts with x - 1 and is followed by the
+-- original list. If the first element of the list is less than 1, the loop
+-- function returns the original list. We then use fix to define countUp as
+-- the fixed point of loop, where the initial list is [n].
+--
 countUp :: Natural -> [Natural]
-countUp n = fix (\rec xs@(x:_) -> if x > 1 then rec (x - 1:xs) else xs) [n]
+countUp c = fix (\loop ns@(n:_) -> if n >= 1 then loop (n - 1:ns) else ns) [c]
 
--- | Count down from a natural number, `n` to 1.
--- Same as @[n,n-1..1]@
+-- | Count down from a natural number, `n` to 0.
+-- Returns the same as @[n,n-1..0]@
+--
+-- The fix function is used to define a recursive function loop that takes
+-- a natural number n and returns a list of natural numbers. The loop
+-- function is defined using a lambda expression that takes two arguments:
+-- loop and n. The loop function checks if n is greater than 0, and if so,
+-- it returns a list that starts with n and is followed by the result of
+-- calling loop with n - 1. If n is not greater than 0, the loop function
+-- returns a list that contains only 0.
+--
 countDown :: Natural -> [Natural]
-countDown = unfoldr (\n -> if n == 0 then Nothing ; else Just (n, n - 1))
+countDown = fix (\loop n -> if n > 0 then n : loop (n - 1) else [0])
 
--- | Count to a given natural number.
+-- | Read counter from a command line argument.
+-- Count up to a given natural number.
+-- Count down from a given natural number.
 main :: IO ()
-main = getArgs >>= \args -> case length args of
-  1 -> let n = (read . head) args in mapM_ print [countUp n, countDown n]
-  _ -> error "Usage: [number]\nCount up to a given natural number."
-
+main = maybe (usage "Error: expected one numeric argument")
+          runCounter . readMaybe . head =<< getArgs
