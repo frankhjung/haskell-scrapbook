@@ -12,8 +12,10 @@ build:
   variables:
     STACK_ROOT: ${CI_PROJECT_DIR}/.stack-work
   script:
-    - make check test bench doc
+    - make check build test
+    - make doc
     - mv $(stack path --local-doc-root)/ public/
+    - make bench
     - cp ${STACK_ROOT}/benchmark-*.html public/
     - make exec
   artifacts:
@@ -27,10 +29,10 @@ build:
 pages:
   stage: deploy
   rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
+    - if: '$CI_COMMIT_BRANCH == "main"'
   image: alpine:latest
   script:
-    - echo Publishing documentation ...
+    - echo Publish documentation ...
   dependencies:
     - build
   artifacts:

@@ -5,7 +5,7 @@ name: haskell scrapbook
 # yamllint disable-line rule:truthy
 on:
   push:
-    branches: ['master', 'feature*']
+    branches: ['main', 'feature*']
     tags-ignore: ['*']
   check_run:
     types: [rerequested, requested_action]
@@ -44,26 +44,27 @@ jobs:
 
       # yamllint disable rule:line-length
       - name: benchmark
+        if: success() && github.ref == 'refs/heads/main'
         run: |
-          stack bench scrapbook:bench:monTransBench --ba '-o .stack-work/benchmark-monTransBench.html'
-          stack bench scrapbook:bench:myfilterBench --ba '-o .stack-work/benchmark-myfilter.html'
-          stack bench scrapbook:bench:myreverseBench --ba '-o .stack-work/benchmark-myreverse.html'
-          stack bench scrapbook:bench:polydivisorsBench --ba '-o .stack-work/benchmark-polydivisors.html'
-          stack bench scrapbook:bench:recursionschemesBench --ba '-o .stack-work/benchmark-recursionschemes.html'
-          stack bench scrapbook:bench:repmaxBench --ba '-o .stack-work/benchmark-repmax.html'
-          stack bench scrapbook:bench:subseqsBench --ba '-o .stack-work/benchmark-subseqs.html'
-          stack bench scrapbook:bench:zipfoldBench --ba '-o .stack-work/benchmark-zipfold.html'
+          stack bench Scrapbook:bench:monTransBench --ba '-o .stack-work/benchmark-monTransBench.html'
+          stack bench Scrapbook:bench:myfilterBench --ba '-o .stack-work/benchmark-myfilter.html'
+          stack bench Scrapbook:bench:myreverseBench --ba '-o .stack-work/benchmark-myreverse.html'
+          stack bench Scrapbook:bench:polydivisorsBench --ba '-o .stack-work/benchmark-polydivisors.html'
+          stack bench Scrapbook:bench:recursionschemesBench --ba '-o .stack-work/benchmark-recursionschemes.html'
+          stack bench Scrapbook:bench:repmaxBench --ba '-o .stack-work/benchmark-repmax.html'
+          stack bench Scrapbook:bench:subseqsBench --ba '-o .stack-work/benchmark-subseqs.html'
+          stack bench Scrapbook:bench:zipfoldBench --ba '-o .stack-work/benchmark-zipfold.html'
       # yamllint enable
 
       - name: haddock
-        if: github.ref == 'refs/heads/master'
+        if: success() && github.ref == 'refs/heads/main'
         run: |
           stack haddock
           mv $(stack path --local-doc-root)/ public/
           cp ${{ env.STACK_ROOT }}/benchmark-*.html public/
 
       - name: publish
-        if: success() && github.ref == 'refs/heads/master'
+        if: success() && github.ref == 'refs/heads/main'
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages

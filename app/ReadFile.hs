@@ -1,5 +1,7 @@
 #!/usr/bin/env runhaskell
 
+{-# LANGUAGE LambdaCase #-}
+
 {-
 
 Read contents of a file using
@@ -55,6 +57,6 @@ module Main (main) where
 import           System.Environment (getArgs, getProgName)
 
 main :: IO ()
-main = getArgs >>= \args -> case length args of
-  1 -> mapM_ putStrLn . lines =<< readFile (head args)
+main = getArgs >>= \case
+  [filename] -> mapM_ putStrLn . lines =<< readFile filename
   _ -> getProgName >>= \p -> error $ concat ["Usage: ", p, " [file_name]"]

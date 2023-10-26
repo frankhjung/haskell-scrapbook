@@ -15,10 +15,10 @@ I first read about puzzle in Matt Parkers book,
 
 == Tests
 
->>> $ stack exec polydivisors 123
+>>> $ stack exec polydivs 123
 [123,321]
 
->>> $ stack exec polydivisors 123456789
+>>> $ stack exec polydivs 123456789
 [381654729]
 
 -}
@@ -30,4 +30,4 @@ import           System.Environment (getArgs)
 
 -- | Search for poly-divisors of digits 1..9
 main :: IO ()
-main = getArgs >>= mapM_ (print . findPolyDiv . read)
+main = mapM_ (print . findPolyDiv . read) =<< getArgs

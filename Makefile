@@ -1,6 +1,7 @@
 #!/usr/bin/env make
 
 SRC	:= $(wildcard *.hs **/*.hs)
+TARGET	:= Scrapbook
 YAML	:= $(shell git ls-files "*.y*ml")
 
 .PHONY: default
@@ -12,8 +13,8 @@ default:	format check test
 .PHONY: format
 format:	$(SRC)
 	@echo format ...
-	@cabal-fmt --inplace scrapbook.cabal
-	@stylish-haskell --verbose --config=.stylish-haskell.yaml --inplace $(SRC)
+	@cabal-fmt --inplace $(TARGET).cabal
+	@stylish-haskell --verbose --inplace $(SRC)
 
 .PHONY: check
 check:	tags lint
@@ -41,18 +42,18 @@ test:
 .PHONY: bench
 bench:
 	@echo bench ...
-	@stack bench scrapbook:bench:monTransBench --ba '-o .stack-work/benchmark-monTransBench.html'
-	@stack bench scrapbook:bench:myfilterBench --ba '-o .stack-work/benchmark-myfilter.html'
-	@stack bench scrapbook:bench:myreverseBench --ba '-o .stack-work/benchmark-myreverse.html'
-	@stack bench scrapbook:bench:polydivisorsBench --ba '-o .stack-work/benchmark-polydivisors.html'
-	@stack bench scrapbook:bench:recursionschemesBench --ba '-o .stack-work/benchmark-recursionschemes.html'
-	@stack bench scrapbook:bench:repmaxBench --ba '-o .stack-work/benchmark-repmax.html'
-	@stack bench scrapbook:bench:subseqsBench --ba '-o .stack-work/benchmark-subseqs.html'
-	@stack bench scrapbook:bench:zipfoldBench --ba '-o .stack-work/benchmark-zipfold.html'
+	@stack bench Scrapbook:bench:monTransBench --ba '-o .stack-work/benchmark-monTransBench.html'
+	@stack bench Scrapbook:bench:myfilterBench --ba '-o .stack-work/benchmark-myfilter.html'
+	@stack bench Scrapbook:bench:myreverseBench --ba '-o .stack-work/benchmark-myreverse.html'
+	@stack bench Scrapbook:bench:polydivisorsBench --ba '-o .stack-work/benchmark-polydivisors.html'
+	@stack bench Scrapbook:bench:recursionschemesBench --ba '-o .stack-work/benchmark-recursionschemes.html'
+	@stack bench Scrapbook:bench:repmaxBench --ba '-o .stack-work/benchmark-repmax.html'
+	@stack bench Scrapbook:bench:subseqsBench --ba '-o .stack-work/benchmark-subseqs.html'
+	@stack bench Scrapbook:bench:zipfoldBench --ba '-o .stack-work/benchmark-zipfold.html'
 
 .PHONY: doc
 doc:
-	@stack haddock scrapbook
+	@stack haddock
 
 .PHONY: exec
 exec:
@@ -62,7 +63,8 @@ exec:
 	stack exec -- numberlines LICENSE
 	stack exec -- polydivs 123456789
 	stack exec -- quine
-	stack exec -- readfile Setup.hs
+	@echo
+	stack exec -- readfile LICENSE
 	stack exec -- skips abcd
 	stack exec -- stategame abcaaacbbcabbab
 	stack exec -- threads

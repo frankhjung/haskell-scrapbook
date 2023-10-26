@@ -49,6 +49,15 @@ runCounter n = mapM_ print [countUp n, countDown n]
 -- function returns the original list. We then use fix to define countUp as
 -- the fixed point of loop, where the initial list is [n].
 --
+-- Traditional recursive implementation of `countUp`.
+-- @
+-- countUp' :: Natural -> [Natural]
+-- countUp' n = loop n [n]
+--   where
+--     loop x xs
+--       | x >= 1 = loop (x - 1) (x - 1 : xs)
+--       | otherwise = xs
+-- @
 countUp :: Natural -> [Natural]
 countUp c = fix (\loop ns@(n:_) -> if n >= 1 then loop (n - 1:ns) else ns) [c]
 
@@ -63,6 +72,15 @@ countUp c = fix (\loop ns@(n:_) -> if n >= 1 then loop (n - 1:ns) else ns) [c]
 -- calling loop with n - 1. If n is not greater than 0, the loop function
 -- returns a list that contains only 0.
 --
+-- Traditional recursive implementation of `countDown`.
+-- @
+-- countDown' :: Natural -> [Natural]
+-- countDown' = loop
+--   where
+--     loop x
+--       | x > 0 = x : loop (x - 1)
+--       | otherwise = [0]
+-- @
 countDown :: Natural -> [Natural]
 countDown = fix (\loop n -> if n > 0 then n : loop (n - 1) else [0])
 
