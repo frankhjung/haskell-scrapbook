@@ -137,7 +137,7 @@ cabal update
 cabal install ghcid
 ```
 
-Then copy executable to `$HOME/.loca/bin/`.
+Then copy executable to `$HOME/.local/bin/`.
 
 ### Using ghcid
 
