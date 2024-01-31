@@ -62,7 +62,7 @@ This runs `tags`, `style` and `lint`:
 ```bash
 SRC=$(find * -name '*.hs')
 hasktags --ctags --extendedctag ${SRC}
-stylish-haskell --config=.stylish-haskell.yaml --inplace ${SRC}
+stylish-haskell --inplace ${SRC}
 cabal check --verbose
 hlint --cross --color --show ${SRC}
 ```
@@ -84,7 +84,7 @@ cabal test --test-show-details=always
 To re-run a failed test, call:
 
 ```bash
-cabal test --test-show-details=direct --test-option=--match --test-option='/Weekday/test weekday type/capitised head of string/'
+cabal test --test-show-details=direct --test-option=--match --test-option='/Weekday/test weekday type/capitalised head of string/'
 ```
 
 ### Performance Benchmarks

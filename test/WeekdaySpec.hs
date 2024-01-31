@@ -45,9 +45,9 @@ spec =
       head (fullWeek :: [Weekday]) `shouldBe` Mon
     it "fullWeek last day is Sun" $
       last (fullWeek :: [Weekday]) `shouldBe` Sun
-    it "capitilised mON is Mon" $
+    it "capitalised mON is Mon" $
       capitalise "mON" `shouldBe` "Mon"
-    it "capitilised Tue is Tue" $
+    it "capitalised Tue is Tue" $
       capitalise "Tue" `shouldBe` "Tue"
     prop "head of string is capitalised"
       propIsCapitalised

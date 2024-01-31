@@ -14,7 +14,7 @@ default:	format check test
 format:	$(SRC)
 	@echo format ...
 	@cabal-fmt --inplace $(TARGET).cabal
-	@stylish-haskell --verbose --inplace $(SRC)
+	@stylish-haskell --inplace $(SRC)
 
 .PHONY: check
 check:	tags lint
