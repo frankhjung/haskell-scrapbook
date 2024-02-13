@@ -1,5 +1,3 @@
-{-# LANGUAGE DerivingStrategies #-}
-
 {-|
 
 Module      : Lower

@@ -1,6 +1,4 @@
-{-# LANGUAGE DeriveFunctor        #-}
-{-# LANGUAGE DerivingStrategies   #-}
-{-# LANGUAGE UndecidableInstances #-}
+{-# LANGUAGE DeriveFunctor #-}
 
 {-|
 
