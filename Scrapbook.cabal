@@ -25,19 +25,19 @@ library
   default-language: Haskell2010
   ghc-options:      -Wall
   build-depends:
-    , aeson
-    , base          ^>=4.17
-    , bytestring
-    , directory
-    , filepath
-    , free
-    , hspec
-    , mtl
-    , QuickCheck
-    , random
-    , text
-    , time
-    , transformers
+    , aeson         ^>=2.1.2.1
+    , base          ^>=4.17.2
+    , bytestring    ^>=0.11.5
+    , directory     ^>=1.3.7
+    , filepath      ^>=1.4.2
+    , free          ^>=5.1.10
+    , hspec         ^>=2.10.10
+    , mtl           ^>=2.2.2
+    , QuickCheck    ^>=2.14.3
+    , random        ^>=1.2.1
+    , text          ^>=2.0.2
+    , time          ^>=1.12.2
+    , transformers  ^>=0.5.6
 
   exposed-modules:
     ApplyToTuple
@@ -100,7 +100,7 @@ executable json
     , aeson
     , base
     , bytestring
-    , containers
+    , containers  ^>=0.6.7
     , text
 
 executable numberlines
@@ -110,7 +110,7 @@ executable numberlines
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
   build-depends:
     , base
-    , fmt
+    , fmt   ^>=0.6.3
 
 executable polydivs
   hs-source-dirs:   app src
@@ -159,7 +159,7 @@ executable threads
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
   build-depends:
     , base
-    , stm
+    , stm   ^>=2.5.1
 
 executable vocab
   hs-source-dirs:   app
