@@ -1,6 +1,7 @@
 #!/usr/bin/env runhaskell
 
-{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE LambdaCase       #-}
+{-# LANGUAGE TypeApplications #-}
 
 {-
 
@@ -11,52 +12,41 @@ function to process lines.
 Read a file example, based off example in Chapter 2 of
 <https://books.google.com.au/books/about/Haskell_Design_Patterns.html?id=Q_KoCwAAQBAJ&redir_esc=y Haskell Design Patterns by Ryan Lemmer>
 
-The original version:
+TODO
 
-@
-main = do
-  withFile "Setup.hs" ReadMode enumerateLines
-  where
-    enumerateLines h = lines' h >>= mapM_ putStrLn
-    lines' h' = hGetContents h' >>= return . lines
-@
-
-Version which reads file name from STDIN:
-
-@
-main = putStr "enter name of file to echo: "
-  >> getLine
-  >>= \f -> withFile f ReadMode (hGetContents >=> mapM_ putStrLn . lines)
-@
-
-Here is one of my versions:
-
-@
-import           Control.Monad ((>=>))
-import           System.IO     (IOMode (ReadMode), hGetContents, withFile)
-
-main = putStr "enter name of file to echo: "
-  >> getLine >>= \f -> withFile f ReadMode (hGetContents >=> mapM_ putStrLn . lines)
-@
-
-Where:
-
- * has parameterised the file to read
-
- * does not use the [do notation](https://en.wikibooks.org/wiki/Haskell/do_notation)
-
- * uses [Control.Monad](https://hackage.haskell.org/package/base/docs/Control-Monad.html)'s
-   left-to-right composition of Kleisli arrows
-   ( [>=>](https://hackage.haskell.org/package/base-4.14.0.0/docs/Control-Monad.html#v:-62--61--62-) )
-   to pass the file handle
+- replace Strings with Text
+-replace putStrLn with fmt
 
 -}
 
 module Main (main) where
 
-import           System.Environment (getArgs, getProgName)
+import           Control.Exception  (IOException, catch, throwIO)
+import           Control.Monad      ((<=<))
+import           System.Environment (getArgs)
 
+-- | Manage IO errors.
+withErrorHandling :: IO () -> IO ()
+withErrorHandling ioAction = catch ioAction handler
+  where
+    handler :: IOException -> IO ()
+    handler = print
+
+-- | Handle arguments
+handleArgs :: IO (Either String FilePath)
+handleArgs = getArgs >>= \case
+  [filename] -> return $ Right @FilePath filename
+  []         -> return $ Left "missing file name. Usage: readfile <file_name>"
+  _          -> return $ Left "multiple arguments not supported"
+
+-- | Process either error or file name.
+eitherToErr :: Show a => Either a b -> IO b
+eitherToErr = either (throwIO . userError . show) return
+
+-- | Read contents of a file and print to STDOUT.
+processFile :: FilePath -> IO ()
+processFile = putStrLn <=< readFile
+
+-- | Read a file name from the command line and print its contents to STDOUT.
 main :: IO ()
-main = getArgs >>= \case
-  [filename] -> mapM_ putStrLn . lines =<< readFile filename
-  _ -> getProgName >>= \p -> error $ concat ["Usage: ", p, " [file_name]"]
+main = withErrorHandling $ handleArgs >>= eitherToErr >>= processFile
