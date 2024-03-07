@@ -1,7 +1,8 @@
 #!/usr/bin/env runhaskell
 
-{-# LANGUAGE LambdaCase       #-}
-{-# LANGUAGE TypeApplications #-}
+{-# LANGUAGE LambdaCase        #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TypeApplications  #-}
 
 {-
 
@@ -12,24 +13,20 @@ function to process lines.
 Read a file example, based off example in Chapter 2 of
 <https://books.google.com.au/books/about/Haskell_Design_Patterns.html?id=Q_KoCwAAQBAJ&redir_esc=y Haskell Design Patterns by Ryan Lemmer>
 
-TODO
-
-- replace Strings with Text
--replace putStrLn with fmt
-
 -}
 
 module Main (main) where
 
-import           Control.Exception  (IOException, catch, throwIO)
+import           Control.Exception  (catch, throwIO)
 import           Control.Monad      ((<=<))
+import qualified Data.Text.IO       as TIO
 import           System.Environment (getArgs)
 
 -- | Manage IO errors.
 withErrorHandling :: IO () -> IO ()
 withErrorHandling ioAction = catch ioAction handler
   where
-    handler :: IOException -> IO ()
+    handler :: IOError -> IO ()
     handler = print
 
 -- | Handle arguments
@@ -40,13 +37,13 @@ handleArgs = getArgs >>= \case
   _          -> return $ Left "multiple arguments not supported"
 
 -- | Process either error or file name.
-eitherToErr :: Show a => Either a b -> IO b
-eitherToErr = either (throwIO . userError . show) return
+eitherToError :: Show a => Either a b -> IO b
+eitherToError = either (throwIO . userError . show) return
 
 -- | Read contents of a file and print to STDOUT.
 processFile :: FilePath -> IO ()
-processFile = putStrLn <=< readFile
+processFile = TIO.putStrLn <=< TIO.readFile
 
 -- | Read a file name from the command line and print its contents to STDOUT.
 main :: IO ()
-main = withErrorHandling $ handleArgs >>= eitherToErr >>= processFile
+main = withErrorHandling $ handleArgs >>= eitherToError >>= processFile

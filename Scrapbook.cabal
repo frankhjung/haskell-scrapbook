@@ -134,7 +134,9 @@ executable readfile
   main-is:          ReadFile.hs
   default-language: Haskell2010
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
-  build-depends:    base
+  build-depends:
+    , base
+    , text
 
 executable skips
   hs-source-dirs:   app
