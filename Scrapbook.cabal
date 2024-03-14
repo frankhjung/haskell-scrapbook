@@ -1,6 +1,6 @@
 cabal-version:      2.4
 name:               Scrapbook
-version:            0.3.2
+version:            0.3.3
 description:
   Please see the README on GitLab at
   <https://github.com/frankhjung/haskell-scrapbook#readme>
@@ -10,7 +10,7 @@ homepage:           https://github.com/frankhjung/haskell-scrapbook#readme
 bug-reports:        https://github.com/frankhjung/haskell-scrapbook/issues
 author:             Frank H Jung
 maintainer:         frankhjung@linux.com
-copyright:          Copyright © 2020-2023 Frank H Jung
+copyright:          Copyright © 2020-2024 Frank H Jung
 license:            BSD-3-Clause
 license-file:       LICENSE
 category:           education
@@ -198,7 +198,7 @@ executable wordcountarrow
     , fmt
 
 test-suite test
-  hs-source-dirs:     test src
+  hs-source-dirs:     test
   main-is:            TestsSpec.hs
   default-language:   Haskell2010
   ghc-options:        -Wall -Wno-missing-home-modules
@@ -220,71 +220,6 @@ test-suite test
     , text
     , time
     , transformers
-
-  other-modules:
-    ApplyToTuple
-    ApplyToTupleSpec
-    BinarySearch
-    BinarySearchSpec
-    Caesar
-    CaesarSpec
-    CFold
-    CFoldSpec
-    Colours
-    ColoursSpec
-    CountEntries
-    CountEntriesSpec
-    Cps
-    CpsSpec
-    Expr
-    ExprSpec
-    Lower
-    LowerSpec
-    Mod35
-    Mod35Spec
-    MonTrans
-    MonTransSpec
-    MyFilter
-    MyFilterSpec
-    MyFreeMonad
-    MyFreeMonadSpec
-    MyJson
-    MyJsonSpec
-    MyPenultimate
-    MyPenultimateSpec
-    MyReverse
-    MyReverseSpec
-    MyState
-    MyTake
-    MyTakeSpec
-    MyType
-    MyTypeSpec
-    Permutation
-    PermutationSpec
-    PolyDivisors
-    PolyDivisorsSpec
-    Qsort
-    QsortSpec
-    Random
-    RandomSpec
-    RecursionSchemes
-    RecursionSchemesSpec
-    RepMax
-    RepMaxSpec
-    SplitList
-    SplitListSpec
-    Stack
-    StackSpec
-    SubSeqs
-    SubSeqsSpec
-    Trim
-    TrimSpec
-    Weekday
-    WeekdaySpec
-    Yahtzee
-    YahtzeeSpec
-    ZipFold
-    ZipFoldSpec
 
 benchmark monTransBench
   hs-source-dirs:   bench src
