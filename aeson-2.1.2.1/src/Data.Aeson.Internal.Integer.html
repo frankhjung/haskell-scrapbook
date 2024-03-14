@@ -11,34 +11,34 @@
 </span><span id="line-11"></span><span>
 </span><span id="line-12"></span><span class="annot"><a href="Data.Aeson.Internal.Integer.html#bsToInteger"><span class="hs-identifier hs-type">bsToInteger</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">B.ByteString</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Integer</span></span><span>
 </span><span id="line-13"></span><span id="bsToInteger"><span class="annot"><span class="annottext">bsToInteger :: ByteString -&gt; Integer
-</span><a href="Data.Aeson.Internal.Integer.html#bsToInteger"><span class="hs-identifier hs-var hs-var">bsToInteger</span></a></span></span><span> </span><span id="local-6989586621679175539"><span class="annot"><span class="annottext">ByteString
-</span><a href="#local-6989586621679175539"><span class="hs-identifier hs-var">bs</span></a></span></span><span>
+</span><a href="Data.Aeson.Internal.Integer.html#bsToInteger"><span class="hs-identifier hs-var hs-var">bsToInteger</span></a></span></span><span> </span><span id="local-6989586621679175629"><span class="annot"><span class="annottext">ByteString
+</span><a href="#local-6989586621679175629"><span class="hs-identifier hs-var">bs</span></a></span></span><span>
 </span><span id="line-14"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679175540"><span class="hs-identifier hs-var">l</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Bool
+</span><a href="#local-6989586621679175630"><span class="hs-identifier hs-var">l</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Bool
 forall a. Ord a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">&gt;</span></span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">40</span></span><span>    </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Integer -&gt; Int -&gt; [Integer] -&gt; Integer
 </span><a href="Data.Aeson.Internal.Integer.html#valInteger"><span class="hs-identifier hs-var">valInteger</span></a></span><span> </span><span class="annot"><span class="annottext">Integer
 </span><span class="hs-number">10</span></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679175540"><span class="hs-identifier hs-var">l</span></a></span><span> </span><span class="hs-special">[</span><span> </span><span class="annot"><span class="annottext">Word8 -&gt; Integer
+</span><a href="#local-6989586621679175630"><span class="hs-identifier hs-var">l</span></a></span><span> </span><span class="hs-special">[</span><span> </span><span class="annot"><span class="annottext">Word8 -&gt; Integer
 forall a b. (Integral a, Num b) =&gt; a -&gt; b
 </span><span class="hs-identifier hs-var">fromIntegral</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Word8
-</span><a href="#local-6989586621679175543"><span class="hs-identifier hs-var">w</span></a></span><span> </span><span class="annot"><span class="annottext">Word8 -&gt; Word8 -&gt; Word8
+</span><a href="#local-6989586621679175633"><span class="hs-identifier hs-var">w</span></a></span><span> </span><span class="annot"><span class="annottext">Word8 -&gt; Word8 -&gt; Word8
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-glyph hs-var">-</span></span><span> </span><span class="annot"><span class="annottext">Word8
-</span><a href="Data.Aeson.Internal.Word8.html#W8_0"><span class="hs-identifier hs-var">W8_0</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">|</span><span> </span><span id="local-6989586621679175543"><span class="annot"><span class="annottext">Word8
-</span><a href="#local-6989586621679175543"><span class="hs-identifier hs-var">w</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">ByteString -&gt; [Word8]
+</span><a href="Data.Aeson.Internal.Word8.html#W8_0"><span class="hs-identifier hs-var">W8_0</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">|</span><span> </span><span id="local-6989586621679175633"><span class="annot"><span class="annottext">Word8
+</span><a href="#local-6989586621679175633"><span class="hs-identifier hs-var">w</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">ByteString -&gt; [Word8]
 </span><span class="hs-identifier hs-var">B.unpack</span></span><span> </span><span class="annot"><span class="annottext">ByteString
-</span><a href="#local-6989586621679175539"><span class="hs-identifier hs-var">bs</span></a></span><span> </span><span class="hs-special">]</span><span>
+</span><a href="#local-6989586621679175629"><span class="hs-identifier hs-var">bs</span></a></span><span> </span><span class="hs-special">]</span><span>
 </span><span id="line-15"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">otherwise</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ByteString -&gt; Integer
 </span><a href="Data.Aeson.Internal.Integer.html#bsToIntegerSimple"><span class="hs-identifier hs-var">bsToIntegerSimple</span></a></span><span> </span><span class="annot"><span class="annottext">ByteString
-</span><a href="#local-6989586621679175539"><span class="hs-identifier hs-var">bs</span></a></span><span>
+</span><a href="#local-6989586621679175629"><span class="hs-identifier hs-var">bs</span></a></span><span>
 </span><span id="line-16"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-17"></span><span>    </span><span id="local-6989586621679175540"><span class="annot"><span class="annottext">l :: Int
-</span><a href="#local-6989586621679175540"><span class="hs-identifier hs-var hs-var">l</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ByteString -&gt; Int
+</span><span id="line-17"></span><span>    </span><span id="local-6989586621679175630"><span class="annot"><span class="annottext">l :: Int
+</span><a href="#local-6989586621679175630"><span class="hs-identifier hs-var hs-var">l</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ByteString -&gt; Int
 </span><span class="hs-identifier hs-var">B.length</span></span><span> </span><span class="annot"><span class="annottext">ByteString
-</span><a href="#local-6989586621679175539"><span class="hs-identifier hs-var">bs</span></a></span><span>
+</span><a href="#local-6989586621679175629"><span class="hs-identifier hs-var">bs</span></a></span><span>
 </span><span id="line-18"></span><span>
 </span><span id="line-19"></span><span class="annot"><a href="Data.Aeson.Internal.Integer.html#bsToIntegerSimple"><span class="hs-identifier hs-type">bsToIntegerSimple</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">B.ByteString</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Integer</span></span><span>
 </span><span id="line-20"></span><span id="bsToIntegerSimple"><span class="annot"><span class="annottext">bsToIntegerSimple :: ByteString -&gt; Integer
@@ -46,13 +46,13 @@ forall a. Num a =&gt; a -&gt; a -&gt; a
 forall a. (a -&gt; Word8 -&gt; a) -&gt; a -&gt; ByteString -&gt; a
 </span><span class="hs-identifier hs-var">B.foldl'</span></span><span> </span><span class="annot"><span class="annottext">Integer -&gt; Word8 -&gt; Integer
 forall {a}. Num a =&gt; a -&gt; Word8 -&gt; a
-</span><a href="#local-6989586621679175548"><span class="hs-identifier hs-var">step</span></a></span><span> </span><span class="annot"><span class="annottext">Integer
+</span><a href="#local-6989586621679175638"><span class="hs-identifier hs-var">step</span></a></span><span> </span><span class="annot"><span class="annottext">Integer
 </span><span class="hs-number">0</span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-21"></span><span>  </span><span id="local-6989586621679175548"><span class="annot"><span class="annottext">step :: a -&gt; Word8 -&gt; a
-</span><a href="#local-6989586621679175548"><span class="hs-identifier hs-var hs-var">step</span></a></span></span><span> </span><span id="local-6989586621679175556"><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679175556"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679175557"><span class="annot"><span class="annottext">Word8
-</span><a href="#local-6989586621679175557"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679175556"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; a -&gt; a
+</span><span id="line-21"></span><span>  </span><span id="local-6989586621679175638"><span class="annot"><span class="annottext">step :: a -&gt; Word8 -&gt; a
+</span><a href="#local-6989586621679175638"><span class="hs-identifier hs-var hs-var">step</span></a></span></span><span> </span><span id="local-6989586621679175646"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679175646"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679175647"><span class="annot"><span class="annottext">Word8
+</span><a href="#local-6989586621679175647"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679175646"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; a -&gt; a
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">*</span></span><span> </span><span class="annot"><span class="annottext">a
 </span><span class="hs-number">10</span></span><span> </span><span class="annot"><span class="annottext">a -&gt; a -&gt; a
@@ -60,7 +60,7 @@ forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">+</span></span><span> </span><span class="annot"><span class="annottext">Word8 -&gt; a
 forall a b. (Integral a, Num b) =&gt; a -&gt; b
 </span><span class="hs-identifier hs-var">fromIntegral</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Word8
-</span><a href="#local-6989586621679175557"><span class="hs-identifier hs-var">b</span></a></span><span> </span><span class="annot"><span class="annottext">Word8 -&gt; Word8 -&gt; Word8
+</span><a href="#local-6989586621679175647"><span class="hs-identifier hs-var">b</span></a></span><span> </span><span class="annot"><span class="annottext">Word8 -&gt; Word8 -&gt; Word8
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-glyph hs-var">-</span></span><span> </span><span class="annot"><span class="annottext">Word8
 </span><a href="Data.Aeson.Internal.Word8.html#W8_0"><span class="hs-identifier hs-var">W8_0</span></a></span><span class="hs-special">)</span><span>
@@ -73,65 +73,65 @@ forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span id="line-28"></span><span class="annot"><a href="Data.Aeson.Internal.Integer.html#valInteger"><span class="hs-identifier hs-type">valInteger</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Integer</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Integer</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Integer</span></span><span>
 </span><span id="line-29"></span><span id="valInteger"><span class="annot"><span class="annottext">valInteger :: Integer -&gt; Int -&gt; [Integer] -&gt; Integer
 </span><a href="Data.Aeson.Internal.Integer.html#valInteger"><span class="hs-identifier hs-var hs-var">valInteger</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Integer -&gt; Int -&gt; [Integer] -&gt; Integer
-</span><a href="#local-6989586621679175560"><span class="hs-identifier hs-var">go</span></a></span><span>
+</span><a href="#local-6989586621679175650"><span class="hs-identifier hs-var">go</span></a></span><span>
 </span><span id="line-30"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-31"></span><span>    </span><span class="annot"><a href="#local-6989586621679175560"><span class="hs-identifier hs-type">go</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Integer</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Integer</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Integer</span></span><span>
-</span><span id="line-32"></span><span>    </span><span id="local-6989586621679175560"><span class="annot"><span class="annottext">go :: Integer -&gt; Int -&gt; [Integer] -&gt; Integer
-</span><a href="#local-6989586621679175560"><span class="hs-identifier hs-var hs-var">go</span></a></span></span><span> </span><span class="annot"><span class="annottext">Integer
+</span><span id="line-31"></span><span>    </span><span class="annot"><a href="#local-6989586621679175650"><span class="hs-identifier hs-type">go</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Integer</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Integer</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Integer</span></span><span>
+</span><span id="line-32"></span><span>    </span><span id="local-6989586621679175650"><span class="annot"><span class="annottext">go :: Integer -&gt; Int -&gt; [Integer] -&gt; Integer
+</span><a href="#local-6989586621679175650"><span class="hs-identifier hs-var hs-var">go</span></a></span></span><span> </span><span class="annot"><span class="annottext">Integer
 </span><span class="hs-identifier">_</span></span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>  </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Integer
 </span><span class="hs-number">0</span></span><span>
-</span><span id="line-33"></span><span>    </span><span class="annot"><a href="#local-6989586621679175560"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">Integer
+</span><span id="line-33"></span><span>    </span><span class="annot"><a href="#local-6989586621679175650"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">Integer
 </span><span class="hs-identifier">_</span></span><span> </span><span class="annot"><span class="annottext">Int
-</span><span class="hs-identifier">_</span></span><span> </span><span class="hs-special">[</span><span id="local-6989586621679175561"><span class="annot"><span class="annottext">Integer
-</span><a href="#local-6989586621679175561"><span class="hs-identifier hs-var">d</span></a></span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Integer
-</span><a href="#local-6989586621679175561"><span class="hs-identifier hs-var">d</span></a></span><span>
-</span><span id="line-34"></span><span>    </span><span class="annot"><a href="#local-6989586621679175560"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span id="local-6989586621679175562"><span class="annot"><span class="annottext">Integer
-</span><a href="#local-6989586621679175562"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span id="local-6989586621679175563"><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679175563"><span class="hs-identifier hs-var">l</span></a></span></span><span> </span><span id="local-6989586621679175564"><span class="annot"><span class="annottext">[Integer]
-</span><a href="#local-6989586621679175564"><span class="hs-identifier hs-var">ds</span></a></span></span><span>
+</span><span class="hs-identifier">_</span></span><span> </span><span class="hs-special">[</span><span id="local-6989586621679175651"><span class="annot"><span class="annottext">Integer
+</span><a href="#local-6989586621679175651"><span class="hs-identifier hs-var">d</span></a></span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Integer
+</span><a href="#local-6989586621679175651"><span class="hs-identifier hs-var">d</span></a></span><span>
+</span><span id="line-34"></span><span>    </span><span class="annot"><a href="#local-6989586621679175650"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span id="local-6989586621679175652"><span class="annot"><span class="annottext">Integer
+</span><a href="#local-6989586621679175652"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span id="local-6989586621679175653"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679175653"><span class="hs-identifier hs-var">l</span></a></span></span><span> </span><span id="local-6989586621679175654"><span class="annot"><span class="annottext">[Integer]
+</span><a href="#local-6989586621679175654"><span class="hs-identifier hs-var">ds</span></a></span></span><span>
 </span><span id="line-35"></span><span>        </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679175563"><span class="hs-identifier hs-var">l</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Bool
+</span><a href="#local-6989586621679175653"><span class="hs-identifier hs-var">l</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Bool
 forall a. Ord a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">&gt;</span></span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">40</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Integer
-</span><a href="#local-6989586621679175565"><span class="hs-identifier hs-var">b'</span></a></span><span> </span><span class="annot"><span class="annottext">Integer -&gt; Integer -&gt; Integer
+</span><a href="#local-6989586621679175655"><span class="hs-identifier hs-var">b'</span></a></span><span> </span><span class="annot"><span class="annottext">Integer -&gt; Integer -&gt; Integer
 forall a b. a -&gt; b -&gt; b
 </span><span class="hs-operator hs-var">`seq`</span></span><span> </span><span class="annot"><span class="annottext">Integer -&gt; Int -&gt; [Integer] -&gt; Integer
-</span><a href="#local-6989586621679175560"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">Integer
-</span><a href="#local-6989586621679175565"><span class="hs-identifier hs-var">b'</span></a></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679175566"><span class="hs-identifier hs-var">l'</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Integer -&gt; [Integer] -&gt; [Integer]
+</span><a href="#local-6989586621679175650"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">Integer
+</span><a href="#local-6989586621679175655"><span class="hs-identifier hs-var">b'</span></a></span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679175656"><span class="hs-identifier hs-var">l'</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Integer -&gt; [Integer] -&gt; [Integer]
 forall {t}. Num t =&gt; t -&gt; [t] -&gt; [t]
-</span><a href="#local-6989586621679175567"><span class="hs-identifier hs-var">combine</span></a></span><span> </span><span class="annot"><span class="annottext">Integer
-</span><a href="#local-6989586621679175562"><span class="hs-identifier hs-var">b</span></a></span><span> </span><span class="annot"><span class="annottext">[Integer]
-</span><a href="#local-6989586621679175568"><span class="hs-identifier hs-var">ds'</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679175657"><span class="hs-identifier hs-var">combine</span></a></span><span> </span><span class="annot"><span class="annottext">Integer
+</span><a href="#local-6989586621679175652"><span class="hs-identifier hs-var">b</span></a></span><span> </span><span class="annot"><span class="annottext">[Integer]
+</span><a href="#local-6989586621679175658"><span class="hs-identifier hs-var">ds'</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-36"></span><span>        </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">otherwise</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Integer -&gt; [Integer] -&gt; Integer
 </span><a href="Data.Aeson.Internal.Integer.html#valSimple"><span class="hs-identifier hs-var">valSimple</span></a></span><span> </span><span class="annot"><span class="annottext">Integer
-</span><a href="#local-6989586621679175562"><span class="hs-identifier hs-var">b</span></a></span><span> </span><span class="annot"><span class="annottext">[Integer]
-</span><a href="#local-6989586621679175564"><span class="hs-identifier hs-var">ds</span></a></span><span>
+</span><a href="#local-6989586621679175652"><span class="hs-identifier hs-var">b</span></a></span><span> </span><span class="annot"><span class="annottext">[Integer]
+</span><a href="#local-6989586621679175654"><span class="hs-identifier hs-var">ds</span></a></span><span>
 </span><span id="line-37"></span><span>      </span><span class="hs-keyword">where</span><span>
 </span><span id="line-38"></span><span>        </span><span class="hs-comment">-- ensure that we have an even number of digits</span><span>
 </span><span id="line-39"></span><span>        </span><span class="hs-comment">-- before we call combine:</span><span>
-</span><span id="line-40"></span><span>        </span><span id="local-6989586621679175568"><span class="annot"><span class="annottext">ds' :: [Integer]
-</span><a href="#local-6989586621679175568"><span class="hs-identifier hs-var hs-var">ds'</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">if</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Bool
+</span><span id="line-40"></span><span>        </span><span id="local-6989586621679175658"><span class="annot"><span class="annottext">ds' :: [Integer]
+</span><a href="#local-6989586621679175658"><span class="hs-identifier hs-var hs-var">ds'</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">if</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Bool
 forall a. Integral a =&gt; a -&gt; Bool
 </span><span class="hs-identifier hs-var">even</span></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679175563"><span class="hs-identifier hs-var">l</span></a></span><span> </span><span class="hs-keyword">then</span><span> </span><span class="annot"><span class="annottext">[Integer]
-</span><a href="#local-6989586621679175564"><span class="hs-identifier hs-var">ds</span></a></span><span> </span><span class="hs-keyword">else</span><span> </span><span class="annot"><span class="annottext">Integer
+</span><a href="#local-6989586621679175653"><span class="hs-identifier hs-var">l</span></a></span><span> </span><span class="hs-keyword">then</span><span> </span><span class="annot"><span class="annottext">[Integer]
+</span><a href="#local-6989586621679175654"><span class="hs-identifier hs-var">ds</span></a></span><span> </span><span class="hs-keyword">else</span><span> </span><span class="annot"><span class="annottext">Integer
 </span><span class="hs-number">0</span></span><span> </span><span class="annot"><span class="annottext">Integer -&gt; [Integer] -&gt; [Integer]
 forall a. a -&gt; [a] -&gt; [a]
 </span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">[Integer]
-</span><a href="#local-6989586621679175564"><span class="hs-identifier hs-var">ds</span></a></span><span>
-</span><span id="line-41"></span><span>        </span><span id="local-6989586621679175565"><span class="annot"><span class="annottext">b' :: Integer
-</span><a href="#local-6989586621679175565"><span class="hs-identifier hs-var hs-var">b'</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Integer
-</span><a href="#local-6989586621679175562"><span class="hs-identifier hs-var">b</span></a></span><span> </span><span class="annot"><span class="annottext">Integer -&gt; Integer -&gt; Integer
+</span><a href="#local-6989586621679175654"><span class="hs-identifier hs-var">ds</span></a></span><span>
+</span><span id="line-41"></span><span>        </span><span id="local-6989586621679175655"><span class="annot"><span class="annottext">b' :: Integer
+</span><a href="#local-6989586621679175655"><span class="hs-identifier hs-var hs-var">b'</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Integer
+</span><a href="#local-6989586621679175652"><span class="hs-identifier hs-var">b</span></a></span><span> </span><span class="annot"><span class="annottext">Integer -&gt; Integer -&gt; Integer
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">*</span></span><span> </span><span class="annot"><span class="annottext">Integer
-</span><a href="#local-6989586621679175562"><span class="hs-identifier hs-var">b</span></a></span><span>
-</span><span id="line-42"></span><span>        </span><span id="local-6989586621679175566"><span class="annot"><span class="annottext">l' :: Int
-</span><a href="#local-6989586621679175566"><span class="hs-identifier hs-var hs-var">l'</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679175563"><span class="hs-identifier hs-var">l</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
+</span><a href="#local-6989586621679175652"><span class="hs-identifier hs-var">b</span></a></span><span>
+</span><span id="line-42"></span><span>        </span><span id="local-6989586621679175656"><span class="annot"><span class="annottext">l' :: Int
+</span><a href="#local-6989586621679175656"><span class="hs-identifier hs-var hs-var">l'</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679175653"><span class="hs-identifier hs-var">l</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">+</span></span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">1</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
@@ -139,34 +139,34 @@ forall a. Integral a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">`quot`</span></span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">2</span></span><span>
 </span><span id="line-43"></span><span>
-</span><span id="line-44"></span><span>    </span><span id="local-6989586621679175567"><span class="annot"><span class="annottext">combine :: t -&gt; [t] -&gt; [t]
-</span><a href="#local-6989586621679175567"><span class="hs-identifier hs-var hs-var">combine</span></a></span></span><span> </span><span id="local-6989586621679175581"><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679175581"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679175582"><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679175582"><span class="hs-identifier hs-var">d1</span></a></span></span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span id="local-6989586621679175583"><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679175583"><span class="hs-identifier hs-var">d2</span></a></span></span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span id="local-6989586621679175584"><span class="annot"><span class="annottext">[t]
-</span><a href="#local-6989586621679175584"><span class="hs-identifier hs-var">ds</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679175585"><span class="hs-identifier hs-var">d</span></a></span><span> </span><span class="annot"><span class="annottext">t -&gt; [t] -&gt; [t]
+</span><span id="line-44"></span><span>    </span><span id="local-6989586621679175657"><span class="annot"><span class="annottext">combine :: t -&gt; [t] -&gt; [t]
+</span><a href="#local-6989586621679175657"><span class="hs-identifier hs-var hs-var">combine</span></a></span></span><span> </span><span id="local-6989586621679175671"><span class="annot"><span class="annottext">t
+</span><a href="#local-6989586621679175671"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679175672"><span class="annot"><span class="annottext">t
+</span><a href="#local-6989586621679175672"><span class="hs-identifier hs-var">d1</span></a></span></span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span id="local-6989586621679175673"><span class="annot"><span class="annottext">t
+</span><a href="#local-6989586621679175673"><span class="hs-identifier hs-var">d2</span></a></span></span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span id="local-6989586621679175674"><span class="annot"><span class="annottext">[t]
+</span><a href="#local-6989586621679175674"><span class="hs-identifier hs-var">ds</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">t
+</span><a href="#local-6989586621679175675"><span class="hs-identifier hs-var">d</span></a></span><span> </span><span class="annot"><span class="annottext">t -&gt; [t] -&gt; [t]
 forall a b. a -&gt; b -&gt; b
 </span><span class="hs-operator hs-var">`seq`</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679175585"><span class="hs-identifier hs-var">d</span></a></span><span> </span><span class="annot"><span class="annottext">t -&gt; [t] -&gt; [t]
+</span><a href="#local-6989586621679175675"><span class="hs-identifier hs-var">d</span></a></span><span> </span><span class="annot"><span class="annottext">t -&gt; [t] -&gt; [t]
 forall a. a -&gt; [a] -&gt; [a]
 </span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">t -&gt; [t] -&gt; [t]
-</span><a href="#local-6989586621679175567"><span class="hs-identifier hs-var">combine</span></a></span><span> </span><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679175581"><span class="hs-identifier hs-var">b</span></a></span><span> </span><span class="annot"><span class="annottext">[t]
-</span><a href="#local-6989586621679175584"><span class="hs-identifier hs-var">ds</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679175657"><span class="hs-identifier hs-var">combine</span></a></span><span> </span><span class="annot"><span class="annottext">t
+</span><a href="#local-6989586621679175671"><span class="hs-identifier hs-var">b</span></a></span><span> </span><span class="annot"><span class="annottext">[t]
+</span><a href="#local-6989586621679175674"><span class="hs-identifier hs-var">ds</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-45"></span><span>      </span><span class="hs-keyword">where</span><span>
-</span><span id="line-46"></span><span>        </span><span id="local-6989586621679175585"><span class="annot"><span class="annottext">d :: t
-</span><a href="#local-6989586621679175585"><span class="hs-identifier hs-var hs-var">d</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679175582"><span class="hs-identifier hs-var">d1</span></a></span><span> </span><span class="annot"><span class="annottext">t -&gt; t -&gt; t
+</span><span id="line-46"></span><span>        </span><span id="local-6989586621679175675"><span class="annot"><span class="annottext">d :: t
+</span><a href="#local-6989586621679175675"><span class="hs-identifier hs-var hs-var">d</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">t
+</span><a href="#local-6989586621679175672"><span class="hs-identifier hs-var">d1</span></a></span><span> </span><span class="annot"><span class="annottext">t -&gt; t -&gt; t
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">*</span></span><span> </span><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679175581"><span class="hs-identifier hs-var">b</span></a></span><span> </span><span class="annot"><span class="annottext">t -&gt; t -&gt; t
+</span><a href="#local-6989586621679175671"><span class="hs-identifier hs-var">b</span></a></span><span> </span><span class="annot"><span class="annottext">t -&gt; t -&gt; t
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">+</span></span><span> </span><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679175583"><span class="hs-identifier hs-var">d2</span></a></span><span>
-</span><span id="line-47"></span><span>    </span><span class="annot"><a href="#local-6989586621679175567"><span class="hs-identifier hs-var">combine</span></a></span><span> </span><span class="annot"><span class="annottext">t
+</span><a href="#local-6989586621679175673"><span class="hs-identifier hs-var">d2</span></a></span><span>
+</span><span id="line-47"></span><span>    </span><span class="annot"><a href="#local-6989586621679175657"><span class="hs-identifier hs-var">combine</span></a></span><span> </span><span class="annot"><span class="annottext">t
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>  </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
-</span><span id="line-48"></span><span>    </span><span class="annot"><a href="#local-6989586621679175567"><span class="hs-identifier hs-var">combine</span></a></span><span> </span><span class="annot"><span class="annottext">t
+</span><span id="line-48"></span><span>    </span><span class="annot"><a href="#local-6989586621679175657"><span class="hs-identifier hs-var">combine</span></a></span><span> </span><span class="annot"><span class="annottext">t
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">t
 </span><span class="hs-identifier">_</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[Char] -&gt; [t]
 forall a. [Char] -&gt; a
@@ -177,36 +177,36 @@ forall a. [Char] -&gt; a
 </span><span id="line-51"></span><span class="hs-comment">-- are in constant time.</span><span>
 </span><span id="line-52"></span><span class="annot"><a href="Data.Aeson.Internal.Integer.html#valSimple"><span class="hs-identifier hs-type">valSimple</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Integer</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Integer</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Integer</span></span><span>
 </span><span id="line-53"></span><span id="valSimple"><span class="annot"><span class="annottext">valSimple :: Integer -&gt; [Integer] -&gt; Integer
-</span><a href="Data.Aeson.Internal.Integer.html#valSimple"><span class="hs-identifier hs-var hs-var">valSimple</span></a></span></span><span> </span><span id="local-6989586621679175589"><span class="annot"><span class="annottext">Integer
-</span><a href="#local-6989586621679175589"><span class="hs-identifier hs-var">base</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Integer -&gt; [Integer] -&gt; Integer
+</span><a href="Data.Aeson.Internal.Integer.html#valSimple"><span class="hs-identifier hs-var hs-var">valSimple</span></a></span></span><span> </span><span id="local-6989586621679175679"><span class="annot"><span class="annottext">Integer
+</span><a href="#local-6989586621679175679"><span class="hs-identifier hs-var">base</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Integer -&gt; [Integer] -&gt; Integer
 forall {a}. Integral a =&gt; Integer -&gt; [a] -&gt; Integer
-</span><a href="#local-6989586621679175590"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">Integer
+</span><a href="#local-6989586621679175680"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">Integer
 </span><span class="hs-number">0</span></span><span>
 </span><span id="line-54"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-55"></span><span>    </span><span id="local-6989586621679175590"><span class="annot"><span class="annottext">go :: Integer -&gt; [a] -&gt; Integer
-</span><a href="#local-6989586621679175590"><span class="hs-identifier hs-var hs-var">go</span></a></span></span><span> </span><span id="local-6989586621679175602"><span class="annot"><span class="annottext">Integer
-</span><a href="#local-6989586621679175602"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Integer
-</span><a href="#local-6989586621679175602"><span class="hs-identifier hs-var">r</span></a></span><span>
-</span><span id="line-56"></span><span>    </span><span class="annot"><a href="#local-6989586621679175590"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span id="local-6989586621679175603"><span class="annot"><span class="annottext">Integer
-</span><a href="#local-6989586621679175603"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679175604"><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679175604"><span class="hs-identifier hs-var">d</span></a></span></span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span id="local-6989586621679175605"><span class="annot"><span class="annottext">[a]
-</span><a href="#local-6989586621679175605"><span class="hs-identifier hs-var">ds</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Integer
-</span><a href="#local-6989586621679175606"><span class="hs-identifier hs-var">r'</span></a></span><span> </span><span class="annot"><span class="annottext">Integer -&gt; Integer -&gt; Integer
+</span><span id="line-55"></span><span>    </span><span id="local-6989586621679175680"><span class="annot"><span class="annottext">go :: Integer -&gt; [a] -&gt; Integer
+</span><a href="#local-6989586621679175680"><span class="hs-identifier hs-var hs-var">go</span></a></span></span><span> </span><span id="local-6989586621679175692"><span class="annot"><span class="annottext">Integer
+</span><a href="#local-6989586621679175692"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Integer
+</span><a href="#local-6989586621679175692"><span class="hs-identifier hs-var">r</span></a></span><span>
+</span><span id="line-56"></span><span>    </span><span class="annot"><a href="#local-6989586621679175680"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span id="local-6989586621679175693"><span class="annot"><span class="annottext">Integer
+</span><a href="#local-6989586621679175693"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679175694"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679175694"><span class="hs-identifier hs-var">d</span></a></span></span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span id="local-6989586621679175695"><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679175695"><span class="hs-identifier hs-var">ds</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Integer
+</span><a href="#local-6989586621679175696"><span class="hs-identifier hs-var">r'</span></a></span><span> </span><span class="annot"><span class="annottext">Integer -&gt; Integer -&gt; Integer
 forall a b. a -&gt; b -&gt; b
 </span><span class="hs-operator hs-var">`seq`</span></span><span> </span><span class="annot"><span class="annottext">Integer -&gt; [a] -&gt; Integer
-</span><a href="#local-6989586621679175590"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">Integer
-</span><a href="#local-6989586621679175606"><span class="hs-identifier hs-var">r'</span></a></span><span> </span><span class="annot"><span class="annottext">[a]
-</span><a href="#local-6989586621679175605"><span class="hs-identifier hs-var">ds</span></a></span><span>
+</span><a href="#local-6989586621679175680"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">Integer
+</span><a href="#local-6989586621679175696"><span class="hs-identifier hs-var">r'</span></a></span><span> </span><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679175695"><span class="hs-identifier hs-var">ds</span></a></span><span>
 </span><span id="line-57"></span><span>      </span><span class="hs-keyword">where</span><span>
-</span><span id="line-58"></span><span>        </span><span id="local-6989586621679175606"><span class="annot"><span class="annottext">r' :: Integer
-</span><a href="#local-6989586621679175606"><span class="hs-identifier hs-var hs-var">r'</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Integer
-</span><a href="#local-6989586621679175603"><span class="hs-identifier hs-var">r</span></a></span><span> </span><span class="annot"><span class="annottext">Integer -&gt; Integer -&gt; Integer
+</span><span id="line-58"></span><span>        </span><span id="local-6989586621679175696"><span class="annot"><span class="annottext">r' :: Integer
+</span><a href="#local-6989586621679175696"><span class="hs-identifier hs-var hs-var">r'</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Integer
+</span><a href="#local-6989586621679175693"><span class="hs-identifier hs-var">r</span></a></span><span> </span><span class="annot"><span class="annottext">Integer -&gt; Integer -&gt; Integer
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">*</span></span><span> </span><span class="annot"><span class="annottext">Integer
-</span><a href="#local-6989586621679175589"><span class="hs-identifier hs-var">base</span></a></span><span> </span><span class="annot"><span class="annottext">Integer -&gt; Integer -&gt; Integer
+</span><a href="#local-6989586621679175679"><span class="hs-identifier hs-var">base</span></a></span><span> </span><span class="annot"><span class="annottext">Integer -&gt; Integer -&gt; Integer
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">+</span></span><span> </span><span class="annot"><span class="annottext">a -&gt; Integer
 forall a b. (Integral a, Num b) =&gt; a -&gt; b
 </span><span class="hs-identifier hs-var">fromIntegral</span></span><span> </span><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679175604"><span class="hs-identifier hs-var">d</span></a></span><span>
+</span><a href="#local-6989586621679175694"><span class="hs-identifier hs-var">d</span></a></span><span>
 </span><span id="line-59"></span></pre></body></html>

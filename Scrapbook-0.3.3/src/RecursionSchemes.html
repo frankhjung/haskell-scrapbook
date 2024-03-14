@@ -1,0 +1,784 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE DeriveFunctor        #-}</span><span>
+</span><span id="line-2"></span><span class="hs-pragma">{-# LANGUAGE DerivingStrategies   #-}</span><span>
+</span><span id="line-3"></span><span class="hs-pragma">{-# LANGUAGE FlexibleInstances    #-}</span><span>
+</span><span id="line-4"></span><span class="hs-pragma">{-# LANGUAGE UndecidableInstances #-}</span><span>
+</span><span id="line-5"></span><span class="hs-pragma">{-# OPTIONS_GHC -fno-warn-incomplete-uni-patterns #-}</span><span>
+</span><span id="line-6"></span><span>
+</span><span id="line-7"></span><span class="annot"><span class="hs-comment">{-|
+
+Module      : RecursionSchemes
+Description : Examples of Ana/Cata/Para-morphisms recursion schemes
+Copyright   : &#169; Frank Jung, 2021-2023
+License     : GPL-3
+
+A collection of recursion scheme examples.
+
+= Examples
+
+== Anamorphism
+
+Using a non-recursive coalgebra to create a `ListF`.
+
+@
+test = buildListF 4
+show test
+&quot;ConsF 4 (ConsF 3 (ConsF 2 (ConsF 1 NilF)))&quot;
+
+&#955;&gt; :t unFix test
+unFix test :: ListF Int (Fix (ListF Int))
+
+&#955;&gt; :t test
+test :: Fix (ListF Int)
+@
+
+== Catamorphism
+
+Using a non-recursive algebra to measure length of `ListF` entry, use a
+catamorphism over the alegra to measure length of the entire `ListF`.
+
+@
+test :: Int a =&gt; Fix (ListF a)
+test = Fix (ConsF 4 (Fix (ConsF 3 (Fix (ConsF 2 (Fix (ConsF 1 (Fix NilF))))))))
+
+lengthListF test
+4
+@
+
+== Paramorphism
+
+The paramorphism examples come from &quot;Making Sense of Recursion Patterns&quot;.
+A paramorphism is like a catamorphism, but it preserves the initial data
+structure.
+
+= References
+
+* &lt;https://stackoverflow.com/questions/48023348/deriving-a-functor-for-an-infinite-stream Deriving a functor for an infinite stream&gt;
+* &lt;https://dl.acm.org/doi/abs/10.5555/2663689.2663693 Making Sense of Recursion Patterns by Paul Bailes and Leighton Brough&gt;
+
+-}</span></span><span>
+</span><span id="line-59"></span><span>
+</span><span id="line-60"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">RecursionSchemes</span><span> </span><span class="hs-special">(</span><span>
+</span><span id="line-61"></span><span>                        </span><span class="annot"><span class="hs-comment">-- * Data constructors</span></span><span>
+</span><span id="line-62"></span><span>                          </span><span class="annot"><a href="RecursionSchemes.html#Fix"><span class="hs-identifier">Fix</span></a></span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-63"></span><span>                        </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="RecursionSchemes.html#ListF"><span class="hs-identifier">ListF</span></a></span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-64"></span><span>                        </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="RecursionSchemes.html#NatF"><span class="hs-identifier">NatF</span></a></span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-65"></span><span>                        </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="RecursionSchemes.html#Nat"><span class="hs-identifier">Nat</span></a></span><span>
+</span><span id="line-66"></span><span>                        </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="RecursionSchemes.html#RAlgebra"><span class="hs-identifier">RAlgebra</span></a></span><span>
+</span><span id="line-67"></span><span>                        </span><span class="annot"><span class="hs-comment">-- * Recursion schemes</span></span><span>
+</span><span id="line-68"></span><span>                        </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="RecursionSchemes.html#ana"><span class="hs-identifier">ana</span></a></span><span>
+</span><span id="line-69"></span><span>                        </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="RecursionSchemes.html#cata"><span class="hs-identifier">cata</span></a></span><span>
+</span><span id="line-70"></span><span>                        </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="RecursionSchemes.html#para"><span class="hs-identifier">para</span></a></span><span>
+</span><span id="line-71"></span><span>                        </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="RecursionSchemes.html#para%27"><span class="hs-identifier">para'</span></a></span><span>
+</span><span id="line-72"></span><span>                        </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="RecursionSchemes.html#para%27%27"><span class="hs-identifier">para''</span></a></span><span>
+</span><span id="line-73"></span><span>                        </span><span class="annot"><span class="hs-comment">-- * Coalgebra's</span></span><span>
+</span><span id="line-74"></span><span>                        </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="RecursionSchemes.html#buildListF"><span class="hs-identifier">buildListF</span></a></span><span>
+</span><span id="line-75"></span><span>                        </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="RecursionSchemes.html#buildCoalg"><span class="hs-identifier">buildCoalg</span></a></span><span>
+</span><span id="line-76"></span><span>                        </span><span class="annot"><span class="hs-comment">-- * Algebra's</span></span><span>
+</span><span id="line-77"></span><span>                        </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="RecursionSchemes.html#lengthAlg"><span class="hs-identifier">lengthAlg</span></a></span><span>
+</span><span id="line-78"></span><span>                        </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="RecursionSchemes.html#lengthListF"><span class="hs-identifier">lengthListF</span></a></span><span>
+</span><span id="line-79"></span><span>                        </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="RecursionSchemes.html#lengthListF%27"><span class="hs-identifier">lengthListF'</span></a></span><span>
+</span><span id="line-80"></span><span>                        </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="RecursionSchemes.html#fromNat"><span class="hs-identifier">fromNat</span></a></span><span>
+</span><span id="line-81"></span><span>                        </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="RecursionSchemes.html#toNat"><span class="hs-identifier">toNat</span></a></span><span>
+</span><span id="line-82"></span><span>                        </span><span class="annot"><span class="hs-comment">-- * Utilities</span></span><span>
+</span><span id="line-83"></span><span>                        </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="RecursionSchemes.html#insert"><span class="hs-identifier">insert</span></a></span><span>
+</span><span id="line-84"></span><span>                        </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="RecursionSchemes.html#insert%27"><span class="hs-identifier">insert'</span></a></span><span>
+</span><span id="line-85"></span><span>                        </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="RecursionSchemes.html#toList"><span class="hs-identifier">toList</span></a></span><span>
+</span><span id="line-86"></span><span>                        </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="RecursionSchemes.html#idx0"><span class="hs-identifier">idx0</span></a></span><span>
+</span><span id="line-87"></span><span>                        </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="RecursionSchemes.html#idx1"><span class="hs-identifier">idx1</span></a></span><span>
+</span><span id="line-88"></span><span>                        </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="RecursionSchemes.html#idx2"><span class="hs-identifier">idx2</span></a></span><span>
+</span><span id="line-89"></span><span>                        </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="RecursionSchemes.html#idx3"><span class="hs-identifier">idx3</span></a></span><span>
+</span><span id="line-90"></span><span>                        </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="RecursionSchemes.html#idx4"><span class="hs-identifier">idx4</span></a></span><span>
+</span><span id="line-91"></span><span>                        </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-92"></span><span>
+</span><span id="line-93"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.Bool</span></span><span>     </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">bool</span></span><span class="hs-special">)</span><span>
+</span><span id="line-94"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.Function</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-operator">(&amp;)</span></span><span class="hs-special">)</span><span>
+</span><span id="line-95"></span><span>
+</span><span id="line-96"></span><span class="hs-comment">-- | Generalised fixed point for any functor /f/.</span><span>
+</span><span id="line-97"></span><span class="hs-comment">-- Note that @unFix (Fix x) == x@</span><span>
+</span><span id="line-98"></span><span class="hs-keyword">newtype</span><span> </span><span id="Fix"><span class="annot"><a href="RecursionSchemes.html#Fix"><span class="hs-identifier hs-var">Fix</span></a></span></span><span> </span><span id="local-6989586621679095544"><span class="annot"><a href="#local-6989586621679095544"><span class="hs-identifier hs-type">f</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="Fix"><span class="annot"><a href="RecursionSchemes.html#Fix"><span class="hs-identifier hs-var">Fix</span></a></span></span><span> </span><span class="hs-special">{</span><span> </span><span id="unFix"><span class="annot"><span class="annottext">forall (f :: * -&gt; *). Fix f -&gt; f (Fix f)
+</span><a href="RecursionSchemes.html#unFix"><span class="hs-identifier hs-var hs-var">unFix</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="#local-6989586621679095544"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="RecursionSchemes.html#Fix"><span class="hs-identifier hs-type">Fix</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095544"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">}</span><span>
+</span><span id="line-99"></span><span>
+</span><span id="line-100"></span><span class="hs-comment">-- This requires UndecidableInstances because the context is larger</span><span>
+</span><span id="line-101"></span><span class="hs-comment">-- than the head and so GHC can't guarantee that the instance safely</span><span>
+</span><span id="line-102"></span><span class="hs-comment">-- terminates. (Copied from Data.Functor.Fixedpoint).</span><span>
+</span><span id="line-103"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679095550"><span id="local-6989586621679095694"><span id="local-6989586621679095698"><span class="annot"><span class="hs-identifier hs-type">Show</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679095550"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="RecursionSchemes.html#Fix"><span class="hs-identifier hs-type">Fix</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095550"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Show</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="RecursionSchemes.html#Fix"><span class="hs-identifier hs-type">Fix</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095550"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">)</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-104"></span><span>  </span><span id="local-6989586621679095702"><span class="annot"><span class="annottext">showsPrec :: Int -&gt; Fix f -&gt; ShowS
+</span><a href="#local-6989586621679095702"><span class="hs-identifier hs-var hs-var hs-var hs-var">showsPrec</span></a></span></span><span> </span><span id="local-6989586621679095704"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679095704"><span class="hs-identifier hs-var">p</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="RecursionSchemes.html#Fix"><span class="hs-identifier hs-type">Fix</span></a></span><span> </span><span id="local-6989586621679095705"><span class="annot"><span class="annottext">f (Fix f)
+</span><a href="#local-6989586621679095705"><span class="hs-identifier hs-var">f</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int -&gt; f (Fix f) -&gt; ShowS
+forall a. Show a =&gt; Int -&gt; a -&gt; ShowS
+</span><span class="hs-identifier hs-var">showsPrec</span></span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679095704"><span class="hs-identifier hs-var">p</span></a></span><span> </span><span class="annot"><span class="annottext">f (Fix f)
+</span><a href="#local-6989586621679095705"><span class="hs-identifier hs-var">f</span></a></span><span>
+</span><span id="line-105"></span><span>
+</span><span id="line-106"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679095553"><span class="annot"><span class="hs-identifier hs-type">Eq</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679095553"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="RecursionSchemes.html#Fix"><span class="hs-identifier hs-type">Fix</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095553"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Eq</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="RecursionSchemes.html#Fix"><span class="hs-identifier hs-type">Fix</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095553"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">)</span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-107"></span><span>  </span><span class="annot"><a href="RecursionSchemes.html#Fix"><span class="hs-identifier hs-type">Fix</span></a></span><span> </span><span id="local-6989586621679095712"><span class="annot"><span class="annottext">f (Fix f)
+</span><a href="#local-6989586621679095712"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span id="local-6989586621679095713"><span class="annot"><span class="annottext">== :: Fix f -&gt; Fix f -&gt; Bool
+</span><span class="hs-operator hs-var hs-var hs-var hs-var">==</span></span></span><span> </span><span class="annot"><a href="RecursionSchemes.html#Fix"><span class="hs-identifier hs-type">Fix</span></a></span><span> </span><span id="local-6989586621679095714"><span class="annot"><span class="annottext">f (Fix f)
+</span><a href="#local-6989586621679095714"><span class="hs-identifier hs-var">y</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">f (Fix f)
+</span><a href="#local-6989586621679095712"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">f (Fix f) -&gt; f (Fix f) -&gt; Bool
+forall a. Eq a =&gt; a -&gt; a -&gt; Bool
+</span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">f (Fix f)
+</span><a href="#local-6989586621679095714"><span class="hs-identifier hs-var">y</span></a></span><span>
+</span><span id="line-108"></span><span>  </span><span class="annot"><a href="RecursionSchemes.html#Fix"><span class="hs-identifier hs-type">Fix</span></a></span><span> </span><span id="local-6989586621679095716"><span class="annot"><span class="annottext">f (Fix f)
+</span><a href="#local-6989586621679095716"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span id="local-6989586621679095717"><span class="annot"><span class="annottext">/= :: Fix f -&gt; Fix f -&gt; Bool
+</span><a href="#local-6989586621679095717"><span class="hs-operator hs-var hs-var hs-var hs-var">/=</span></a></span></span><span> </span><span class="annot"><a href="RecursionSchemes.html#Fix"><span class="hs-identifier hs-type">Fix</span></a></span><span> </span><span id="local-6989586621679095719"><span class="annot"><span class="annottext">f (Fix f)
+</span><a href="#local-6989586621679095719"><span class="hs-identifier hs-var">y</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">f (Fix f)
+</span><a href="#local-6989586621679095716"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">f (Fix f) -&gt; f (Fix f) -&gt; Bool
+forall a. Eq a =&gt; a -&gt; a -&gt; Bool
+</span><span class="hs-operator hs-var">/=</span></span><span> </span><span class="annot"><span class="annottext">f (Fix f)
+</span><a href="#local-6989586621679095719"><span class="hs-identifier hs-var">y</span></a></span><span>
+</span><span id="line-109"></span><span>
+</span><span id="line-110"></span><span class="annot"><span class="hs-comment">-- | List Functor where r is the carrier type.</span></span><span>
+</span><span id="line-111"></span><span class="hs-keyword">data</span><span> </span><span id="ListF"><span class="annot"><a href="RecursionSchemes.html#ListF"><span class="hs-identifier hs-var">ListF</span></a></span></span><span> </span><span id="local-6989586621679095604"><span class="annot"><a href="#local-6989586621679095604"><span class="hs-identifier hs-type">a</span></a></span></span><span> </span><span id="local-6989586621679095605"><span class="annot"><a href="#local-6989586621679095605"><span class="hs-identifier hs-type">r</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="NilF"><span class="annot"><a href="RecursionSchemes.html#NilF"><span class="hs-identifier hs-var">NilF</span></a></span></span><span> </span><span class="hs-glyph">|</span><span> </span><span id="ConsF"><span class="annot"><a href="RecursionSchemes.html#ConsF"><span class="hs-identifier hs-var">ConsF</span></a></span></span><span> </span><span class="annot"><a href="#local-6989586621679095604"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095605"><span class="hs-identifier hs-type">r</span></a></span><span> </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679095723"><span id="local-6989586621679095725"><span class="annot"><span class="annottext">(forall a b. (a -&gt; b) -&gt; ListF a a -&gt; ListF a b)
+-&gt; (forall a b. a -&gt; ListF a b -&gt; ListF a a) -&gt; Functor (ListF a)
+forall a b. a -&gt; ListF a b -&gt; ListF a a
+forall a b. (a -&gt; b) -&gt; ListF a a -&gt; ListF a b
+forall a a b. a -&gt; ListF a b -&gt; ListF a a
+forall a a b. (a -&gt; b) -&gt; ListF a a -&gt; ListF a b
+forall (f :: * -&gt; *).
+(forall a b. (a -&gt; b) -&gt; f a -&gt; f b)
+-&gt; (forall a b. a -&gt; f b -&gt; f a) -&gt; Functor f
+$cfmap :: forall a a b. (a -&gt; b) -&gt; ListF a a -&gt; ListF a b
+fmap :: forall a b. (a -&gt; b) -&gt; ListF a a -&gt; ListF a b
+$c&lt;$ :: forall a a b. a -&gt; ListF a b -&gt; ListF a a
+&lt;$ :: forall a b. a -&gt; ListF a b -&gt; ListF a a
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Functor</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095730"><span id="local-6989586621679095735"><span id="local-6989586621679095739"><span class="annot"><span class="annottext">Int -&gt; ListF a r -&gt; ShowS
+[ListF a r] -&gt; ShowS
+ListF a r -&gt; String
+(Int -&gt; ListF a r -&gt; ShowS)
+-&gt; (ListF a r -&gt; String)
+-&gt; ([ListF a r] -&gt; ShowS)
+-&gt; Show (ListF a r)
+forall a.
+(Int -&gt; a -&gt; ShowS) -&gt; (a -&gt; String) -&gt; ([a] -&gt; ShowS) -&gt; Show a
+forall a r. (Show a, Show r) =&gt; Int -&gt; ListF a r -&gt; ShowS
+forall a r. (Show a, Show r) =&gt; [ListF a r] -&gt; ShowS
+forall a r. (Show a, Show r) =&gt; ListF a r -&gt; String
+$cshowsPrec :: forall a r. (Show a, Show r) =&gt; Int -&gt; ListF a r -&gt; ShowS
+showsPrec :: Int -&gt; ListF a r -&gt; ShowS
+$cshow :: forall a r. (Show a, Show r) =&gt; ListF a r -&gt; String
+show :: ListF a r -&gt; String
+$cshowList :: forall a r. (Show a, Show r) =&gt; [ListF a r] -&gt; ShowS
+showList :: [ListF a r] -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095744"><span id="local-6989586621679095748"><span class="annot"><span class="annottext">ListF a r -&gt; ListF a r -&gt; Bool
+(ListF a r -&gt; ListF a r -&gt; Bool)
+-&gt; (ListF a r -&gt; ListF a r -&gt; Bool) -&gt; Eq (ListF a r)
+forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
+forall a r. (Eq a, Eq r) =&gt; ListF a r -&gt; ListF a r -&gt; Bool
+$c== :: forall a r. (Eq a, Eq r) =&gt; ListF a r -&gt; ListF a r -&gt; Bool
+== :: ListF a r -&gt; ListF a r -&gt; Bool
+$c/= :: forall a r. (Eq a, Eq r) =&gt; ListF a r -&gt; ListF a r -&gt; Bool
+/= :: ListF a r -&gt; ListF a r -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">)</span><span>
+</span><span id="line-112"></span><span>
+</span><span id="line-113"></span><span class="annot"><span class="hs-comment">-- | Natural numbers Functor.</span></span><span>
+</span><span id="line-114"></span><span class="hs-keyword">data</span><span> </span><span id="NatF"><span class="annot"><a href="RecursionSchemes.html#NatF"><span class="hs-identifier hs-var">NatF</span></a></span></span><span> </span><span id="local-6989586621679095618"><span class="annot"><a href="#local-6989586621679095618"><span class="hs-identifier hs-type">r</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="ZeroF"><span class="annot"><a href="RecursionSchemes.html#ZeroF"><span class="hs-identifier hs-var">ZeroF</span></a></span></span><span> </span><span class="hs-glyph">|</span><span> </span><span id="SuccF"><span class="annot"><a href="RecursionSchemes.html#SuccF"><span class="hs-identifier hs-var">SuccF</span></a></span></span><span> </span><span class="annot"><a href="#local-6989586621679095618"><span class="hs-identifier hs-type">r</span></a></span><span> </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679095755"><span id="local-6989586621679095759"><span id="local-6989586621679095763"><span class="annot"><span class="annottext">Int -&gt; NatF r -&gt; ShowS
+[NatF r] -&gt; ShowS
+NatF r -&gt; String
+(Int -&gt; NatF r -&gt; ShowS)
+-&gt; (NatF r -&gt; String) -&gt; ([NatF r] -&gt; ShowS) -&gt; Show (NatF r)
+forall r. Show r =&gt; Int -&gt; NatF r -&gt; ShowS
+forall r. Show r =&gt; [NatF r] -&gt; ShowS
+forall r. Show r =&gt; NatF r -&gt; String
+forall a.
+(Int -&gt; a -&gt; ShowS) -&gt; (a -&gt; String) -&gt; ([a] -&gt; ShowS) -&gt; Show a
+$cshowsPrec :: forall r. Show r =&gt; Int -&gt; NatF r -&gt; ShowS
+showsPrec :: Int -&gt; NatF r -&gt; ShowS
+$cshow :: forall r. Show r =&gt; NatF r -&gt; String
+show :: NatF r -&gt; String
+$cshowList :: forall r. Show r =&gt; [NatF r] -&gt; ShowS
+showList :: [NatF r] -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095766"><span id="local-6989586621679095768"><span class="annot"><span class="annottext">(forall a b. (a -&gt; b) -&gt; NatF a -&gt; NatF b)
+-&gt; (forall a b. a -&gt; NatF b -&gt; NatF a) -&gt; Functor NatF
+forall a b. a -&gt; NatF b -&gt; NatF a
+forall a b. (a -&gt; b) -&gt; NatF a -&gt; NatF b
+forall (f :: * -&gt; *).
+(forall a b. (a -&gt; b) -&gt; f a -&gt; f b)
+-&gt; (forall a b. a -&gt; f b -&gt; f a) -&gt; Functor f
+$cfmap :: forall a b. (a -&gt; b) -&gt; NatF a -&gt; NatF b
+fmap :: forall a b. (a -&gt; b) -&gt; NatF a -&gt; NatF b
+$c&lt;$ :: forall a b. a -&gt; NatF b -&gt; NatF a
+&lt;$ :: forall a b. a -&gt; NatF b -&gt; NatF a
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Functor</span></span></span></span><span class="hs-special">)</span><span>
+</span><span id="line-115"></span><span>
+</span><span id="line-116"></span><span class="annot"><span class="hs-comment">-- | Natural numbers type.</span></span><span>
+</span><span id="line-117"></span><span class="hs-keyword">type</span><span> </span><span id="Nat"><span class="annot"><a href="RecursionSchemes.html#Nat"><span class="hs-identifier hs-var">Nat</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><a href="RecursionSchemes.html#Fix"><span class="hs-identifier hs-type">Fix</span></a></span><span> </span><span class="annot"><a href="RecursionSchemes.html#NatF"><span class="hs-identifier hs-type">NatF</span></a></span><span>
+</span><span id="line-118"></span><span>
+</span><span id="line-119"></span><span class="hs-comment">-- | The code defines a type synonym RAlgebra that represents a recursive</span><span>
+</span><span id="line-120"></span><span class="hs-comment">-- algebra for a functor f. An R-algebra is a function that takes a fixed point</span><span>
+</span><span id="line-121"></span><span class="hs-comment">-- of a functor Fix f and a value of type f a, and returns a value of type a.</span><span>
+</span><span id="line-122"></span><span class="hs-comment">--</span><span>
+</span><span id="line-123"></span><span class="hs-comment">-- The Fix type is used to define recursive data structures in Haskell. It is a</span><span>
+</span><span id="line-124"></span><span class="hs-comment">-- type constructor that takes a functor f as an argument and returns a fixed</span><span>
+</span><span id="line-125"></span><span class="hs-comment">-- point of f. The Fix type is used to define recursive data structures by</span><span>
+</span><span id="line-126"></span><span class="hs-comment">-- wrapping a value of type f (Fix f) in a Fix constructor.</span><span>
+</span><span id="line-127"></span><span class="hs-comment">--</span><span>
+</span><span id="line-128"></span><span class="hs-comment">-- The RAlgebra type synonym is used to define a function that takes a fixed</span><span>
+</span><span id="line-129"></span><span class="hs-comment">-- point of a functor Fix f and a value of type f a, and returns a value of type</span><span>
+</span><span id="line-130"></span><span class="hs-comment">-- a. This function is used to define recursive functions that operate on data</span><span>
+</span><span id="line-131"></span><span class="hs-comment">-- structures defined using Fix.</span><span>
+</span><span id="line-132"></span><span class="hs-comment">--</span><span>
+</span><span id="line-133"></span><span class="hs-comment">-- The RAlgebra type synonym is a higher-order type that takes two type</span><span>
+</span><span id="line-134"></span><span class="hs-comment">-- arguments: f, which is a functor, and a, which is the return type of the</span><span>
+</span><span id="line-135"></span><span class="hs-comment">-- algebra. The RAlgebra type synonym is used to define recursive functions that</span><span>
+</span><span id="line-136"></span><span class="hs-comment">-- operate on data structures defined using Fix.</span><span>
+</span><span id="line-137"></span><span class="hs-keyword">type</span><span> </span><span id="RAlgebra"><span class="annot"><a href="RecursionSchemes.html#RAlgebra"><span class="hs-identifier hs-var">RAlgebra</span></a></span></span><span> </span><span id="local-6989586621679095769"><span class="annot"><a href="#local-6989586621679095769"><span class="hs-identifier hs-type">f</span></a></span></span><span> </span><span id="local-6989586621679095770"><span class="annot"><a href="#local-6989586621679095770"><span class="hs-identifier hs-type">a</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><a href="RecursionSchemes.html#Fix"><span class="hs-identifier hs-type">Fix</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095769"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679095769"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095770"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679095770"><span class="hs-identifier hs-type">a</span></a></span><span>
+</span><span id="line-138"></span><span>
+</span><span id="line-139"></span><span class="annot"><span class="hs-comment">-- | Anamorphism - produce a structure.</span></span><span>
+</span><span id="line-140"></span><span id="local-6989586621679095570"><span id="local-6989586621679095571"><span class="annot"><a href="RecursionSchemes.html#ana"><span class="hs-identifier hs-type">ana</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Functor</span></span><span> </span><span class="annot"><a href="#local-6989586621679095570"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679095571"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679095570"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095571"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679095571"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="RecursionSchemes.html#Fix"><span class="hs-identifier hs-type">Fix</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095570"><span class="hs-identifier hs-type">f</span></a></span></span></span><span>
+</span><span id="line-141"></span><span id="ana"><span class="annot"><span class="annottext">ana :: forall (f :: * -&gt; *) a. Functor f =&gt; (a -&gt; f a) -&gt; a -&gt; Fix f
+</span><a href="RecursionSchemes.html#ana"><span class="hs-identifier hs-var hs-var">ana</span></a></span></span><span> </span><span id="local-6989586621679095774"><span class="annot"><span class="annottext">a -&gt; f a
+</span><a href="#local-6989586621679095774"><span class="hs-identifier hs-var">coalg</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">f (Fix f) -&gt; Fix f
+forall (f :: * -&gt; *). f (Fix f) -&gt; Fix f
+</span><a href="RecursionSchemes.html#Fix"><span class="hs-identifier hs-var">Fix</span></a></span><span> </span><span class="annot"><span class="annottext">(f (Fix f) -&gt; Fix f) -&gt; (a -&gt; f (Fix f)) -&gt; a -&gt; Fix f
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">(a -&gt; Fix f) -&gt; f a -&gt; f (Fix f)
+forall a b. (a -&gt; b) -&gt; f a -&gt; f b
+forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
+</span><span class="hs-identifier hs-var">fmap</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">(a -&gt; f a) -&gt; a -&gt; Fix f
+forall (f :: * -&gt; *) a. Functor f =&gt; (a -&gt; f a) -&gt; a -&gt; Fix f
+</span><a href="RecursionSchemes.html#ana"><span class="hs-identifier hs-var">ana</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; f a
+</span><a href="#local-6989586621679095774"><span class="hs-identifier hs-var">coalg</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(f a -&gt; f (Fix f)) -&gt; (a -&gt; f a) -&gt; a -&gt; f (Fix f)
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">a -&gt; f a
+</span><a href="#local-6989586621679095774"><span class="hs-identifier hs-var">coalg</span></a></span><span>
+</span><span id="line-142"></span><span>
+</span><span id="line-143"></span><span class="annot"><span class="hs-comment">-- | Catamorphism - consume a structure.</span></span><span>
+</span><span id="line-144"></span><span id="local-6989586621679095577"><span id="local-6989586621679095578"><span class="annot"><a href="RecursionSchemes.html#cata"><span class="hs-identifier hs-type">cata</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Functor</span></span><span> </span><span class="annot"><a href="#local-6989586621679095577"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679095577"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095578"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679095578"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="RecursionSchemes.html#Fix"><span class="hs-identifier hs-type">Fix</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095577"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679095578"><span class="hs-identifier hs-type">a</span></a></span></span></span><span>
+</span><span id="line-145"></span><span id="cata"><span class="annot"><span class="annottext">cata :: forall (f :: * -&gt; *) a. Functor f =&gt; (f a -&gt; a) -&gt; Fix f -&gt; a
+</span><a href="RecursionSchemes.html#cata"><span class="hs-identifier hs-var hs-var">cata</span></a></span></span><span> </span><span id="local-6989586621679095779"><span class="annot"><span class="annottext">f a -&gt; a
+</span><a href="#local-6989586621679095779"><span class="hs-identifier hs-var">alg</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">f a -&gt; a
+</span><a href="#local-6989586621679095779"><span class="hs-identifier hs-var">alg</span></a></span><span> </span><span class="annot"><span class="annottext">(f a -&gt; a) -&gt; (Fix f -&gt; f a) -&gt; Fix f -&gt; a
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">(Fix f -&gt; a) -&gt; f (Fix f) -&gt; f a
+forall a b. (a -&gt; b) -&gt; f a -&gt; f b
+forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
+</span><span class="hs-identifier hs-var">fmap</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">(f a -&gt; a) -&gt; Fix f -&gt; a
+forall (f :: * -&gt; *) a. Functor f =&gt; (f a -&gt; a) -&gt; Fix f -&gt; a
+</span><a href="RecursionSchemes.html#cata"><span class="hs-identifier hs-var">cata</span></a></span><span> </span><span class="annot"><span class="annottext">f a -&gt; a
+</span><a href="#local-6989586621679095779"><span class="hs-identifier hs-var">alg</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(f (Fix f) -&gt; f a) -&gt; (Fix f -&gt; f (Fix f)) -&gt; Fix f -&gt; f a
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Fix f -&gt; f (Fix f)
+forall (f :: * -&gt; *). Fix f -&gt; f (Fix f)
+</span><a href="RecursionSchemes.html#unFix"><span class="hs-identifier hs-var">unFix</span></a></span><span>
+</span><span id="line-146"></span><span>
+</span><span id="line-147"></span><span class="annot"><span class="hs-comment">-- | Paramorphism - improved consumption of a structure.</span></span><span>
+</span><span id="line-148"></span><span id="local-6989586621679095581"><span id="local-6989586621679095582"><span class="annot"><a href="RecursionSchemes.html#para"><span class="hs-identifier hs-type">para</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Functor</span></span><span> </span><span class="annot"><a href="#local-6989586621679095581"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="RecursionSchemes.html#RAlgebra"><span class="hs-identifier hs-type">RAlgebra</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095581"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095582"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="RecursionSchemes.html#Fix"><span class="hs-identifier hs-type">Fix</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095581"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679095582"><span class="hs-identifier hs-type">a</span></a></span></span></span><span>
+</span><span id="line-149"></span><span id="para"><span class="annot"><span class="annottext">para :: forall (f :: * -&gt; *) a. Functor f =&gt; RAlgebra f a -&gt; Fix f -&gt; a
+</span><a href="RecursionSchemes.html#para"><span class="hs-identifier hs-var hs-var">para</span></a></span></span><span> </span><span id="local-6989586621679095783"><span class="annot"><span class="annottext">RAlgebra f a
+</span><a href="#local-6989586621679095783"><span class="hs-identifier hs-var">ralg</span></a></span></span><span> </span><span id="local-6989586621679095784"><span class="annot"><span class="annottext">Fix f
+</span><a href="#local-6989586621679095784"><span class="hs-identifier hs-var">t</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Fix f -&gt; f (Fix f)
+forall (f :: * -&gt; *). Fix f -&gt; f (Fix f)
+</span><a href="RecursionSchemes.html#unFix"><span class="hs-identifier hs-var">unFix</span></a></span><span> </span><span class="annot"><span class="annottext">Fix f
+</span><a href="#local-6989586621679095784"><span class="hs-identifier hs-var">t</span></a></span><span> </span><span class="annot"><span class="annottext">f (Fix f) -&gt; (f (Fix f) -&gt; f a) -&gt; f a
+forall a b. a -&gt; (a -&gt; b) -&gt; b
+</span><span class="hs-operator hs-var">&amp;</span></span><span> </span><span class="annot"><span class="annottext">(Fix f -&gt; a) -&gt; f (Fix f) -&gt; f a
+forall a b. (a -&gt; b) -&gt; f a -&gt; f b
+forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
+</span><span class="hs-identifier hs-var">fmap</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">RAlgebra f a -&gt; Fix f -&gt; a
+forall (f :: * -&gt; *) a. Functor f =&gt; RAlgebra f a -&gt; Fix f -&gt; a
+</span><a href="RecursionSchemes.html#para"><span class="hs-identifier hs-var">para</span></a></span><span> </span><span class="annot"><span class="annottext">RAlgebra f a
+</span><a href="#local-6989586621679095783"><span class="hs-identifier hs-var">ralg</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">f a -&gt; (f a -&gt; a) -&gt; a
+forall a b. a -&gt; (a -&gt; b) -&gt; b
+</span><span class="hs-operator hs-var">&amp;</span></span><span> </span><span class="annot"><span class="annottext">RAlgebra f a
+</span><a href="#local-6989586621679095783"><span class="hs-identifier hs-var">ralg</span></a></span><span> </span><span class="annot"><span class="annottext">Fix f
+</span><a href="#local-6989586621679095784"><span class="hs-identifier hs-var">t</span></a></span><span>
+</span><span id="line-150"></span><span>
+</span><span id="line-151"></span><span class="hs-comment">-- | Paramorphism where input list is the first parameter.</span><span>
+</span><span id="line-152"></span><span class="hs-comment">-- This comes from</span><span>
+</span><span id="line-153"></span><span class="hs-comment">-- [Making Sense of Recursion Patterns](https://dl.acm.org/doi/abs/10.5555/2663689.2663693)</span><span>
+</span><span id="line-154"></span><span class="hs-comment">-- by Paul Bailes and Leighton Brough. It extends `foldr` by supplying to the</span><span>
+</span><span id="line-155"></span><span class="hs-comment">-- combining operation (op) the unprocessed list tail, in addition to the head</span><span>
+</span><span id="line-156"></span><span class="hs-comment">-- and the result of recursion on the tail as provided by `foldr`.</span><span>
+</span><span id="line-157"></span><span class="hs-comment">--</span><span>
+</span><span id="line-158"></span><span class="hs-comment">-- Sum a list:</span><span>
+</span><span id="line-159"></span><span class="hs-comment">--</span><span>
+</span><span id="line-160"></span><span class="hs-comment">-- &gt;&gt;&gt; para' (const . (+)) 0 [1,2,3]</span><span>
+</span><span id="line-161"></span><span class="hs-comment">-- 6</span><span>
+</span><span id="line-162"></span><span class="hs-comment">--</span><span>
+</span><span id="line-163"></span><span class="hs-comment">-- Suffixes of a list:</span><span>
+</span><span id="line-164"></span><span class="hs-comment">--</span><span>
+</span><span id="line-165"></span><span class="hs-comment">-- &gt;&gt;&gt; para' (const (:)) [] &quot;abcd&quot;</span><span>
+</span><span id="line-166"></span><span class="hs-comment">-- [&quot;bcd&quot;,&quot;cd&quot;,&quot;d&quot;,&quot;&quot;]</span><span>
+</span><span id="line-167"></span><span class="hs-comment">--</span><span>
+</span><span id="line-168"></span><span id="local-6989586621679095588"><span id="local-6989586621679095589"><span class="annot"><a href="RecursionSchemes.html#para%27"><span class="hs-identifier hs-type">para'</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679095588"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679095588"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679095589"><span class="hs-identifier hs-type">b</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679095589"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679095589"><span class="hs-identifier hs-type">b</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679095588"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679095589"><span class="hs-identifier hs-type">b</span></a></span></span></span><span>
+</span><span id="line-169"></span><span id="para%27"><span class="annot"><span class="annottext">para' :: forall a b. (a -&gt; [a] -&gt; b -&gt; b) -&gt; b -&gt; [a] -&gt; b
+</span><a href="RecursionSchemes.html#para%27"><span class="hs-identifier hs-var hs-var">para'</span></a></span></span><span> </span><span class="annot"><span class="annottext">a -&gt; [a] -&gt; b -&gt; b
+</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621679095786"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679095786"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>      </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679095786"><span class="hs-identifier hs-var">b</span></a></span><span>
+</span><span id="line-170"></span><span class="annot"><a href="RecursionSchemes.html#para%27"><span class="hs-identifier hs-var">para'</span></a></span><span> </span><span id="local-6989586621679095787"><span class="annot"><span class="annottext">a -&gt; [a] -&gt; b -&gt; b
+</span><a href="#local-6989586621679095787"><span class="hs-identifier hs-var">op</span></a></span></span><span> </span><span id="local-6989586621679095788"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679095788"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679095789"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679095789"><span class="hs-identifier hs-var">x</span></a></span></span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span id="local-6989586621679095790"><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679095790"><span class="hs-identifier hs-var">xs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; [a] -&gt; b -&gt; b
+</span><a href="#local-6989586621679095787"><span class="hs-identifier hs-var">op</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679095789"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679095790"><span class="hs-identifier hs-var">xs</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">(a -&gt; [a] -&gt; b -&gt; b) -&gt; b -&gt; [a] -&gt; b
+forall a b. (a -&gt; [a] -&gt; b -&gt; b) -&gt; b -&gt; [a] -&gt; b
+</span><a href="RecursionSchemes.html#para%27"><span class="hs-identifier hs-var">para'</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; [a] -&gt; b -&gt; b
+</span><a href="#local-6989586621679095787"><span class="hs-identifier hs-var">op</span></a></span><span> </span><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679095788"><span class="hs-identifier hs-var">b</span></a></span><span> </span><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679095790"><span class="hs-identifier hs-var">xs</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-171"></span><span>
+</span><span id="line-172"></span><span class="hs-comment">-- | Paramorphism using `foldr`.</span><span>
+</span><span id="line-173"></span><span class="hs-comment">-- This comes from</span><span>
+</span><span id="line-174"></span><span class="hs-comment">-- [Making Sense of Recursion Patterns](https://dl.acm.org/doi/abs/10.5555/2663689.2663693)</span><span>
+</span><span id="line-175"></span><span class="hs-comment">-- by Paul Bailes and Leighton Brough.</span><span>
+</span><span id="line-176"></span><span class="hs-comment">--</span><span>
+</span><span id="line-177"></span><span class="hs-comment">-- The following shows how to get a catamorphism from a paramorphism.</span><span>
+</span><span id="line-178"></span><span class="hs-comment">-- In this example, we are calculating the sum of items from a list.</span><span>
+</span><span id="line-179"></span><span class="hs-comment">--</span><span>
+</span><span id="line-180"></span><span class="hs-comment">-- Sum a list:</span><span>
+</span><span id="line-181"></span><span class="hs-comment">--</span><span>
+</span><span id="line-182"></span><span class="hs-comment">-- &gt;&gt;&gt; para'' (const . (+)) 0 [1,2,3]</span><span>
+</span><span id="line-183"></span><span class="hs-comment">-- 6</span><span>
+</span><span id="line-184"></span><span class="hs-comment">--</span><span>
+</span><span id="line-185"></span><span class="hs-comment">-- Suffixes of a list:</span><span>
+</span><span id="line-186"></span><span class="hs-comment">--</span><span>
+</span><span id="line-187"></span><span class="hs-comment">-- &gt;&gt;&gt; para'' (\ _ xs xss -&gt; xs : xss) [] &quot;abcd&quot;</span><span>
+</span><span id="line-188"></span><span class="hs-comment">-- [&quot;bcd&quot;,&quot;cd&quot;,&quot;d&quot;,&quot;&quot;]</span><span>
+</span><span id="line-189"></span><span class="hs-comment">--</span><span>
+</span><span id="line-190"></span><span class="hs-comment">-- &gt;&gt;&gt; para'' (const (:)) [] &quot;abcd&quot;</span><span>
+</span><span id="line-191"></span><span class="hs-comment">-- [&quot;bcd&quot;,&quot;cd&quot;,&quot;d&quot;,&quot;&quot;]</span><span>
+</span><span id="line-192"></span><span class="hs-comment">--</span><span>
+</span><span id="line-193"></span><span id="local-6989586621679095791"><span id="local-6989586621679095792"><span class="annot"><a href="RecursionSchemes.html#para%27%27"><span class="hs-identifier hs-type">para''</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679095791"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679095791"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679095792"><span class="hs-identifier hs-type">b</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679095792"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679095792"><span class="hs-identifier hs-type">b</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679095791"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679095792"><span class="hs-identifier hs-type">b</span></a></span></span></span><span>
+</span><span id="line-194"></span><span id="para%27%27"><span class="annot"><span class="annottext">para'' :: forall a b. (a -&gt; [a] -&gt; b -&gt; b) -&gt; b -&gt; [a] -&gt; b
+</span><a href="RecursionSchemes.html#para%27%27"><span class="hs-identifier hs-var hs-var">para''</span></a></span></span><span> </span><span id="local-6989586621679095795"><span class="annot"><span class="annottext">a -&gt; [a] -&gt; b -&gt; b
+</span><a href="#local-6989586621679095795"><span class="hs-identifier hs-var">op</span></a></span></span><span> </span><span id="local-6989586621679095796"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679095796"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span id="local-6989586621679095797"><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679095797"><span class="hs-identifier hs-var">xs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">([a], b) -&gt; b
+forall a b. (a, b) -&gt; b
+</span><span class="hs-identifier hs-var">snd</span></span><span> </span><span class="annot"><span class="annottext">(([a], b) -&gt; b) -&gt; ([a], b) -&gt; b
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">(a -&gt; ([a], b) -&gt; ([a], b)) -&gt; ([a], b) -&gt; [a] -&gt; ([a], b)
+forall a b. (a -&gt; b -&gt; b) -&gt; b -&gt; [a] -&gt; b
+forall (t :: * -&gt; *) a b.
+Foldable t =&gt;
+(a -&gt; b -&gt; b) -&gt; b -&gt; t a -&gt; b
+</span><span class="hs-identifier hs-var">foldr</span></span><span> </span><span class="annot"><span class="annottext">a -&gt; ([a], b) -&gt; ([a], b)
+</span><a href="#local-6989586621679095799"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">[</span><span class="hs-special">]</span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679095796"><span class="hs-identifier hs-var">b</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679095797"><span class="hs-identifier hs-var">xs</span></a></span><span>
+</span><span id="line-195"></span><span>  </span><span class="hs-keyword">where</span><span>
+</span><span id="line-196"></span><span>    </span><span id="local-6989586621679095799"><span class="annot"><span class="annottext">go :: a -&gt; ([a], b) -&gt; ([a], b)
+</span><a href="#local-6989586621679095799"><span class="hs-identifier hs-var hs-var">go</span></a></span></span><span> </span><span id="local-6989586621679095800"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679095800"><span class="hs-identifier hs-var">y</span></a></span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679095801"><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679095801"><span class="hs-identifier hs-var">ys</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095802"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679095802"><span class="hs-identifier hs-var">ys'</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679095800"><span class="hs-identifier hs-var">y</span></a></span><span class="annot"><span class="annottext">a -&gt; [a] -&gt; [a]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679095801"><span class="hs-identifier hs-var">ys</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">a -&gt; [a] -&gt; b -&gt; b
+</span><a href="#local-6989586621679095795"><span class="hs-identifier hs-var">op</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679095800"><span class="hs-identifier hs-var">y</span></a></span><span> </span><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679095801"><span class="hs-identifier hs-var">ys</span></a></span><span> </span><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679095802"><span class="hs-identifier hs-var">ys'</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-197"></span><span>
+</span><span id="line-198"></span><span class="annot"><span class="hs-comment">-- | Coalgebra is a non-recursive function to generate a `ListF` entry.</span></span><span>
+</span><span id="line-199"></span><span class="annot"><a href="RecursionSchemes.html#buildCoalg"><span class="hs-identifier hs-type">buildCoalg</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="RecursionSchemes.html#ListF"><span class="hs-identifier hs-type">ListF</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span>
+</span><span id="line-200"></span><span id="buildCoalg"><span class="annot"><span class="annottext">buildCoalg :: Int -&gt; ListF Int Int
+</span><a href="RecursionSchemes.html#buildCoalg"><span class="hs-identifier hs-var hs-var">buildCoalg</span></a></span></span><span> </span><span id="local-6989586621679095803"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679095803"><span class="hs-identifier hs-var">n</span></a></span></span><span>
+</span><span id="line-201"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679095803"><span class="hs-identifier hs-var">n</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Bool
+forall a. Ord a =&gt; a -&gt; a -&gt; Bool
+</span><span class="hs-operator hs-var">&lt;</span></span><span>  </span><span class="annot"><span class="annottext">Int
+</span><span class="hs-number">1</span></span><span>    </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ListF Int Int
+forall a r. ListF a r
+</span><a href="RecursionSchemes.html#NilF"><span class="hs-identifier hs-var">NilF</span></a></span><span>
+</span><span id="line-202"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool
+</span><span class="hs-identifier hs-var">otherwise</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; ListF Int Int
+forall a r. a -&gt; r -&gt; ListF a r
+</span><a href="RecursionSchemes.html#ConsF"><span class="hs-identifier hs-var">ConsF</span></a></span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679095803"><span class="hs-identifier hs-var">n</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int -&gt; Int
+forall a. Enum a =&gt; a -&gt; a
+</span><span class="hs-identifier hs-var">pred</span></span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679095803"><span class="hs-identifier hs-var">n</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-203"></span><span>
+</span><span id="line-204"></span><span class="hs-comment">-- | Feed coalgebra to anamorphism.</span><span>
+</span><span id="line-205"></span><span class="hs-comment">-- This will build a list.</span><span>
+</span><span id="line-206"></span><span class="hs-comment">--</span><span>
+</span><span id="line-207"></span><span class="hs-comment">-- &gt;&gt;&gt; buildListF 4 :: Fix (ListF Int)</span><span>
+</span><span id="line-208"></span><span class="hs-comment">-- ConsF 4 (ConsF 3 (ConsF 2 (ConsF 1 NilF)))</span><span>
+</span><span id="line-209"></span><span class="annot"><a href="RecursionSchemes.html#buildListF"><span class="hs-identifier hs-type">buildListF</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="RecursionSchemes.html#Fix"><span class="hs-identifier hs-type">Fix</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="RecursionSchemes.html#ListF"><span class="hs-identifier hs-type">ListF</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span class="hs-special">)</span><span>
+</span><span id="line-210"></span><span id="buildListF"><span class="annot"><span class="annottext">buildListF :: Int -&gt; Fix (ListF Int)
+</span><a href="RecursionSchemes.html#buildListF"><span class="hs-identifier hs-var hs-var">buildListF</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Int -&gt; ListF Int Int) -&gt; Int -&gt; Fix (ListF Int)
+forall (f :: * -&gt; *) a. Functor f =&gt; (a -&gt; f a) -&gt; a -&gt; Fix f
+</span><a href="RecursionSchemes.html#ana"><span class="hs-identifier hs-var">ana</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; ListF Int Int
+</span><a href="RecursionSchemes.html#buildCoalg"><span class="hs-identifier hs-var">buildCoalg</span></a></span><span>
+</span><span id="line-211"></span><span>
+</span><span id="line-212"></span><span class="annot"><span class="hs-comment">-- | An alegbra over `ListF` to get list length.</span></span><span>
+</span><span id="line-213"></span><span id="local-6989586621679095607"><span class="annot"><a href="RecursionSchemes.html#lengthAlg"><span class="hs-identifier hs-type">lengthAlg</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="RecursionSchemes.html#ListF"><span class="hs-identifier hs-type">ListF</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095607"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span></span><span>
+</span><span id="line-214"></span><span id="lengthAlg"><span class="annot"><span class="annottext">lengthAlg :: forall a. ListF a Int -&gt; Int
+</span><a href="RecursionSchemes.html#lengthAlg"><span class="hs-identifier hs-var hs-var">lengthAlg</span></a></span></span><span> </span><span id="local-6989586621679095808"><span class="annot"><span class="annottext">ListF a Int
+</span><a href="#local-6989586621679095808"><span class="hs-identifier hs-var">ls</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">ListF a Int
+</span><a href="#local-6989586621679095808"><span class="hs-identifier hs-var">ls</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-215"></span><span>                </span><span class="annot"><span class="annottext">ListF a Int
+</span><a href="RecursionSchemes.html#NilF"><span class="hs-identifier hs-var">NilF</span></a></span><span>      </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Int
+</span><span class="hs-number">0</span></span><span>
+</span><span id="line-216"></span><span>                </span><span class="annot"><a href="RecursionSchemes.html#ConsF"><span class="hs-identifier hs-type">ConsF</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621679095809"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679095809"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679095809"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
+forall a. Num a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">+</span></span><span> </span><span class="annot"><span class="annottext">Int
+</span><span class="hs-number">1</span></span><span>
+</span><span id="line-217"></span><span>
+</span><span id="line-218"></span><span class="hs-comment">-- | Length is a folding operation, i.e. a Catamorphism.</span><span>
+</span><span id="line-219"></span><span class="hs-comment">--</span><span>
+</span><span id="line-220"></span><span class="hs-comment">-- &gt;&gt;&gt; (lengthListF . buildListF) 4</span><span>
+</span><span id="line-221"></span><span class="hs-comment">-- 4</span><span>
+</span><span id="line-222"></span><span id="local-6989586621679095610"><span class="annot"><a href="RecursionSchemes.html#lengthListF"><span class="hs-identifier hs-type">lengthListF</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="RecursionSchemes.html#Fix"><span class="hs-identifier hs-type">Fix</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="RecursionSchemes.html#ListF"><span class="hs-identifier hs-type">ListF</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095610"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span></span><span>
+</span><span id="line-223"></span><span id="lengthListF"><span class="annot"><span class="annottext">lengthListF :: forall a. Fix (ListF a) -&gt; Int
+</span><a href="RecursionSchemes.html#lengthListF"><span class="hs-identifier hs-var hs-var">lengthListF</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(ListF a Int -&gt; Int) -&gt; Fix (ListF a) -&gt; Int
+forall (f :: * -&gt; *) a. Functor f =&gt; (f a -&gt; a) -&gt; Fix f -&gt; a
+</span><a href="RecursionSchemes.html#cata"><span class="hs-identifier hs-var">cata</span></a></span><span> </span><span class="annot"><span class="annottext">ListF a Int -&gt; Int
+forall a. ListF a Int -&gt; Int
+</span><a href="RecursionSchemes.html#lengthAlg"><span class="hs-identifier hs-var">lengthAlg</span></a></span><span>
+</span><span id="line-224"></span><span>
+</span><span id="line-225"></span><span class="hs-comment">-- | Length using special case of paramorphism.</span><span>
+</span><span id="line-226"></span><span class="hs-comment">--</span><span>
+</span><span id="line-227"></span><span class="hs-comment">-- &gt;&gt;&gt; lengthListF' (buildListF 4)</span><span>
+</span><span id="line-228"></span><span class="hs-comment">-- 4</span><span>
+</span><span id="line-229"></span><span id="local-6989586621679095812"><span class="annot"><a href="RecursionSchemes.html#lengthListF%27"><span class="hs-identifier hs-type">lengthListF'</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="RecursionSchemes.html#Fix"><span class="hs-identifier hs-type">Fix</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="RecursionSchemes.html#ListF"><span class="hs-identifier hs-type">ListF</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095812"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span></span><span>
+</span><span id="line-230"></span><span id="lengthListF%27"><span class="annot"><span class="annottext">lengthListF' :: forall a. Fix (ListF a) -&gt; Int
+</span><a href="RecursionSchemes.html#lengthListF%27"><span class="hs-identifier hs-var hs-var">lengthListF'</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">RAlgebra (ListF a) Int -&gt; Fix (ListF a) -&gt; Int
+forall (f :: * -&gt; *) a. Functor f =&gt; RAlgebra f a -&gt; Fix f -&gt; a
+</span><a href="RecursionSchemes.html#para"><span class="hs-identifier hs-var">para</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">(ListF a Int -&gt; Int) -&gt; RAlgebra (ListF a) Int
+forall a b. a -&gt; b -&gt; a
+</span><span class="hs-identifier hs-var">const</span></span><span> </span><span class="annot"><span class="annottext">ListF a Int -&gt; Int
+forall a. ListF a Int -&gt; Int
+</span><a href="RecursionSchemes.html#lengthAlg"><span class="hs-identifier hs-var">lengthAlg</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-231"></span><span>
+</span><span id="line-232"></span><span class="hs-comment">-- | Convert Natural number to an integer.</span><span>
+</span><span id="line-233"></span><span class="hs-comment">--</span><span>
+</span><span id="line-234"></span><span class="hs-comment">-- &gt;&gt;&gt; fromNat (toNat 4)</span><span>
+</span><span id="line-235"></span><span class="hs-comment">-- 4</span><span>
+</span><span id="line-236"></span><span class="annot"><a href="RecursionSchemes.html#fromNat"><span class="hs-identifier hs-type">fromNat</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="RecursionSchemes.html#Nat"><span class="hs-identifier hs-type">Nat</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span>
+</span><span id="line-237"></span><span id="fromNat"><span class="annot"><span class="annottext">fromNat :: Nat -&gt; Int
+</span><a href="RecursionSchemes.html#fromNat"><span class="hs-identifier hs-var hs-var">fromNat</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(NatF Int -&gt; Int) -&gt; Nat -&gt; Int
+forall (f :: * -&gt; *) a. Functor f =&gt; (f a -&gt; a) -&gt; Fix f -&gt; a
+</span><a href="RecursionSchemes.html#cata"><span class="hs-identifier hs-var">cata</span></a></span><span> </span><span class="annot"><span class="annottext">NatF Int -&gt; Int
+forall {a}. Num a =&gt; NatF a -&gt; a
+</span><a href="#local-6989586621679095815"><span class="hs-identifier hs-var">alg</span></a></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-238"></span><span>  </span><span id="local-6989586621679095815"><span class="annot"><span class="annottext">alg :: NatF a -&gt; a
+</span><a href="#local-6989586621679095815"><span class="hs-identifier hs-var hs-var">alg</span></a></span></span><span> </span><span class="annot"><span class="annottext">NatF a
+</span><a href="RecursionSchemes.html#ZeroF"><span class="hs-identifier hs-var">ZeroF</span></a></span><span>     </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a
+</span><span class="hs-number">0</span></span><span>
+</span><span id="line-239"></span><span>  </span><span class="annot"><a href="#local-6989586621679095815"><span class="hs-identifier hs-var">alg</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="RecursionSchemes.html#SuccF"><span class="hs-identifier hs-type">SuccF</span></a></span><span> </span><span id="local-6989586621679095820"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679095820"><span class="hs-identifier hs-var">n</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679095820"><span class="hs-identifier hs-var">n</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; a -&gt; a
+forall a. Num a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">+</span></span><span> </span><span class="annot"><span class="annottext">a
+</span><span class="hs-number">1</span></span><span>
+</span><span id="line-240"></span><span>
+</span><span id="line-241"></span><span class="hs-comment">-- | Build a natural number from an interger.</span><span>
+</span><span id="line-242"></span><span class="hs-comment">--</span><span>
+</span><span id="line-243"></span><span class="hs-comment">-- &gt;&gt;&gt; toNat 4</span><span>
+</span><span id="line-244"></span><span class="hs-comment">-- SuccF (SuccF (SuccF (SuccF ZeroF)))</span><span>
+</span><span id="line-245"></span><span class="annot"><a href="RecursionSchemes.html#toNat"><span class="hs-identifier hs-type">toNat</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="RecursionSchemes.html#Nat"><span class="hs-identifier hs-type">Nat</span></a></span><span>
+</span><span id="line-246"></span><span id="toNat"><span class="annot"><span class="annottext">toNat :: Int -&gt; Nat
+</span><a href="RecursionSchemes.html#toNat"><span class="hs-identifier hs-var hs-var">toNat</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Int -&gt; NatF Int) -&gt; Int -&gt; Nat
+forall (f :: * -&gt; *) a. Functor f =&gt; (a -&gt; f a) -&gt; a -&gt; Fix f
+</span><a href="RecursionSchemes.html#ana"><span class="hs-identifier hs-var">ana</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; NatF Int
+forall {r}. (Ord r, Num r) =&gt; r -&gt; NatF r
+</span><a href="#local-6989586621679095821"><span class="hs-identifier hs-var">coalg</span></a></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-247"></span><span>  </span><span id="local-6989586621679095821"><span class="annot"><span class="annottext">coalg :: r -&gt; NatF r
+</span><a href="#local-6989586621679095821"><span class="hs-identifier hs-var hs-var">coalg</span></a></span></span><span> </span><span id="local-6989586621679095831"><span class="annot"><span class="annottext">r
+</span><a href="#local-6989586621679095831"><span class="hs-identifier hs-var">n</span></a></span></span><span>
+</span><span id="line-248"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">r
+</span><a href="#local-6989586621679095831"><span class="hs-identifier hs-var">n</span></a></span><span> </span><span class="annot"><span class="annottext">r -&gt; r -&gt; Bool
+forall a. Ord a =&gt; a -&gt; a -&gt; Bool
+</span><span class="hs-operator hs-var">&lt;=</span></span><span> </span><span class="annot"><span class="annottext">r
+</span><span class="hs-number">0</span></span><span>    </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">NatF r
+forall r. NatF r
+</span><a href="RecursionSchemes.html#ZeroF"><span class="hs-identifier hs-var">ZeroF</span></a></span><span>
+</span><span id="line-249"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool
+</span><span class="hs-identifier hs-var">otherwise</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">r -&gt; NatF r
+forall r. r -&gt; NatF r
+</span><a href="RecursionSchemes.html#SuccF"><span class="hs-identifier hs-var">SuccF</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">r
+</span><a href="#local-6989586621679095831"><span class="hs-identifier hs-var">n</span></a></span><span> </span><span class="annot"><span class="annottext">r -&gt; r -&gt; r
+forall a. Num a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-glyph hs-var">-</span></span><span> </span><span class="annot"><span class="annottext">r
+</span><span class="hs-number">1</span></span><span class="hs-special">)</span><span>
+</span><span id="line-250"></span><span>
+</span><span id="line-251"></span><span class="hs-comment">-- | Insert element into list at correct ordered position using `foldr`.</span><span>
+</span><span id="line-252"></span><span class="hs-comment">--</span><span>
+</span><span id="line-253"></span><span class="hs-comment">-- &gt;&gt;&gt; insert 1 [2,3,4]</span><span>
+</span><span id="line-254"></span><span class="hs-comment">-- [1,2,3,4]</span><span>
+</span><span id="line-255"></span><span class="hs-comment">--</span><span>
+</span><span id="line-256"></span><span class="hs-comment">-- &gt;&gt;&gt; insert 'c' &quot;abde&quot;</span><span>
+</span><span id="line-257"></span><span class="hs-comment">-- &quot;abcde&quot;</span><span>
+</span><span id="line-258"></span><span class="hs-comment">--</span><span>
+</span><span id="line-259"></span><span class="hs-comment">-- &gt;&gt;&gt; insert 'f' &quot;abcde&quot;</span><span>
+</span><span id="line-260"></span><span class="hs-comment">-- &quot;abcdef&quot;</span><span>
+</span><span id="line-261"></span><span class="hs-comment">--</span><span>
+</span><span id="line-262"></span><span class="hs-comment">-- &gt;&gt;&gt; insert 'o' &quot;oa&quot;</span><span>
+</span><span id="line-263"></span><span class="hs-comment">-- &quot;ooa&quot;</span><span>
+</span><span id="line-264"></span><span class="hs-comment">--</span><span>
+</span><span id="line-265"></span><span id="local-6989586621679095619"><span class="annot"><a href="RecursionSchemes.html#insert"><span class="hs-identifier hs-type">insert</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ord</span></span><span> </span><span class="annot"><a href="#local-6989586621679095619"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679095619"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679095619"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679095619"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">]</span></span><span>
+</span><span id="line-266"></span><span id="insert"><span class="annot"><span class="annottext">insert :: forall a. Ord a =&gt; a -&gt; [a] -&gt; [a]
+</span><a href="RecursionSchemes.html#insert"><span class="hs-identifier hs-var hs-var">insert</span></a></span></span><span> </span><span id="local-6989586621679095836"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679095836"><span class="hs-identifier hs-var">e</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">([a], [a]) -&gt; [a]
+forall a b. (a, b) -&gt; b
+</span><span class="hs-identifier hs-var">snd</span></span><span> </span><span class="annot"><span class="annottext">(([a], [a]) -&gt; [a]) -&gt; ([a] -&gt; ([a], [a])) -&gt; [a] -&gt; [a]
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">(a -&gt; ([a], [a]) -&gt; ([a], [a])) -&gt; ([a], [a]) -&gt; [a] -&gt; ([a], [a])
+forall a b. (a -&gt; b -&gt; b) -&gt; b -&gt; [a] -&gt; b
+forall (t :: * -&gt; *) a b.
+Foldable t =&gt;
+(a -&gt; b -&gt; b) -&gt; b -&gt; t a -&gt; b
+</span><span class="hs-identifier hs-var">foldr</span></span><span> </span><span class="annot"><span class="annottext">a -&gt; ([a], [a]) -&gt; ([a], [a])
+</span><a href="#local-6989586621679095837"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">[</span><span class="hs-special">]</span><span class="hs-special">,</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679095836"><span class="hs-identifier hs-var">e</span></a></span><span class="hs-special">]</span><span class="hs-special">)</span><span>
+</span><span id="line-267"></span><span>  </span><span class="hs-keyword">where</span><span>
+</span><span id="line-268"></span><span>    </span><span id="local-6989586621679095837"><span class="annot"><span class="annottext">go :: a -&gt; ([a], [a]) -&gt; ([a], [a])
+</span><a href="#local-6989586621679095837"><span class="hs-identifier hs-var hs-var">go</span></a></span></span><span> </span><span id="local-6989586621679095840"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679095840"><span class="hs-identifier hs-var">y</span></a></span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679095841"><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679095841"><span class="hs-identifier hs-var">ys</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095842"><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679095842"><span class="hs-identifier hs-var">yse</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679095840"><span class="hs-identifier hs-var">y</span></a></span><span class="annot"><span class="annottext">a -&gt; [a] -&gt; [a]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679095841"><span class="hs-identifier hs-var">ys</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[a] -&gt; [a] -&gt; Bool -&gt; [a]
+forall a. a -&gt; a -&gt; Bool -&gt; a
+</span><span class="hs-identifier hs-var">bool</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679095840"><span class="hs-identifier hs-var">y</span></a></span><span class="annot"><span class="annottext">a -&gt; [a] -&gt; [a]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679095842"><span class="hs-identifier hs-var">yse</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679095836"><span class="hs-identifier hs-var">e</span></a></span><span class="annot"><span class="annottext">a -&gt; [a] -&gt; [a]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679095840"><span class="hs-identifier hs-var">y</span></a></span><span class="annot"><span class="annottext">a -&gt; [a] -&gt; [a]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679095841"><span class="hs-identifier hs-var">ys</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679095836"><span class="hs-identifier hs-var">e</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; a -&gt; Bool
+forall a. Ord a =&gt; a -&gt; a -&gt; Bool
+</span><span class="hs-operator hs-var">&lt;=</span></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679095840"><span class="hs-identifier hs-var">y</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-269"></span><span>
+</span><span id="line-270"></span><span class="hs-comment">-- | Insert element into list at correct ordered position.</span><span>
+</span><span id="line-271"></span><span class="hs-comment">--</span><span>
+</span><span id="line-272"></span><span class="hs-comment">-- &gt;&gt;&gt; insert' 1 [2,3,4]</span><span>
+</span><span id="line-273"></span><span class="hs-comment">-- [1,2,3,4]</span><span>
+</span><span id="line-274"></span><span class="hs-comment">--</span><span>
+</span><span id="line-275"></span><span class="hs-comment">-- &gt;&gt;&gt; insert' 1 []</span><span>
+</span><span id="line-276"></span><span class="hs-comment">-- [1]</span><span>
+</span><span id="line-277"></span><span class="hs-comment">--</span><span>
+</span><span id="line-278"></span><span class="hs-comment">-- &gt;&gt;&gt; insert' 'c' &quot;abde&quot;</span><span>
+</span><span id="line-279"></span><span class="hs-comment">-- &quot;abcde&quot;</span><span>
+</span><span id="line-280"></span><span class="hs-comment">--</span><span>
+</span><span id="line-281"></span><span class="hs-comment">-- &gt;&gt;&gt; insert' 'c' &quot;abde&quot; == &quot;abcde&quot;</span><span>
+</span><span id="line-282"></span><span class="hs-comment">-- True</span><span>
+</span><span id="line-283"></span><span class="hs-comment">--</span><span>
+</span><span id="line-284"></span><span class="hs-comment">-- &gt;&gt;&gt; insert' 'o' &quot;oa&quot;</span><span>
+</span><span id="line-285"></span><span class="hs-comment">-- &quot;ooa&quot;</span><span>
+</span><span id="line-286"></span><span class="hs-comment">--</span><span>
+</span><span id="line-287"></span><span id="local-6989586621679095843"><span class="annot"><a href="RecursionSchemes.html#insert%27"><span class="hs-identifier hs-type">insert'</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ord</span></span><span> </span><span class="annot"><a href="#local-6989586621679095843"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679095843"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679095843"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679095843"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">]</span></span><span>
+</span><span id="line-288"></span><span id="insert%27"><span class="annot"><span class="annottext">insert' :: forall a. Ord a =&gt; a -&gt; [a] -&gt; [a]
+</span><a href="RecursionSchemes.html#insert%27"><span class="hs-identifier hs-var hs-var">insert'</span></a></span></span><span> </span><span id="local-6989586621679095846"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679095846"><span class="hs-identifier hs-var">e</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; [a] -&gt; [a] -&gt; [a]) -&gt; [a] -&gt; [a] -&gt; [a]
+forall a b. (a -&gt; [a] -&gt; b -&gt; b) -&gt; b -&gt; [a] -&gt; b
+</span><a href="RecursionSchemes.html#para%27"><span class="hs-identifier hs-var">para'</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; [a] -&gt; [a] -&gt; [a]
+</span><a href="#local-6989586621679095847"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679095846"><span class="hs-identifier hs-var">e</span></a></span><span class="hs-special">]</span><span>
+</span><span id="line-289"></span><span>  </span><span class="hs-keyword">where</span><span>
+</span><span id="line-290"></span><span>    </span><span id="local-6989586621679095847"><span class="annot"><span class="annottext">go :: a -&gt; [a] -&gt; [a] -&gt; [a]
+</span><a href="#local-6989586621679095847"><span class="hs-identifier hs-var hs-var">go</span></a></span></span><span> </span><span id="local-6989586621679095850"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679095850"><span class="hs-identifier hs-var">y</span></a></span></span><span> </span><span id="local-6989586621679095851"><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679095851"><span class="hs-identifier hs-var">ys</span></a></span></span><span> </span><span id="local-6989586621679095852"><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679095852"><span class="hs-identifier hs-var">yse</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[a] -&gt; [a] -&gt; Bool -&gt; [a]
+forall a. a -&gt; a -&gt; Bool -&gt; a
+</span><span class="hs-identifier hs-var">bool</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679095850"><span class="hs-identifier hs-var">y</span></a></span><span class="annot"><span class="annottext">a -&gt; [a] -&gt; [a]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679095852"><span class="hs-identifier hs-var">yse</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679095846"><span class="hs-identifier hs-var">e</span></a></span><span class="annot"><span class="annottext">a -&gt; [a] -&gt; [a]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679095850"><span class="hs-identifier hs-var">y</span></a></span><span class="annot"><span class="annottext">a -&gt; [a] -&gt; [a]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679095851"><span class="hs-identifier hs-var">ys</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679095846"><span class="hs-identifier hs-var">e</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; a -&gt; Bool
+forall a. Ord a =&gt; a -&gt; a -&gt; Bool
+</span><span class="hs-operator hs-var">&lt;=</span></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679095850"><span class="hs-identifier hs-var">y</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-291"></span><span>
+</span><span id="line-292"></span><span class="annot"><span class="hs-comment">-- | Convert a `ListF` to a standard list.</span></span><span>
+</span><span id="line-293"></span><span id="local-6989586621679095623"><span class="annot"><a href="RecursionSchemes.html#toList"><span class="hs-identifier hs-type">toList</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="RecursionSchemes.html#Fix"><span class="hs-identifier hs-type">Fix</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="RecursionSchemes.html#ListF"><span class="hs-identifier hs-type">ListF</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095623"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679095623"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">]</span></span><span>
+</span><span id="line-294"></span><span id="toList"><span class="annot"><span class="annottext">toList :: forall a. Fix (ListF a) -&gt; [a]
+</span><a href="RecursionSchemes.html#toList"><span class="hs-identifier hs-var hs-var">toList</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(ListF a [a] -&gt; [a]) -&gt; Fix (ListF a) -&gt; [a]
+forall (f :: * -&gt; *) a. Functor f =&gt; (f a -&gt; a) -&gt; Fix f -&gt; a
+</span><a href="RecursionSchemes.html#cata"><span class="hs-identifier hs-var">cata</span></a></span><span> </span><span class="annot"><span class="annottext">ListF a [a] -&gt; [a]
+forall {a}. ListF a [a] -&gt; [a]
+</span><a href="#local-6989586621679095854"><span class="hs-identifier hs-var">alg</span></a></span><span>
+</span><span id="line-295"></span><span>  </span><span class="hs-keyword">where</span><span> </span><span id="local-6989586621679095854"><span class="annot"><span class="annottext">alg :: ListF a [a] -&gt; [a]
+</span><a href="#local-6989586621679095854"><span class="hs-identifier hs-var hs-var">alg</span></a></span></span><span> </span><span id="local-6989586621679095855"><span class="annot"><span class="annottext">ListF a [a]
+</span><a href="#local-6989586621679095855"><span class="hs-identifier hs-var">ls</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">ListF a [a]
+</span><a href="#local-6989586621679095855"><span class="hs-identifier hs-var">ls</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-296"></span><span>                  </span><span class="annot"><span class="annottext">ListF a [a]
+</span><a href="RecursionSchemes.html#NilF"><span class="hs-identifier hs-var">NilF</span></a></span><span>      </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
+</span><span id="line-297"></span><span>                  </span><span class="annot"><a href="RecursionSchemes.html#ConsF"><span class="hs-identifier hs-type">ConsF</span></a></span><span> </span><span id="local-6989586621679095856"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679095856"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679095857"><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679095857"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679095856"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; [a] -&gt; [a]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679095857"><span class="hs-identifier hs-var">r</span></a></span><span>
+</span><span id="line-298"></span><span>
+</span><span id="line-299"></span><span class="hs-comment">-- | Indexing a list.</span><span>
+</span><span id="line-300"></span><span class="hs-comment">--</span><span>
+</span><span id="line-301"></span><span class="hs-comment">-- &gt;&gt;&gt; idx0 &quot;abcde&quot;</span><span>
+</span><span id="line-302"></span><span class="hs-comment">-- [0,1,2,3,4]</span><span>
+</span><span id="line-303"></span><span id="local-6989586621679095626"><span id="local-6989586621679095627"><span id="local-6989586621679095628"><span class="annot"><a href="RecursionSchemes.html#idx0"><span class="hs-identifier hs-type">idx0</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Foldable</span></span><span> </span><span class="annot"><a href="#local-6989586621679095626"><span class="hs-identifier hs-type">t</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Num</span></span><span> </span><span class="annot"><a href="#local-6989586621679095627"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679095626"><span class="hs-identifier hs-type">t</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095628"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679095627"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">]</span></span></span></span><span>
+</span><span id="line-304"></span><span id="idx0"><span class="annot"><span class="annottext">idx0 :: forall (t :: * -&gt; *) b a. (Foldable t, Num b) =&gt; t a -&gt; [b]
+</span><a href="RecursionSchemes.html#idx0"><span class="hs-identifier hs-var hs-var">idx0</span></a></span></span><span> </span><span id="local-6989586621679095864"><span class="annot"><span class="annottext">t a
+</span><a href="#local-6989586621679095864"><span class="hs-keyword hs-var">as</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">t a -&gt; (a -&gt; (b -&gt; [b]) -&gt; b -&gt; [b]) -&gt; (b -&gt; [b]) -&gt; b -&gt; [b]
+forall (t :: * -&gt; *) a b.
+Foldable t =&gt;
+t a -&gt; (a -&gt; b -&gt; b) -&gt; b -&gt; b
+</span><a href="#local-6989586621679095865"><span class="hs-identifier hs-var">foldXs</span></a></span><span> </span><span class="annot"><span class="annottext">t a
+</span><a href="#local-6989586621679095864"><span class="hs-keyword hs-var">as</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span> </span><span class="annot"><span class="annottext">a
+</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621679095866"><span class="annot"><span class="annottext">b -&gt; [b]
+</span><a href="#local-6989586621679095866"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span id="local-6989586621679095867"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679095867"><span class="hs-identifier hs-var">m</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679095867"><span class="hs-identifier hs-var">m</span></a></span><span> </span><span class="annot"><span class="annottext">b -&gt; [b] -&gt; [b]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">b -&gt; [b]
+</span><a href="#local-6989586621679095866"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679095867"><span class="hs-identifier hs-var">m</span></a></span><span> </span><span class="annot"><span class="annottext">b -&gt; b -&gt; b
+forall a. Num a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">+</span></span><span> </span><span class="annot"><span class="annottext">b
+</span><span class="hs-number">1</span></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">[b] -&gt; b -&gt; [b]
+forall a b. a -&gt; b -&gt; a
+</span><span class="hs-identifier hs-var">const</span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">b
+</span><span class="hs-number">0</span></span><span>
+</span><span id="line-305"></span><span>  </span><span class="hs-keyword">where</span><span>
+</span><span id="line-306"></span><span>    </span><span class="hs-comment">-- | `foldXs` is `foldr` with the structure moved as the first parameter.</span><span>
+</span><span id="line-307"></span><span>    </span><span id="local-6989586621679095632"><span id="local-6989586621679095633"><span id="local-6989586621679095634"><span class="annot"><a href="#local-6989586621679095865"><span class="hs-identifier hs-type">foldXs</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Foldable</span></span><span> </span><span class="annot"><a href="#local-6989586621679095632"><span class="hs-identifier hs-type">t</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679095632"><span class="hs-identifier hs-type">t</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095633"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679095633"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679095634"><span class="hs-identifier hs-type">b</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679095634"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679095634"><span class="hs-identifier hs-type">b</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679095634"><span class="hs-identifier hs-type">b</span></a></span></span></span></span><span>
+</span><span id="line-308"></span><span>    </span><span id="local-6989586621679095865"><span class="annot"><span class="annottext">foldXs :: forall (t :: * -&gt; *) a b.
+Foldable t =&gt;
+t a -&gt; (a -&gt; b -&gt; b) -&gt; b -&gt; b
+</span><a href="#local-6989586621679095865"><span class="hs-identifier hs-var hs-var">foldXs</span></a></span></span><span> </span><span id="local-6989586621679095870"><span class="annot"><span class="annottext">t a
+</span><a href="#local-6989586621679095870"><span class="hs-identifier hs-var">xs</span></a></span></span><span> </span><span id="local-6989586621679095871"><span class="annot"><span class="annottext">a -&gt; b -&gt; b
+</span><a href="#local-6989586621679095871"><span class="hs-identifier hs-var">op</span></a></span></span><span> </span><span id="local-6989586621679095872"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679095872"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; b -&gt; b) -&gt; b -&gt; t a -&gt; b
+forall a b. (a -&gt; b -&gt; b) -&gt; b -&gt; t a -&gt; b
+forall (t :: * -&gt; *) a b.
+Foldable t =&gt;
+(a -&gt; b -&gt; b) -&gt; b -&gt; t a -&gt; b
+</span><span class="hs-identifier hs-var">foldr</span></span><span> </span><span class="annot"><span class="annottext">a -&gt; b -&gt; b
+</span><a href="#local-6989586621679095871"><span class="hs-identifier hs-var">op</span></a></span><span> </span><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679095872"><span class="hs-identifier hs-var">b</span></a></span><span> </span><span class="annot"><span class="annottext">t a
+</span><a href="#local-6989586621679095870"><span class="hs-identifier hs-var">xs</span></a></span><span>
+</span><span id="line-309"></span><span>
+</span><span id="line-310"></span><span class="hs-comment">-- | Alternate list indexing using `foldr`.</span><span>
+</span><span id="line-311"></span><span class="hs-comment">--</span><span>
+</span><span id="line-312"></span><span class="hs-comment">-- &gt;&gt;&gt; idx1 &quot;abcde&quot;</span><span>
+</span><span id="line-313"></span><span class="hs-comment">-- [0,1,2,3,4]</span><span>
+</span><span id="line-314"></span><span id="local-6989586621679095873"><span id="local-6989586621679095874"><span id="local-6989586621679095875"><span class="annot"><a href="RecursionSchemes.html#idx1"><span class="hs-identifier hs-type">idx1</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Foldable</span></span><span> </span><span class="annot"><a href="#local-6989586621679095873"><span class="hs-identifier hs-type">t</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Num</span></span><span> </span><span class="annot"><a href="#local-6989586621679095874"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679095873"><span class="hs-identifier hs-type">t</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095875"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679095874"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">]</span></span></span></span><span>
+</span><span id="line-315"></span><span id="idx1"><span class="annot"><span class="annottext">idx1 :: forall (t :: * -&gt; *) b a. (Foldable t, Num b) =&gt; t a -&gt; [b]
+</span><a href="RecursionSchemes.html#idx1"><span class="hs-identifier hs-var hs-var">idx1</span></a></span></span><span> </span><span id="local-6989586621679095882"><span class="annot"><span class="annottext">t a
+</span><a href="#local-6989586621679095882"><span class="hs-identifier hs-var">xs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; (b -&gt; [b]) -&gt; b -&gt; [b]) -&gt; (b -&gt; [b]) -&gt; t a -&gt; b -&gt; [b]
+forall a b. (a -&gt; b -&gt; b) -&gt; b -&gt; t a -&gt; b
+forall (t :: * -&gt; *) a b.
+Foldable t =&gt;
+(a -&gt; b -&gt; b) -&gt; b -&gt; t a -&gt; b
+</span><span class="hs-identifier hs-var">foldr</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span> </span><span class="annot"><span class="annottext">a
+</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621679095883"><span class="annot"><span class="annottext">b -&gt; [b]
+</span><a href="#local-6989586621679095883"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span id="local-6989586621679095884"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679095884"><span class="hs-identifier hs-var">m</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679095884"><span class="hs-identifier hs-var">m</span></a></span><span> </span><span class="annot"><span class="annottext">b -&gt; [b] -&gt; [b]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">b -&gt; [b]
+</span><a href="#local-6989586621679095883"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679095884"><span class="hs-identifier hs-var">m</span></a></span><span> </span><span class="annot"><span class="annottext">b -&gt; b -&gt; b
+forall a. Num a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">+</span></span><span> </span><span class="annot"><span class="annottext">b
+</span><span class="hs-number">1</span></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">[b] -&gt; b -&gt; [b]
+forall a b. a -&gt; b -&gt; a
+</span><span class="hs-identifier hs-var">const</span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">t a
+</span><a href="#local-6989586621679095882"><span class="hs-identifier hs-var">xs</span></a></span><span> </span><span class="annot"><span class="annottext">b
+</span><span class="hs-number">0</span></span><span>
+</span><span id="line-316"></span><span>
+</span><span id="line-317"></span><span class="hs-comment">-- | Alternate list indexing using `zipWith`.</span><span>
+</span><span id="line-318"></span><span class="hs-comment">--</span><span>
+</span><span id="line-319"></span><span class="hs-comment">-- &gt;&gt;&gt; idx2 &quot;abcde&quot;</span><span>
+</span><span id="line-320"></span><span class="hs-comment">-- [0,1,2,3,4]</span><span>
+</span><span id="line-321"></span><span id="local-6989586621679095641"><span class="annot"><a href="RecursionSchemes.html#idx2"><span class="hs-identifier hs-type">idx2</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679095641"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Integer</span></span><span class="hs-special">]</span></span><span>
+</span><span id="line-322"></span><span id="idx2"><span class="annot"><span class="annottext">idx2 :: forall b. [b] -&gt; [Integer]
+</span><a href="RecursionSchemes.html#idx2"><span class="hs-identifier hs-var hs-var">idx2</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Integer -&gt; b -&gt; Integer) -&gt; [Integer] -&gt; [b] -&gt; [Integer]
+forall a b c. (a -&gt; b -&gt; c) -&gt; [a] -&gt; [b] -&gt; [c]
+</span><span class="hs-identifier hs-var">zipWith</span></span><span> </span><span class="annot"><span class="annottext">Integer -&gt; b -&gt; Integer
+forall a b. a -&gt; b -&gt; a
+</span><span class="hs-identifier hs-var">const</span></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Integer
+</span><span class="hs-number">0</span></span><span class="hs-glyph">..</span><span class="hs-special">]</span><span>
+</span><span id="line-323"></span><span>
+</span><span id="line-324"></span><span class="hs-comment">-- | List indexing using `foldr`.</span><span>
+</span><span id="line-325"></span><span class="hs-comment">--</span><span>
+</span><span id="line-326"></span><span class="hs-comment">-- &gt;&gt;&gt; idx3 &quot;abcde&quot;</span><span>
+</span><span id="line-327"></span><span class="hs-comment">-- [0,1,2,3,4]</span><span>
+</span><span id="line-328"></span><span id="local-6989586621679095646"><span id="local-6989586621679095647"><span class="annot"><a href="RecursionSchemes.html#idx3"><span class="hs-identifier hs-type">idx3</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Foldable</span></span><span> </span><span class="annot"><a href="#local-6989586621679095646"><span class="hs-identifier hs-type">t</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679095646"><span class="hs-identifier hs-type">t</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095647"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Integer</span></span><span class="hs-special">]</span></span></span><span>
+</span><span id="line-329"></span><span id="idx3"><span class="annot"><span class="annottext">idx3 :: forall (t :: * -&gt; *) a. Foldable t =&gt; t a -&gt; [Integer]
+</span><a href="RecursionSchemes.html#idx3"><span class="hs-identifier hs-var hs-var">idx3</span></a></span></span><span> </span><span id="local-6989586621679095893"><span class="annot"><span class="annottext">t a
+</span><a href="#local-6989586621679095893"><span class="hs-identifier hs-var">xs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; ([Integer] -&gt; [Integer]) -&gt; [Integer] -&gt; [Integer])
+-&gt; ([Integer] -&gt; [Integer]) -&gt; t a -&gt; [Integer] -&gt; [Integer]
+forall a b. (a -&gt; b -&gt; b) -&gt; b -&gt; t a -&gt; b
+forall (t :: * -&gt; *) a b.
+Foldable t =&gt;
+(a -&gt; b -&gt; b) -&gt; b -&gt; t a -&gt; b
+</span><span class="hs-identifier hs-var">foldr</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span> </span><span class="annot"><span class="annottext">a
+</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621679095894"><span class="annot"><span class="annottext">[Integer] -&gt; [Integer]
+</span><a href="#local-6989586621679095894"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679095895"><span class="annot"><span class="annottext">Integer
+</span><a href="#local-6989586621679095895"><span class="hs-identifier hs-var">y</span></a></span></span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span id="local-6989586621679095896"><span class="annot"><span class="annottext">[Integer]
+</span><a href="#local-6989586621679095896"><span class="hs-identifier hs-var">ys</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Integer
+</span><a href="#local-6989586621679095895"><span class="hs-identifier hs-var">y</span></a></span><span> </span><span class="annot"><span class="annottext">Integer -&gt; [Integer] -&gt; [Integer]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">[Integer] -&gt; [Integer]
+</span><a href="#local-6989586621679095894"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">[Integer]
+</span><a href="#local-6989586621679095896"><span class="hs-identifier hs-var">ys</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">[Integer] -&gt; [Integer] -&gt; [Integer]
+forall a b. a -&gt; b -&gt; a
+</span><span class="hs-identifier hs-var">const</span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">t a
+</span><a href="#local-6989586621679095893"><span class="hs-identifier hs-var">xs</span></a></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Integer
+</span><span class="hs-number">0</span></span><span class="hs-glyph">..</span><span class="hs-special">]</span><span>
+</span><span id="line-330"></span><span>
+</span><span id="line-331"></span><span class="hs-comment">-- | List indexing using `foldr` with parameter last.</span><span>
+</span><span id="line-332"></span><span class="hs-comment">--</span><span>
+</span><span id="line-333"></span><span class="hs-comment">-- &gt;&gt;&gt; idx4 &quot;abcde&quot;</span><span>
+</span><span id="line-334"></span><span class="hs-comment">-- [0,1,2,3,4]</span><span>
+</span><span id="line-335"></span><span id="local-6989586621679095897"><span class="annot"><a href="RecursionSchemes.html#idx4"><span class="hs-identifier hs-type">idx4</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679095897"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Integer</span></span><span class="hs-special">]</span></span><span>
+</span><span id="line-336"></span><span id="idx4"><span class="annot"><span class="annottext">idx4 :: forall b. [b] -&gt; [Integer]
+</span><a href="RecursionSchemes.html#idx4"><span class="hs-identifier hs-var hs-var">idx4</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Integer -&gt; ([b] -&gt; [Integer]) -&gt; [b] -&gt; [Integer])
+-&gt; ([b] -&gt; [Integer]) -&gt; [Integer] -&gt; [b] -&gt; [Integer]
+forall a b. (a -&gt; b -&gt; b) -&gt; b -&gt; [a] -&gt; b
+forall (t :: * -&gt; *) a b.
+Foldable t =&gt;
+(a -&gt; b -&gt; b) -&gt; b -&gt; t a -&gt; b
+</span><span class="hs-identifier hs-var">foldr</span></span><span> </span><span class="annot"><span class="annottext">Integer -&gt; ([b] -&gt; [Integer]) -&gt; [b] -&gt; [Integer]
+forall {a} {a}. a -&gt; ([a] -&gt; [a]) -&gt; [a] -&gt; [a]
+</span><a href="#local-6989586621679095901"><span class="hs-identifier hs-var">step</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">[Integer] -&gt; [b] -&gt; [Integer]
+forall a b. a -&gt; b -&gt; a
+</span><span class="hs-identifier hs-var">const</span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span class="hs-special">)</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Integer
+</span><span class="hs-number">0</span></span><span class="hs-glyph">..</span><span class="hs-special">]</span><span>
+</span><span id="line-337"></span><span>  </span><span class="hs-keyword">where</span><span>
+</span><span id="line-338"></span><span>    </span><span id="local-6989586621679095901"><span class="annot"><span class="annottext">step :: a -&gt; ([a] -&gt; [a]) -&gt; [a] -&gt; [a]
+</span><a href="#local-6989586621679095901"><span class="hs-identifier hs-var hs-var">step</span></a></span></span><span> </span><span class="annot"><span class="annottext">a
+</span><span class="hs-identifier">_</span></span><span> </span><span class="annot"><span class="annottext">[a] -&gt; [a]
+</span><span class="hs-identifier">_</span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>     </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
+</span><span id="line-339"></span><span>    </span><span class="annot"><a href="#local-6989586621679095901"><span class="hs-identifier hs-var">step</span></a></span><span> </span><span id="local-6989586621679095902"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679095902"><span class="hs-identifier hs-var">y</span></a></span></span><span> </span><span id="local-6989586621679095903"><span class="annot"><span class="annottext">[a] -&gt; [a]
+</span><a href="#local-6989586621679095903"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a
+</span><span class="hs-identifier">_</span></span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span id="local-6989586621679095904"><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679095904"><span class="hs-identifier hs-var">xs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679095902"><span class="hs-identifier hs-var">y</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; [a] -&gt; [a]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">[a] -&gt; [a]
+</span><a href="#local-6989586621679095903"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679095904"><span class="hs-identifier hs-var">xs</span></a></span><span>
+</span><span id="line-340"></span></pre></body></html>

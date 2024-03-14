@@ -81,9 +81,9 @@
 </span><span id="line-81"></span><span class="hs-comment">--  via Biap (,) a a</span><span>
 </span><span id="line-82"></span><span class="hs-comment">-- @</span><span>
 </span><span id="line-83"></span><span class="hs-comment">--</span><span>
-</span><span id="line-84"></span><span class="hs-keyword">newtype</span><span> </span><span id="Biap"><span class="annot"><a href="Data.Bifunctor.Biap.html#Biap"><span class="hs-identifier hs-var">Biap</span></a></span></span><span> </span><span id="local-6989586621679094705"><span class="annot"><a href="#local-6989586621679094705"><span class="hs-identifier hs-type">bi</span></a></span></span><span> </span><span id="local-6989586621679094706"><span class="annot"><a href="#local-6989586621679094706"><span class="hs-identifier hs-type">a</span></a></span></span><span> </span><span id="local-6989586621679094707"><span class="annot"><a href="#local-6989586621679094707"><span class="hs-identifier hs-type">b</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="Biap"><span class="annot"><a href="Data.Bifunctor.Biap.html#Biap"><span class="hs-identifier hs-var">Biap</span></a></span></span><span> </span><span class="hs-special">{</span><span> </span><span id="getBiap"><span class="annot"><span class="annottext">forall (bi :: * -&gt; * -&gt; *) a b. Biap bi a b -&gt; bi a b
-</span><a href="Data.Bifunctor.Biap.html#getBiap"><span class="hs-identifier hs-var hs-var">getBiap</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="#local-6989586621679094705"><span class="hs-identifier hs-type">bi</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679094706"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679094707"><span class="hs-identifier hs-type">b</span></a></span><span> </span><span class="hs-special">}</span><span>
-</span><span id="line-85"></span><span> </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span> </span><span id="local-6989586621679095108"><span id="local-6989586621679095112"><span class="annot"><span class="annottext">Biap bi a b -&gt; Biap bi a b -&gt; Bool
+</span><span id="line-84"></span><span class="hs-keyword">newtype</span><span> </span><span id="Biap"><span class="annot"><a href="Data.Bifunctor.Biap.html#Biap"><span class="hs-identifier hs-var">Biap</span></a></span></span><span> </span><span id="local-6989586621679094801"><span class="annot"><a href="#local-6989586621679094801"><span class="hs-identifier hs-type">bi</span></a></span></span><span> </span><span id="local-6989586621679094802"><span class="annot"><a href="#local-6989586621679094802"><span class="hs-identifier hs-type">a</span></a></span></span><span> </span><span id="local-6989586621679094803"><span class="annot"><a href="#local-6989586621679094803"><span class="hs-identifier hs-type">b</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="Biap"><span class="annot"><a href="Data.Bifunctor.Biap.html#Biap"><span class="hs-identifier hs-var">Biap</span></a></span></span><span> </span><span class="hs-special">{</span><span> </span><span id="getBiap"><span class="annot"><span class="annottext">forall (bi :: * -&gt; * -&gt; *) a b. Biap bi a b -&gt; bi a b
+</span><a href="Data.Bifunctor.Biap.html#getBiap"><span class="hs-identifier hs-var hs-var">getBiap</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="#local-6989586621679094801"><span class="hs-identifier hs-type">bi</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679094802"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679094803"><span class="hs-identifier hs-type">b</span></a></span><span> </span><span class="hs-special">}</span><span>
+</span><span id="line-85"></span><span> </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span> </span><span id="local-6989586621679095204"><span id="local-6989586621679095208"><span class="annot"><span class="annottext">Biap bi a b -&gt; Biap bi a b -&gt; Bool
 (Biap bi a b -&gt; Biap bi a b -&gt; Bool)
 -&gt; (Biap bi a b -&gt; Biap bi a b -&gt; Bool) -&gt; Eq (Biap bi a b)
 forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
@@ -99,7 +99,7 @@ Eq (bi a b) =&gt;
 Biap bi a b -&gt; Biap bi a b -&gt; Bool
 /= :: Biap bi a b -&gt; Biap bi a b -&gt; Bool
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span>
-</span><span id="line-86"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095122"><span id="local-6989586621679095126"><span id="local-6989586621679095130"><span id="local-6989586621679095134"><span id="local-6989586621679095138"><span id="local-6989586621679095142"><span id="local-6989586621679095146"><span class="annot"><span class="annottext">Eq (Biap bi a b)
+</span><span id="line-86"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095218"><span id="local-6989586621679095222"><span id="local-6989586621679095226"><span id="local-6989586621679095230"><span id="local-6989586621679095234"><span id="local-6989586621679095238"><span id="local-6989586621679095242"><span class="annot"><span class="annottext">Eq (Biap bi a b)
 Eq (Biap bi a b)
 -&gt; (Biap bi a b -&gt; Biap bi a b -&gt; Ordering)
 -&gt; (Biap bi a b -&gt; Biap bi a b -&gt; Bool)
@@ -163,7 +163,7 @@ Ord (bi a b) =&gt;
 Biap bi a b -&gt; Biap bi a b -&gt; Biap bi a b
 min :: Biap bi a b -&gt; Biap bi a b -&gt; Biap bi a b
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span>
-</span><span id="line-87"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095154"><span id="local-6989586621679095159"><span id="local-6989586621679095163"><span class="annot"><span class="annottext">Int -&gt; Biap bi a b -&gt; ShowS
+</span><span id="line-87"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095250"><span id="local-6989586621679095255"><span id="local-6989586621679095259"><span class="annot"><span class="annottext">Int -&gt; Biap bi a b -&gt; ShowS
 [Biap bi a b] -&gt; ShowS
 Biap bi a b -&gt; String
 (Int -&gt; Biap bi a b -&gt; ShowS)
@@ -194,7 +194,7 @@ Show (bi a b) =&gt;
 [Biap bi a b] -&gt; ShowS
 showList :: [Biap bi a b] -&gt; ShowS
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span>
-</span><span id="line-88"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095168"><span id="local-6989586621679095172"><span id="local-6989586621679095175"><span id="local-6989586621679095184"><span class="annot"><span class="annottext">ReadPrec [Biap bi a b]
+</span><span id="line-88"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095264"><span id="local-6989586621679095268"><span id="local-6989586621679095271"><span id="local-6989586621679095280"><span class="annot"><span class="annottext">ReadPrec [Biap bi a b]
 ReadPrec (Biap bi a b)
 Int -&gt; ReadS (Biap bi a b)
 ReadS [Biap bi a b]
@@ -235,7 +235,7 @@ Read (bi a b) =&gt;
 ReadPrec [Biap bi a b]
 readListPrec :: ReadPrec [Biap bi a b]
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Read</span></span></span></span></span></span><span>
-</span><span id="line-89"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095189"><span id="local-6989586621679095193"><span id="local-6989586621679095197"><span id="local-6989586621679095201"><span id="local-6989586621679095205"><span id="local-6989586621679095209"><span id="local-6989586621679095213"><span id="local-6989586621679095217"><span class="annot"><span class="annottext">Int -&gt; Biap bi a b
+</span><span id="line-89"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095285"><span id="local-6989586621679095289"><span id="local-6989586621679095293"><span id="local-6989586621679095297"><span id="local-6989586621679095301"><span id="local-6989586621679095305"><span id="local-6989586621679095309"><span id="local-6989586621679095313"><span class="annot"><span class="annottext">Int -&gt; Biap bi a b
 Biap bi a b -&gt; Int
 Biap bi a b -&gt; [Biap bi a b]
 Biap bi a b -&gt; Biap bi a b
@@ -303,7 +303,7 @@ Enum (bi a b) =&gt;
 Biap bi a b -&gt; Biap bi a b -&gt; Biap bi a b -&gt; [Biap bi a b]
 enumFromThenTo :: Biap bi a b -&gt; Biap bi a b -&gt; Biap bi a b -&gt; [Biap bi a b]
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Enum</span></span></span></span></span></span></span></span></span></span><span>
-</span><span id="line-90"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095224"><span id="local-6989586621679095228"><span class="annot"><span class="annottext">(forall a b. (a -&gt; b) -&gt; Biap bi a a -&gt; Biap bi a b)
+</span><span id="line-90"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095320"><span id="local-6989586621679095324"><span class="annot"><span class="annottext">(forall a b. (a -&gt; b) -&gt; Biap bi a a -&gt; Biap bi a b)
 -&gt; (forall a b. a -&gt; Biap bi a b -&gt; Biap bi a a)
 -&gt; Functor (Biap bi a)
 forall a b. a -&gt; Biap bi a b -&gt; Biap bi a a
@@ -326,7 +326,7 @@ Functor (bi a) =&gt;
 a -&gt; Biap bi a b -&gt; Biap bi a a
 &lt;$ :: forall a b. a -&gt; Biap bi a b -&gt; Biap bi a a
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Functor</span></span></span></span><span>
-</span><span id="line-91"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095237"><span id="local-6989586621679095245"><span id="local-6989586621679095253"><span id="local-6989586621679095259"><span id="local-6989586621679095263"><span id="local-6989586621679095267"><span id="local-6989586621679095271"><span id="local-6989586621679095275"><span id="local-6989586621679095279"><span id="local-6989586621679095283"><span id="local-6989586621679095287"><span id="local-6989586621679095291"><span id="local-6989586621679095297"><span id="local-6989586621679095305"><span id="local-6989586621679095313"><span id="local-6989586621679095321"><span id="local-6989586621679095329"><span class="annot"><span class="annottext">(forall m. Monoid m =&gt; Biap bi a m -&gt; m)
+</span><span id="line-91"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095333"><span id="local-6989586621679095341"><span id="local-6989586621679095349"><span id="local-6989586621679095355"><span id="local-6989586621679095359"><span id="local-6989586621679095363"><span id="local-6989586621679095367"><span id="local-6989586621679095371"><span id="local-6989586621679095375"><span id="local-6989586621679095379"><span id="local-6989586621679095383"><span id="local-6989586621679095387"><span id="local-6989586621679095393"><span id="local-6989586621679095401"><span id="local-6989586621679095409"><span id="local-6989586621679095417"><span id="local-6989586621679095425"><span class="annot"><span class="annottext">(forall m. Monoid m =&gt; Biap bi a m -&gt; m)
 -&gt; (forall m a. Monoid m =&gt; (a -&gt; m) -&gt; Biap bi a a -&gt; m)
 -&gt; (forall m a. Monoid m =&gt; (a -&gt; m) -&gt; Biap bi a a -&gt; m)
 -&gt; (forall a b. (a -&gt; b -&gt; b) -&gt; b -&gt; Biap bi a a -&gt; b)
@@ -476,7 +476,7 @@ $cproduct :: forall (bi :: * -&gt; * -&gt; *) a a.
 Biap bi a a -&gt; a
 product :: forall a. Num a =&gt; Biap bi a a -&gt; a
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Foldable</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span>
-</span><span id="line-92"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095344"><span id="local-6989586621679095351"><span id="local-6989586621679095357"><span id="local-6989586621679095362"><span class="annot"><span class="annottext">Functor (Biap bi a)
+</span><span id="line-92"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095440"><span id="local-6989586621679095447"><span id="local-6989586621679095453"><span id="local-6989586621679095458"><span class="annot"><span class="annottext">Functor (Biap bi a)
 Foldable (Biap bi a)
 Functor (Biap bi a)
 -&gt; Foldable (Biap bi a)
@@ -560,7 +560,7 @@ sequence :: forall (m :: * -&gt; *) a.
 Monad m =&gt;
 Biap bi a (m a) -&gt; m (Biap bi a a)
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Traversable</span></span></span></span></span></span><span>
-</span><span id="line-93"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095376"><span id="local-6989586621679095380"><span id="local-6989586621679095384"><span id="local-6989586621679095388"><span class="annot"><span class="annottext">Applicative (Biap bi a)
+</span><span id="line-93"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095472"><span id="local-6989586621679095476"><span id="local-6989586621679095480"><span id="local-6989586621679095484"><span class="annot"><span class="annottext">Applicative (Biap bi a)
 Applicative (Biap bi a)
 -&gt; (forall a. Biap bi a a)
 -&gt; (forall a. Biap bi a a -&gt; Biap bi a a -&gt; Biap bi a a)
@@ -602,7 +602,7 @@ Alternative (bi a) =&gt;
 Biap bi a a -&gt; Biap bi a [a]
 many :: forall a. Biap bi a a -&gt; Biap bi a [a]
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Alternative</span></span></span></span></span></span><span>
-</span><span id="line-94"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095399"><span id="local-6989586621679095403"><span id="local-6989586621679095407"><span id="local-6989586621679095411"><span id="local-6989586621679095415"><span class="annot"><span class="annottext">Functor (Biap bi a)
+</span><span id="line-94"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095495"><span id="local-6989586621679095499"><span id="local-6989586621679095503"><span id="local-6989586621679095507"><span id="local-6989586621679095511"><span class="annot"><span class="annottext">Functor (Biap bi a)
 Functor (Biap bi a)
 -&gt; (forall a. a -&gt; Biap bi a a)
 -&gt; (forall a b. Biap bi a (a -&gt; b) -&gt; Biap bi a a -&gt; Biap bi a b)
@@ -666,7 +666,7 @@ Biap bi a a -&gt; Biap bi a b -&gt; Biap bi a a
 &lt;* :: forall a b. Biap bi a a -&gt; Biap bi a b -&gt; Biap bi a a
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Applicative</span></span></span></span></span></span></span><span class="hs-cpp">
 #if __GLASGOW_HASKELL__ &gt;= 702
-</span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095420"><span id="local-6989586621679095422"><span class="annot"><span class="annottext">(forall x. Biap bi a b -&gt; Rep (Biap bi a b) x)
+</span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095516"><span id="local-6989586621679095518"><span class="annot"><span class="annottext">(forall x. Biap bi a b -&gt; Rep (Biap bi a b) x)
 -&gt; (forall x. Rep (Biap bi a b) x -&gt; Biap bi a b)
 -&gt; Generic (Biap bi a b)
 forall x. Rep (Biap bi a b) x -&gt; Biap bi a b
@@ -686,7 +686,7 @@ to :: forall x. Rep (Biap bi a b) x -&gt; Biap bi a b
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Generic</span></span></span></span><span class="hs-cpp">
 #endif
 </span><span class="hs-cpp">#if __GLASGOW_HASKELL__ &gt;= 706
-</span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095426"><span id="local-6989586621679095428"><span class="annot"><span class="annottext">(forall a. Biap bi a a -&gt; Rep1 (Biap bi a) a)
+</span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095522"><span id="local-6989586621679095524"><span class="annot"><span class="annottext">(forall a. Biap bi a a -&gt; Rep1 (Biap bi a) a)
 -&gt; (forall a. Rep1 (Biap bi a) a -&gt; Biap bi a a)
 -&gt; Generic1 (Biap bi a)
 forall a. Rep1 (Biap bi a) a -&gt; Biap bi a a
@@ -702,7 +702,7 @@ $cto1 :: forall (bi :: * -&gt; * -&gt; *) a a. Rep1 (Biap bi a) a -&gt; Biap bi 
 to1 :: forall a. Rep1 (Biap bi a) a -&gt; Biap bi a a
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Generic1</span></span></span></span><span class="hs-cpp">
 #endif
-</span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095436"><span id="local-6989586621679095440"><span id="local-6989586621679095444"><span class="annot"><span class="annottext">Applicative (Biap bi a)
+</span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095532"><span id="local-6989586621679095536"><span id="local-6989586621679095540"><span class="annot"><span class="annottext">Applicative (Biap bi a)
 Applicative (Biap bi a)
 -&gt; (forall a b. Biap bi a a -&gt; (a -&gt; Biap bi a b) -&gt; Biap bi a b)
 -&gt; (forall a b. Biap bi a a -&gt; Biap bi a b -&gt; Biap bi a b)
@@ -738,7 +738,7 @@ Biap bi a a -&gt; Biap bi a b -&gt; Biap bi a b
 $creturn :: forall (bi :: * -&gt; * -&gt; *) a a. Monad (bi a) =&gt; a -&gt; Biap bi a a
 return :: forall a. a -&gt; Biap bi a a
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Monad</span></span></span></span></span><span>
-</span><span id="line-102"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095455"><span class="annot"><span class="annottext">Monad (Biap bi a)
+</span><span id="line-102"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095551"><span class="annot"><span class="annottext">Monad (Biap bi a)
 Monad (Biap bi a)
 -&gt; (forall a. String -&gt; Biap bi a a) -&gt; MonadFail (Biap bi a)
 forall a. String -&gt; Biap bi a a
@@ -755,7 +755,7 @@ MonadFail (bi a) =&gt;
 String -&gt; Biap bi a a
 fail :: forall a. String -&gt; Biap bi a a
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var">Fail.MonadFail</span></span></span><span>
-</span><span id="line-103"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095469"><span id="local-6989586621679095473"><span class="annot"><span class="annottext">Monad (Biap bi a)
+</span><span id="line-103"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095565"><span id="local-6989586621679095569"><span class="annot"><span class="annottext">Monad (Biap bi a)
 Alternative (Biap bi a)
 Alternative (Biap bi a)
 -&gt; Monad (Biap bi a)
@@ -787,7 +787,7 @@ MonadPlus (bi a) =&gt;
 Biap bi a a -&gt; Biap bi a a -&gt; Biap bi a a
 mplus :: forall a. Biap bi a a -&gt; Biap bi a a -&gt; Biap bi a a
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">MonadPlus</span></span></span></span><span>
-</span><span id="line-104"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095482"><span class="annot"><span class="annottext">(forall a b.
+</span><span id="line-104"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095578"><span class="annot"><span class="annottext">(forall a b.
  (a -&gt; b -&gt; Bool) -&gt; Biap bi a a -&gt; Biap bi a b -&gt; Bool)
 -&gt; Eq1 (Biap bi a)
 forall a b. (a -&gt; b -&gt; Bool) -&gt; Biap bi a a -&gt; Biap bi a b -&gt; Bool
@@ -801,7 +801,7 @@ Eq1 (bi a) =&gt;
 (a -&gt; b -&gt; Bool) -&gt; Biap bi a a -&gt; Biap bi a b -&gt; Bool
 liftEq :: forall a b. (a -&gt; b -&gt; Bool) -&gt; Biap bi a a -&gt; Biap bi a b -&gt; Bool
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var">Eq1</span></span></span><span>
-</span><span id="line-105"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095492"><span class="annot"><span class="annottext">Eq1 (Biap bi a)
+</span><span id="line-105"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095588"><span class="annot"><span class="annottext">Eq1 (Biap bi a)
 Eq1 (Biap bi a)
 -&gt; (forall a b.
     (a -&gt; b -&gt; Ordering) -&gt; Biap bi a a -&gt; Biap bi a b -&gt; Ordering)
@@ -823,7 +823,7 @@ liftCompare :: forall a b.
 (a -&gt; b -&gt; Ordering) -&gt; Biap bi a a -&gt; Biap bi a b -&gt; Ordering
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var">Ord1</span></span></span><span>
 </span><span id="line-106"></span><span>
-</span><span id="line-107"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095500"><span id="local-6989586621679095504"><span id="local-6989586621679095508"><span class="annot"><span class="annottext">(forall a b c d.
+</span><span id="line-107"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095596"><span id="local-6989586621679095600"><span id="local-6989586621679095604"><span class="annot"><span class="annottext">(forall a b c d.
  (a -&gt; b) -&gt; (c -&gt; d) -&gt; Biap bi a c -&gt; Biap bi b d)
 -&gt; (forall a b c. (a -&gt; b) -&gt; Biap bi a c -&gt; Biap bi b c)
 -&gt; (forall b c a. (b -&gt; c) -&gt; Biap bi a b -&gt; Biap bi a c)
@@ -858,7 +858,7 @@ Bifunctor bi =&gt;
 (b -&gt; c) -&gt; Biap bi a b -&gt; Biap bi a c
 second :: forall b c a. (b -&gt; c) -&gt; Biap bi a b -&gt; Biap bi a c
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Bifunctor</span></span></span></span></span><span>
-</span><span id="line-108"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095518"><span id="local-6989586621679095522"><span id="local-6989586621679095526"><span id="local-6989586621679095530"><span id="local-6989586621679095534"><span class="annot"><span class="annottext">Bifunctor (Biap bi)
+</span><span id="line-108"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095614"><span id="local-6989586621679095618"><span id="local-6989586621679095622"><span id="local-6989586621679095626"><span id="local-6989586621679095630"><span class="annot"><span class="annottext">Bifunctor (Biap bi)
 Bifunctor (Biap bi)
 -&gt; (forall a b. a -&gt; b -&gt; Biap bi a b)
 -&gt; (forall a b c d.
@@ -928,7 +928,7 @@ Biapplicative bi =&gt;
 Biap bi a b -&gt; Biap bi c d -&gt; Biap bi a b
 &lt;&lt;* :: forall a b c d. Biap bi a b -&gt; Biap bi c d -&gt; Biap bi a b
 </span><a href="Data.Biapplicative.html#Biapplicative"><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Biapplicative</span></a></span></span></span></span></span></span><span>
-</span><span id="line-109"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095544"><span id="local-6989586621679095552"><span id="local-6989586621679095558"><span id="local-6989586621679095562"><span class="annot"><span class="annottext">(forall m. Monoid m =&gt; Biap bi m m -&gt; m)
+</span><span id="line-109"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095640"><span id="local-6989586621679095648"><span id="local-6989586621679095654"><span id="local-6989586621679095658"><span class="annot"><span class="annottext">(forall m. Monoid m =&gt; Biap bi m m -&gt; m)
 -&gt; (forall m a b.
     Monoid m =&gt;
     (a -&gt; m) -&gt; (b -&gt; m) -&gt; Biap bi a b -&gt; m)
@@ -983,7 +983,7 @@ bifoldl :: forall c a b.
 (c -&gt; a -&gt; c) -&gt; (c -&gt; b -&gt; c) -&gt; c -&gt; Biap bi a b -&gt; c
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Bifoldable</span></span></span></span></span></span><span class="hs-cpp">
 #if LIFTED_FUNCTOR_CLASSES
-</span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095569"><span class="annot"><span class="annottext">(forall a b c d.
+</span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095665"><span class="annot"><span class="annottext">(forall a b c d.
  (a -&gt; b -&gt; Bool)
  -&gt; (c -&gt; d -&gt; Bool) -&gt; Biap bi a c -&gt; Biap bi b d -&gt; Bool)
 -&gt; Eq2 (Biap bi)
@@ -1006,7 +1006,7 @@ liftEq2 :: forall a b c d.
 (a -&gt; b -&gt; Bool)
 -&gt; (c -&gt; d -&gt; Bool) -&gt; Biap bi a c -&gt; Biap bi b d -&gt; Bool
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var">Eq2</span></span></span><span>
-</span><span id="line-112"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095579"><span class="annot"><span class="annottext">Eq2 (Biap bi)
+</span><span id="line-112"></span><span>          </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095675"><span class="annot"><span class="annottext">Eq2 (Biap bi)
 Eq2 (Biap bi)
 -&gt; (forall a b c d.
     (a -&gt; b -&gt; Ordering)
@@ -1037,14 +1037,14 @@ liftCompare2 :: forall a b c d.
 #endif
 </span><span>          </span><span class="hs-special">)</span><span>
 </span><span id="line-115"></span><span>
-</span><span id="line-116"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679095065"><span class="annot"><span class="hs-identifier hs-type">Bitraversable</span></span><span> </span><span class="annot"><a href="#local-6989586621679095065"><span class="hs-identifier hs-type">bi</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bitraversable</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Data.Bifunctor.Biap.html#Biap"><span class="hs-identifier hs-type">Biap</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095065"><span class="hs-identifier hs-type">bi</span></a></span><span class="hs-special">)</span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-117"></span><span> </span><span id="local-6989586621679095602"><span class="annot"><span class="annottext">bitraverse :: forall (f :: * -&gt; *) a c b d.
+</span><span id="line-116"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679095161"><span class="annot"><span class="hs-identifier hs-type">Bitraversable</span></span><span> </span><span class="annot"><a href="#local-6989586621679095161"><span class="hs-identifier hs-type">bi</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bitraversable</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Data.Bifunctor.Biap.html#Biap"><span class="hs-identifier hs-type">Biap</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095161"><span class="hs-identifier hs-type">bi</span></a></span><span class="hs-special">)</span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-117"></span><span> </span><span id="local-6989586621679095698"><span class="annot"><span class="annottext">bitraverse :: forall (f :: * -&gt; *) a c b d.
 Applicative f =&gt;
 (a -&gt; f c) -&gt; (b -&gt; f d) -&gt; Biap bi a b -&gt; f (Biap bi c d)
-</span><a href="#local-6989586621679095602"><span class="hs-identifier hs-var hs-var hs-var hs-var">bitraverse</span></a></span></span><span> </span><span id="local-6989586621679095604"><span class="annot"><span class="annottext">a -&gt; f c
-</span><a href="#local-6989586621679095604"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span id="local-6989586621679095605"><span class="annot"><span class="annottext">b -&gt; f d
-</span><a href="#local-6989586621679095605"><span class="hs-identifier hs-var">g</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Data.Bifunctor.Biap.html#Biap"><span class="hs-identifier hs-type">Biap</span></a></span><span> </span><span id="local-6989586621679095606"><span class="annot"><span class="annottext">bi a b
-</span><a href="#local-6989586621679095606"><span class="hs-keyword hs-var">as</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">bi c d -&gt; Biap bi c d
+</span><a href="#local-6989586621679095698"><span class="hs-identifier hs-var hs-var hs-var hs-var">bitraverse</span></a></span></span><span> </span><span id="local-6989586621679095700"><span class="annot"><span class="annottext">a -&gt; f c
+</span><a href="#local-6989586621679095700"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span id="local-6989586621679095701"><span class="annot"><span class="annottext">b -&gt; f d
+</span><a href="#local-6989586621679095701"><span class="hs-identifier hs-var">g</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Data.Bifunctor.Biap.html#Biap"><span class="hs-identifier hs-type">Biap</span></a></span><span> </span><span id="local-6989586621679095702"><span class="annot"><span class="annottext">bi a b
+</span><a href="#local-6989586621679095702"><span class="hs-keyword hs-var">as</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">bi c d -&gt; Biap bi c d
 forall (bi :: * -&gt; * -&gt; *) a b. bi a b -&gt; Biap bi a b
 </span><a href="Data.Bifunctor.Biap.html#Biap"><span class="hs-identifier hs-var">Biap</span></a></span><span> </span><span class="annot"><span class="annottext">(bi c d -&gt; Biap bi c d) -&gt; f (bi c d) -&gt; f (Biap bi c d)
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
@@ -1056,12 +1056,12 @@ forall (t :: * -&gt; * -&gt; *) (f :: * -&gt; *) a c b d.
 (Bitraversable t, Applicative f) =&gt;
 (a -&gt; f c) -&gt; (b -&gt; f d) -&gt; t a b -&gt; f (t c d)
 </span><span class="hs-identifier hs-var">bitraverse</span></span><span> </span><span class="annot"><span class="annottext">a -&gt; f c
-</span><a href="#local-6989586621679095604"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">b -&gt; f d
-</span><a href="#local-6989586621679095605"><span class="hs-identifier hs-var">g</span></a></span><span> </span><span class="annot"><span class="annottext">bi a b
-</span><a href="#local-6989586621679095606"><span class="hs-keyword hs-var">as</span></a></span><span>
+</span><a href="#local-6989586621679095700"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">b -&gt; f d
+</span><a href="#local-6989586621679095701"><span class="hs-identifier hs-var">g</span></a></span><span> </span><span class="annot"><span class="annottext">bi a b
+</span><a href="#local-6989586621679095702"><span class="hs-keyword hs-var">as</span></a></span><span>
 </span><span id="line-118"></span><span>
-</span><span id="line-119"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679095080"><span id="local-6989586621679095081"><span id="local-6989586621679095082"><span id="local-6989586621679095613"><span id="local-6989586621679095617"><span class="hs-special">(</span><span class="annot"><a href="Data.Biapplicative.html#Biapplicative"><span class="hs-identifier hs-type">Biapplicative</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095080"><span class="hs-identifier hs-type">bi</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">S.Semigroup</span></span><span> </span><span class="annot"><a href="#local-6989586621679095081"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">S.Semigroup</span></span><span> </span><span class="annot"><a href="#local-6989586621679095082"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">S.Semigroup</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Data.Bifunctor.Biap.html#Biap"><span class="hs-identifier hs-type">Biap</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095080"><span class="hs-identifier hs-type">bi</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095081"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095082"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">)</span></span></span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-120"></span><span>  </span><span id="local-6989586621679095625"><span class="annot"><span class="annottext">&lt;&gt; :: Biap bi a b -&gt; Biap bi a b -&gt; Biap bi a b
+</span><span id="line-119"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679095176"><span id="local-6989586621679095177"><span id="local-6989586621679095178"><span id="local-6989586621679095709"><span id="local-6989586621679095713"><span class="hs-special">(</span><span class="annot"><a href="Data.Biapplicative.html#Biapplicative"><span class="hs-identifier hs-type">Biapplicative</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095176"><span class="hs-identifier hs-type">bi</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">S.Semigroup</span></span><span> </span><span class="annot"><a href="#local-6989586621679095177"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">S.Semigroup</span></span><span> </span><span class="annot"><a href="#local-6989586621679095178"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">S.Semigroup</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Data.Bifunctor.Biap.html#Biap"><span class="hs-identifier hs-type">Biap</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095176"><span class="hs-identifier hs-type">bi</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095177"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095178"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">)</span></span></span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-120"></span><span>  </span><span id="local-6989586621679095721"><span class="annot"><span class="annottext">&lt;&gt; :: Biap bi a b -&gt; Biap bi a b -&gt; Biap bi a b
 </span><span class="hs-operator hs-var hs-var hs-var hs-var">(&lt;&gt;)</span></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; a -&gt; a)
 -&gt; (b -&gt; b -&gt; b) -&gt; Biap bi a b -&gt; Biap bi a b -&gt; Biap bi a b
 forall a b c d e f.
@@ -1076,8 +1076,8 @@ forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">(S.&lt;&gt;)</span></span><span>
 </span><span id="line-121"></span><span>
-</span><span id="line-122"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679095087"><span id="local-6989586621679095088"><span id="local-6989586621679095089"><span id="local-6989586621679095636"><span id="local-6989586621679095640"><span class="hs-special">(</span><span class="annot"><a href="Data.Biapplicative.html#Biapplicative"><span class="hs-identifier hs-type">Biapplicative</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095087"><span class="hs-identifier hs-type">bi</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Monoid</span></span><span> </span><span class="annot"><a href="#local-6989586621679095088"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Monoid</span></span><span> </span><span class="annot"><a href="#local-6989586621679095089"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Monoid</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Data.Bifunctor.Biap.html#Biap"><span class="hs-identifier hs-type">Biap</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095087"><span class="hs-identifier hs-type">bi</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095088"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095089"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">)</span></span></span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-123"></span><span>  </span><span id="local-6989586621679095647"><span class="annot"><span class="annottext">mempty :: Biap bi a b
+</span><span id="line-122"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679095183"><span id="local-6989586621679095184"><span id="local-6989586621679095185"><span id="local-6989586621679095732"><span id="local-6989586621679095736"><span class="hs-special">(</span><span class="annot"><a href="Data.Biapplicative.html#Biapplicative"><span class="hs-identifier hs-type">Biapplicative</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095183"><span class="hs-identifier hs-type">bi</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Monoid</span></span><span> </span><span class="annot"><a href="#local-6989586621679095184"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Monoid</span></span><span> </span><span class="annot"><a href="#local-6989586621679095185"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Monoid</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Data.Bifunctor.Biap.html#Biap"><span class="hs-identifier hs-type">Biap</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095183"><span class="hs-identifier hs-type">bi</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095184"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095185"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">)</span></span></span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-123"></span><span>  </span><span id="local-6989586621679095743"><span class="annot"><span class="annottext">mempty :: Biap bi a b
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var">mempty</span></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; b -&gt; Biap bi a b
 forall a b. a -&gt; b -&gt; Biap bi a b
 forall (p :: * -&gt; * -&gt; *) a b. Biapplicative p =&gt; a -&gt; b -&gt; p a b
@@ -1090,9 +1090,9 @@ forall a. Monoid a =&gt; a
 </span><span>  </span><span class="hs-identifier">mappend</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier">biliftA2</span><span> </span><span class="hs-identifier">mappend</span><span> </span><span class="hs-identifier">mappend</span><span class="hs-cpp">
 #endif
 </span><span>
-</span><span id="line-128"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679095094"><span id="local-6989586621679095095"><span id="local-6989586621679095096"><span class="hs-special">(</span><span class="annot"><a href="Data.Biapplicative.html#Biapplicative"><span class="hs-identifier hs-type">Biapplicative</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095094"><span class="hs-identifier hs-type">bi</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bounded</span></span><span> </span><span class="annot"><a href="#local-6989586621679095095"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bounded</span></span><span> </span><span class="annot"><a href="#local-6989586621679095096"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bounded</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Data.Bifunctor.Biap.html#Biap"><span class="hs-identifier hs-type">Biap</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095094"><span class="hs-identifier hs-type">bi</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095095"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095096"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">)</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-129"></span><span>  </span><span id="local-6989586621679095659"><span class="annot"><span class="annottext">minBound :: Biap bi a b
-</span><a href="#local-6989586621679095659"><span class="hs-identifier hs-var hs-var hs-var hs-var">minBound</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; b -&gt; Biap bi a b
+</span><span id="line-128"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679095190"><span id="local-6989586621679095191"><span id="local-6989586621679095192"><span class="hs-special">(</span><span class="annot"><a href="Data.Biapplicative.html#Biapplicative"><span class="hs-identifier hs-type">Biapplicative</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095190"><span class="hs-identifier hs-type">bi</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bounded</span></span><span> </span><span class="annot"><a href="#local-6989586621679095191"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bounded</span></span><span> </span><span class="annot"><a href="#local-6989586621679095192"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bounded</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Data.Bifunctor.Biap.html#Biap"><span class="hs-identifier hs-type">Biap</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095190"><span class="hs-identifier hs-type">bi</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095191"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095192"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">)</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-129"></span><span>  </span><span id="local-6989586621679095755"><span class="annot"><span class="annottext">minBound :: Biap bi a b
+</span><a href="#local-6989586621679095755"><span class="hs-identifier hs-var hs-var hs-var hs-var">minBound</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; b -&gt; Biap bi a b
 forall a b. a -&gt; b -&gt; Biap bi a b
 forall (p :: * -&gt; * -&gt; *) a b. Biapplicative p =&gt; a -&gt; b -&gt; p a b
 </span><a href="Data.Biapplicative.html#bipure"><span class="hs-identifier hs-var">bipure</span></a></span><span> </span><span class="annot"><span class="annottext">a
@@ -1100,8 +1100,8 @@ forall a. Bounded a =&gt; a
 </span><span class="hs-identifier hs-var">minBound</span></span><span> </span><span class="annot"><span class="annottext">b
 forall a. Bounded a =&gt; a
 </span><span class="hs-identifier hs-var">minBound</span></span><span>
-</span><span id="line-130"></span><span>  </span><span id="local-6989586621679095664"><span class="annot"><span class="annottext">maxBound :: Biap bi a b
-</span><a href="#local-6989586621679095664"><span class="hs-identifier hs-var hs-var hs-var hs-var">maxBound</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; b -&gt; Biap bi a b
+</span><span id="line-130"></span><span>  </span><span id="local-6989586621679095760"><span class="annot"><span class="annottext">maxBound :: Biap bi a b
+</span><a href="#local-6989586621679095760"><span class="hs-identifier hs-var hs-var hs-var hs-var">maxBound</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; b -&gt; Biap bi a b
 forall a b. a -&gt; b -&gt; Biap bi a b
 forall (p :: * -&gt; * -&gt; *) a b. Biapplicative p =&gt; a -&gt; b -&gt; p a b
 </span><a href="Data.Biapplicative.html#bipure"><span class="hs-identifier hs-var">bipure</span></a></span><span> </span><span class="annot"><span class="annottext">a
@@ -1110,14 +1110,14 @@ forall a. Bounded a =&gt; a
 forall a. Bounded a =&gt; a
 </span><span class="hs-identifier hs-var">maxBound</span></span><span>
 </span><span id="line-131"></span><span>
-</span><span id="line-132"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679095101"><span id="local-6989586621679095102"><span id="local-6989586621679095103"><span id="local-6989586621679095671"><span class="hs-special">(</span><span> </span><span class="annot"><a href="Data.Biapplicative.html#Biapplicative"><span class="hs-identifier hs-type">Biapplicative</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095101"><span class="hs-identifier hs-type">bi</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Num</span></span><span> </span><span class="annot"><a href="#local-6989586621679095102"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Num</span></span><span> </span><span class="annot"><a href="#local-6989586621679095103"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-cpp">
+</span><span id="line-132"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679095197"><span id="local-6989586621679095198"><span id="local-6989586621679095199"><span id="local-6989586621679095767"><span class="hs-special">(</span><span> </span><span class="annot"><a href="Data.Biapplicative.html#Biapplicative"><span class="hs-identifier hs-type">Biapplicative</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095197"><span class="hs-identifier hs-type">bi</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Num</span></span><span> </span><span class="annot"><a href="#local-6989586621679095198"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Num</span></span><span> </span><span class="annot"><a href="#local-6989586621679095199"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-cpp">
 #if !(MIN_VERSION_base(4,5,0))
 </span><span>           </span><span class="hs-comment">-- Old versions of Num have Eq and Show as superclasses. Sigh.</span><span>
 </span><span id="line-135"></span><span>         </span><span class="hs-special">,</span><span> </span><span class="hs-identifier">Eq</span><span> </span><span class="hs-special">(</span><span class="hs-identifier">bi</span><span> </span><span class="hs-identifier">a</span><span> </span><span class="hs-identifier">b</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="hs-identifier">Show</span><span> </span><span class="hs-special">(</span><span class="hs-identifier">bi</span><span> </span><span class="hs-identifier">a</span><span> </span><span class="hs-identifier">b</span><span class="hs-special">)</span><span class="hs-cpp">
 #endif
-</span><span>         </span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Num</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Data.Bifunctor.Biap.html#Biap"><span class="hs-identifier hs-type">Biap</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095101"><span class="hs-identifier hs-type">bi</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095102"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095103"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">)</span></span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-138"></span><span>  </span><span id="local-6989586621679095684"><span class="annot"><span class="annottext">+ :: Biap bi a b -&gt; Biap bi a b -&gt; Biap bi a b
-</span><a href="#local-6989586621679095684"><span class="hs-operator hs-var hs-var hs-var hs-var">(+)</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; a -&gt; a)
+</span><span>         </span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Num</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Data.Bifunctor.Biap.html#Biap"><span class="hs-identifier hs-type">Biap</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095197"><span class="hs-identifier hs-type">bi</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095198"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679095199"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">)</span></span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-138"></span><span>  </span><span id="local-6989586621679095780"><span class="annot"><span class="annottext">+ :: Biap bi a b -&gt; Biap bi a b -&gt; Biap bi a b
+</span><a href="#local-6989586621679095780"><span class="hs-operator hs-var hs-var hs-var hs-var">(+)</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; a -&gt; a)
 -&gt; (b -&gt; b -&gt; b) -&gt; Biap bi a b -&gt; Biap bi a b -&gt; Biap bi a b
 forall a b c d e f.
 (a -&gt; b -&gt; c)
@@ -1130,8 +1130,8 @@ forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">(+)</span></span><span> </span><span class="annot"><span class="annottext">b -&gt; b -&gt; b
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">(+)</span></span><span>
-</span><span id="line-139"></span><span>  </span><span id="local-6989586621679095689"><span class="annot"><span class="annottext">* :: Biap bi a b -&gt; Biap bi a b -&gt; Biap bi a b
-</span><a href="#local-6989586621679095689"><span class="hs-operator hs-var hs-var hs-var hs-var">(*)</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; a -&gt; a)
+</span><span id="line-139"></span><span>  </span><span id="local-6989586621679095785"><span class="annot"><span class="annottext">* :: Biap bi a b -&gt; Biap bi a b -&gt; Biap bi a b
+</span><a href="#local-6989586621679095785"><span class="hs-operator hs-var hs-var hs-var hs-var">(*)</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; a -&gt; a)
 -&gt; (b -&gt; b -&gt; b) -&gt; Biap bi a b -&gt; Biap bi a b -&gt; Biap bi a b
 forall a b c d e f.
 (a -&gt; b -&gt; c)
@@ -1145,7 +1145,7 @@ forall a. Num a =&gt; a -&gt; a -&gt; a
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">(*)</span></span><span>
 </span><span id="line-140"></span><span>
-</span><span id="line-141"></span><span>  </span><span id="local-6989586621679095694"><span class="annot"><span class="annottext">negate :: Biap bi a b -&gt; Biap bi a b
+</span><span id="line-141"></span><span>  </span><span id="local-6989586621679095790"><span class="annot"><span class="annottext">negate :: Biap bi a b -&gt; Biap bi a b
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var">negate</span></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; a) -&gt; (b -&gt; b) -&gt; Biap bi a b -&gt; Biap bi a b
 forall a b c d. (a -&gt; b) -&gt; (c -&gt; d) -&gt; Biap bi a c -&gt; Biap bi b d
 forall (p :: * -&gt; * -&gt; *) a b c d.
@@ -1156,8 +1156,8 @@ forall a. Num a =&gt; a -&gt; a
 </span><span class="hs-identifier hs-var">negate</span></span><span> </span><span class="annot"><span class="annottext">b -&gt; b
 forall a. Num a =&gt; a -&gt; a
 </span><span class="hs-identifier hs-var">negate</span></span><span>
-</span><span id="line-142"></span><span>  </span><span id="local-6989586621679095699"><span class="annot"><span class="annottext">abs :: Biap bi a b -&gt; Biap bi a b
-</span><a href="#local-6989586621679095699"><span class="hs-identifier hs-var hs-var hs-var hs-var">abs</span></a></span></span><span>    </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; a) -&gt; (b -&gt; b) -&gt; Biap bi a b -&gt; Biap bi a b
+</span><span id="line-142"></span><span>  </span><span id="local-6989586621679095795"><span class="annot"><span class="annottext">abs :: Biap bi a b -&gt; Biap bi a b
+</span><a href="#local-6989586621679095795"><span class="hs-identifier hs-var hs-var hs-var hs-var">abs</span></a></span></span><span>    </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; a) -&gt; (b -&gt; b) -&gt; Biap bi a b -&gt; Biap bi a b
 forall a b c d. (a -&gt; b) -&gt; (c -&gt; d) -&gt; Biap bi a c -&gt; Biap bi b d
 forall (p :: * -&gt; * -&gt; *) a b c d.
 Bifunctor p =&gt;
@@ -1167,8 +1167,8 @@ forall a. Num a =&gt; a -&gt; a
 </span><span class="hs-identifier hs-var">abs</span></span><span>    </span><span class="annot"><span class="annottext">b -&gt; b
 forall a. Num a =&gt; a -&gt; a
 </span><span class="hs-identifier hs-var">abs</span></span><span>
-</span><span id="line-143"></span><span>  </span><span id="local-6989586621679095704"><span class="annot"><span class="annottext">signum :: Biap bi a b -&gt; Biap bi a b
-</span><a href="#local-6989586621679095704"><span class="hs-identifier hs-var hs-var hs-var hs-var">signum</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; a) -&gt; (b -&gt; b) -&gt; Biap bi a b -&gt; Biap bi a b
+</span><span id="line-143"></span><span>  </span><span id="local-6989586621679095800"><span class="annot"><span class="annottext">signum :: Biap bi a b -&gt; Biap bi a b
+</span><a href="#local-6989586621679095800"><span class="hs-identifier hs-var hs-var hs-var hs-var">signum</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(a -&gt; a) -&gt; (b -&gt; b) -&gt; Biap bi a b -&gt; Biap bi a b
 forall a b c d. (a -&gt; b) -&gt; (c -&gt; d) -&gt; Biap bi a c -&gt; Biap bi b d
 forall (p :: * -&gt; * -&gt; *) a b c d.
 Bifunctor p =&gt;
@@ -1179,18 +1179,18 @@ forall a. Num a =&gt; a -&gt; a
 forall a. Num a =&gt; a -&gt; a
 </span><span class="hs-identifier hs-var">signum</span></span><span>
 </span><span id="line-144"></span><span>
-</span><span id="line-145"></span><span>  </span><span id="local-6989586621679095709"><span class="annot"><span class="annottext">fromInteger :: Integer -&gt; Biap bi a b
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var">fromInteger</span></span></span><span> </span><span id="local-6989586621679095710"><span class="annot"><span class="annottext">Integer
-</span><a href="#local-6989586621679095710"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; b -&gt; Biap bi a b
+</span><span id="line-145"></span><span>  </span><span id="local-6989586621679095805"><span class="annot"><span class="annottext">fromInteger :: Integer -&gt; Biap bi a b
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">fromInteger</span></span></span><span> </span><span id="local-6989586621679095806"><span class="annot"><span class="annottext">Integer
+</span><a href="#local-6989586621679095806"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a -&gt; b -&gt; Biap bi a b
 forall a b. a -&gt; b -&gt; Biap bi a b
 forall (p :: * -&gt; * -&gt; *) a b. Biapplicative p =&gt; a -&gt; b -&gt; p a b
 </span><a href="Data.Biapplicative.html#bipure"><span class="hs-identifier hs-var">bipure</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Integer -&gt; a
 forall a. Num a =&gt; Integer -&gt; a
 </span><span class="hs-identifier hs-var">fromInteger</span></span><span> </span><span class="annot"><span class="annottext">Integer
-</span><a href="#local-6989586621679095710"><span class="hs-identifier hs-var">n</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Integer -&gt; b
+</span><a href="#local-6989586621679095806"><span class="hs-identifier hs-var">n</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Integer -&gt; b
 forall a. Num a =&gt; Integer -&gt; a
 </span><span class="hs-identifier hs-var">fromInteger</span></span><span> </span><span class="annot"><span class="annottext">Integer
-</span><a href="#local-6989586621679095710"><span class="hs-identifier hs-var">n</span></a></span><span class="hs-special">)</span><span class="hs-cpp">
+</span><a href="#local-6989586621679095806"><span class="hs-identifier hs-var">n</span></a></span><span class="hs-special">)</span><span class="hs-cpp">
 
 #if __GLASGOW_HASKELL__ &gt;= 702 &amp;&amp; __GLASGOW_HASKELL__ &lt; 706
 </span><span class="hs-keyword">data</span><span> </span><span class="hs-identifier">BiapMetaData</span><span>

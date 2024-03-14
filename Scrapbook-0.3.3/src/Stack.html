@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# OPTIONS_GHC -fno-warn-incomplete-uni-patterns #-}</span><span>
+</span><span id="line-2"></span><span>
+</span><span id="line-3"></span><span class="annot"><span class="hs-comment">{-|
+
+Module      : Stack
+Description : Example using the MyState Monad
+Copyright   : &#169; Frank Jung, 2020
+License     : GPL-3
+
+Use the 'MyState' monad to implement a
+&lt;https://en.wikipedia.org/wiki/Stack_(abstract_data_type) Stack&gt;.
+
+Source:
+&lt;https://gist.github.com/sdiehl/8d991a718f7a9c80f54b sdiehl/state.hs&gt;
+
+-}</span></span><span>
+</span><span id="line-17"></span><span>
+</span><span id="line-18"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Stack</span><span> </span><span class="hs-special">(</span><span>
+</span><span id="line-19"></span><span>                </span><span class="annot"><a href="Stack.html#Stack"><span class="hs-identifier">Stack</span></a></span><span>       </span><span class="hs-comment">-- 'Stack' as array of ints</span><span>
+</span><span id="line-20"></span><span>              </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Stack.html#empty"><span class="hs-identifier">empty</span></a></span><span>       </span><span class="hs-comment">-- Empty 'Stack'</span><span>
+</span><span id="line-21"></span><span>              </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Stack.html#pop"><span class="hs-identifier">pop</span></a></span><span>         </span><span class="hs-comment">-- Pop from top of 'Stack'</span><span>
+</span><span id="line-22"></span><span>              </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Stack.html#push"><span class="hs-identifier">push</span></a></span><span>        </span><span class="hs-comment">-- Push onto 'Stack'</span><span>
+</span><span id="line-23"></span><span>              </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Stack.html#top"><span class="hs-identifier">top</span></a></span><span>         </span><span class="hs-comment">-- Get element at top of 'Stack'</span><span>
+</span><span id="line-24"></span><span>              </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Stack.html#tasks"><span class="hs-identifier">tasks</span></a></span><span>       </span><span class="hs-comment">-- Run arbitrary tasks on 'Stack'</span><span>
+</span><span id="line-25"></span><span>             </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-26"></span><span>
+</span><span id="line-27"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><a href="MyState.html"><span class="hs-identifier">MyState</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="MyState.html#MyState"><span class="hs-identifier">MyState</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-28"></span><span>
+</span><span id="line-29"></span><span class="annot"><span class="hs-comment">-- | Stack as array of intergers.</span></span><span>
+</span><span id="line-30"></span><span class="hs-keyword">type</span><span> </span><span id="Stack"><span class="annot"><a href="Stack.html#Stack"><span class="hs-identifier hs-var">Stack</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span class="hs-special">]</span><span>
+</span><span id="line-31"></span><span>
+</span><span id="line-32"></span><span class="annot"><span class="hs-comment">-- | Empty stack.</span></span><span>
+</span><span id="line-33"></span><span class="annot"><a href="Stack.html#empty"><span class="hs-identifier hs-type">empty</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Stack.html#Stack"><span class="hs-identifier hs-type">Stack</span></a></span><span>
+</span><span id="line-34"></span><span id="empty"><span class="annot"><span class="annottext">empty :: Stack
+</span><a href="Stack.html#empty"><span class="hs-identifier hs-var hs-var">empty</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
+</span><span id="line-35"></span><span>
+</span><span id="line-36"></span><span class="annot"><span class="hs-comment">-- | Remove element from top of stack.</span></span><span>
+</span><span id="line-37"></span><span class="annot"><a href="Stack.html#pop"><span class="hs-identifier hs-type">pop</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="MyState.html#MyState"><span class="hs-identifier hs-type">MyState</span></a></span><span> </span><span class="annot"><a href="Stack.html#Stack"><span class="hs-identifier hs-type">Stack</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span>
+</span><span id="line-38"></span><span id="pop"><span class="annot"><span class="annottext">pop :: MyState Stack Int
+</span><a href="Stack.html#pop"><span class="hs-identifier hs-var hs-var">pop</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Stack -&gt; (Int, Stack)) -&gt; MyState Stack Int
+forall s a. (s -&gt; (a, s)) -&gt; MyState s a
+</span><a href="MyState.html#MyState"><span class="hs-identifier hs-var">MyState</span></a></span><span> </span><span class="annot"><span class="annottext">((Stack -&gt; (Int, Stack)) -&gt; MyState Stack Int)
+-&gt; (Stack -&gt; (Int, Stack)) -&gt; MyState Stack Int
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-special">(</span><span id="local-6989586621679096127"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679096127"><span class="hs-identifier hs-var">x</span></a></span></span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span id="local-6989586621679096128"><span class="annot"><span class="annottext">Stack
+</span><a href="#local-6989586621679096128"><span class="hs-identifier hs-var">xs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679096127"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Stack
+</span><a href="#local-6989586621679096128"><span class="hs-identifier hs-var">xs</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-39"></span><span>
+</span><span id="line-40"></span><span class="annot"><span class="hs-comment">-- | Push element onto stack.</span></span><span>
+</span><span id="line-41"></span><span class="annot"><a href="Stack.html#push"><span class="hs-identifier hs-type">push</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="MyState.html#MyState"><span class="hs-identifier hs-type">MyState</span></a></span><span> </span><span class="annot"><a href="Stack.html#Stack"><span class="hs-identifier hs-type">Stack</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
+</span><span id="line-42"></span><span id="push"><span class="annot"><span class="annottext">push :: Int -&gt; MyState Stack ()
+</span><a href="Stack.html#push"><span class="hs-identifier hs-var hs-var">push</span></a></span></span><span> </span><span id="local-6989586621679096129"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679096129"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Stack -&gt; ((), Stack)) -&gt; MyState Stack ()
+forall s a. (s -&gt; (a, s)) -&gt; MyState s a
+</span><a href="MyState.html#MyState"><span class="hs-identifier hs-var">MyState</span></a></span><span> </span><span class="annot"><span class="annottext">((Stack -&gt; ((), Stack)) -&gt; MyState Stack ())
+-&gt; (Stack -&gt; ((), Stack)) -&gt; MyState Stack ()
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679096130"><span class="annot"><span class="annottext">Stack
+</span><a href="#local-6989586621679096130"><span class="hs-identifier hs-var">xs</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="hs-special">(</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679096129"><span class="hs-identifier hs-var">a</span></a></span><span class="annot"><span class="annottext">Int -&gt; Stack -&gt; Stack
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span class="annot"><span class="annottext">Stack
+</span><a href="#local-6989586621679096130"><span class="hs-identifier hs-var">xs</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-43"></span><span>
+</span><span id="line-44"></span><span class="annot"><span class="hs-comment">-- | Return element at top of stack.</span></span><span>
+</span><span id="line-45"></span><span class="annot"><a href="Stack.html#top"><span class="hs-identifier hs-type">top</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="MyState.html#MyState"><span class="hs-identifier hs-type">MyState</span></a></span><span> </span><span class="annot"><a href="Stack.html#Stack"><span class="hs-identifier hs-type">Stack</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span>
+</span><span id="line-46"></span><span id="top"><span class="annot"><span class="annottext">top :: MyState Stack Int
+</span><a href="Stack.html#top"><span class="hs-identifier hs-var hs-var">top</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Stack -&gt; (Int, Stack)) -&gt; MyState Stack Int
+forall s a. (s -&gt; (a, s)) -&gt; MyState s a
+</span><a href="MyState.html#MyState"><span class="hs-identifier hs-var">MyState</span></a></span><span> </span><span class="annot"><span class="annottext">((Stack -&gt; (Int, Stack)) -&gt; MyState Stack Int)
+-&gt; (Stack -&gt; (Int, Stack)) -&gt; MyState Stack Int
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-special">(</span><span id="local-6989586621679096131"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679096131"><span class="hs-identifier hs-var">x</span></a></span></span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span id="local-6989586621679096132"><span class="annot"><span class="annottext">Stack
+</span><a href="#local-6989586621679096132"><span class="hs-identifier hs-var">xs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679096131"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679096131"><span class="hs-identifier hs-var">x</span></a></span><span class="annot"><span class="annottext">Int -&gt; Stack -&gt; Stack
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span class="annot"><span class="annottext">Stack
+</span><a href="#local-6989586621679096132"><span class="hs-identifier hs-var">xs</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-47"></span><span>
+</span><span id="line-48"></span><span class="hs-comment">-- | Example usage of 'MyState' 'Stack'. 'push' &amp; 'pop' some elements onto</span><span>
+</span><span id="line-49"></span><span class="hs-comment">-- the stack, and read the current 'top' element.</span><span>
+</span><span id="line-50"></span><span class="annot"><a href="Stack.html#tasks"><span class="hs-identifier hs-type">tasks</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="MyState.html#MyState"><span class="hs-identifier hs-type">MyState</span></a></span><span> </span><span class="annot"><a href="Stack.html#Stack"><span class="hs-identifier hs-type">Stack</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span>
+</span><span id="line-51"></span><span id="tasks"><span class="annot"><span class="annottext">tasks :: MyState Stack Int
+</span><a href="Stack.html#tasks"><span class="hs-identifier hs-var hs-var">tasks</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-52"></span><span>  </span><span class="annot"><span class="annottext">Int -&gt; MyState Stack ()
+</span><a href="Stack.html#push"><span class="hs-identifier hs-var">push</span></a></span><span> </span><span class="annot"><span class="annottext">Int
+</span><span class="hs-number">1</span></span><span>        </span><span class="hs-comment">-- populate with some data</span><span>
+</span><span id="line-53"></span><span>  </span><span class="annot"><span class="annottext">Int -&gt; MyState Stack ()
+</span><a href="Stack.html#push"><span class="hs-identifier hs-var">push</span></a></span><span> </span><span class="annot"><span class="annottext">Int
+</span><span class="hs-number">2</span></span><span>
+</span><span id="line-54"></span><span>  </span><span class="annot"><span class="annottext">Int -&gt; MyState Stack ()
+</span><a href="Stack.html#push"><span class="hs-identifier hs-var">push</span></a></span><span> </span><span class="annot"><span class="annottext">Int
+</span><span class="hs-number">3</span></span><span>
+</span><span id="line-55"></span><span>  </span><span id="local-6989586621679096133"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679096133"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">MyState Stack Int
+</span><a href="Stack.html#pop"><span class="hs-identifier hs-var">pop</span></a></span><span>      </span><span class="hs-comment">-- 3</span><span>
+</span><span id="line-56"></span><span>  </span><span id="local-6989586621679096134"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679096134"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">MyState Stack Int
+</span><a href="Stack.html#pop"><span class="hs-identifier hs-var">pop</span></a></span><span>      </span><span class="hs-comment">-- 2</span><span>
+</span><span id="line-57"></span><span>  </span><span class="annot"><span class="annottext">Int -&gt; MyState Stack ()
+</span><a href="Stack.html#push"><span class="hs-identifier hs-var">push</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679096133"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
+forall a. Num a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">+</span></span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679096134"><span class="hs-identifier hs-var">b</span></a></span><span class="hs-special">)</span><span>  </span><span class="hs-comment">-- 5</span><span>
+</span><span id="line-58"></span><span>  </span><span class="annot"><span class="annottext">MyState Stack Int
+</span><a href="Stack.html#top"><span class="hs-identifier hs-var">top</span></a></span><span>           </span><span class="hs-comment">-- 5</span><span>
+</span><span id="line-59"></span></pre></body></html>

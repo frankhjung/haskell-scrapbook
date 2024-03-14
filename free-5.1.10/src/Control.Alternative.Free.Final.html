@@ -31,20 +31,20 @@
 #endif
 </span><span>
 </span><span id="line-33"></span><span class="hs-comment">-- | The free 'Alternative' for any @f@.</span><span>
-</span><span id="line-34"></span><span class="hs-keyword">newtype</span><span> </span><span id="Alt"><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-var">Alt</span></a></span></span><span> </span><span id="local-6989586621679127801"><span class="annot"><a href="#local-6989586621679127801"><span class="hs-identifier hs-type">f</span></a></span></span><span> </span><span id="local-6989586621679127802"><span class="annot"><a href="#local-6989586621679127802"><span class="hs-identifier hs-type">a</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="Alt"><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-var">Alt</span></a></span></span><span> </span><span class="hs-special">{</span><span> </span><span id="_runAlt"><span class="annot"><span class="annottext">forall (f :: * -&gt; *) a.
+</span><span id="line-34"></span><span class="hs-keyword">newtype</span><span> </span><span id="Alt"><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-var">Alt</span></a></span></span><span> </span><span id="local-6989586621679127968"><span class="annot"><a href="#local-6989586621679127968"><span class="hs-identifier hs-type">f</span></a></span></span><span> </span><span id="local-6989586621679127969"><span class="annot"><a href="#local-6989586621679127969"><span class="hs-identifier hs-type">a</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="Alt"><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-var">Alt</span></a></span></span><span> </span><span class="hs-special">{</span><span> </span><span id="_runAlt"><span class="annot"><span class="annottext">forall (f :: * -&gt; *) a.
 Alt f a
 -&gt; forall (g :: * -&gt; *).
    Alternative g =&gt;
    (forall x. f x -&gt; g x) -&gt; g a
-</span><a href="Control.Alternative.Free.Final.html#_runAlt"><span class="hs-identifier hs-var hs-var">_runAlt</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621679127804"><span class="annot"><a href="#local-6989586621679127804"><span class="hs-identifier hs-type">g</span></a></span></span><span class="hs-operator">.</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Alternative</span></span><span> </span><span class="annot"><a href="#local-6989586621679127804"><span class="hs-identifier hs-type">g</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="hs-special">(</span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621679127806"><span class="annot"><a href="#local-6989586621679127806"><span class="hs-identifier hs-type">x</span></a></span></span><span class="hs-operator">.</span><span> </span><span class="annot"><a href="#local-6989586621679127801"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127806"><span class="hs-identifier hs-type">x</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679127804"><span class="hs-identifier hs-type">g</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127806"><span class="hs-identifier hs-type">x</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679127804"><span class="hs-identifier hs-type">g</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127802"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-special">}</span><span>
+</span><a href="Control.Alternative.Free.Final.html#_runAlt"><span class="hs-identifier hs-var hs-var">_runAlt</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621679127971"><span class="annot"><a href="#local-6989586621679127971"><span class="hs-identifier hs-type">g</span></a></span></span><span class="hs-operator">.</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Alternative</span></span><span> </span><span class="annot"><a href="#local-6989586621679127971"><span class="hs-identifier hs-type">g</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="hs-special">(</span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621679127973"><span class="annot"><a href="#local-6989586621679127973"><span class="hs-identifier hs-type">x</span></a></span></span><span class="hs-operator">.</span><span> </span><span class="annot"><a href="#local-6989586621679127968"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127973"><span class="hs-identifier hs-type">x</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679127971"><span class="hs-identifier hs-type">g</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127973"><span class="hs-identifier hs-type">x</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679127971"><span class="hs-identifier hs-type">g</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127969"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-special">}</span><span>
 </span><span id="line-35"></span><span>
-</span><span id="line-36"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679127816"><span id="local-6989586621679127939"><span class="annot"><span class="hs-identifier hs-type">Functor</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127816"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">)</span></span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-37"></span><span>  </span><span id="local-6989586621679127943"><span class="annot"><span class="annottext">fmap :: forall a b. (a -&gt; b) -&gt; Alt f a -&gt; Alt f b
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var">fmap</span></span></span><span> </span><span id="local-6989586621679127944"><span class="annot"><span class="annottext">a -&gt; b
-</span><a href="#local-6989586621679127944"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span id="local-6989586621679127945"><span class="annot"><span class="annottext">forall (g :: * -&gt; *).
+</span><span id="line-36"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679127983"><span id="local-6989586621679128106"><span class="annot"><span class="hs-identifier hs-type">Functor</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127983"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">)</span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-37"></span><span>  </span><span id="local-6989586621679128110"><span class="annot"><span class="annottext">fmap :: forall a b. (a -&gt; b) -&gt; Alt f a -&gt; Alt f b
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">fmap</span></span></span><span> </span><span id="local-6989586621679128111"><span class="annot"><span class="annottext">a -&gt; b
+</span><a href="#local-6989586621679128111"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span id="local-6989586621679128112"><span class="annot"><span class="annottext">forall (g :: * -&gt; *).
 Alternative g =&gt;
 (forall x. f x -&gt; g x) -&gt; g a
-</span><a href="#local-6989586621679127945"><span class="hs-identifier hs-var">g</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(forall (g :: * -&gt; *).
+</span><a href="#local-6989586621679128112"><span class="hs-identifier hs-var">g</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(forall (g :: * -&gt; *).
  Alternative g =&gt;
  (forall x. f x -&gt; g x) -&gt; g b)
 -&gt; Alt f b
@@ -53,28 +53,28 @@ forall (f :: * -&gt; *) a.
  Alternative g =&gt;
  (forall x. f x -&gt; g x) -&gt; g a)
 -&gt; Alt f a
-</span><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-var">Alt</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679127953"><span class="annot"><span class="annottext">forall x. f x -&gt; g x
-</span><a href="#local-6989586621679127953"><span class="hs-identifier hs-var">k</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">(a -&gt; b) -&gt; g a -&gt; g b
+</span><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-var">Alt</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679128120"><span class="annot"><span class="annottext">forall x. f x -&gt; g x
+</span><a href="#local-6989586621679128120"><span class="hs-identifier hs-var">k</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">(a -&gt; b) -&gt; g a -&gt; g b
 forall a b. (a -&gt; b) -&gt; g a -&gt; g b
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-identifier hs-var">fmap</span></span><span> </span><span class="annot"><span class="annottext">a -&gt; b
-</span><a href="#local-6989586621679127944"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">(forall x. f x -&gt; g x) -&gt; g a
+</span><a href="#local-6989586621679128111"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">(forall x. f x -&gt; g x) -&gt; g a
 forall (g :: * -&gt; *).
 Alternative g =&gt;
 (forall x. f x -&gt; g x) -&gt; g a
-</span><a href="#local-6989586621679127945"><span class="hs-identifier hs-var">g</span></a></span><span> </span><span class="annot"><span class="annottext">f x -&gt; g x
+</span><a href="#local-6989586621679128112"><span class="hs-identifier hs-var">g</span></a></span><span> </span><span class="annot"><span class="annottext">f x -&gt; g x
 forall x. f x -&gt; g x
-</span><a href="#local-6989586621679127953"><span class="hs-identifier hs-var">k</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679128120"><span class="hs-identifier hs-var">k</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
 </span><span id="line-38"></span><span>
-</span><span id="line-39"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679127835"><span id="local-6989586621679127958"><span id="local-6989586621679127962"><span id="local-6989586621679127965"><span class="annot"><span class="hs-identifier hs-type">Apply</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127835"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">)</span></span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-40"></span><span>  </span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span id="local-6989586621679127968"><span class="annot"><span class="annottext">forall (g :: * -&gt; *).
+</span><span id="line-39"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679128002"><span id="local-6989586621679128125"><span id="local-6989586621679128129"><span id="local-6989586621679128132"><span class="annot"><span class="hs-identifier hs-type">Apply</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679128002"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">)</span></span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-40"></span><span>  </span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span id="local-6989586621679128135"><span class="annot"><span class="annottext">forall (g :: * -&gt; *).
 Alternative g =&gt;
 (forall x. f x -&gt; g x) -&gt; g (a -&gt; b)
-</span><a href="#local-6989586621679127968"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span id="local-6989586621679127969"><span class="annot"><span class="annottext">&lt;.&gt; :: forall a b. Alt f (a -&gt; b) -&gt; Alt f a -&gt; Alt f b
-</span><a href="#local-6989586621679127969"><span class="hs-operator hs-var hs-var hs-var hs-var">&lt;.&gt;</span></a></span></span><span> </span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span id="local-6989586621679127971"><span class="annot"><span class="annottext">forall (g :: * -&gt; *).
+</span><a href="#local-6989586621679128135"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span id="local-6989586621679128136"><span class="annot"><span class="annottext">&lt;.&gt; :: forall a b. Alt f (a -&gt; b) -&gt; Alt f a -&gt; Alt f b
+</span><a href="#local-6989586621679128136"><span class="hs-operator hs-var hs-var hs-var hs-var">&lt;.&gt;</span></a></span></span><span> </span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span id="local-6989586621679128138"><span class="annot"><span class="annottext">forall (g :: * -&gt; *).
 Alternative g =&gt;
 (forall x. f x -&gt; g x) -&gt; g a
-</span><a href="#local-6989586621679127971"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(forall (g :: * -&gt; *).
+</span><a href="#local-6989586621679128138"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(forall (g :: * -&gt; *).
  Alternative g =&gt;
  (forall x. f x -&gt; g x) -&gt; g b)
 -&gt; Alt f b
@@ -83,28 +83,28 @@ forall (f :: * -&gt; *) a.
  Alternative g =&gt;
  (forall x. f x -&gt; g x) -&gt; g a)
 -&gt; Alt f a
-</span><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-var">Alt</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679127977"><span class="annot"><span class="annottext">forall x. f x -&gt; g x
-</span><a href="#local-6989586621679127977"><span class="hs-identifier hs-var">k</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">(forall x. f x -&gt; g x) -&gt; g (a -&gt; b)
+</span><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-var">Alt</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679128144"><span class="annot"><span class="annottext">forall x. f x -&gt; g x
+</span><a href="#local-6989586621679128144"><span class="hs-identifier hs-var">k</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">(forall x. f x -&gt; g x) -&gt; g (a -&gt; b)
 forall (g :: * -&gt; *).
 Alternative g =&gt;
 (forall x. f x -&gt; g x) -&gt; g (a -&gt; b)
-</span><a href="#local-6989586621679127968"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">f x -&gt; g x
+</span><a href="#local-6989586621679128135"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">f x -&gt; g x
 forall x. f x -&gt; g x
-</span><a href="#local-6989586621679127977"><span class="hs-identifier hs-var">k</span></a></span><span> </span><span class="annot"><span class="annottext">g (a -&gt; b) -&gt; g a -&gt; g b
+</span><a href="#local-6989586621679128144"><span class="hs-identifier hs-var">k</span></a></span><span> </span><span class="annot"><span class="annottext">g (a -&gt; b) -&gt; g a -&gt; g b
 forall a b. g (a -&gt; b) -&gt; g a -&gt; g b
 forall (f :: * -&gt; *) a b. Applicative f =&gt; f (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;*&gt;</span></span><span> </span><span class="annot"><span class="annottext">(forall x. f x -&gt; g x) -&gt; g a
 forall (g :: * -&gt; *).
 Alternative g =&gt;
 (forall x. f x -&gt; g x) -&gt; g a
-</span><a href="#local-6989586621679127971"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">f x -&gt; g x
+</span><a href="#local-6989586621679128138"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">f x -&gt; g x
 forall x. f x -&gt; g x
-</span><a href="#local-6989586621679127977"><span class="hs-identifier hs-var">k</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679128144"><span class="hs-identifier hs-var">k</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-41"></span><span>
-</span><span id="line-42"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679127852"><span id="local-6989586621679127983"><span id="local-6989586621679127987"><span id="local-6989586621679127990"><span class="annot"><span class="hs-identifier hs-type">Applicative</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127852"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">)</span></span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-43"></span><span>  </span><span id="local-6989586621679127993"><span class="annot"><span class="annottext">pure :: forall a. a -&gt; Alt f a
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var">pure</span></span></span><span> </span><span id="local-6989586621679127994"><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679127994"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(forall (g :: * -&gt; *).
+</span><span id="line-42"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679128019"><span id="local-6989586621679128150"><span id="local-6989586621679128154"><span id="local-6989586621679128157"><span class="annot"><span class="hs-identifier hs-type">Applicative</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679128019"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">)</span></span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-43"></span><span>  </span><span id="local-6989586621679128160"><span class="annot"><span class="annottext">pure :: forall a. a -&gt; Alt f a
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">pure</span></span></span><span> </span><span id="local-6989586621679128161"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679128161"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(forall (g :: * -&gt; *).
  Alternative g =&gt;
  (forall x. f x -&gt; g x) -&gt; g a)
 -&gt; Alt f a
@@ -118,15 +118,15 @@ forall (f :: * -&gt; *) a.
 forall a. a -&gt; g a
 forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
 </span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679127994"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-44"></span><span>  </span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span id="local-6989586621679127998"><span class="annot"><span class="annottext">forall (g :: * -&gt; *).
+</span><a href="#local-6989586621679128161"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-44"></span><span>  </span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span id="local-6989586621679128165"><span class="annot"><span class="annottext">forall (g :: * -&gt; *).
 Alternative g =&gt;
 (forall x. f x -&gt; g x) -&gt; g (a -&gt; b)
-</span><a href="#local-6989586621679127998"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span id="local-6989586621679127999"><span class="annot"><span class="annottext">&lt;*&gt; :: forall a b. Alt f (a -&gt; b) -&gt; Alt f a -&gt; Alt f b
-</span><span class="hs-operator hs-var hs-var hs-var hs-var">&lt;*&gt;</span></span></span><span> </span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span id="local-6989586621679128000"><span class="annot"><span class="annottext">forall (g :: * -&gt; *).
+</span><a href="#local-6989586621679128165"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span id="local-6989586621679128166"><span class="annot"><span class="annottext">&lt;*&gt; :: forall a b. Alt f (a -&gt; b) -&gt; Alt f a -&gt; Alt f b
+</span><span class="hs-operator hs-var hs-var hs-var hs-var">&lt;*&gt;</span></span></span><span> </span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span id="local-6989586621679128167"><span class="annot"><span class="annottext">forall (g :: * -&gt; *).
 Alternative g =&gt;
 (forall x. f x -&gt; g x) -&gt; g a
-</span><a href="#local-6989586621679128000"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(forall (g :: * -&gt; *).
+</span><a href="#local-6989586621679128167"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(forall (g :: * -&gt; *).
  Alternative g =&gt;
  (forall x. f x -&gt; g x) -&gt; g b)
 -&gt; Alt f b
@@ -135,33 +135,33 @@ forall (f :: * -&gt; *) a.
  Alternative g =&gt;
  (forall x. f x -&gt; g x) -&gt; g a)
 -&gt; Alt f a
-</span><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-var">Alt</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679128006"><span class="annot"><span class="annottext">forall x. f x -&gt; g x
-</span><a href="#local-6989586621679128006"><span class="hs-identifier hs-var">k</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">(forall x. f x -&gt; g x) -&gt; g (a -&gt; b)
+</span><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-var">Alt</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679128173"><span class="annot"><span class="annottext">forall x. f x -&gt; g x
+</span><a href="#local-6989586621679128173"><span class="hs-identifier hs-var">k</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">(forall x. f x -&gt; g x) -&gt; g (a -&gt; b)
 forall (g :: * -&gt; *).
 Alternative g =&gt;
 (forall x. f x -&gt; g x) -&gt; g (a -&gt; b)
-</span><a href="#local-6989586621679127998"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">f x -&gt; g x
+</span><a href="#local-6989586621679128165"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">f x -&gt; g x
 forall x. f x -&gt; g x
-</span><a href="#local-6989586621679128006"><span class="hs-identifier hs-var">k</span></a></span><span> </span><span class="annot"><span class="annottext">g (a -&gt; b) -&gt; g a -&gt; g b
+</span><a href="#local-6989586621679128173"><span class="hs-identifier hs-var">k</span></a></span><span> </span><span class="annot"><span class="annottext">g (a -&gt; b) -&gt; g a -&gt; g b
 forall a b. g (a -&gt; b) -&gt; g a -&gt; g b
 forall (f :: * -&gt; *) a b. Applicative f =&gt; f (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;*&gt;</span></span><span> </span><span class="annot"><span class="annottext">(forall x. f x -&gt; g x) -&gt; g a
 forall (g :: * -&gt; *).
 Alternative g =&gt;
 (forall x. f x -&gt; g x) -&gt; g a
-</span><a href="#local-6989586621679128000"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">f x -&gt; g x
+</span><a href="#local-6989586621679128167"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">f x -&gt; g x
 forall x. f x -&gt; g x
-</span><a href="#local-6989586621679128006"><span class="hs-identifier hs-var">k</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679128173"><span class="hs-identifier hs-var">k</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-45"></span><span>
-</span><span id="line-46"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679127865"><span id="local-6989586621679128011"><span id="local-6989586621679128017"><span class="annot"><span class="hs-identifier hs-type">Alt.Alt</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127865"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">)</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-47"></span><span>  </span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span id="local-6989586621679128022"><span class="annot"><span class="annottext">forall (g :: * -&gt; *).
+</span><span id="line-46"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679128032"><span id="local-6989586621679128178"><span id="local-6989586621679128184"><span class="annot"><span class="hs-identifier hs-type">Alt.Alt</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679128032"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">)</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-47"></span><span>  </span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span id="local-6989586621679128189"><span class="annot"><span class="annottext">forall (g :: * -&gt; *).
 Alternative g =&gt;
 (forall x. f x -&gt; g x) -&gt; g a
-</span><a href="#local-6989586621679128022"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span id="local-6989586621679128023"><span class="annot"><span class="annottext">&lt;!&gt; :: forall a. Alt f a -&gt; Alt f a -&gt; Alt f a
-</span><span class="hs-operator hs-var hs-var hs-var hs-var">&lt;!&gt;</span></span></span><span> </span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span id="local-6989586621679128024"><span class="annot"><span class="annottext">forall (g :: * -&gt; *).
+</span><a href="#local-6989586621679128189"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span id="local-6989586621679128190"><span class="annot"><span class="annottext">&lt;!&gt; :: forall a. Alt f a -&gt; Alt f a -&gt; Alt f a
+</span><span class="hs-operator hs-var hs-var hs-var hs-var">&lt;!&gt;</span></span></span><span> </span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span id="local-6989586621679128191"><span class="annot"><span class="annottext">forall (g :: * -&gt; *).
 Alternative g =&gt;
 (forall x. f x -&gt; g x) -&gt; g a
-</span><a href="#local-6989586621679128024"><span class="hs-identifier hs-var">y</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(forall (g :: * -&gt; *).
+</span><a href="#local-6989586621679128191"><span class="hs-identifier hs-var">y</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(forall (g :: * -&gt; *).
  Alternative g =&gt;
  (forall x. f x -&gt; g x) -&gt; g a)
 -&gt; Alt f a
@@ -170,27 +170,27 @@ forall (f :: * -&gt; *) a.
  Alternative g =&gt;
  (forall x. f x -&gt; g x) -&gt; g a)
 -&gt; Alt f a
-</span><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-var">Alt</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679128029"><span class="annot"><span class="annottext">forall x. f x -&gt; g x
-</span><a href="#local-6989586621679128029"><span class="hs-identifier hs-var">k</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">(forall x. f x -&gt; g x) -&gt; g a
+</span><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-var">Alt</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679128196"><span class="annot"><span class="annottext">forall x. f x -&gt; g x
+</span><a href="#local-6989586621679128196"><span class="hs-identifier hs-var">k</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">(forall x. f x -&gt; g x) -&gt; g a
 forall (g :: * -&gt; *).
 Alternative g =&gt;
 (forall x. f x -&gt; g x) -&gt; g a
-</span><a href="#local-6989586621679128022"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">f x -&gt; g x
+</span><a href="#local-6989586621679128189"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">f x -&gt; g x
 forall x. f x -&gt; g x
-</span><a href="#local-6989586621679128029"><span class="hs-identifier hs-var">k</span></a></span><span> </span><span class="annot"><span class="annottext">g a -&gt; g a -&gt; g a
+</span><a href="#local-6989586621679128196"><span class="hs-identifier hs-var">k</span></a></span><span> </span><span class="annot"><span class="annottext">g a -&gt; g a -&gt; g a
 forall a. g a -&gt; g a -&gt; g a
 forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
 </span><span class="hs-operator hs-var">&lt;|&gt;</span></span><span> </span><span class="annot"><span class="annottext">(forall x. f x -&gt; g x) -&gt; g a
 forall (g :: * -&gt; *).
 Alternative g =&gt;
 (forall x. f x -&gt; g x) -&gt; g a
-</span><a href="#local-6989586621679128024"><span class="hs-identifier hs-var">y</span></a></span><span> </span><span class="annot"><span class="annottext">f x -&gt; g x
+</span><a href="#local-6989586621679128191"><span class="hs-identifier hs-var">y</span></a></span><span> </span><span class="annot"><span class="annottext">f x -&gt; g x
 forall x. f x -&gt; g x
-</span><a href="#local-6989586621679128029"><span class="hs-identifier hs-var">k</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679128196"><span class="hs-identifier hs-var">k</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-48"></span><span>
-</span><span id="line-49"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679127874"><span class="annot"><span class="hs-identifier hs-type">Alternative</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127874"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">)</span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-50"></span><span>  </span><span id="local-6989586621679128039"><span class="annot"><span class="annottext">empty :: forall a. Alt f a
-</span><a href="#local-6989586621679128039"><span class="hs-identifier hs-var hs-var hs-var hs-var">empty</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(forall (g :: * -&gt; *).
+</span><span id="line-49"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679128041"><span class="annot"><span class="hs-identifier hs-type">Alternative</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679128041"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">)</span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-50"></span><span>  </span><span id="local-6989586621679128206"><span class="annot"><span class="annottext">empty :: forall a. Alt f a
+</span><a href="#local-6989586621679128206"><span class="hs-identifier hs-var hs-var hs-var hs-var">empty</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(forall (g :: * -&gt; *).
  Alternative g =&gt;
  (forall x. f x -&gt; g x) -&gt; g a)
 -&gt; Alt f a
@@ -204,14 +204,14 @@ forall (f :: * -&gt; *) a.
 forall a. g a
 forall (f :: * -&gt; *) a. Alternative f =&gt; f a
 </span><span class="hs-identifier hs-var">empty</span></span><span class="hs-special">)</span><span>
-</span><span id="line-51"></span><span>  </span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span id="local-6989586621679128043"><span class="annot"><span class="annottext">forall (g :: * -&gt; *).
+</span><span id="line-51"></span><span>  </span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span id="local-6989586621679128210"><span class="annot"><span class="annottext">forall (g :: * -&gt; *).
 Alternative g =&gt;
 (forall x. f x -&gt; g x) -&gt; g a
-</span><a href="#local-6989586621679128043"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span id="local-6989586621679128044"><span class="annot"><span class="annottext">&lt;|&gt; :: forall a. Alt f a -&gt; Alt f a -&gt; Alt f a
-</span><span class="hs-operator hs-var hs-var hs-var hs-var">&lt;|&gt;</span></span></span><span> </span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span id="local-6989586621679128045"><span class="annot"><span class="annottext">forall (g :: * -&gt; *).
+</span><a href="#local-6989586621679128210"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span id="local-6989586621679128211"><span class="annot"><span class="annottext">&lt;|&gt; :: forall a. Alt f a -&gt; Alt f a -&gt; Alt f a
+</span><span class="hs-operator hs-var hs-var hs-var hs-var">&lt;|&gt;</span></span></span><span> </span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span id="local-6989586621679128212"><span class="annot"><span class="annottext">forall (g :: * -&gt; *).
 Alternative g =&gt;
 (forall x. f x -&gt; g x) -&gt; g a
-</span><a href="#local-6989586621679128045"><span class="hs-identifier hs-var">y</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(forall (g :: * -&gt; *).
+</span><a href="#local-6989586621679128212"><span class="hs-identifier hs-var">y</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(forall (g :: * -&gt; *).
  Alternative g =&gt;
  (forall x. f x -&gt; g x) -&gt; g a)
 -&gt; Alt f a
@@ -220,28 +220,28 @@ forall (f :: * -&gt; *) a.
  Alternative g =&gt;
  (forall x. f x -&gt; g x) -&gt; g a)
 -&gt; Alt f a
-</span><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-var">Alt</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679128050"><span class="annot"><span class="annottext">forall x. f x -&gt; g x
-</span><a href="#local-6989586621679128050"><span class="hs-identifier hs-var">k</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">(forall x. f x -&gt; g x) -&gt; g a
+</span><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-var">Alt</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679128217"><span class="annot"><span class="annottext">forall x. f x -&gt; g x
+</span><a href="#local-6989586621679128217"><span class="hs-identifier hs-var">k</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">(forall x. f x -&gt; g x) -&gt; g a
 forall (g :: * -&gt; *).
 Alternative g =&gt;
 (forall x. f x -&gt; g x) -&gt; g a
-</span><a href="#local-6989586621679128043"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">f x -&gt; g x
+</span><a href="#local-6989586621679128210"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">f x -&gt; g x
 forall x. f x -&gt; g x
-</span><a href="#local-6989586621679128050"><span class="hs-identifier hs-var">k</span></a></span><span> </span><span class="annot"><span class="annottext">g a -&gt; g a -&gt; g a
+</span><a href="#local-6989586621679128217"><span class="hs-identifier hs-var">k</span></a></span><span> </span><span class="annot"><span class="annottext">g a -&gt; g a -&gt; g a
 forall a. g a -&gt; g a -&gt; g a
 forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
 </span><span class="hs-operator hs-var">&lt;|&gt;</span></span><span> </span><span class="annot"><span class="annottext">(forall x. f x -&gt; g x) -&gt; g a
 forall (g :: * -&gt; *).
 Alternative g =&gt;
 (forall x. f x -&gt; g x) -&gt; g a
-</span><a href="#local-6989586621679128045"><span class="hs-identifier hs-var">y</span></a></span><span> </span><span class="annot"><span class="annottext">f x -&gt; g x
+</span><a href="#local-6989586621679128212"><span class="hs-identifier hs-var">y</span></a></span><span> </span><span class="annot"><span class="annottext">f x -&gt; g x
 forall x. f x -&gt; g x
-</span><a href="#local-6989586621679128050"><span class="hs-identifier hs-var">k</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-52"></span><span>  </span><span id="local-6989586621679128051"><span class="annot"><span class="annottext">some :: forall a. Alt f a -&gt; Alt f [a]
-</span><a href="#local-6989586621679128051"><span class="hs-identifier hs-var hs-var hs-var hs-var">some</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span id="local-6989586621679128053"><span class="annot"><span class="annottext">forall (g :: * -&gt; *).
+</span><a href="#local-6989586621679128217"><span class="hs-identifier hs-var">k</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-52"></span><span>  </span><span id="local-6989586621679128218"><span class="annot"><span class="annottext">some :: forall a. Alt f a -&gt; Alt f [a]
+</span><a href="#local-6989586621679128218"><span class="hs-identifier hs-var hs-var hs-var hs-var">some</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span id="local-6989586621679128220"><span class="annot"><span class="annottext">forall (g :: * -&gt; *).
 Alternative g =&gt;
 (forall x. f x -&gt; g x) -&gt; g a
-</span><a href="#local-6989586621679128053"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(forall (g :: * -&gt; *).
+</span><a href="#local-6989586621679128220"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(forall (g :: * -&gt; *).
  Alternative g =&gt;
  (forall x. f x -&gt; g x) -&gt; g [a])
 -&gt; Alt f [a]
@@ -259,22 +259,22 @@ forall (f :: * -&gt; *) a.
     (forall x. f x -&gt; g x) -&gt; g [a])
 -&gt; Alt f [a]
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679128057"><span class="annot"><span class="annottext">forall x. f x -&gt; g x
-</span><a href="#local-6989586621679128057"><span class="hs-identifier hs-var">k</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">g a -&gt; g [a]
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679128224"><span class="annot"><span class="annottext">forall x. f x -&gt; g x
+</span><a href="#local-6989586621679128224"><span class="hs-identifier hs-var">k</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">g a -&gt; g [a]
 forall a. g a -&gt; g [a]
 forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f [a]
 </span><span class="hs-identifier hs-var">some</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">(forall x. f x -&gt; g x) -&gt; g a
 forall (g :: * -&gt; *).
 Alternative g =&gt;
 (forall x. f x -&gt; g x) -&gt; g a
-</span><a href="#local-6989586621679128053"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">f x -&gt; g x
+</span><a href="#local-6989586621679128220"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">f x -&gt; g x
 forall x. f x -&gt; g x
-</span><a href="#local-6989586621679128057"><span class="hs-identifier hs-var">k</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-53"></span><span>  </span><span id="local-6989586621679128058"><span class="annot"><span class="annottext">many :: forall a. Alt f a -&gt; Alt f [a]
-</span><a href="#local-6989586621679128058"><span class="hs-identifier hs-var hs-var hs-var hs-var">many</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span id="local-6989586621679128060"><span class="annot"><span class="annottext">forall (g :: * -&gt; *).
+</span><a href="#local-6989586621679128224"><span class="hs-identifier hs-var">k</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-53"></span><span>  </span><span id="local-6989586621679128225"><span class="annot"><span class="annottext">many :: forall a. Alt f a -&gt; Alt f [a]
+</span><a href="#local-6989586621679128225"><span class="hs-identifier hs-var hs-var hs-var hs-var">many</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span id="local-6989586621679128227"><span class="annot"><span class="annottext">forall (g :: * -&gt; *).
 Alternative g =&gt;
 (forall x. f x -&gt; g x) -&gt; g a
-</span><a href="#local-6989586621679128060"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(forall (g :: * -&gt; *).
+</span><a href="#local-6989586621679128227"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(forall (g :: * -&gt; *).
  Alternative g =&gt;
  (forall x. f x -&gt; g x) -&gt; g [a])
 -&gt; Alt f [a]
@@ -292,41 +292,41 @@ forall (f :: * -&gt; *) a.
     (forall x. f x -&gt; g x) -&gt; g [a])
 -&gt; Alt f [a]
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679128064"><span class="annot"><span class="annottext">forall x. f x -&gt; g x
-</span><a href="#local-6989586621679128064"><span class="hs-identifier hs-var">k</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">g a -&gt; g [a]
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679128231"><span class="annot"><span class="annottext">forall x. f x -&gt; g x
+</span><a href="#local-6989586621679128231"><span class="hs-identifier hs-var">k</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">g a -&gt; g [a]
 forall a. g a -&gt; g [a]
 forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f [a]
 </span><span class="hs-identifier hs-var">many</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">(forall x. f x -&gt; g x) -&gt; g a
 forall (g :: * -&gt; *).
 Alternative g =&gt;
 (forall x. f x -&gt; g x) -&gt; g a
-</span><a href="#local-6989586621679128060"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">f x -&gt; g x
+</span><a href="#local-6989586621679128227"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">f x -&gt; g x
 forall x. f x -&gt; g x
-</span><a href="#local-6989586621679128064"><span class="hs-identifier hs-var">k</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679128231"><span class="hs-identifier hs-var">k</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-54"></span><span>
-</span><span id="line-55"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679127896"><span id="local-6989586621679127897"><span id="local-6989586621679128067"><span id="local-6989586621679128071"><span class="annot"><span class="hs-identifier hs-type">Semigroup</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127896"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127897"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">)</span></span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-56"></span><span>  </span><span id="local-6989586621679128077"><span class="annot"><span class="annottext">&lt;&gt; :: Alt f a -&gt; Alt f a -&gt; Alt f a
+</span><span id="line-55"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679128063"><span id="local-6989586621679128064"><span id="local-6989586621679128234"><span id="local-6989586621679128238"><span class="annot"><span class="hs-identifier hs-type">Semigroup</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679128063"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679128064"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">)</span></span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-56"></span><span>  </span><span id="local-6989586621679128244"><span class="annot"><span class="annottext">&lt;&gt; :: Alt f a -&gt; Alt f a -&gt; Alt f a
 </span><span class="hs-operator hs-var hs-var hs-var hs-var">(&lt;&gt;)</span></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Alt f a -&gt; Alt f a -&gt; Alt f a
 forall a. Alt f a -&gt; Alt f a -&gt; Alt f a
 forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
 </span><span class="hs-operator hs-var">(&lt;|&gt;)</span></span><span>
 </span><span id="line-57"></span><span>
-</span><span id="line-58"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679127901"><span id="local-6989586621679127902"><span id="local-6989586621679128083"><span class="annot"><span class="hs-identifier hs-type">Monoid</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127901"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127902"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">)</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-59"></span><span>  </span><span id="local-6989586621679128088"><span class="annot"><span class="annottext">mempty :: Alt f a
+</span><span id="line-58"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679128068"><span id="local-6989586621679128069"><span id="local-6989586621679128250"><span class="annot"><span class="hs-identifier hs-type">Monoid</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679128068"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679128069"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">)</span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-59"></span><span>  </span><span id="local-6989586621679128255"><span class="annot"><span class="annottext">mempty :: Alt f a
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var">mempty</span></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Alt f a
 forall a. Alt f a
 forall (f :: * -&gt; *) a. Alternative f =&gt; f a
 </span><span class="hs-identifier hs-var">empty</span></span><span>
-</span><span id="line-60"></span><span>  </span><span id="local-6989586621679128090"><span class="annot"><span class="annottext">mappend :: Alt f a -&gt; Alt f a -&gt; Alt f a
+</span><span id="line-60"></span><span>  </span><span id="local-6989586621679128257"><span class="annot"><span class="annottext">mappend :: Alt f a -&gt; Alt f a -&gt; Alt f a
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var">mappend</span></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Alt f a -&gt; Alt f a -&gt; Alt f a
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">(&lt;&gt;)</span></span><span>
 </span><span id="line-61"></span><span>
 </span><span id="line-62"></span><span class="hs-comment">-- | A version of 'lift' that can be used with @f@.</span><span>
-</span><span id="line-63"></span><span id="local-6989586621679127903"><span id="local-6989586621679127904"><span class="annot"><a href="Control.Alternative.Free.Final.html#liftAlt"><span class="hs-identifier hs-type">liftAlt</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="#local-6989586621679127903"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127904"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127903"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127904"><span class="hs-identifier hs-type">a</span></a></span></span></span><span>
+</span><span id="line-63"></span><span id="local-6989586621679128070"><span id="local-6989586621679128071"><span class="annot"><a href="Control.Alternative.Free.Final.html#liftAlt"><span class="hs-identifier hs-type">liftAlt</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="#local-6989586621679128070"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679128071"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679128070"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679128071"><span class="hs-identifier hs-type">a</span></a></span></span></span><span>
 </span><span id="line-64"></span><span id="liftAlt"><span class="annot"><span class="annottext">liftAlt :: forall (f :: * -&gt; *) a. f a -&gt; Alt f a
-</span><a href="Control.Alternative.Free.Final.html#liftAlt"><span class="hs-identifier hs-var hs-var">liftAlt</span></a></span></span><span> </span><span id="local-6989586621679128091"><span class="annot"><span class="annottext">f a
-</span><a href="#local-6989586621679128091"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(forall (g :: * -&gt; *).
+</span><a href="Control.Alternative.Free.Final.html#liftAlt"><span class="hs-identifier hs-var hs-var">liftAlt</span></a></span></span><span> </span><span id="local-6989586621679128258"><span class="annot"><span class="annottext">f a
+</span><a href="#local-6989586621679128258"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(forall (g :: * -&gt; *).
  Alternative g =&gt;
  (forall x. f x -&gt; g x) -&gt; g a)
 -&gt; Alt f a
@@ -335,20 +335,20 @@ forall (f :: * -&gt; *) a.
  Alternative g =&gt;
  (forall x. f x -&gt; g x) -&gt; g a)
 -&gt; Alt f a
-</span><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-var">Alt</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679128093"><span class="annot"><span class="annottext">forall x. f x -&gt; g x
-</span><a href="#local-6989586621679128093"><span class="hs-identifier hs-var">k</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">f a -&gt; g a
+</span><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-var">Alt</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679128260"><span class="annot"><span class="annottext">forall x. f x -&gt; g x
+</span><a href="#local-6989586621679128260"><span class="hs-identifier hs-var">k</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">f a -&gt; g a
 forall x. f x -&gt; g x
-</span><a href="#local-6989586621679128093"><span class="hs-identifier hs-var">k</span></a></span><span> </span><span class="annot"><span class="annottext">f a
-</span><a href="#local-6989586621679128091"><span class="hs-identifier hs-var">f</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679128260"><span class="hs-identifier hs-var">k</span></a></span><span> </span><span class="annot"><span class="annottext">f a
+</span><a href="#local-6989586621679128258"><span class="hs-identifier hs-var">f</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-65"></span><span>
 </span><span id="line-66"></span><span class="hs-comment">-- | Given a natural transformation from @f@ to @g@, this gives a canonical monoidal natural transformation from @'Alt' f@ to @g@.</span><span>
-</span><span id="line-67"></span><span class="annot"><a href="Control.Alternative.Free.Final.html#runAlt"><span class="hs-identifier hs-type">runAlt</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621679127909"><span class="annot"><a href="#local-6989586621679127909"><span class="hs-identifier hs-type">f</span></a></span></span><span> </span><span id="local-6989586621679127908"><span class="annot"><a href="#local-6989586621679127908"><span class="hs-identifier hs-type">g</span></a></span></span><span> </span><span id="local-6989586621679127911"><span class="annot"><a href="#local-6989586621679127911"><span class="hs-identifier hs-type">a</span></a></span></span><span class="hs-operator">.</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Alternative</span></span><span> </span><span class="annot"><a href="#local-6989586621679127908"><span class="hs-identifier hs-type">g</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="hs-special">(</span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621679127910"><span class="annot"><a href="#local-6989586621679127910"><span class="hs-identifier hs-type">x</span></a></span></span><span class="hs-operator">.</span><span> </span><span class="annot"><a href="#local-6989586621679127909"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127910"><span class="hs-identifier hs-type">x</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679127908"><span class="hs-identifier hs-type">g</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127910"><span class="hs-identifier hs-type">x</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127909"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127911"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679127908"><span class="hs-identifier hs-type">g</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127911"><span class="hs-identifier hs-type">a</span></a></span><span>
+</span><span id="line-67"></span><span class="annot"><a href="Control.Alternative.Free.Final.html#runAlt"><span class="hs-identifier hs-type">runAlt</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621679128076"><span class="annot"><a href="#local-6989586621679128076"><span class="hs-identifier hs-type">f</span></a></span></span><span> </span><span id="local-6989586621679128075"><span class="annot"><a href="#local-6989586621679128075"><span class="hs-identifier hs-type">g</span></a></span></span><span> </span><span id="local-6989586621679128078"><span class="annot"><a href="#local-6989586621679128078"><span class="hs-identifier hs-type">a</span></a></span></span><span class="hs-operator">.</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Alternative</span></span><span> </span><span class="annot"><a href="#local-6989586621679128075"><span class="hs-identifier hs-type">g</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="hs-special">(</span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621679128077"><span class="annot"><a href="#local-6989586621679128077"><span class="hs-identifier hs-type">x</span></a></span></span><span class="hs-operator">.</span><span> </span><span class="annot"><a href="#local-6989586621679128076"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679128077"><span class="hs-identifier hs-type">x</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679128075"><span class="hs-identifier hs-type">g</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679128077"><span class="hs-identifier hs-type">x</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679128076"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679128078"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679128075"><span class="hs-identifier hs-type">g</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679128078"><span class="hs-identifier hs-type">a</span></a></span><span>
 </span><span id="line-68"></span><span id="runAlt"><span class="annot"><span class="annottext">runAlt :: forall (f :: * -&gt; *) (g :: * -&gt; *) a.
 Alternative g =&gt;
 (forall x. f x -&gt; g x) -&gt; Alt f a -&gt; g a
-</span><a href="Control.Alternative.Free.Final.html#runAlt"><span class="hs-identifier hs-var hs-var">runAlt</span></a></span></span><span> </span><span id="local-6989586621679128096"><span class="annot"><span class="annottext">forall x. f x -&gt; g x
-</span><a href="#local-6989586621679128096"><span class="hs-identifier hs-var">phi</span></a></span></span><span> </span><span id="local-6989586621679128097"><span class="annot"><span class="annottext">Alt f a
-</span><a href="#local-6989586621679128097"><span class="hs-identifier hs-var">g</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Alt f a
+</span><a href="Control.Alternative.Free.Final.html#runAlt"><span class="hs-identifier hs-var hs-var">runAlt</span></a></span></span><span> </span><span id="local-6989586621679128263"><span class="annot"><span class="annottext">forall x. f x -&gt; g x
+</span><a href="#local-6989586621679128263"><span class="hs-identifier hs-var">phi</span></a></span></span><span> </span><span id="local-6989586621679128264"><span class="annot"><span class="annottext">Alt f a
+</span><a href="#local-6989586621679128264"><span class="hs-identifier hs-var">g</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Alt f a
 -&gt; forall (g :: * -&gt; *).
    Alternative g =&gt;
    (forall x. f x -&gt; g x) -&gt; g a
@@ -358,19 +358,19 @@ Alt f a
    Alternative g =&gt;
    (forall x. f x -&gt; g x) -&gt; g a
 </span><a href="Control.Alternative.Free.Final.html#_runAlt"><span class="hs-identifier hs-var">_runAlt</span></a></span><span> </span><span class="annot"><span class="annottext">Alt f a
-</span><a href="#local-6989586621679128097"><span class="hs-identifier hs-var">g</span></a></span><span> </span><span class="annot"><span class="annottext">f x -&gt; g x
+</span><a href="#local-6989586621679128264"><span class="hs-identifier hs-var">g</span></a></span><span> </span><span class="annot"><span class="annottext">f x -&gt; g x
 forall x. f x -&gt; g x
-</span><a href="#local-6989586621679128096"><span class="hs-identifier hs-var">phi</span></a></span><span>
+</span><a href="#local-6989586621679128263"><span class="hs-identifier hs-var">phi</span></a></span><span>
 </span><span id="line-69"></span><span>
 </span><span id="line-70"></span><span class="hs-comment">-- | Given a natural transformation from @f@ to @g@ this gives a monoidal natural transformation from @Alt f@ to @Alt g@.</span><span>
-</span><span id="line-71"></span><span id="local-6989586621679127916"><span id="local-6989586621679127918"><span id="local-6989586621679127919"><span class="annot"><a href="Control.Alternative.Free.Final.html#hoistAlt"><span class="hs-identifier hs-type">hoistAlt</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621679127917"><span class="annot"><a href="#local-6989586621679127917"><span class="hs-identifier hs-type">a</span></a></span></span><span class="hs-operator">.</span><span> </span><span class="annot"><a href="#local-6989586621679127916"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127917"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679127918"><span class="hs-identifier hs-type">g</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127917"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127916"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127919"><span class="hs-identifier hs-type">b</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127918"><span class="hs-identifier hs-type">g</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679127919"><span class="hs-identifier hs-type">b</span></a></span></span></span></span><span>
+</span><span id="line-71"></span><span id="local-6989586621679128083"><span id="local-6989586621679128085"><span id="local-6989586621679128086"><span class="annot"><a href="Control.Alternative.Free.Final.html#hoistAlt"><span class="hs-identifier hs-type">hoistAlt</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621679128084"><span class="annot"><a href="#local-6989586621679128084"><span class="hs-identifier hs-type">a</span></a></span></span><span class="hs-operator">.</span><span> </span><span class="annot"><a href="#local-6989586621679128083"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679128084"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679128085"><span class="hs-identifier hs-type">g</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679128084"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679128083"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679128086"><span class="hs-identifier hs-type">b</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679128085"><span class="hs-identifier hs-type">g</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679128086"><span class="hs-identifier hs-type">b</span></a></span></span></span></span><span>
 </span><span id="line-72"></span><span id="hoistAlt"><span class="annot"><span class="annottext">hoistAlt :: forall (f :: * -&gt; *) (g :: * -&gt; *) b.
 (forall a. f a -&gt; g a) -&gt; Alt f b -&gt; Alt g b
-</span><a href="Control.Alternative.Free.Final.html#hoistAlt"><span class="hs-identifier hs-var hs-var">hoistAlt</span></a></span></span><span> </span><span id="local-6989586621679128098"><span class="annot"><span class="annottext">forall a. f a -&gt; g a
-</span><a href="#local-6989586621679128098"><span class="hs-identifier hs-var">phi</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span id="local-6989586621679128099"><span class="annot"><span class="annottext">forall (g :: * -&gt; *).
+</span><a href="Control.Alternative.Free.Final.html#hoistAlt"><span class="hs-identifier hs-var hs-var">hoistAlt</span></a></span></span><span> </span><span id="local-6989586621679128265"><span class="annot"><span class="annottext">forall a. f a -&gt; g a
+</span><a href="#local-6989586621679128265"><span class="hs-identifier hs-var">phi</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-type">Alt</span></a></span><span> </span><span id="local-6989586621679128266"><span class="annot"><span class="annottext">forall (g :: * -&gt; *).
 Alternative g =&gt;
 (forall x. f x -&gt; g x) -&gt; g b
-</span><a href="#local-6989586621679128099"><span class="hs-identifier hs-var">g</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(forall (g :: * -&gt; *).
+</span><a href="#local-6989586621679128266"><span class="hs-identifier hs-var">g</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(forall (g :: * -&gt; *).
  Alternative g =&gt;
  (forall x. g x -&gt; g x) -&gt; g b)
 -&gt; Alt g b
@@ -379,17 +379,17 @@ forall (f :: * -&gt; *) a.
  Alternative g =&gt;
  (forall x. f x -&gt; g x) -&gt; g a)
 -&gt; Alt f a
-</span><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-var">Alt</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679128102"><span class="annot"><span class="annottext">forall x. g x -&gt; g x
-</span><a href="#local-6989586621679128102"><span class="hs-identifier hs-var">k</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">(forall x. f x -&gt; g x) -&gt; g b
+</span><a href="Control.Alternative.Free.Final.html#Alt"><span class="hs-identifier hs-var">Alt</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679128269"><span class="annot"><span class="annottext">forall x. g x -&gt; g x
+</span><a href="#local-6989586621679128269"><span class="hs-identifier hs-var">k</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">(forall x. f x -&gt; g x) -&gt; g b
 forall (g :: * -&gt; *).
 Alternative g =&gt;
 (forall x. f x -&gt; g x) -&gt; g b
-</span><a href="#local-6989586621679128099"><span class="hs-identifier hs-var">g</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">g x -&gt; g x
+</span><a href="#local-6989586621679128266"><span class="hs-identifier hs-var">g</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">g x -&gt; g x
 forall x. g x -&gt; g x
-</span><a href="#local-6989586621679128102"><span class="hs-identifier hs-var">k</span></a></span><span> </span><span class="annot"><span class="annottext">(g x -&gt; g x) -&gt; (f x -&gt; g x) -&gt; f x -&gt; g x
+</span><a href="#local-6989586621679128269"><span class="hs-identifier hs-var">k</span></a></span><span> </span><span class="annot"><span class="annottext">(g x -&gt; g x) -&gt; (f x -&gt; g x) -&gt; f x -&gt; g x
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">f x -&gt; g x
 forall a. f a -&gt; g a
-</span><a href="#local-6989586621679128098"><span class="hs-identifier hs-var">phi</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679128265"><span class="hs-identifier hs-var">phi</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
 </span><span id="line-73"></span><span>
 </span><span id="line-74"></span></pre></body></html>
