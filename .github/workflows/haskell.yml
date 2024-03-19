@@ -36,6 +36,9 @@ jobs:
           path: ${{ env.STACK_ROOT }}
           key: ${{ github.ref }}
 
+      - name: check
+        run: cabal check
+
       - name: build
         run: stack build --pedantic
 

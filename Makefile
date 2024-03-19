@@ -88,7 +88,7 @@ clean:
 	@stack clean
 	@cabal clean
 
-.PHONY: cleanall
-cleanall: clean
+.PHONY: distclean
+distclean: clean
 	@$(RM) tags
 	@stack purge

@@ -8,11 +8,13 @@ build:
   stage: build
   except:
     - tags
-  image: frankhjung/haskell:9.4.7
+  image: frankhjung/haskell:9.4.8
   variables:
     STACK_ROOT: ${CI_PROJECT_DIR}/.stack-work
   script:
-    - make check build test
+    - make check
+    - make build
+    - make test
     - make doc
     - mv $(stack path --local-doc-root)/ public/
     - make bench
