@@ -8,8 +8,9 @@ build:
   stage: build
   except:
     - tags
-  image: frankhjung/haskell:9.4.8
+  image: frankhjung/haskell:${GHC_VERSION}
   variables:
+    GHC_VERSION: "9.4.8"
     STACK_ROOT: ${CI_PROJECT_DIR}/.stack-work
   script:
     - make check

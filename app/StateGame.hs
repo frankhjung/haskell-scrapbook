@@ -2,11 +2,12 @@ module Main ( main
             , playGame
             , startState
             -- * Types
+            , GameOn
             , GameValue
             , GameState
             ) where
 
-import           Control.Monad.State (State, evalState, get, put)
+import           Control.Monad.State (State, evalState, gets, modify)
 import           System.Environment  (getArgs)
 
 -- == Example use of State monad
@@ -27,39 +28,45 @@ import           System.Environment  (getArgs)
 --
 -- Source: https://wiki.haskell.org/State_Monad
 
-type GameValue = Int
-type GameState = (Bool, Int)
+type GameOn = Bool                          -- game on/off
+type GameValue = Int                        -- game value
+type GameState = (GameOn, GameValue)        -- state, score
 
 -- | Game is off by default.
-startState :: (Bool, Int)
-startState = (False, 0)
+off :: GameOn
+off = False
 
--- | Play game given
-playGame :: String                        -- Game input
-            -> State GameState GameValue  -- initial State
--- | Empty
-playGame []     = do
-    (_, score) <- get
-    return score
--- | Process game input
-playGame (x:xs) = do
-    (on, score) <- get
-    case x of
-         'a' | on -> put (on, score + 1)
-         'b' | on -> put (on, score - 1)
-         'c'      -> put (not on, score)
-         _        -> put (on, score)
-    playGame xs
+-- | Game is off by default.
+startState :: GameState
+startState = (off, 0)
+
+-- | Toggle game state on/off.
+toggleGame :: GameOn -> GameOn
+toggleGame = not
+
+-- | Play game given some input string of instructions.
+playGame :: String                          -- game input
+            -> State GameState GameValue    -- new state
+playGame []     = gets snd                  -- empty input, return score
+playGame (x:xs) = do                        -- process game input
+    modify $ \(switch, score) -> case x of  -- update state and score
+        'a' | switch -> (switch, score + 1) -- a gives +1
+        'b' | switch -> (switch, score - 1) -- b gives -1
+        'c'          -> (toggleGame switch, score)   -- c toggles game on/off
+        _            -> (switch, score)     -- no-op
+    playGame xs                             -- continue game
 
 -- | Play game read from command line.
 --
 -- === Example
 --
--- "abcaaacbbcabbab" result = 2, as (5 - 3 = 2) as game not initially on
+-- "abcaaacbbcabbab" result = 2, as (5 - 3 = 2) as game is initially off
 -- @
+-- $ stack exec -- stategame "abcaaacbbcabbab"
+-- 2
 -- $ stack exec -- stategame "ca"
 -- 1
--- [~/dev/haskell/scrapbook(master *+)]$ stack exec -- stategame "cb"
+-- $ stack exec -- stategame "cb"
 -- -1
 -- @
 --
