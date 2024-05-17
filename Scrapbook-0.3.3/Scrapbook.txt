@@ -260,12 +260,17 @@ countEntries2 :: FilePath -> IO [(FilePath, Int)]
 countEntries3 :: FilePath -> IO [(FilePath, Int)]
 
 
--- | Example from <a>Wikibooks Continuation Passing Style</a>.
+-- | Example from <a>Wikibooks Continuation Passing Style</a>
 --   
---   Uses the Cont monad from the transformers package.
+--   This uses the <a>Cont</a> Monad from the <a>transformers</a> package.
 --   
---   Using <tt>callCC</tt> is better than using return as argument is a
+--   Using <a>callCC</a> is better than using return as argument is a
 --   function and it returns a suspended computation.
+--   
+--   <h2>Notes</h2>
+--   
+--   A function of type 'a -&gt; b' would become 'a -&gt; (b -&gt; r) -&gt;
+--   r' in CPS, where 'b -&gt; r' is the continuation.
 module Cps
 
 -- | Continuation for add function.
@@ -276,6 +281,30 @@ pythagorasCont :: Int -> Int -> Cont r Int
 
 -- | Continuation for square function.
 squareCont :: Int -> Cont r Int
+
+-- | Custom continuation passing style.
+--   
+--   This converts any value into a suspended computation.
+--   
+--   <pre>
+--   flip ($) :: b -&gt; (b -&gt; c) -&gt; c
+--   </pre>
+--   
+--   Longhand this is: <tt> toCPS a = k -&gt; k a </tt>
+--   
+--   Or more simply as: <tt> toCPS a k = k a </tt>
+toCPS :: a -> forall r. (a -> r) -> r
+
+-- | From custom continuation.
+--   
+--   Passing <a>id</a> to the continuation function will return the value.
+--   
+--   <pre>
+--   ($ id) :: ((a -&gt; a) -&gt; b) -&gt; b
+--   </pre>
+--   
+--   Longhand this is: <tt> fromCPS f = f id </tt>
+fromCPS :: (forall r. (a -> r) -> r) -> a
 
 
 -- | Generalized Algebraic Datatypes example from <a>Datatype-Generic
