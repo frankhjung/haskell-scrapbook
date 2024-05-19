@@ -273,7 +273,12 @@ countEntries3 :: FilePath -> IO [(FilePath, Int)]
 --   r' in CPS, where 'b -&gt; r' is the continuation.
 module Cps
 
--- | Continuation for add function.
+-- | Continuation passing style (CPS) examples.
+--   
+--   The following uses the <a>Cont</a> Monad from the
+--   <tt>transformers</tt> package.
+--   
+--   Continuation for add function.
 addCont :: Int -> Int -> Cont r Int
 
 -- | Continuation for pythagoras function.
@@ -283,6 +288,9 @@ pythagorasCont :: Int -> Int -> Cont r Int
 squareCont :: Int -> Cont r Int
 
 -- | Custom continuation passing style.
+--   
+--   The following example uses a custom continuation passing style (CPS)
+--   to demonstrate the general concept.
 --   
 --   This converts any value into a suspended computation.
 --   
