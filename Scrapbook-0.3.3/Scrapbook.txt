@@ -279,20 +279,6 @@ newtype CPS a
 CPS :: (forall r. (a -> r) -> r) -> CPS a
 [runCPS] :: CPS a -> forall r. (a -> r) -> r
 
--- | Continuation passing style (CPS) examples.
---   
---   The following uses the <a>Cont</a> Monad from the
---   <tt>transformers</tt> package.
---   
---   Continuation for add function.
-addCont :: Int -> Int -> Cont r Int
-
--- | Continuation for pythagoras function.
-pythagorasCont :: Int -> Int -> Cont r Int
-
--- | Continuation for square function.
-squareCont :: Int -> Cont r Int
-
 -- | Custom continuation passing style.
 --   
 --   The following example uses a custom continuation-passing style (CPS)
@@ -321,6 +307,33 @@ toCPS :: a -> forall r. (a -> r) -> r
 --   
 --   Longhand this is: <tt> fromCPS f = f id </tt>
 fromCPS :: (forall r. (a -> r) -> r) -> a
+
+-- | Continuation passing style (CPS) examples.
+--   
+--   The following uses the <a>Cont</a> Monad from the
+--   <tt>transformers</tt> package.
+--   
+--   Continuation for add function.
+addCont :: Int -> Int -> Cont r Int
+addOne :: Int -> Int
+
+-- | Continuation for pythagoras function.
+pythagorasCont :: Int -> Int -> Cont r Int
+
+-- | Return version, timestamp and OS using the <a>CPS</a> type.
+releaseStringCPS :: String
+
+-- | Continuation for square function.
+squareCont :: Int -> Cont r Int
+
+-- | Returns (fixed) OS.
+withOS :: (String -> r) -> r
+
+-- | Returns (fixed) timestamp.
+withTimestamp :: (Int -> r) -> r
+
+-- | Returns (fixed) version.
+withVersionNumber :: (Double -> r) -> r
 instance GHC.Base.Functor Cps.CPS
 instance GHC.Base.Applicative Cps.CPS
 instance GHC.Base.Monad Cps.CPS
