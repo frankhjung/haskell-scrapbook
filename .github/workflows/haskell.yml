@@ -40,7 +40,7 @@ jobs:
         run: cabal check
 
       - name: build
-        run: stack build --pedantic
+        run: stack build --pedantic --fast --ghc-options='-Wwarn'
 
       - name: test
         run: stack test --coverage

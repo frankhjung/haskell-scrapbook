@@ -49,6 +49,22 @@ Build using GNU Make:
 make setup default
 ```
 
+### Format
+
+Format and style code using:
+
+```bash
+make format
+```
+
+This runs:
+
+```bash
+SRC=$(find * -name '*.hs')
+cabal-fmt --inplace Scrapbook.cabal
+stylish-haskell --inplace ${SRC}
+```
+
 ### Check
 
 To only perform code checks, run:
@@ -57,12 +73,11 @@ To only perform code checks, run:
 make check
 ```
 
-This runs `tags`, `style` and `lint`:
+This runs `tags` and `lint`:
 
 ```bash
 SRC=$(find * -name '*.hs')
 hasktags --ctags --extendedctag ${SRC}
-stylish-haskell --inplace ${SRC}
 cabal check --verbose
 hlint --cross --color --show ${SRC}
 ```

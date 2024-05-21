@@ -3,7 +3,9 @@
 module CpsSpec (spec) where
 
 import           Control.Monad.Trans.Cont (runCont)
-import           Cps                      (fromCPS, pythagorasCont, toCPS)
+import           Cps                      (CPS (..), addOne, fromCPS,
+                                           pythagorasCont, releaseString,
+                                           releaseStringCPS, toCPS)
 import           Test.Hspec               (Spec, describe, it, shouldBe)
 import           Test.Hspec.QuickCheck    (prop)
 
@@ -18,4 +20,11 @@ spec = do
       \(a :: Int, b :: Int) -> runCont (pythagorasCont a b) show == show (a*a + b*b)
   describe "custom cps" $
     prop "fromCPS to id" $
-      \(a :: Int) -> fromCPS (toCPS a) `shouldBe` a
+      \(as :: String) -> fromCPS (toCPS as) `shouldBe` as
+  describe "using type CPS" $ do
+    prop "CPS as Functor" $ ------------- CPS value ----------------------
+      \(a :: Int) -> runCPS (fmap addOne (CPS ($ a))) id `shouldBe` succ a
+    it "releaseString" $
+      releaseString `shouldBe` "linux-v0.1-1532083362"
+    it "releaseStringCPS" $
+      releaseStringCPS `shouldBe` "linux-v0.1-1532083362"
