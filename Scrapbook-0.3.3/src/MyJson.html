@@ -52,7 +52,7 @@ I found this a good guide when dealing with JSON and special characters:
 </span><a href="MyJson.html#created"><span class="hs-identifier hs-var hs-var">created</span></a></span></span><span>    </span><span class="hs-glyph">::</span><span> </span><span class="hs-glyph">!</span><span class="annot"><span class="hs-identifier hs-type">UTCTime</span></span><span>
 </span><span id="line-49"></span><span>  </span><span class="hs-special">,</span><span> </span><span id="series"><span class="annot"><span class="annottext">MyJson -&gt; [Int]
 </span><a href="MyJson.html#series"><span class="hs-identifier hs-var hs-var">series</span></a></span></span><span>     </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span class="hs-special">]</span><span>
-</span><span id="line-50"></span><span>  </span><span class="hs-special">}</span><span> </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679095744"><span id="local-6989586621679095756"><span class="annot"><span class="annottext">MyJson -&gt; MyJson -&gt; Bool
+</span><span id="line-50"></span><span>  </span><span class="hs-special">}</span><span> </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679095720"><span id="local-6989586621679095732"><span class="annot"><span class="annottext">MyJson -&gt; MyJson -&gt; Bool
 (MyJson -&gt; MyJson -&gt; Bool)
 -&gt; (MyJson -&gt; MyJson -&gt; Bool) -&gt; Eq MyJson
 forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
@@ -60,7 +60,7 @@ $c== :: MyJson -&gt; MyJson -&gt; Bool
 == :: MyJson -&gt; MyJson -&gt; Bool
 $c/= :: MyJson -&gt; MyJson -&gt; Bool
 /= :: MyJson -&gt; MyJson -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095761"><span id="local-6989586621679095775"><span id="local-6989586621679095779"><span class="annot"><span class="annottext">Int -&gt; MyJson -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095737"><span id="local-6989586621679095751"><span id="local-6989586621679095755"><span class="annot"><span class="annottext">Int -&gt; MyJson -&gt; ShowS
 [MyJson] -&gt; ShowS
 MyJson -&gt; String
 (Int -&gt; MyJson -&gt; ShowS)
@@ -73,7 +73,7 @@ $cshow :: MyJson -&gt; String
 show :: MyJson -&gt; String
 $cshowList :: [MyJson] -&gt; ShowS
 showList :: [MyJson] -&gt; ShowS
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095783"><span id="local-6989586621679095785"><span class="annot"><span class="annottext">(forall x. MyJson -&gt; Rep MyJson x)
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679095759"><span id="local-6989586621679095761"><span class="annot"><span class="annottext">(forall x. MyJson -&gt; Rep MyJson x)
 -&gt; (forall x. Rep MyJson x -&gt; MyJson) -&gt; Generic MyJson
 forall x. Rep MyJson x -&gt; MyJson
 forall x. MyJson -&gt; Rep MyJson x
@@ -85,17 +85,17 @@ $cto :: forall x. Rep MyJson x -&gt; MyJson
 to :: forall x. Rep MyJson x -&gt; MyJson
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Generic</span></span></span></span><span class="hs-special">)</span><span>
 </span><span id="line-51"></span><span>
-</span><span id="line-52"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679095790"><span class="annot"><span class="hs-identifier hs-type">FromJSON</span></span><span> </span><span class="annot"><a href="MyJson.html#MyJson"><span class="hs-identifier hs-type">MyJson</span></a></span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-53"></span><span>  </span><span id="local-6989586621679095819"><span class="annot"><span class="annottext">parseJSON :: Value -&gt; Parser MyJson
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var">parseJSON</span></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Object</span></span><span> </span><span id="local-6989586621679095821"><span class="annot"><span class="annottext">Object
-</span><a href="#local-6989586621679095821"><span class="hs-identifier hs-var">v</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>  </span><span class="annot"><span class="annottext">Text -&gt; Int -&gt; Float -&gt; UTCTime -&gt; [Int] -&gt; MyJson
+</span><span id="line-52"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679095766"><span class="annot"><span class="hs-identifier hs-type">FromJSON</span></span><span> </span><span class="annot"><a href="MyJson.html#MyJson"><span class="hs-identifier hs-type">MyJson</span></a></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-53"></span><span>  </span><span id="local-6989586621679095795"><span class="annot"><span class="annottext">parseJSON :: Value -&gt; Parser MyJson
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">parseJSON</span></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Object</span></span><span> </span><span id="local-6989586621679095797"><span class="annot"><span class="annottext">Object
+</span><a href="#local-6989586621679095797"><span class="hs-identifier hs-var">v</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>  </span><span class="annot"><span class="annottext">Text -&gt; Int -&gt; Float -&gt; UTCTime -&gt; [Int] -&gt; MyJson
 </span><a href="MyJson.html#MyJson"><span class="hs-identifier hs-var">MyJson</span></a></span><span>
 </span><span id="line-54"></span><span>                            </span><span class="annot"><span class="annottext">(Text -&gt; Int -&gt; Float -&gt; UTCTime -&gt; [Int] -&gt; MyJson)
 -&gt; Parser Text
 -&gt; Parser (Int -&gt; Float -&gt; UTCTime -&gt; [Int] -&gt; MyJson)
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">Object
-</span><a href="#local-6989586621679095821"><span class="hs-identifier hs-var">v</span></a></span><span> </span><span class="annot"><span class="annottext">Object -&gt; Key -&gt; Parser Text
+</span><a href="#local-6989586621679095797"><span class="hs-identifier hs-var">v</span></a></span><span> </span><span class="annot"><span class="annottext">Object -&gt; Key -&gt; Parser Text
 forall a. FromJSON a =&gt; Object -&gt; Key -&gt; Parser a
 </span><span class="hs-operator hs-var">.:</span></span><span> </span><span class="annot"><span class="annottext">Key
 </span><span class="hs-string">&quot;name&quot;</span></span><span>
@@ -104,7 +104,7 @@ forall a. FromJSON a =&gt; Object -&gt; Key -&gt; Parser a
 forall a b. Parser (a -&gt; b) -&gt; Parser a -&gt; Parser b
 forall (f :: * -&gt; *) a b. Applicative f =&gt; f (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;*&gt;</span></span><span> </span><span class="annot"><span class="annottext">Object
-</span><a href="#local-6989586621679095821"><span class="hs-identifier hs-var">v</span></a></span><span> </span><span class="annot"><span class="annottext">Object -&gt; Key -&gt; Parser Int
+</span><a href="#local-6989586621679095797"><span class="hs-identifier hs-var">v</span></a></span><span> </span><span class="annot"><span class="annottext">Object -&gt; Key -&gt; Parser Int
 forall a. FromJSON a =&gt; Object -&gt; Key -&gt; Parser a
 </span><span class="hs-operator hs-var">.:</span></span><span> </span><span class="annot"><span class="annottext">Key
 </span><span class="hs-string">&quot;identifier&quot;</span></span><span>
@@ -113,7 +113,7 @@ forall a. FromJSON a =&gt; Object -&gt; Key -&gt; Parser a
 forall a b. Parser (a -&gt; b) -&gt; Parser a -&gt; Parser b
 forall (f :: * -&gt; *) a b. Applicative f =&gt; f (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;*&gt;</span></span><span> </span><span class="annot"><span class="annottext">Object
-</span><a href="#local-6989586621679095821"><span class="hs-identifier hs-var">v</span></a></span><span> </span><span class="annot"><span class="annottext">Object -&gt; Key -&gt; Parser Float
+</span><a href="#local-6989586621679095797"><span class="hs-identifier hs-var">v</span></a></span><span> </span><span class="annot"><span class="annottext">Object -&gt; Key -&gt; Parser Float
 forall a. FromJSON a =&gt; Object -&gt; Key -&gt; Parser a
 </span><span class="hs-operator hs-var">.:</span></span><span> </span><span class="annot"><span class="annottext">Key
 </span><span class="hs-string">&quot;modifier&quot;</span></span><span>
@@ -122,7 +122,7 @@ forall a. FromJSON a =&gt; Object -&gt; Key -&gt; Parser a
 forall a b. Parser (a -&gt; b) -&gt; Parser a -&gt; Parser b
 forall (f :: * -&gt; *) a b. Applicative f =&gt; f (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;*&gt;</span></span><span> </span><span class="annot"><span class="annottext">Object
-</span><a href="#local-6989586621679095821"><span class="hs-identifier hs-var">v</span></a></span><span> </span><span class="annot"><span class="annottext">Object -&gt; Key -&gt; Parser UTCTime
+</span><a href="#local-6989586621679095797"><span class="hs-identifier hs-var">v</span></a></span><span> </span><span class="annot"><span class="annottext">Object -&gt; Key -&gt; Parser UTCTime
 forall a. FromJSON a =&gt; Object -&gt; Key -&gt; Parser a
 </span><span class="hs-operator hs-var">.:</span></span><span> </span><span class="annot"><span class="annottext">Key
 </span><span class="hs-string">&quot;created&quot;</span></span><span>
@@ -130,7 +130,7 @@ forall a. FromJSON a =&gt; Object -&gt; Key -&gt; Parser a
 forall a b. Parser (a -&gt; b) -&gt; Parser a -&gt; Parser b
 forall (f :: * -&gt; *) a b. Applicative f =&gt; f (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;*&gt;</span></span><span> </span><span class="annot"><span class="annottext">Object
-</span><a href="#local-6989586621679095821"><span class="hs-identifier hs-var">v</span></a></span><span> </span><span class="annot"><span class="annottext">Object -&gt; Key -&gt; Parser [Int]
+</span><a href="#local-6989586621679095797"><span class="hs-identifier hs-var">v</span></a></span><span> </span><span class="annot"><span class="annottext">Object -&gt; Key -&gt; Parser [Int]
 forall a. FromJSON a =&gt; Object -&gt; Key -&gt; Parser a
 </span><span class="hs-operator hs-var">.:</span></span><span> </span><span class="annot"><span class="annottext">Key
 </span><span class="hs-string">&quot;series&quot;</span></span><span>
@@ -141,45 +141,45 @@ forall (m :: * -&gt; *) a. MonadFail m =&gt; String -&gt; m a
 </span><span class="hs-identifier hs-var">fail</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;Expected an object&quot;</span></span><span>
 </span><span id="line-60"></span><span>
-</span><span id="line-61"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679095825"><span id="local-6989586621679095829"><span id="local-6989586621679095832"><span class="annot"><span class="hs-identifier hs-type">ToJSON</span></span><span> </span><span class="annot"><a href="MyJson.html#MyJson"><span class="hs-identifier hs-type">MyJson</span></a></span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-62"></span><span>  </span><span id="local-6989586621679095858"><span class="annot"><span class="annottext">toJSON :: MyJson -&gt; Value
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var">toJSON</span></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="MyJson.html#MyJson"><span class="hs-identifier hs-type">MyJson</span></a></span><span> </span><span id="local-6989586621679095859"><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679095859"><span class="hs-identifier hs-var">_name</span></a></span></span><span> </span><span id="local-6989586621679095860"><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679095860"><span class="hs-identifier hs-var">_identifier</span></a></span></span><span> </span><span id="local-6989586621679095861"><span class="annot"><span class="annottext">Float
-</span><a href="#local-6989586621679095861"><span class="hs-identifier hs-var">_modifier</span></a></span></span><span> </span><span id="local-6989586621679095862"><span class="annot"><span class="annottext">UTCTime
-</span><a href="#local-6989586621679095862"><span class="hs-identifier hs-var">_created</span></a></span></span><span> </span><span id="local-6989586621679095863"><span class="annot"><span class="annottext">[Int]
-</span><a href="#local-6989586621679095863"><span class="hs-identifier hs-var">_series</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[Pair] -&gt; Value
+</span><span id="line-61"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679095801"><span id="local-6989586621679095805"><span id="local-6989586621679095808"><span class="annot"><span class="hs-identifier hs-type">ToJSON</span></span><span> </span><span class="annot"><a href="MyJson.html#MyJson"><span class="hs-identifier hs-type">MyJson</span></a></span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-62"></span><span>  </span><span id="local-6989586621679095834"><span class="annot"><span class="annottext">toJSON :: MyJson -&gt; Value
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">toJSON</span></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="MyJson.html#MyJson"><span class="hs-identifier hs-type">MyJson</span></a></span><span> </span><span id="local-6989586621679095835"><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679095835"><span class="hs-identifier hs-var">_name</span></a></span></span><span> </span><span id="local-6989586621679095836"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679095836"><span class="hs-identifier hs-var">_identifier</span></a></span></span><span> </span><span id="local-6989586621679095837"><span class="annot"><span class="annottext">Float
+</span><a href="#local-6989586621679095837"><span class="hs-identifier hs-var">_modifier</span></a></span></span><span> </span><span id="local-6989586621679095838"><span class="annot"><span class="annottext">UTCTime
+</span><a href="#local-6989586621679095838"><span class="hs-identifier hs-var">_created</span></a></span></span><span> </span><span id="local-6989586621679095839"><span class="annot"><span class="annottext">[Int]
+</span><a href="#local-6989586621679095839"><span class="hs-identifier hs-var">_series</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[Pair] -&gt; Value
 </span><span class="hs-identifier hs-var">object</span></span><span>
 </span><span id="line-63"></span><span>    </span><span class="hs-special">[</span><span> </span><span class="annot"><span class="annottext">Key
 </span><span class="hs-string">&quot;name&quot;</span></span><span>       </span><span class="annot"><span class="annottext">Key -&gt; Text -&gt; Pair
 forall kv v. (KeyValue kv, ToJSON v) =&gt; Key -&gt; v -&gt; kv
 forall v. ToJSON v =&gt; Key -&gt; v -&gt; Pair
 </span><span class="hs-operator hs-var">.=</span></span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679095859"><span class="hs-identifier hs-var">_name</span></a></span><span>
+</span><a href="#local-6989586621679095835"><span class="hs-identifier hs-var">_name</span></a></span><span>
 </span><span id="line-64"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Key
 </span><span class="hs-string">&quot;identifier&quot;</span></span><span> </span><span class="annot"><span class="annottext">Key -&gt; Int -&gt; Pair
 forall kv v. (KeyValue kv, ToJSON v) =&gt; Key -&gt; v -&gt; kv
 forall v. ToJSON v =&gt; Key -&gt; v -&gt; Pair
 </span><span class="hs-operator hs-var">.=</span></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679095860"><span class="hs-identifier hs-var">_identifier</span></a></span><span>
+</span><a href="#local-6989586621679095836"><span class="hs-identifier hs-var">_identifier</span></a></span><span>
 </span><span id="line-65"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Key
 </span><span class="hs-string">&quot;modifier&quot;</span></span><span>   </span><span class="annot"><span class="annottext">Key -&gt; Float -&gt; Pair
 forall kv v. (KeyValue kv, ToJSON v) =&gt; Key -&gt; v -&gt; kv
 forall v. ToJSON v =&gt; Key -&gt; v -&gt; Pair
 </span><span class="hs-operator hs-var">.=</span></span><span> </span><span class="annot"><span class="annottext">Float
-</span><a href="#local-6989586621679095861"><span class="hs-identifier hs-var">_modifier</span></a></span><span>
+</span><a href="#local-6989586621679095837"><span class="hs-identifier hs-var">_modifier</span></a></span><span>
 </span><span id="line-66"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Key
 </span><span class="hs-string">&quot;created&quot;</span></span><span>    </span><span class="annot"><span class="annottext">Key -&gt; UTCTime -&gt; Pair
 forall kv v. (KeyValue kv, ToJSON v) =&gt; Key -&gt; v -&gt; kv
 forall v. ToJSON v =&gt; Key -&gt; v -&gt; Pair
 </span><span class="hs-operator hs-var">.=</span></span><span> </span><span class="annot"><span class="annottext">UTCTime
-</span><a href="#local-6989586621679095862"><span class="hs-identifier hs-var">_created</span></a></span><span>
+</span><a href="#local-6989586621679095838"><span class="hs-identifier hs-var">_created</span></a></span><span>
 </span><span id="line-67"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Key
 </span><span class="hs-string">&quot;series&quot;</span></span><span>     </span><span class="annot"><span class="annottext">Key -&gt; [Int] -&gt; Pair
 forall kv v. (KeyValue kv, ToJSON v) =&gt; Key -&gt; v -&gt; kv
 forall v. ToJSON v =&gt; Key -&gt; v -&gt; Pair
 </span><span class="hs-operator hs-var">.=</span></span><span> </span><span class="annot"><span class="annottext">[Int]
-</span><a href="#local-6989586621679095863"><span class="hs-identifier hs-var">_series</span></a></span><span>
+</span><a href="#local-6989586621679095839"><span class="hs-identifier hs-var">_series</span></a></span><span>
 </span><span id="line-68"></span><span>    </span><span class="hs-special">]</span><span>
 </span><span id="line-69"></span><span>
 </span><span id="line-70"></span><span class="hs-comment">-- | Decode Special Characters.</span><span>
@@ -194,7 +194,7 @@ forall v. ToJSON v =&gt; Key -&gt; v -&gt; Pair
 </span><span id="line-79"></span><span class="hs-comment">--</span><span>
 </span><span id="line-80"></span><span class="hs-comment">-- This will successfully decode a ByteString containing special characters such</span><span>
 </span><span id="line-81"></span><span class="hs-comment">-- as '&#176;' (ASCII decimal \176).</span><span>
-</span><span id="line-82"></span><span id="local-6989586621679095716"><span class="annot"><a href="MyJson.html#eitherDecodeSpecial"><span class="hs-identifier hs-type">eitherDecodeSpecial</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FromJSON</span></span><span> </span><span class="annot"><a href="#local-6989586621679095716"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ByteString</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="annot"><a href="#local-6989586621679095716"><span class="hs-identifier hs-type">a</span></a></span></span><span>
+</span><span id="line-82"></span><span id="local-6989586621679095692"><span class="annot"><a href="MyJson.html#eitherDecodeSpecial"><span class="hs-identifier hs-type">eitherDecodeSpecial</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FromJSON</span></span><span> </span><span class="annot"><a href="#local-6989586621679095692"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ByteString</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="annot"><a href="#local-6989586621679095692"><span class="hs-identifier hs-type">a</span></a></span></span><span>
 </span><span id="line-83"></span><span id="eitherDecodeSpecial"><span class="annot"><span class="annottext">eitherDecodeSpecial :: forall a. FromJSON a =&gt; ByteString -&gt; Either String a
 </span><a href="MyJson.html#eitherDecodeSpecial"><span class="hs-identifier hs-var hs-var">eitherDecodeSpecial</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ByteString -&gt; Either String a
 forall a. FromJSON a =&gt; ByteString -&gt; Either String a
@@ -217,7 +217,7 @@ forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><span id="line-91"></span><span class="hs-comment">-- Data.Text.Lazy.Encoding.encodeUtf8 :: Text -&gt; ByteString</span><span>
 </span><span id="line-92"></span><span class="hs-comment">-- @</span><span>
 </span><span id="line-93"></span><span class="hs-comment">--</span><span>
-</span><span id="line-94"></span><span id="local-6989586621679095723"><span class="annot"><a href="MyJson.html#encodeSpecial"><span class="hs-identifier hs-type">encodeSpecial</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ToJSON</span></span><span> </span><span class="annot"><a href="#local-6989586621679095723"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679095723"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ByteString</span></span></span><span>
+</span><span id="line-94"></span><span id="local-6989586621679095699"><span class="annot"><a href="MyJson.html#encodeSpecial"><span class="hs-identifier hs-type">encodeSpecial</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ToJSON</span></span><span> </span><span class="annot"><a href="#local-6989586621679095699"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679095699"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ByteString</span></span></span><span>
 </span><span id="line-95"></span><span id="encodeSpecial"><span class="annot"><span class="annottext">encodeSpecial :: forall a. ToJSON a =&gt; a -&gt; ByteString
 </span><a href="MyJson.html#encodeSpecial"><span class="hs-identifier hs-var hs-var">encodeSpecial</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text -&gt; ByteString
 </span><span class="hs-identifier hs-var">encodeUtf8</span></span><span> </span><span class="annot"><span class="annottext">(Text -&gt; ByteString) -&gt; (a -&gt; Text) -&gt; a -&gt; ByteString

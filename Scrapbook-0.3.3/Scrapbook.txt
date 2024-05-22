@@ -324,7 +324,7 @@ pythagorasCont :: Int -> Int -> Cont r Int
 releaseString :: String
 
 -- | Return version, timestamp and OS using the <a>CPS</a> type.
-releaseStringCPS :: String
+releaseStringCPS :: CPS String
 
 -- | Continuation for square function.
 squareCont :: Int -> Cont r Int
