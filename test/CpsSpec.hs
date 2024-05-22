@@ -27,4 +27,4 @@ spec = do
     it "releaseString" $
       releaseString `shouldBe` "linux-v0.1-1532083362"
     it "releaseStringCPS" $
-      releaseStringCPS `shouldBe` "linux-v0.1-1532083362"
+      runCPS releaseStringCPS id `shouldBe` "linux-v0.1-1532083362"

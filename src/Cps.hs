@@ -140,10 +140,9 @@ releaseString =
         os ++ "-v" ++ show version ++ "-" ++ show timestamp
 
 -- | Return version, timestamp and OS using the 'CPS' type.
-releaseStringCPS :: String
-releaseStringCPS =
-  fromCPS $ runCPS $ do
-    os <- CPS withOS
-    version <- CPS withVersionNumber
-    timestamp <- CPS withTimestamp
-    pure $ os ++ "-v" ++ show version ++ "-" ++ show timestamp
+releaseStringCPS :: CPS String
+releaseStringCPS = do
+  os <- CPS withOS
+  version <- CPS withVersionNumber
+  timestamp <- CPS withTimestamp
+  pure $ os ++ "-v" ++ show version ++ "-" ++ show timestamp
