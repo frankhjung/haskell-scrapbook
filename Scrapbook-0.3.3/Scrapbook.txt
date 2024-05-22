@@ -320,6 +320,9 @@ addOne :: Int -> Int
 -- | Continuation for pythagoras function.
 pythagorasCont :: Int -> Int -> Cont r Int
 
+-- | Return version, timestamp and OS as pyramid of doom.
+releaseString :: String
+
 -- | Return version, timestamp and OS using the <a>CPS</a> type.
 releaseStringCPS :: String
 
