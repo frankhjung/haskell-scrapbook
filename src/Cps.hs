@@ -13,8 +13,8 @@ Style](https://en.wikibooks.org/wiki/Haskell/Continuation_passing_style)
 This uses the 'Cont' Monad from the
 [transformers](https://hackage.haskell.org/package/transformers) package.
 
-Using 'callCC' is better than using return as argument is a function and it
-returns a suspended computation.
+Using 'callCC' is better than using return as argument it returns a suspended
+ computation.
 
 A function of type @a -> b@ would become @a -> (b -> r) -> r@ in CPS, where
 @b -> r@ is the continuation.

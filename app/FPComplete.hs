@@ -7,12 +7,15 @@
 = FPComplete: covariance and contravariance
 
 Examples from
-<https://www.fpcomplete.com/blog/2016/11/covariance-contravariance/ Covariance and Contravariance by Michael Snoyman>.
+<https://www.fpcomplete.com/blog/2016/11/covariance-contravariance/
+Covariance and Contravariance by Michael Snoyman>.
 
 == Summary
 
-  (1) in __covariance__, both the original and lifted functions point in the same direction (from a to b)
-  2. in __contravariance__, the original and lifted functions point in opposite directions (one goes from a to b, the other from b to a)
+  (1) in __covariance__, both the original and lifted functions point in
+  the same direction (from a to b)
+  2. in __contravariance__, the original and lifted functions point in
+  opposite directions (one goes from a to b, the other from b to a)
 
 @
 fmap :: Functor f => (a -> b) -> f a -> f b
