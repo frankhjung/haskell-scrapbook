@@ -1217,10 +1217,10 @@ class Monad m => PrimMonad (m :: Type -> Type)
 -- | State token type.
 type family PrimState (m :: Type -> Type)
 
--- | <tt>RealWorld</tt> is deeply magical. It is <i>primitive</i>, but it
---   is not <i>unlifted</i> (hence <tt>ptrArg</tt>). We never manipulate
---   values of type <tt>RealWorld</tt>; it's only used in the type system,
---   to parameterise <tt>State#</tt>.
+-- | <a>RealWorld</a> is deeply magical. It is <i>primitive</i>, but it is
+--   not <i>unlifted</i> (hence <tt>ptrArg</tt>). We never manipulate
+--   values of type <a>RealWorld</a>; it's only used in the type system, to
+--   parameterise <a>State#</a>.
 data RealWorld
 
 
@@ -3097,10 +3097,10 @@ class Monad m => PrimMonad (m :: Type -> Type)
 -- | State token type.
 type family PrimState (m :: Type -> Type)
 
--- | <tt>RealWorld</tt> is deeply magical. It is <i>primitive</i>, but it
---   is not <i>unlifted</i> (hence <tt>ptrArg</tt>). We never manipulate
---   values of type <tt>RealWorld</tt>; it's only used in the type system,
---   to parameterise <tt>State#</tt>.
+-- | <a>RealWorld</a> is deeply magical. It is <i>primitive</i>, but it is
+--   not <i>unlifted</i> (hence <tt>ptrArg</tt>). We never manipulate
+--   values of type <a>RealWorld</a>; it's only used in the type system, to
+--   parameterise <a>State#</a>.
 data RealWorld
 instance Data.Vector.Generic.Mutable.Base.MVector Data.Vector.Mutable.MVector a
 
@@ -4876,10 +4876,10 @@ class Monad m => PrimMonad (m :: Type -> Type)
 -- | State token type.
 type family PrimState (m :: Type -> Type)
 
--- | <tt>RealWorld</tt> is deeply magical. It is <i>primitive</i>, but it
---   is not <i>unlifted</i> (hence <tt>ptrArg</tt>). We never manipulate
---   values of type <tt>RealWorld</tt>; it's only used in the type system,
---   to parameterise <tt>State#</tt>.
+-- | <a>RealWorld</a> is deeply magical. It is <i>primitive</i>, but it is
+--   not <i>unlifted</i> (hence <tt>ptrArg</tt>). We never manipulate
+--   values of type <a>RealWorld</a>; it's only used in the type system, to
+--   parameterise <a>State#</a>.
 data RealWorld
 instance Control.DeepSeq.NFData (Data.Vector.Primitive.Mutable.MVector s a)
 instance Control.DeepSeq.NFData1 (Data.Vector.Primitive.Mutable.MVector s)
@@ -6509,10 +6509,10 @@ class Monad m => PrimMonad (m :: Type -> Type)
 -- | State token type.
 type family PrimState (m :: Type -> Type)
 
--- | <tt>RealWorld</tt> is deeply magical. It is <i>primitive</i>, but it
---   is not <i>unlifted</i> (hence <tt>ptrArg</tt>). We never manipulate
---   values of type <tt>RealWorld</tt>; it's only used in the type system,
---   to parameterise <tt>State#</tt>.
+-- | <a>RealWorld</a> is deeply magical. It is <i>primitive</i>, but it is
+--   not <i>unlifted</i> (hence <tt>ptrArg</tt>). We never manipulate
+--   values of type <a>RealWorld</a>; it's only used in the type system, to
+--   parameterise <a>State#</a>.
 data RealWorld
 instance Control.DeepSeq.NFData (Data.Vector.Storable.Mutable.MVector s a)
 instance Control.DeepSeq.NFData1 (Data.Vector.Storable.Mutable.MVector s)
@@ -9777,8 +9777,8 @@ class Monad m => PrimMonad (m :: Type -> Type)
 -- | State token type.
 type family PrimState (m :: Type -> Type)
 
--- | <tt>RealWorld</tt> is deeply magical. It is <i>primitive</i>, but it
---   is not <i>unlifted</i> (hence <tt>ptrArg</tt>). We never manipulate
---   values of type <tt>RealWorld</tt>; it's only used in the type system,
---   to parameterise <tt>State#</tt>.
+-- | <a>RealWorld</a> is deeply magical. It is <i>primitive</i>, but it is
+--   not <i>unlifted</i> (hence <tt>ptrArg</tt>). We never manipulate
+--   values of type <a>RealWorld</a>; it's only used in the type system, to
+--   parameterise <a>State#</a>.
 data RealWorld

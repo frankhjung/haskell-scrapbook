@@ -1391,8 +1391,8 @@ pattern (:<|) :: a -> Seq a -> Seq a
 -- | A bidirectional pattern synonym viewing the rear of a non-empty
 --   sequence.
 pattern (:|>) :: Seq a -> a -> Seq a
-infixr 5 :<|
 infixl 5 :|>
+infixr 5 :<|
 newtype State s a
 State :: (s -> (s, a)) -> State s a
 [runState] :: State s a -> s -> (s, a)
@@ -2269,8 +2269,8 @@ pattern (:<|) :: a -> Seq a -> Seq a
 -- | A bidirectional pattern synonym viewing the rear of a non-empty
 --   sequence.
 pattern (:|>) :: Seq a -> a -> Seq a
-infixr 5 :<|
 infixl 5 :|>
+infixr 5 :<|
 
 -- | &lt;math&gt;. The empty sequence.
 empty :: Seq a
@@ -3036,6 +3036,7 @@ instance GHC.Base.Monad Data.Tree.Tree
 instance Control.Monad.Fix.MonadFix Data.Tree.Tree
 instance Data.Traversable.Traversable Data.Tree.Tree
 instance Data.Foldable.Foldable Data.Tree.Tree
+instance Data.Foldable1.Foldable1 Data.Tree.Tree
 instance Control.DeepSeq.NFData a => Control.DeepSeq.NFData (Data.Tree.Tree a)
 instance Control.Monad.Zip.MonadZip Data.Tree.Tree
 

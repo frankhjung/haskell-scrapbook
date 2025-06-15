@@ -22,10 +22,10 @@ class Monad m => PrimMonad m where {
 -- | Execute a primitive operation.
 primitive :: PrimMonad m => (State# (PrimState m) -> (# State# (PrimState m), a #)) -> m a
 
--- | <tt>RealWorld</tt> is deeply magical. It is <i>primitive</i>, but it
---   is not <i>unlifted</i> (hence <tt>ptrArg</tt>). We never manipulate
---   values of type <tt>RealWorld</tt>; it's only used in the type system,
---   to parameterise <tt>State#</tt>.
+-- | <a>RealWorld</a> is deeply magical. It is <i>primitive</i>, but it is
+--   not <i>unlifted</i> (hence <tt>ptrArg</tt>). We never manipulate
+--   values of type <a>RealWorld</a>; it's only used in the type system, to
+--   parameterise <a>State#</a>.
 data RealWorld
 
 -- | Execute a primitive operation with no result.
@@ -125,8 +125,6 @@ instance Control.Monad.Primitive.PrimBase (Control.Monad.ST.Lazy.Imp.ST s)
 instance Control.Monad.Primitive.PrimMonad GHC.Types.IO
 instance Control.Monad.Primitive.PrimMonad m => Control.Monad.Primitive.PrimMonad (Control.Monad.Trans.Cont.ContT r m)
 instance Control.Monad.Primitive.PrimMonad m => Control.Monad.Primitive.PrimMonad (Control.Monad.Trans.Identity.IdentityT m)
-instance Control.Monad.Primitive.PrimMonad m => Control.Monad.Primitive.PrimMonad (Control.Monad.Trans.List.ListT m)
-instance (Control.Monad.Trans.Error.Error e, Control.Monad.Primitive.PrimMonad m) => Control.Monad.Primitive.PrimMonad (Control.Monad.Trans.Error.ErrorT e m)
 instance Control.Monad.Primitive.PrimMonad m => Control.Monad.Primitive.PrimMonad (Control.Monad.Trans.Maybe.MaybeT m)
 instance Control.Monad.Primitive.PrimMonad m => Control.Monad.Primitive.PrimMonad (Control.Monad.Trans.Reader.ReaderT r m)
 instance Control.Monad.Primitive.PrimMonad m => Control.Monad.Primitive.PrimMonad (Control.Monad.Trans.State.Lazy.StateT s m)
@@ -1005,24 +1003,24 @@ instance Data.Primitive.Types.Prim Foreign.Ptr.IntPtr
 --   8-bit words.
 module Data.Primitive.ByteArray
 
--- | Boxed wrapper for <a>ByteArray#</a>.
+-- | Lifted wrapper for <a>ByteArray#</a>.
 --   
 --   Since <a>ByteArray#</a> is an unlifted type and not a member of kind
 --   <a>Type</a>, things like <tt>[ByteArray#]</tt> or <tt>IO
 --   ByteArray#</tt> are ill-typed. To work around this inconvenience this
---   module provides a standard boxed wrapper, inhabiting <a>Type</a>.
+--   module provides a standard lifted wrapper, inhabiting <a>Type</a>.
 --   Clients are expected to use <a>ByteArray</a> in higher-level APIs, but
 --   wrap and unwrap <a>ByteArray</a> internally as they please and use
 --   functions from <a>GHC.Exts</a>.
 data () => ByteArray
 ByteArray :: ByteArray# -> ByteArray
 
--- | Boxed wrapper for <a>MutableByteArray#</a>.
+-- | Lifted wrapper for <a>MutableByteArray#</a>.
 --   
 --   Since <a>MutableByteArray#</a> is an unlifted type and not a member of
 --   kind <a>Type</a>, things like <tt>[MutableByteArray#]</tt> or <tt>IO
 --   MutableByteArray#</tt> are ill-typed. To work around this
---   inconvenience this module provides a standard boxed wrapper,
+--   inconvenience this module provides a standard lifted wrapper,
 --   inhabiting <a>Type</a>. Clients are expected to use
 --   <a>MutableByteArray</a> in higher-level APIs, but wrap and unwrap
 --   <a>MutableByteArray</a> internally as they please and use functions
@@ -1034,17 +1032,18 @@ MutableByteArray :: MutableByteArray# s -> MutableByteArray s
 --   garbage-collected heap, which is not scanned for pointers during
 --   garbage collection.
 --   
---   It is created by freezing a 'MutableByteArray#' with
---   'unsafeFreezeByteArray#'. Freezing is essentially a no-op, as
---   MutableByteArray# and ByteArray# share the same heap structure under
---   the hood.
+--   It is created by freezing a <a>MutableByteArray#</a> with
+--   <a>unsafeFreezeByteArray#</a>. Freezing is essentially a no-op, as
+--   <a>MutableByteArray#</a> and <a>ByteArray#</a> share the same heap
+--   structure under the hood.
 --   
 --   The immutable and mutable variants are commonly used for scenarios
---   requiring high-performance data structures, like Text, Primitive
---   Vector, Unboxed Array, and ShortByteString.
+--   requiring high-performance data structures, like <tt>Text</tt>,
+--   <tt>Primitive Vector</tt>, <tt>Unboxed Array</tt>, and
+--   <tt>ShortByteString</tt>.
 --   
---   Another application of fundamental importance is 'Integer', which is
---   backed by 'ByteArray#'.
+--   Another application of fundamental importance is <tt>Integer</tt>,
+--   which is backed by <a>ByteArray#</a>.
 --   
 --   The representation on the heap of a Byte Array is:
 --   
@@ -1057,20 +1056,20 @@ MutableByteArray :: MutableByteArray# s -> MutableByteArray s
 --   </pre>
 --   
 --   To obtain a pointer to actual payload (e.g., for FFI purposes) use
---   'byteArrayContents#' or 'mutableByteArrayContents#'.
+--   <a>byteArrayContents#</a> or <a>mutableByteArrayContents#</a>.
 --   
---   Alternatively, enabling the UnliftedFFITypes extension allows to
---   mention 'ByteArray#' and 'MutableByteArray#' in FFI type signatures
---   directly.
+--   Alternatively, enabling the <tt>UnliftedFFITypes</tt> extension allows
+--   to mention <a>ByteArray#</a> and <a>MutableByteArray#</a> in FFI type
+--   signatures directly.
 data ByteArray# :: UnliftedType
 
--- | A mutable ByteAray#. It can be created in three ways:
+-- | A mutable <tt>ByteAray#</tt>. It can be created in three ways:
 --   
 --   <ul>
---   <li>'newByteArray#': Create an unpinned array.</li>
---   <li>'newPinnedByteArray#': This will create a pinned array,</li>
---   <li>'newAlignedPinnedByteArray#': This will create a pinned array,
---   with a custom alignment.</li>
+--   <li><a>newByteArray#</a>: Create an unpinned array.</li>
+--   <li><a>newPinnedByteArray#</a>: This will create a pinned array,</li>
+--   <li><a>newAlignedPinnedByteArray#</a>: This will create a pinned
+--   array, with a custom alignment.</li>
 --   </ul>
 --   
 --   Unpinned arrays can be moved around during garbage collection, so you

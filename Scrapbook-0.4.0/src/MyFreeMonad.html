@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE DeriveFunctor #-}</span><span>
+</span><span id="line-2"></span><span>
+</span><span id="line-3"></span><span class="annot"><span class="hs-comment">{-|
+
+Module      : MyFreeMonad
+Description : Implement a Free Monad using a DSL as an example.
+Copyright   : &#169; Frank Jung, 2023
+License     : GPL-3
+
+The code was originally provided by ChatGPT. It had to be modified to
+compile. I added tests.
+
+-}</span></span><span>
+</span><span id="line-14"></span><span>
+</span><span id="line-15"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">MyFreeMonad</span><span> </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="MyFreeMonad.html#ArithM"><span class="hs-identifier">ArithM</span></a></span><span>
+</span><span id="line-16"></span><span>                   </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="MyFreeMonad.html#ArithF"><span class="hs-identifier">ArithF</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-17"></span><span>                   </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="MyFreeMonad.html#addM"><span class="hs-identifier">addM</span></a></span><span>
+</span><span id="line-18"></span><span>                   </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="MyFreeMonad.html#subM"><span class="hs-identifier">subM</span></a></span><span>
+</span><span id="line-19"></span><span>                   </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="MyFreeMonad.html#mulM"><span class="hs-identifier">mulM</span></a></span><span>
+</span><span id="line-20"></span><span>                   </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="MyFreeMonad.html#divM"><span class="hs-identifier">divM</span></a></span><span>
+</span><span id="line-21"></span><span>                   </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="MyFreeMonad.html#evalArith"><span class="hs-identifier">evalArith</span></a></span><span>
+</span><span id="line-22"></span><span>                   </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="MyFreeMonad.html#example"><span class="hs-identifier">example</span></a></span><span>
+</span><span id="line-23"></span><span>                   </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="MyFreeMonad.html#example%27"><span class="hs-identifier">example'</span></a></span><span>
+</span><span id="line-24"></span><span>                   </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-25"></span><span>
+</span><span id="line-26"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Control.Monad.Free</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Free</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">liftF</span></span><span class="hs-special">)</span><span>
+</span><span id="line-27"></span><span>
+</span><span id="line-28"></span><span class="annot"><span class="hs-comment">-- | Arithmetic functor.</span></span><span>
+</span><span id="line-29"></span><span class="hs-keyword">data</span><span> </span><span id="ArithF"><span class="annot"><a href="MyFreeMonad.html#ArithF"><span class="hs-identifier hs-var">ArithF</span></a></span></span><span> </span><span id="local-6989586621679097674"><span class="annot"><a href="#local-6989586621679097674"><span class="hs-identifier hs-type">x</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="Add"><span class="annot"><a href="MyFreeMonad.html#Add"><span class="hs-identifier hs-var">Add</span></a></span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="annot"><a href="#local-6989586621679097674"><span class="hs-identifier hs-type">x</span></a></span><span> </span><span class="hs-glyph">|</span><span> </span><span id="Sub"><span class="annot"><a href="MyFreeMonad.html#Sub"><span class="hs-identifier hs-var">Sub</span></a></span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="annot"><a href="#local-6989586621679097674"><span class="hs-identifier hs-type">x</span></a></span><span> </span><span class="hs-glyph">|</span><span> </span><span id="Mul"><span class="annot"><a href="MyFreeMonad.html#Mul"><span class="hs-identifier hs-var">Mul</span></a></span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="annot"><a href="#local-6989586621679097674"><span class="hs-identifier hs-type">x</span></a></span><span> </span><span class="hs-glyph">|</span><span> </span><span id="Div"><span class="annot"><a href="MyFreeMonad.html#Div"><span class="hs-identifier hs-var">Div</span></a></span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="annot"><a href="#local-6989586621679097674"><span class="hs-identifier hs-type">x</span></a></span><span> </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679097718"><span id="local-6989586621679097734"><span id="local-6989586621679097738"><span class="annot"><span class="annottext">Int -&gt; ArithF x -&gt; ShowS
+[ArithF x] -&gt; ShowS
+ArithF x -&gt; String
+(Int -&gt; ArithF x -&gt; ShowS)
+-&gt; (ArithF x -&gt; String) -&gt; ([ArithF x] -&gt; ShowS) -&gt; Show (ArithF x)
+forall x. Show x =&gt; Int -&gt; ArithF x -&gt; ShowS
+forall x. Show x =&gt; [ArithF x] -&gt; ShowS
+forall x. Show x =&gt; ArithF x -&gt; String
+forall a.
+(Int -&gt; a -&gt; ShowS) -&gt; (a -&gt; String) -&gt; ([a] -&gt; ShowS) -&gt; Show a
+$cshowsPrec :: forall x. Show x =&gt; Int -&gt; ArithF x -&gt; ShowS
+showsPrec :: Int -&gt; ArithF x -&gt; ShowS
+$cshow :: forall x. Show x =&gt; ArithF x -&gt; String
+show :: ArithF x -&gt; String
+$cshowList :: forall x. Show x =&gt; [ArithF x] -&gt; ShowS
+showList :: [ArithF x] -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679097742"><span id="local-6989586621679097744"><span class="annot"><span class="annottext">(forall a b. (a -&gt; b) -&gt; ArithF a -&gt; ArithF b)
+-&gt; (forall a b. a -&gt; ArithF b -&gt; ArithF a) -&gt; Functor ArithF
+forall a b. a -&gt; ArithF b -&gt; ArithF a
+forall a b. (a -&gt; b) -&gt; ArithF a -&gt; ArithF b
+forall (f :: * -&gt; *).
+(forall a b. (a -&gt; b) -&gt; f a -&gt; f b)
+-&gt; (forall a b. a -&gt; f b -&gt; f a) -&gt; Functor f
+$cfmap :: forall a b. (a -&gt; b) -&gt; ArithF a -&gt; ArithF b
+fmap :: forall a b. (a -&gt; b) -&gt; ArithF a -&gt; ArithF b
+$c&lt;$ :: forall a b. a -&gt; ArithF b -&gt; ArithF a
+&lt;$ :: forall a b. a -&gt; ArithF b -&gt; ArithF a
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Functor</span></span></span></span><span class="hs-special">)</span><span>
+</span><span id="line-30"></span><span>
+</span><span id="line-31"></span><span class="annot"><span class="hs-comment">-- | Arithmetic free monad.</span></span><span>
+</span><span id="line-32"></span><span class="hs-keyword">type</span><span> </span><span id="ArithM"><span class="annot"><a href="MyFreeMonad.html#ArithM"><span class="hs-identifier hs-var">ArithM</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Free</span></span><span> </span><span class="annot"><a href="MyFreeMonad.html#ArithF"><span class="hs-identifier hs-type">ArithF</span></a></span><span>
+</span><span id="line-33"></span><span>
+</span><span id="line-34"></span><span class="annot"><span class="hs-comment">-- | Given Arithmetic free monad, return its value.</span></span><span>
+</span><span id="line-35"></span><span class="annot"><a href="MyFreeMonad.html#evalArith"><span class="hs-identifier hs-type">evalArith</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Free</span></span><span> </span><span class="annot"><a href="MyFreeMonad.html#ArithF"><span class="hs-identifier hs-type">ArithF</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span>
+</span><span id="line-36"></span><span id="evalArith"><span class="annot"><span class="annottext">evalArith :: Free ArithF Int -&gt; Int
+</span><a href="MyFreeMonad.html#evalArith"><span class="hs-identifier hs-var hs-var">evalArith</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Free</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="MyFreeMonad.html#Add"><span class="hs-identifier hs-type">Add</span></a></span><span> </span><span id="local-6989586621679097747"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679097747"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span id="local-6989586621679097748"><span class="annot"><span class="annottext">Free ArithF Int
+</span><a href="#local-6989586621679097748"><span class="hs-identifier hs-var">n</span></a></span></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Free ArithF Int -&gt; Int
+</span><a href="MyFreeMonad.html#evalArith"><span class="hs-identifier hs-var">evalArith</span></a></span><span> </span><span class="annot"><span class="annottext">Free ArithF Int
+</span><a href="#local-6989586621679097748"><span class="hs-identifier hs-var">n</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
+forall a. Num a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">+</span></span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679097747"><span class="hs-identifier hs-var">x</span></a></span><span>
+</span><span id="line-37"></span><span class="annot"><a href="MyFreeMonad.html#evalArith"><span class="hs-identifier hs-var">evalArith</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Free</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="MyFreeMonad.html#Sub"><span class="hs-identifier hs-type">Sub</span></a></span><span> </span><span id="local-6989586621679097750"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679097750"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span id="local-6989586621679097751"><span class="annot"><span class="annottext">Free ArithF Int
+</span><a href="#local-6989586621679097751"><span class="hs-identifier hs-var">n</span></a></span></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Free ArithF Int -&gt; Int
+</span><a href="MyFreeMonad.html#evalArith"><span class="hs-identifier hs-var">evalArith</span></a></span><span> </span><span class="annot"><span class="annottext">Free ArithF Int
+</span><a href="#local-6989586621679097751"><span class="hs-identifier hs-var">n</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
+forall a. Num a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-glyph hs-var">-</span></span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679097750"><span class="hs-identifier hs-var">x</span></a></span><span>
+</span><span id="line-38"></span><span class="annot"><a href="MyFreeMonad.html#evalArith"><span class="hs-identifier hs-var">evalArith</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Free</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="MyFreeMonad.html#Mul"><span class="hs-identifier hs-type">Mul</span></a></span><span> </span><span id="local-6989586621679097752"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679097752"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span id="local-6989586621679097753"><span class="annot"><span class="annottext">Free ArithF Int
+</span><a href="#local-6989586621679097753"><span class="hs-identifier hs-var">n</span></a></span></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Free ArithF Int -&gt; Int
+</span><a href="MyFreeMonad.html#evalArith"><span class="hs-identifier hs-var">evalArith</span></a></span><span> </span><span class="annot"><span class="annottext">Free ArithF Int
+</span><a href="#local-6989586621679097753"><span class="hs-identifier hs-var">n</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
+forall a. Num a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">*</span></span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679097752"><span class="hs-identifier hs-var">x</span></a></span><span>
+</span><span id="line-39"></span><span class="annot"><a href="MyFreeMonad.html#evalArith"><span class="hs-identifier hs-var">evalArith</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Free</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="MyFreeMonad.html#Div"><span class="hs-identifier hs-type">Div</span></a></span><span> </span><span id="local-6989586621679097755"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679097755"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span id="local-6989586621679097756"><span class="annot"><span class="annottext">Free ArithF Int
+</span><a href="#local-6989586621679097756"><span class="hs-identifier hs-var">n</span></a></span></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Free ArithF Int -&gt; Int
+</span><a href="MyFreeMonad.html#evalArith"><span class="hs-identifier hs-var">evalArith</span></a></span><span> </span><span class="annot"><span class="annottext">Free ArithF Int
+</span><a href="#local-6989586621679097756"><span class="hs-identifier hs-var">n</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
+forall a. Integral a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">`div`</span></span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679097755"><span class="hs-identifier hs-var">x</span></a></span><span>
+</span><span id="line-40"></span><span class="annot"><a href="MyFreeMonad.html#evalArith"><span class="hs-identifier hs-var">evalArith</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Pure</span></span><span> </span><span id="local-6989586621679097759"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679097759"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-special">)</span><span>         </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679097759"><span class="hs-identifier hs-var">x</span></a></span><span>
+</span><span id="line-41"></span><span>
+</span><span id="line-42"></span><span class="annot"><a href="MyFreeMonad.html#addM"><span class="hs-identifier hs-type">addM</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="MyFreeMonad.html#ArithM"><span class="hs-identifier hs-type">ArithM</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
+</span><span id="line-43"></span><span id="addM"><span class="annot"><span class="annottext">addM :: Int -&gt; ArithM ()
+</span><a href="MyFreeMonad.html#addM"><span class="hs-identifier hs-var hs-var">addM</span></a></span></span><span> </span><span id="local-6989586621679097760"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679097760"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ArithF () -&gt; ArithM ()
+forall (f :: * -&gt; *) (m :: * -&gt; *) a.
+(Functor f, MonadFree f m) =&gt;
+f a -&gt; m a
+</span><span class="hs-identifier hs-var">liftF</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int -&gt; () -&gt; ArithF ()
+forall x. Int -&gt; x -&gt; ArithF x
+</span><a href="MyFreeMonad.html#Add"><span class="hs-identifier hs-var">Add</span></a></span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679097760"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-44"></span><span>
+</span><span id="line-45"></span><span class="annot"><a href="MyFreeMonad.html#subM"><span class="hs-identifier hs-type">subM</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="MyFreeMonad.html#ArithM"><span class="hs-identifier hs-type">ArithM</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
+</span><span id="line-46"></span><span id="subM"><span class="annot"><span class="annottext">subM :: Int -&gt; ArithM ()
+</span><a href="MyFreeMonad.html#subM"><span class="hs-identifier hs-var hs-var">subM</span></a></span></span><span> </span><span id="local-6989586621679097761"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679097761"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ArithF () -&gt; ArithM ()
+forall (f :: * -&gt; *) (m :: * -&gt; *) a.
+(Functor f, MonadFree f m) =&gt;
+f a -&gt; m a
+</span><span class="hs-identifier hs-var">liftF</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int -&gt; () -&gt; ArithF ()
+forall x. Int -&gt; x -&gt; ArithF x
+</span><a href="MyFreeMonad.html#Sub"><span class="hs-identifier hs-var">Sub</span></a></span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679097761"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-47"></span><span>
+</span><span id="line-48"></span><span class="annot"><a href="MyFreeMonad.html#mulM"><span class="hs-identifier hs-type">mulM</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="MyFreeMonad.html#ArithM"><span class="hs-identifier hs-type">ArithM</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
+</span><span id="line-49"></span><span id="mulM"><span class="annot"><span class="annottext">mulM :: Int -&gt; ArithM ()
+</span><a href="MyFreeMonad.html#mulM"><span class="hs-identifier hs-var hs-var">mulM</span></a></span></span><span> </span><span id="local-6989586621679097762"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679097762"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ArithF () -&gt; ArithM ()
+forall (f :: * -&gt; *) (m :: * -&gt; *) a.
+(Functor f, MonadFree f m) =&gt;
+f a -&gt; m a
+</span><span class="hs-identifier hs-var">liftF</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int -&gt; () -&gt; ArithF ()
+forall x. Int -&gt; x -&gt; ArithF x
+</span><a href="MyFreeMonad.html#Mul"><span class="hs-identifier hs-var">Mul</span></a></span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679097762"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-50"></span><span>
+</span><span id="line-51"></span><span class="annot"><a href="MyFreeMonad.html#divM"><span class="hs-identifier hs-type">divM</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="MyFreeMonad.html#ArithM"><span class="hs-identifier hs-type">ArithM</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
+</span><span id="line-52"></span><span id="divM"><span class="annot"><span class="annottext">divM :: Int -&gt; ArithM ()
+</span><a href="MyFreeMonad.html#divM"><span class="hs-identifier hs-var hs-var">divM</span></a></span></span><span> </span><span id="local-6989586621679097763"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679097763"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ArithF () -&gt; ArithM ()
+forall (f :: * -&gt; *) (m :: * -&gt; *) a.
+(Functor f, MonadFree f m) =&gt;
+f a -&gt; m a
+</span><span class="hs-identifier hs-var">liftF</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int -&gt; () -&gt; ArithF ()
+forall x. Int -&gt; x -&gt; ArithF x
+</span><a href="MyFreeMonad.html#Div"><span class="hs-identifier hs-var">Div</span></a></span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679097763"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-53"></span><span>
+</span><span id="line-54"></span><span class="hs-comment">-- | A simple example on how to use DSL:</span><span>
+</span><span id="line-55"></span><span class="hs-comment">--</span><span>
+</span><span id="line-56"></span><span class="hs-comment">-- @example 0 = ((((0+10)*2)-10)/2) == 5@</span><span>
+</span><span id="line-57"></span><span class="hs-comment">--</span><span>
+</span><span id="line-58"></span><span class="hs-comment">-- Get back the integer value with:</span><span>
+</span><span id="line-59"></span><span class="hs-comment">--</span><span>
+</span><span id="line-60"></span><span class="hs-comment">-- @evalArith (example 0)@</span><span>
+</span><span id="line-61"></span><span class="annot"><a href="MyFreeMonad.html#example"><span class="hs-identifier hs-type">example</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="MyFreeMonad.html#ArithM"><span class="hs-identifier hs-type">ArithM</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span>
+</span><span id="line-62"></span><span id="example"><span class="annot"><span class="annottext">example :: Int -&gt; Free ArithF Int
+</span><a href="MyFreeMonad.html#example"><span class="hs-identifier hs-var hs-var">example</span></a></span></span><span> </span><span id="local-6989586621679097764"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679097764"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-63"></span><span>  </span><span class="annot"><span class="annottext">Int -&gt; ArithM ()
+</span><a href="MyFreeMonad.html#divM"><span class="hs-identifier hs-var">divM</span></a></span><span> </span><span class="annot"><span class="annottext">Int
+</span><span class="hs-number">2</span></span><span>
+</span><span id="line-64"></span><span>  </span><span class="annot"><span class="annottext">ArithM () -&gt; ArithM () -&gt; ArithM ()
+forall a b. Free ArithF a -&gt; Free ArithF b -&gt; Free ArithF b
+forall (m :: * -&gt; *) a b. Monad m =&gt; m a -&gt; m b -&gt; m b
+</span><span class="hs-operator hs-var">&gt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Int -&gt; ArithM ()
+</span><a href="MyFreeMonad.html#subM"><span class="hs-identifier hs-var">subM</span></a></span><span> </span><span class="annot"><span class="annottext">Int
+</span><span class="hs-number">10</span></span><span>
+</span><span id="line-65"></span><span>  </span><span class="annot"><span class="annottext">ArithM () -&gt; ArithM () -&gt; ArithM ()
+forall a b. Free ArithF a -&gt; Free ArithF b -&gt; Free ArithF b
+forall (m :: * -&gt; *) a b. Monad m =&gt; m a -&gt; m b -&gt; m b
+</span><span class="hs-operator hs-var">&gt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Int -&gt; ArithM ()
+</span><a href="MyFreeMonad.html#mulM"><span class="hs-identifier hs-var">mulM</span></a></span><span> </span><span class="annot"><span class="annottext">Int
+</span><span class="hs-number">2</span></span><span>
+</span><span id="line-66"></span><span>  </span><span class="annot"><span class="annottext">ArithM () -&gt; ArithM () -&gt; ArithM ()
+forall a b. Free ArithF a -&gt; Free ArithF b -&gt; Free ArithF b
+forall (m :: * -&gt; *) a b. Monad m =&gt; m a -&gt; m b -&gt; m b
+</span><span class="hs-operator hs-var">&gt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Int -&gt; ArithM ()
+</span><a href="MyFreeMonad.html#addM"><span class="hs-identifier hs-var">addM</span></a></span><span> </span><span class="annot"><span class="annottext">Int
+</span><span class="hs-number">10</span></span><span>
+</span><span id="line-67"></span><span>  </span><span class="annot"><span class="annottext">ArithM () -&gt; Free ArithF Int -&gt; Free ArithF Int
+forall a b. Free ArithF a -&gt; Free ArithF b -&gt; Free ArithF b
+forall (m :: * -&gt; *) a b. Monad m =&gt; m a -&gt; m b -&gt; m b
+</span><span class="hs-operator hs-var">&gt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Free ArithF Int
+forall a. a -&gt; Free ArithF a
+forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
+</span><span class="hs-identifier hs-var">return</span></span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679097764"><span class="hs-identifier hs-var">n</span></a></span><span>
+</span><span id="line-68"></span><span>
+</span><span id="line-69"></span><span class="annot"><span class="hs-comment">-- | Another example on how to use this DSL:</span></span><span>
+</span><span id="line-70"></span><span class="annot"><a href="MyFreeMonad.html#example%27"><span class="hs-identifier hs-type">example'</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="MyFreeMonad.html#ArithM"><span class="hs-identifier hs-type">ArithM</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span>
+</span><span id="line-71"></span><span id="example%27"><span class="annot"><span class="annottext">example' :: Int -&gt; Free ArithF Int
+</span><a href="MyFreeMonad.html#example%27"><span class="hs-identifier hs-var hs-var">example'</span></a></span></span><span> </span><span id="local-6989586621679097765"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679097765"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-72"></span><span>  </span><span class="annot"><span class="annottext">Int -&gt; ArithM ()
+</span><a href="MyFreeMonad.html#divM"><span class="hs-identifier hs-var">divM</span></a></span><span> </span><span class="annot"><span class="annottext">Int
+</span><span class="hs-number">2</span></span><span>
+</span><span id="line-73"></span><span>  </span><span class="annot"><span class="annottext">ArithM () -&gt; ArithM () -&gt; ArithM ()
+forall a b. Free ArithF a -&gt; Free ArithF b -&gt; Free ArithF b
+forall (m :: * -&gt; *) a b. Monad m =&gt; m a -&gt; m b -&gt; m b
+</span><span class="hs-operator hs-var">&gt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Int -&gt; ArithM ()
+</span><a href="MyFreeMonad.html#mulM"><span class="hs-identifier hs-var">mulM</span></a></span><span> </span><span class="annot"><span class="annottext">Int
+</span><span class="hs-number">2</span></span><span>
+</span><span id="line-74"></span><span>  </span><span class="annot"><span class="annottext">ArithM () -&gt; Free ArithF Int -&gt; Free ArithF Int
+forall a b. Free ArithF a -&gt; Free ArithF b -&gt; Free ArithF b
+forall (m :: * -&gt; *) a b. Monad m =&gt; m a -&gt; m b -&gt; m b
+</span><span class="hs-operator hs-var">&gt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Free ArithF Int
+forall a. a -&gt; Free ArithF a
+forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
+</span><span class="hs-identifier hs-var">return</span></span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679097765"><span class="hs-identifier hs-var">n</span></a></span><span>
+</span><span id="line-75"></span></pre></body></html>

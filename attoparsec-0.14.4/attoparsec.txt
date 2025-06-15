@@ -76,9 +76,21 @@ Incomplete :: More
 
 -- | An associative operation.
 --   
+--   <h4><b>Examples</b></h4>
+--   
 --   <pre>
 --   &gt;&gt;&gt; [1,2,3] &lt;&gt; [4,5,6]
 --   [1,2,3,4,5,6]
+--   </pre>
+--   
+--   <pre>
+--   &gt;&gt;&gt; Just [1, 2, 3] &lt;&gt; Just [4, 5, 6]
+--   Just [1,2,3,4,5,6]
+--   </pre>
+--   
+--   <pre>
+--   &gt;&gt;&gt; putStr "Hello, " &lt;&gt; putStrLn "World!"
+--   Hello, World!
 --   </pre>
 (<>) :: Semigroup a => a -> a -> a
 infixr 6 <>
