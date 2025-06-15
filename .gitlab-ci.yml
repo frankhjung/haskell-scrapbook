@@ -10,7 +10,7 @@ build:
     - tags
   image: frankhjung/haskell:${GHC_VERSION}
   variables:
-    GHC_VERSION: "9.4.8"
+    GHC_VERSION: "9.6.7"
     STACK_ROOT: ${CI_PROJECT_DIR}/.stack-work
   script:
     - make check

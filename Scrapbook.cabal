@@ -1,6 +1,6 @@
-cabal-version:      2.4
+cabal-version:      3.0
 name:               Scrapbook
-version:            0.3.3
+version:            0.4.0
 description:
   Please see the README on GitLab at
   <https://github.com/frankhjung/haskell-scrapbook#readme>
@@ -25,19 +25,19 @@ library
   default-language: Haskell2010
   ghc-options:      -Wall
   build-depends:
-    , aeson         ^>=2.1.2.1
-    , base          ^>=4.17.2
-    , bytestring    ^>=0.11.5
-    , directory     ^>=1.3.7
-    , filepath      ^>=1.4.2
-    , free          ^>=5.1.10
-    , hspec         ^>=2.10.10
-    , mtl           ^>=2.2.2
-    , QuickCheck    ^>=2.14.3
-    , random        ^>=1.2.1
-    , text          ^>=2.0.2
-    , time          ^>=1.12.2
-    , transformers  ^>=0.5.6
+    , aeson         ^>=2.1
+    , base          ^>=4.18
+    , bytestring    ^>=0.11
+    , directory     ^>=1.3
+    , filepath      ^>=1.4
+    , free          ^>=5.2
+    , hspec         ^>=2.11
+    , mtl           ^>=2.3
+    , QuickCheck    ^>=2.14
+    , random        ^>=1.2
+    , text          ^>=2.0
+    , time          ^>=1.12
+    , transformers  ^>=0.6
 
   exposed-modules:
     ApplyToTuple
@@ -77,7 +77,7 @@ executable counter
   hs-source-dirs:   app
   main-is:          Counter.hs
   default-language: Haskell2010
-  build-depends:    base
+  build-depends:    base ^>=4.18
   ghc-options:
     -Wno-unrecognised-pragmas -Wno-unused-top-binds -threaded -rtsopts
     -with-rtsopts=-N
@@ -86,7 +86,7 @@ executable fpcomplete
   hs-source-dirs:   app
   main-is:          FPComplete.hs
   default-language: Haskell2010
-  build-depends:    base
+  build-depends:    base ^>=4.18
   ghc-options:
     -Wno-unrecognised-pragmas -Wno-unused-top-binds -threaded -rtsopts
     -with-rtsopts=-N
@@ -97,11 +97,11 @@ executable json
   default-language: Haskell2010
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-    , aeson
-    , base
-    , bytestring
-    , containers  ^>=0.6.7
-    , text
+    , aeson       ^>=2.1
+    , base        ^>=4.18
+    , bytestring  ^>=0.11
+    , containers  ^>=0.6
+    , text        ^>=2.0
 
 executable numberlines
   hs-source-dirs:   app
@@ -109,8 +109,8 @@ executable numberlines
   default-language: Haskell2010
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-    , base
-    , fmt   ^>=0.6.3
+    , base  ^>=4.18
+    , fmt   ^>=0.6
 
 executable polydivs
   hs-source-dirs:   app src
@@ -119,7 +119,7 @@ executable polydivs
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
   other-modules:    PolyDivisors
   build-depends:
-    , base
+    , base       ^>=4.18
     , Scrapbook
 
 executable quine
@@ -127,7 +127,7 @@ executable quine
   main-is:          Quine.hs
   default-language: Haskell2010
   ghc-options:
-  build-depends:    base
+  build-depends:    base ^>=4.18
 
 executable readfile
   hs-source-dirs:   app
@@ -135,15 +135,15 @@ executable readfile
   default-language: Haskell2010
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-    , base
-    , text
+    , base  ^>=4.18
+    , text  ^>=2.0
 
 executable skips
   hs-source-dirs:   app
   main-is:          Skips.hs
   default-language: Haskell2010
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
-  build-depends:    base
+  build-depends:    base ^>=4.18
 
 executable stategame
   hs-source-dirs:   app
@@ -151,8 +151,8 @@ executable stategame
   default-language: Haskell2010
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-    , base
-    , mtl
+    , base  ^>=4.18
+    , mtl   ^>=2.3
 
 executable threads
   hs-source-dirs:   app
@@ -160,8 +160,8 @@ executable threads
   default-language: Haskell2010
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-    , base
-    , stm   ^>=2.5.1
+    , base  ^>=4.18
+    , stm   ^>=2.5
 
 executable vocab
   hs-source-dirs:   app
@@ -169,15 +169,15 @@ executable vocab
   default-language: Haskell2010
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-    , base
-    , text
+    , base  ^>=4.18
+    , text  ^>=2.0
 
 executable while
   hs-source-dirs:   app
   main-is:          While.hs
   default-language: Haskell2010
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
-  build-depends:    base
+  build-depends:    base ^>=4.18
 
 executable wordcount
   hs-source-dirs:   app
@@ -185,8 +185,8 @@ executable wordcount
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
   default-language: Haskell2010
   build-depends:
-    , base
-    , fmt
+    , base  ^>=4.18
+    , fmt   ^>=0.6
 
 executable wordcountarrow
   hs-source-dirs:   app
@@ -194,8 +194,8 @@ executable wordcountarrow
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
   default-language: Haskell2010
   build-depends:
-    , base
-    , fmt
+    , base  ^>=4.18
+    , fmt   ^>=0.6
 
 test-suite test
   hs-source-dirs:     test
@@ -206,7 +206,7 @@ test-suite test
   build-tool-depends: hspec-discover:hspec-discover
   build-depends:
     , aeson
-    , base
+    , base            ^>=4.18
     , bytestring
     , directory
     , filepath
@@ -228,7 +228,7 @@ benchmark monTransBench
   type:             exitcode-stdio-1.0
   other-modules:    MonTrans
   build-depends:
-    , base
+    , base       ^>=4.18
     , criterion
 
 benchmark myfilterBench
@@ -238,7 +238,7 @@ benchmark myfilterBench
   type:             exitcode-stdio-1.0
   other-modules:    MyFilter
   build-depends:
-    , base
+    , base       ^>=4.18
     , criterion
 
 benchmark myreverseBench
@@ -248,7 +248,7 @@ benchmark myreverseBench
   type:             exitcode-stdio-1.0
   other-modules:    MyReverse
   build-depends:
-    , base
+    , base       ^>=4.18
     , criterion
 
 benchmark polydivisorsBench
@@ -258,7 +258,7 @@ benchmark polydivisorsBench
   type:             exitcode-stdio-1.0
   other-modules:    PolyDivisors
   build-depends:
-    , base
+    , base       ^>=4.18
     , criterion
 
 benchmark recursionschemesBench
@@ -268,7 +268,7 @@ benchmark recursionschemesBench
   type:             exitcode-stdio-1.0
   other-modules:    RecursionSchemes
   build-depends:
-    , base
+    , base       ^>=4.18
     , criterion
 
 benchmark repmaxBench
@@ -278,7 +278,7 @@ benchmark repmaxBench
   type:             exitcode-stdio-1.0
   other-modules:    RepMax
   build-depends:
-    , base
+    , base       ^>=4.18
     , criterion
 
 benchmark subseqsBench
@@ -288,7 +288,7 @@ benchmark subseqsBench
   type:             exitcode-stdio-1.0
   other-modules:    SubSeqs
   build-depends:
-    , base
+    , base       ^>=4.18
     , criterion
 
 benchmark zipfoldBench
@@ -298,5 +298,5 @@ benchmark zipfoldBench
   type:             exitcode-stdio-1.0
   other-modules:    ZipFold
   build-depends:
-    , base
+    , base       ^>=4.18
     , criterion

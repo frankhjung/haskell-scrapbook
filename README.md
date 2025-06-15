@@ -82,6 +82,14 @@ cabal check --verbose
 hlint --cross --color --show ${SRC}
 ```
 
+### Repl
+
+To start a REPL with the project loaded, use:
+
+```bash
+stack repl
+```
+
 ### Unit Tests
 
 Test using GNU Make:

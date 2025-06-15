@@ -27,8 +27,8 @@ tags:	$(SRC)
 .PHONY: lint
 lint:	$(SRC)
 	@echo lint ...
-	@cabal check
 	@hlint --cross --color --show $(SRC)
+	@cabal check
 	@yamllint --strict $(YAML)
 
 .PHONY: build

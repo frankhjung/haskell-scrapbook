@@ -112,7 +112,7 @@ instance Applicative CPS where
 
 -- | Monad instance for 'CPS'.
 instance Monad CPS where
-  return a = CPS ($ a)
+  -- return a = CPS ($ a)
   (CPS g) >>= f = CPS $ \k -> g (\a -> runCPS (f a) k)
 
 -- Define a simple function to apply
