@@ -52,10 +52,10 @@ retrieves a representation of a type that can be converted to a string.
 </span><span id="line-52"></span><span class="hs-comment">-- context arrow (@=&gt;@), which means the type parameter @a@ can never be</span><span>
 </span><span id="line-53"></span><span class="hs-comment">-- correctly inferred. Haskell refers to such a type as /ambiguous/.</span><span>
 </span><span id="line-54"></span><span class="hs-comment">--</span><span>
-</span><span id="line-55"></span><span class="hs-comment">-- [Proxy @a]: Creates a Proxy value with the phantom type a. A Proxy is a</span><span>
+</span><span id="line-55"></span><span class="hs-comment">-- [Proxy @a]: Creates a Proxy value with the phantom type @a@. A Proxy is a</span><span>
 </span><span id="line-56"></span><span class="hs-comment">--     placeholder that carries type information but has no runtime value.</span><span>
 </span><span id="line-57"></span><span class="hs-comment">--</span><span>
-</span><span id="line-58"></span><span class="hs-comment">-- [typeRep $ Proxy @a]: Retrieves the runtime representation of the type a</span><span>
+</span><span id="line-58"></span><span class="hs-comment">-- [typeRep $ Proxy @a]: Retrieves the runtime representation of the type @a@</span><span>
 </span><span id="line-59"></span><span class="hs-comment">--     using @typeRep@.</span><span>
 </span><span id="line-60"></span><span class="hs-comment">--</span><span>
 </span><span id="line-61"></span><span class="hs-comment">-- [show]: Converts the type representation to a string.</span><span>

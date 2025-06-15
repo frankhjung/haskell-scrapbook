@@ -802,11 +802,11 @@ module MyType
 --   refers to such a type as <i>ambiguous</i>.
 --   
 --   <ul>
---   <li><i>Proxy @a</i> Creates a Proxy value with the phantom type a. A
---   Proxy is a placeholder that carries type information but has no
---   runtime value.</li>
+--   <li><i>Proxy @a</i> Creates a Proxy value with the phantom type
+--   <tt>a</tt>. A Proxy is a placeholder that carries type information but
+--   has no runtime value.</li>
 --   <li><i>typeRep $ Proxy @a</i> Retrieves the runtime representation of
---   the type a using <tt>typeRep</tt>.</li>
+--   the type <tt>a</tt> using <tt>typeRep</tt>.</li>
 --   <li><i>show</i> Converts the type representation to a string.</li>
 --   </ul>
 --   

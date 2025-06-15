@@ -12,8 +12,8 @@ retrieves a representation of a type that can be converted to a string.</p></div
  data Proxy a = Proxy</p><p>Show ambigous types.
  Hindley-Milner type system can only infer types to the right of the
  context arrow (<code>=&gt;</code>), which means the type parameter <code>a</code> can never be
- correctly inferred. Haskell refers to such a type as <em>ambiguous</em>.</p><dl><dt>Proxy @a</dt><dd>Creates a Proxy value with the phantom type a. A Proxy is a
-     placeholder that carries type information but has no runtime value.</dd><dt>typeRep $ Proxy @a</dt><dd>Retrieves the runtime representation of the type a
+ correctly inferred. Haskell refers to such a type as <em>ambiguous</em>.</p><dl><dt>Proxy @a</dt><dd>Creates a Proxy value with the phantom type <code>a</code>. A Proxy is a
+     placeholder that carries type information but has no runtime value.</dd><dt>typeRep $ Proxy @a</dt><dd>Retrieves the runtime representation of the type <code>a</code>
      using <code>typeRep</code>.</dd><dt>show</dt><dd>Converts the type representation to a string.</dd></dl><pre class="screen"><code class="prompt">&gt;&gt;&gt; </code><strong class="userinput"><code>typeName @Int
 </code></strong>&quot;Int&quot;
 </pre><pre class="screen"><code class="prompt">&gt;&gt;&gt; </code><strong class="userinput"><code>typeName @String
