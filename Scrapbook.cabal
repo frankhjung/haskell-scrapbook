@@ -9,8 +9,8 @@ synopsis:           code examples
 homepage:           https://github.com/frankhjung/haskell-scrapbook#readme
 bug-reports:        https://github.com/frankhjung/haskell-scrapbook/issues
 author:             Frank H Jung
-maintainer:         frankhjung@linux.com
-copyright:          Copyright © 2020-2024 Frank H Jung
+maintainer:         frankhjung at linux.com
+copyright:          Copyright © 2020-2025 Frank H Jung
 license:            BSD-3-Clause
 license-file:       LICENSE
 category:           education

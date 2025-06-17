@@ -223,15 +223,10 @@ Example output:
 
 ```text
 $ ghcup list -c installed
-[ Warn  ] New ghc version available. If you want to install this latest version, run 'ghcup install ghc 9.6.2'
-[ Warn  ] New cabal version available. If you want to install this latest version, run 'ghcup install cabal 3.10.1.0'
-[ Warn  ] New stack version available. If you want to install this latest version, run 'ghcup install stack 2.11.1'
-   Tool  Version  Tags               Notes
-✔✔ ghc   9.0.2    base-4.15.1.0      hls-powered
-✔✔ cabal 3.6.2.0  recommended
-✓  hls   1.10.0.0 recommended
-✔✔ hls   2.0.0.0  latest
-✓  stack 2.9.1
-✔✔ stack 2.9.3    recommended
-✔✔ ghcup 0.1.19.2 latest,recommended
+   Tool  Version  Tags                      Notes
+✔✔ ghc   9.6.7    recommended,base-4.18.3.0 hls-powered
+✔✔ cabal 3.12.1.0 recommended
+✔✔ hls   2.10.0.0 latest,recommended
+✔✔ stack 3.5.1    latest
+✔✔ ghcup 0.1.50.2 latest,recommended
 ```
