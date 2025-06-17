@@ -78,24 +78,20 @@ executable counter
   main-is:          Counter.hs
   default-language: Haskell2010
   build-depends:    base ^>=4.18
-  ghc-options:
-    -Wno-unrecognised-pragmas -Wno-unused-top-binds -threaded -rtsopts
-    -with-rtsopts=-N
+  ghc-options:      -Wall -threaded -rtsopts -with-rtsopts=-N
 
 executable fpcomplete
   hs-source-dirs:   app
   main-is:          FPComplete.hs
   default-language: Haskell2010
   build-depends:    base ^>=4.18
-  ghc-options:
-    -Wno-unrecognised-pragmas -Wno-unused-top-binds -threaded -rtsopts
-    -with-rtsopts=-N
+  ghc-options:      -Wall -threaded -rtsopts -with-rtsopts=-N
 
 executable json
   hs-source-dirs:   app
   main-is:          Json.hs
   default-language: Haskell2010
-  ghc-options:      -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:      -Wall -threaded -rtsopts -with-rtsopts=-N
   build-depends:
     , aeson       ^>=2.1
     , base        ^>=4.18
@@ -107,7 +103,7 @@ executable numberlines
   hs-source-dirs:   app
   main-is:          NumberLines.hs
   default-language: Haskell2010
-  ghc-options:      -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:      -Wall -threaded -rtsopts -with-rtsopts=-N
   build-depends:
     , base  ^>=4.18
     , fmt   ^>=0.6
@@ -116,7 +112,7 @@ executable polydivs
   hs-source-dirs:   app src
   main-is:          PolyDivs.hs
   default-language: Haskell2010
-  ghc-options:      -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:      -Wall -threaded -rtsopts -with-rtsopts=-N
   other-modules:    PolyDivisors
   build-depends:
     , base       ^>=4.18
@@ -126,14 +122,14 @@ executable quine
   hs-source-dirs:   app
   main-is:          Quine.hs
   default-language: Haskell2010
-  ghc-options:
+  ghc-options:      -Wall
   build-depends:    base ^>=4.18
 
 executable readfile
   hs-source-dirs:   app
   main-is:          ReadFile.hs
   default-language: Haskell2010
-  ghc-options:      -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:      -Wall -threaded -rtsopts -with-rtsopts=-N
   build-depends:
     , base  ^>=4.18
     , text  ^>=2.0
@@ -142,14 +138,14 @@ executable skips
   hs-source-dirs:   app
   main-is:          Skips.hs
   default-language: Haskell2010
-  ghc-options:      -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:      -Wall -threaded -rtsopts -with-rtsopts=-N
   build-depends:    base ^>=4.18
 
 executable stategame
   hs-source-dirs:   app
   main-is:          StateGame.hs
   default-language: Haskell2010
-  ghc-options:      -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:      -Wall -threaded -rtsopts -with-rtsopts=-N
   build-depends:
     , base  ^>=4.18
     , mtl   ^>=2.3
@@ -158,7 +154,7 @@ executable threads
   hs-source-dirs:   app
   main-is:          Threads.hs
   default-language: Haskell2010
-  ghc-options:      -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:      -Wall -threaded -rtsopts -with-rtsopts=-N
   build-depends:
     , base  ^>=4.18
     , stm   ^>=2.5
@@ -167,7 +163,7 @@ executable vocab
   hs-source-dirs:   app
   main-is:          Vocab.hs
   default-language: Haskell2010
-  ghc-options:      -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:      -Wall -threaded -rtsopts -with-rtsopts=-N
   build-depends:
     , base  ^>=4.18
     , text  ^>=2.0
@@ -176,13 +172,13 @@ executable while
   hs-source-dirs:   app
   main-is:          While.hs
   default-language: Haskell2010
-  ghc-options:      -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:      -Wall -threaded -rtsopts -with-rtsopts=-N
   build-depends:    base ^>=4.18
 
 executable wordcount
   hs-source-dirs:   app
   main-is:          WordCount.hs
-  ghc-options:      -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:      -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language: Haskell2010
   build-depends:
     , base  ^>=4.18
@@ -191,7 +187,7 @@ executable wordcount
 executable wordcountarrow
   hs-source-dirs:   app
   main-is:          WordCountArrow.hs
-  ghc-options:      -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:      -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language: Haskell2010
   build-depends:
     , base  ^>=4.18

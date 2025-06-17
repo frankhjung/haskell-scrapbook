@@ -19,7 +19,7 @@ documentation is available on:
 
 (See also benchmark reports below.)
 
-## Haskell
+## Quick Start
 
 These examples are meant to be run using
 [runhaskell(1)](https://manpages.debian.org/buster/ghc/runhaskell.1.html) or
@@ -90,7 +90,7 @@ To start a REPL with the project loaded, use:
 stack repl
 ```
 
-### Unit Tests
+### Test
 
 Test using GNU Make:
 
@@ -110,7 +110,7 @@ To re-run a failed test, call:
 cabal test --test-show-details=direct --test-option=--match --test-option='/Weekday/test weekday type/capitalised head of string/'
 ```
 
-### Performance Benchmarks
+### Performance
 
 The
 [Criterion](https://hackage.haskell.org/package/criterion/docs/Criterion.html)
@@ -141,7 +141,7 @@ executable and providing an output file. For example:
 dist-newstyle/build/x86_64-linux/ghc-8.8.4/scrapbook-0.1.0/b/myfilterBench/build/myfilterBench/myfilterBench --output myfilter.html
 ```
 
-### API Documentation
+### Documentation
 
 To generate [Haddock](https://www.haskell.org/haddock/doc/html/) for source:
 
@@ -208,6 +208,8 @@ See also [vim-ghcid](https://github.com/alx741/vim-ghcid) plugin.
 
 When editing using [Visual Studio Code](https://code.visualstudio.com/), use
 [GHCup](https://www.haskell.org/ghcup/install/).
+
+To show available software versions:
 
 ```bash
 ghcup tui

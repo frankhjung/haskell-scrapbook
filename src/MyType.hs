@@ -2,7 +2,7 @@
 
 Module      : MyType
 Description : Type applications
-Copyright   : © Frank Jung, 2022
+Copyright   : © Frank Jung, 2022-2025
 License     : GPL-3
 
 = Key Concepts Used
@@ -32,7 +32,6 @@ retrieves a representation of a type that can be converted to a string.
 
 -}
 {-# LANGUAGE AllowAmbiguousTypes #-}
-{-# LANGUAGE RankNTypes          #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeApplications    #-}
 

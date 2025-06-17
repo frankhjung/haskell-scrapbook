@@ -33,7 +33,7 @@ lint:	$(SRC)
 
 .PHONY: build
 build:
-	@stack build --pedantic --fast --ghc-options='-Wwarn'
+	@stack build
 
 .PHONY: test
 test:
