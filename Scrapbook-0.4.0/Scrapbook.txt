@@ -373,21 +373,6 @@ module Mod35
 mod35 :: Int -> Bool
 
 
--- | Code based on <a>FPComplete Monad Transformers</a>
-module MonTrans
-
--- | Basic implementation.
-sumTillNegative :: [Int] -> Int
-
--- | Fold strict sum with early termination.
-sumTillNegative' :: [Int] -> Int
-
--- | Returns either the total (left value) or the current accumulation and
---   the rest of the list. The left value will terminate the loop. See also
---   <a>either</a>
-sumTillNegative'' :: [Int] -> Int
-
-
 -- | Filter a list using fold. In the Prelude, <a>filter</a> is defined as
 --   a recursive function:
 --   
@@ -1453,6 +1438,56 @@ subSeqs3 :: [a] -> [[a]]
 --   
 --   <a>This blog</a> explains <a>filterM</a>.
 subSeqs4 :: [a] -> [[a]]
+
+
+-- | This module explores different techniques for folding over a list with
+--   the ability to terminate early. It serves as a practical example of
+--   control flow patterns in Haskell, including strict folds,
+--   continuation-passing style (CPS), and monadic control flow with
+--   <a>Either</a>.
+--   
+--   This module focuses on the foundational concept of using a monad
+--   (<a>Either</a>) for short-circuiting.
+--   
+--   Code based on <a>FPComplete Folds with early termination</a>
+--   
+--   The functions are defined to sum a list of integers, stopping when a
+--   negative value is encountered.
+--   
+--   <ol>
+--   <li><a>sumTillNegative</a>: A baseline implementation using <a>sum</a>
+--   and <a>takeWhile</a>.</li>
+--   <li><a>sumTillNegative'</a>: A strict, tail-recursive version.</li>
+--   <li><a>sumTillNegative''</a>: An implementation using <a>foldr</a>
+--   with continuation-passing style.</li>
+--   <li><a>sumTillNegative'''</a>: Uses a generic <a>_foldTerminate</a>
+--   helper that employs the <a>Either</a> monad for early exit.</li>
+--   </ol>
+module TermFold
+
+-- | Basic implementation.
+sumTillNegative :: [Int] -> Int
+
+-- | Fold strict sum with early termination.
+--   
+--   This function: * uses a strict accumulator (<tt>total</tt>) for
+--   efficiency * recursively adds values until a negative is found or the
+--   list ends * returns the sum up to (but not including) the first
+--   negative
+sumTillNegative' :: [Int] -> Int
+
+-- | Using foldr with continuation passing style. This approach leverages
+--   Haskell's laziness by using continuations to short-circuit computation
+--   when encountering a negative value.
+--   
+--   This function: * Single-pass processing * Clean, declarative style *
+--   Explicit control over strictness
+sumTillNegative'' :: [Int] -> Int
+
+-- | Returns either the total (left value) or the current accumulation and
+--   the rest of the list. The left value will terminate the loop. See also
+--   <a>either</a>
+sumTillNegative''' :: [Int] -> Int
 
 
 -- | An inefficient alternative to <a>dropWhile</a>.
