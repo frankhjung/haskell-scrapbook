@@ -8,7 +8,7 @@ YAML	:= $(shell git ls-files "*.y*ml")
 default:	format check test
 
 .PHONY: all
-	format check build test doc bench exec
+all:	format check build test doc bench exec
 
 .PHONY: format
 format:	$(SRC)
@@ -42,13 +42,13 @@ test:
 .PHONY: bench
 bench:
 	@echo bench ...
-	@stack bench Scrapbook:bench:monTransBench --ba '-o .stack-work/benchmark-monTransBench.html'
 	@stack bench Scrapbook:bench:myfilterBench --ba '-o .stack-work/benchmark-myfilter.html'
 	@stack bench Scrapbook:bench:myreverseBench --ba '-o .stack-work/benchmark-myreverse.html'
 	@stack bench Scrapbook:bench:polydivisorsBench --ba '-o .stack-work/benchmark-polydivisors.html'
 	@stack bench Scrapbook:bench:recursionschemesBench --ba '-o .stack-work/benchmark-recursionschemes.html'
 	@stack bench Scrapbook:bench:repmaxBench --ba '-o .stack-work/benchmark-repmax.html'
 	@stack bench Scrapbook:bench:subseqsBench --ba '-o .stack-work/benchmark-subseqs.html'
+	@stack bench Scrapbook:bench:termFoldBench --ba '-o .stack-work/benchmark-termFoldBench.html'
 	@stack bench Scrapbook:bench:zipfoldBench --ba '-o .stack-work/benchmark-zipfold.html'
 
 .PHONY: doc

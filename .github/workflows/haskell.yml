@@ -1,12 +1,11 @@
 ---
-
 name: haskell scrapbook
 
 # yamllint disable-line rule:truthy
 on:
   push:
-    branches: ['main', 'feature*']
-    tags-ignore: ['*']
+    branches: ["main", "feature*"]
+    tags-ignore: ["*"]
   check_run:
     types: [rerequested, requested_action]
 # yamllint enable
@@ -15,9 +14,7 @@ env:
   STACK_ROOT: ${{ github.workspace }}/.stack-work
 
 jobs:
-
   build:
-
     if: "!contains(github.event.head_commit.message, 'skip ci')"
 
     runs-on: ubuntu-latest
@@ -26,7 +23,6 @@ jobs:
       contents: write
 
     steps:
-
       - name: checkout
         uses: actions/checkout@v3
 
@@ -49,16 +45,15 @@ jobs:
       - name: benchmark
         if: success() && github.ref == 'refs/heads/main'
         run: |
-          stack bench Scrapbook:bench:monTransBench --ba '-o .stack-work/benchmark-monTransBench.html'
           stack bench Scrapbook:bench:myfilterBench --ba '-o .stack-work/benchmark-myfilter.html'
           stack bench Scrapbook:bench:myreverseBench --ba '-o .stack-work/benchmark-myreverse.html'
           stack bench Scrapbook:bench:polydivisorsBench --ba '-o .stack-work/benchmark-polydivisors.html'
           stack bench Scrapbook:bench:recursionschemesBench --ba '-o .stack-work/benchmark-recursionschemes.html'
           stack bench Scrapbook:bench:repmaxBench --ba '-o .stack-work/benchmark-repmax.html'
           stack bench Scrapbook:bench:subseqsBench --ba '-o .stack-work/benchmark-subseqs.html'
+          stack bench Scrapbook:bench:termFoldBench --ba '-o .stack-work/benchmark-termFoldBench.html'
           stack bench Scrapbook:bench:zipfoldBench --ba '-o .stack-work/benchmark-zipfold.html'
       # yamllint enable
-
       - name: haddock
         if: success() && github.ref == 'refs/heads/main'
         run: |

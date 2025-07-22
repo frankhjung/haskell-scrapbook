@@ -50,7 +50,6 @@ library
     Expr
     Lower
     Mod35
-    MonTrans
     MyFilter
     MyFreeMonad
     MyJson
@@ -68,6 +67,7 @@ library
     SplitList
     Stack
     SubSeqs
+    TermFold
     Trim
     Weekday
     Yahtzee
@@ -217,16 +217,6 @@ test-suite test
     , time
     , transformers
 
-benchmark monTransBench
-  hs-source-dirs:   bench src
-  main-is:          MonTransBench.hs
-  default-language: Haskell2010
-  type:             exitcode-stdio-1.0
-  other-modules:    MonTrans
-  build-depends:
-    , base       ^>=4.18
-    , criterion
-
 benchmark myfilterBench
   hs-source-dirs:   bench src
   main-is:          MyFilterBench.hs
@@ -283,6 +273,16 @@ benchmark subseqsBench
   default-language: Haskell2010
   type:             exitcode-stdio-1.0
   other-modules:    SubSeqs
+  build-depends:
+    , base       ^>=4.18
+    , criterion
+
+benchmark termFoldBench
+  hs-source-dirs:   bench src
+  main-is:          TermFoldBench.hs
+  default-language: Haskell2010
+  type:             exitcode-stdio-1.0
+  other-modules:    TermFold
   build-depends:
     , base       ^>=4.18
     , criterion
