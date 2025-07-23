@@ -781,6 +781,21 @@ instance GHC.Base.Applicative (MyState.MyState s)
 instance GHC.Base.Monad (MyState.MyState s)
 
 
+-- | Use the ST Monad for stateful summation of a list.
+--   
+--   <h2>Example usage</h2>
+--   
+--   Computes the sum of a list using the <a>mySum</a> function:
+--   
+--   <pre>
+--   let total = mySum [1, 2, 3, 4, 5]
+--   </pre>
+module MySum
+
+-- | Computes the sum of a list of integers in a stateful manner.
+mySum :: [Int] -> Int
+
+
 module MyTake
 
 -- | My version of take. This does not check for negative numbers.

@@ -19,7 +19,7 @@ Lesson 17. Design by composition&#8212;Semigroups and Monoids
 </span><span id="line-19"></span><span>
 </span><span id="line-20"></span><span class="annot"><span class="hs-comment">-- | Acceptable colours.</span></span><span>
 </span><span id="line-21"></span><span class="hs-keyword">data</span><span> </span><span id="Colour"><span class="annot"><a href="Colours.html#Colour"><span class="hs-identifier hs-var">Colour</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="Red"><span class="annot"><a href="Colours.html#Red"><span class="hs-identifier hs-var">Red</span></a></span></span><span> </span><span class="hs-glyph">|</span><span> </span><span id="Yellow"><span class="annot"><a href="Colours.html#Yellow"><span class="hs-identifier hs-var">Yellow</span></a></span></span><span> </span><span class="hs-glyph">|</span><span> </span><span id="Blue"><span class="annot"><a href="Colours.html#Blue"><span class="hs-identifier hs-var">Blue</span></a></span></span><span> </span><span class="hs-glyph">|</span><span> </span><span id="Green"><span class="annot"><a href="Colours.html#Green"><span class="hs-identifier hs-var">Green</span></a></span></span><span> </span><span class="hs-glyph">|</span><span> </span><span id="Purple"><span class="annot"><a href="Colours.html#Purple"><span class="hs-identifier hs-var">Purple</span></a></span></span><span> </span><span class="hs-glyph">|</span><span> </span><span id="Orange"><span class="annot"><a href="Colours.html#Orange"><span class="hs-identifier hs-var">Orange</span></a></span></span><span> </span><span class="hs-glyph">|</span><span> </span><span id="Brown"><span class="annot"><a href="Colours.html#Brown"><span class="hs-identifier hs-var">Brown</span></a></span></span><span>
-</span><span id="line-22"></span><span>                </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679097315"><span id="local-6989586621679097317"><span id="local-6989586621679097321"><span class="annot"><span class="annottext">Int -&gt; Colour -&gt; ShowS
+</span><span id="line-22"></span><span>                </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679097447"><span id="local-6989586621679097449"><span id="local-6989586621679097453"><span class="annot"><span class="annottext">Int -&gt; Colour -&gt; ShowS
 [Colour] -&gt; ShowS
 Colour -&gt; String
 (Int -&gt; Colour -&gt; ShowS)
@@ -32,7 +32,7 @@ $cshow :: Colour -&gt; String
 show :: Colour -&gt; String
 $cshowList :: [Colour] -&gt; ShowS
 showList :: [Colour] -&gt; ShowS
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679097325"><span id="local-6989586621679097327"><span class="annot"><span class="annottext">Colour -&gt; Colour -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679097457"><span id="local-6989586621679097459"><span class="annot"><span class="annottext">Colour -&gt; Colour -&gt; Bool
 (Colour -&gt; Colour -&gt; Bool)
 -&gt; (Colour -&gt; Colour -&gt; Bool) -&gt; Eq Colour
 forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
@@ -40,14 +40,14 @@ $c== :: Colour -&gt; Colour -&gt; Bool
 == :: Colour -&gt; Colour -&gt; Bool
 $c/= :: Colour -&gt; Colour -&gt; Bool
 /= :: Colour -&gt; Colour -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679097332"><span id="local-6989586621679097334"><span class="annot"><span class="annottext">Colour
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679097464"><span id="local-6989586621679097466"><span class="annot"><span class="annottext">Colour
 Colour -&gt; Colour -&gt; Bounded Colour
 forall a. a -&gt; a -&gt; Bounded a
 $cminBound :: Colour
 minBound :: Colour
 $cmaxBound :: Colour
 maxBound :: Colour
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Bounded</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679097338"><span id="local-6989586621679097346"><span id="local-6989586621679097352"><span id="local-6989586621679097362"><span id="local-6989586621679097364"><span id="local-6989586621679097368"><span id="local-6989586621679097372"><span id="local-6989586621679097376"><span class="annot"><span class="annottext">Int -&gt; Colour
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Bounded</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679097470"><span id="local-6989586621679097478"><span id="local-6989586621679097484"><span id="local-6989586621679097494"><span id="local-6989586621679097496"><span id="local-6989586621679097500"><span id="local-6989586621679097504"><span id="local-6989586621679097508"><span class="annot"><span class="annottext">Int -&gt; Colour
 Colour -&gt; Int
 Colour -&gt; [Colour]
 Colour -&gt; Colour
@@ -91,16 +91,16 @@ enumFromThenTo :: Colour -&gt; Colour -&gt; Colour -&gt; [Colour]
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Enum</span></span></span></span></span></span></span></span></span></span><span class="hs-special">)</span><span>
 </span><span id="line-23"></span><span>
 </span><span id="line-24"></span><span class="annot"><span class="hs-comment">-- | Example semigroup with a Colour.</span></span><span>
-</span><span id="line-25"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679097381"><span id="local-6989586621679097385"><span class="annot"><span class="hs-identifier hs-type">Semigroup</span></span><span> </span><span class="annot"><a href="Colours.html#Colour"><span class="hs-identifier hs-type">Colour</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-26"></span><span>    </span><span id="local-6989586621679097401"><span class="annot"><span class="annottext">&lt;&gt; :: Colour -&gt; Colour -&gt; Colour
-</span><span class="hs-operator hs-var hs-var hs-var hs-var">(&lt;&gt;)</span></span></span><span> </span><span id="local-6989586621679097402"><span class="annot"><span class="annottext">Colour
-</span><a href="#local-6989586621679097402"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679097403"><span class="annot"><span class="annottext">Colour
-</span><a href="#local-6989586621679097403"><span class="hs-identifier hs-var">b</span></a></span></span><span>  </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Colour
-</span><a href="#local-6989586621679097402"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">Colour -&gt; Colour -&gt; Bool
+</span><span id="line-25"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679097513"><span id="local-6989586621679097517"><span class="annot"><span class="hs-identifier hs-type">Semigroup</span></span><span> </span><span class="annot"><a href="Colours.html#Colour"><span class="hs-identifier hs-type">Colour</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-26"></span><span>    </span><span id="local-6989586621679097533"><span class="annot"><span class="annottext">&lt;&gt; :: Colour -&gt; Colour -&gt; Colour
+</span><span class="hs-operator hs-var hs-var hs-var hs-var">(&lt;&gt;)</span></span></span><span> </span><span id="local-6989586621679097534"><span class="annot"><span class="annottext">Colour
+</span><a href="#local-6989586621679097534"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679097535"><span class="annot"><span class="annottext">Colour
+</span><a href="#local-6989586621679097535"><span class="hs-identifier hs-var">b</span></a></span></span><span>  </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Colour
+</span><a href="#local-6989586621679097534"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">Colour -&gt; Colour -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Colour
-</span><a href="#local-6989586621679097403"><span class="hs-identifier hs-var">b</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Colour
-</span><a href="#local-6989586621679097402"><span class="hs-identifier hs-var">a</span></a></span><span>
+</span><a href="#local-6989586621679097535"><span class="hs-identifier hs-var">b</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Colour
+</span><a href="#local-6989586621679097534"><span class="hs-identifier hs-var">a</span></a></span><span>
 </span><span id="line-27"></span><span>              </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">(Colour -&gt; Bool) -&gt; [Colour] -&gt; Bool
 forall (t :: * -&gt; *) a. Foldable t =&gt; (a -&gt; Bool) -&gt; t a -&gt; Bool
 </span><span class="hs-identifier hs-var">all</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Colour -&gt; [Colour] -&gt; Bool
@@ -110,8 +110,8 @@ forall (t :: * -&gt; *) a. (Foldable t, Eq a) =&gt; a -&gt; t a -&gt; Bool
 </span><a href="Colours.html#Red"><span class="hs-identifier hs-var">Red</span></a></span><span class="hs-special">,</span><span class="annot"><span class="annottext">Colour
 </span><a href="Colours.html#Blue"><span class="hs-identifier hs-var">Blue</span></a></span><span class="hs-special">,</span><span class="annot"><span class="annottext">Colour
 </span><a href="Colours.html#Purple"><span class="hs-identifier hs-var">Purple</span></a></span><span class="hs-special">]</span><span class="hs-special">)</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Colour
-</span><a href="#local-6989586621679097402"><span class="hs-identifier hs-var">a</span></a></span><span class="hs-special">,</span><span class="annot"><span class="annottext">Colour
-</span><a href="#local-6989586621679097403"><span class="hs-identifier hs-var">b</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Colour
+</span><a href="#local-6989586621679097534"><span class="hs-identifier hs-var">a</span></a></span><span class="hs-special">,</span><span class="annot"><span class="annottext">Colour
+</span><a href="#local-6989586621679097535"><span class="hs-identifier hs-var">b</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Colour
 </span><a href="Colours.html#Purple"><span class="hs-identifier hs-var">Purple</span></a></span><span>
 </span><span id="line-28"></span><span>              </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">(Colour -&gt; Bool) -&gt; [Colour] -&gt; Bool
 forall (t :: * -&gt; *) a. Foldable t =&gt; (a -&gt; Bool) -&gt; t a -&gt; Bool
@@ -122,8 +122,8 @@ forall (t :: * -&gt; *) a. (Foldable t, Eq a) =&gt; a -&gt; t a -&gt; Bool
 </span><a href="Colours.html#Blue"><span class="hs-identifier hs-var">Blue</span></a></span><span class="hs-special">,</span><span class="annot"><span class="annottext">Colour
 </span><a href="Colours.html#Yellow"><span class="hs-identifier hs-var">Yellow</span></a></span><span class="hs-special">,</span><span class="annot"><span class="annottext">Colour
 </span><a href="Colours.html#Green"><span class="hs-identifier hs-var">Green</span></a></span><span class="hs-special">]</span><span class="hs-special">)</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Colour
-</span><a href="#local-6989586621679097402"><span class="hs-identifier hs-var">a</span></a></span><span class="hs-special">,</span><span class="annot"><span class="annottext">Colour
-</span><a href="#local-6989586621679097403"><span class="hs-identifier hs-var">b</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Colour
+</span><a href="#local-6989586621679097534"><span class="hs-identifier hs-var">a</span></a></span><span class="hs-special">,</span><span class="annot"><span class="annottext">Colour
+</span><a href="#local-6989586621679097535"><span class="hs-identifier hs-var">b</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Colour
 </span><a href="Colours.html#Green"><span class="hs-identifier hs-var">Green</span></a></span><span>
 </span><span id="line-29"></span><span>              </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">(Colour -&gt; Bool) -&gt; [Colour] -&gt; Bool
 forall (t :: * -&gt; *) a. Foldable t =&gt; (a -&gt; Bool) -&gt; t a -&gt; Bool
@@ -134,16 +134,16 @@ forall (t :: * -&gt; *) a. (Foldable t, Eq a) =&gt; a -&gt; t a -&gt; Bool
 </span><a href="Colours.html#Red"><span class="hs-identifier hs-var">Red</span></a></span><span class="hs-special">,</span><span class="annot"><span class="annottext">Colour
 </span><a href="Colours.html#Yellow"><span class="hs-identifier hs-var">Yellow</span></a></span><span class="hs-special">,</span><span class="annot"><span class="annottext">Colour
 </span><a href="Colours.html#Orange"><span class="hs-identifier hs-var">Orange</span></a></span><span class="hs-special">]</span><span class="hs-special">)</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Colour
-</span><a href="#local-6989586621679097402"><span class="hs-identifier hs-var">a</span></a></span><span class="hs-special">,</span><span class="annot"><span class="annottext">Colour
-</span><a href="#local-6989586621679097403"><span class="hs-identifier hs-var">b</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Colour
+</span><a href="#local-6989586621679097534"><span class="hs-identifier hs-var">a</span></a></span><span class="hs-special">,</span><span class="annot"><span class="annottext">Colour
+</span><a href="#local-6989586621679097535"><span class="hs-identifier hs-var">b</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Colour
 </span><a href="Colours.html#Orange"><span class="hs-identifier hs-var">Orange</span></a></span><span>
 </span><span id="line-30"></span><span>              </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">otherwise</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Colour
 </span><a href="Colours.html#Brown"><span class="hs-identifier hs-var">Brown</span></a></span><span>
 </span><span id="line-31"></span><span>
 </span><span id="line-32"></span><span class="annot"><span class="hs-comment">-- | Declare QuickCheck generator for Colour.</span></span><span>
-</span><span id="line-33"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679097408"><span class="annot"><span class="hs-identifier hs-type">Arbitrary</span></span><span> </span><span class="annot"><a href="Colours.html#Colour"><span class="hs-identifier hs-type">Colour</span></a></span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-34"></span><span>  </span><span id="local-6989586621679097414"><span class="annot"><span class="annottext">arbitrary :: Gen Colour
+</span><span id="line-33"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679097540"><span class="annot"><span class="hs-identifier hs-type">Arbitrary</span></span><span> </span><span class="annot"><a href="Colours.html#Colour"><span class="hs-identifier hs-type">Colour</span></a></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-34"></span><span>  </span><span id="local-6989586621679097546"><span class="annot"><span class="annottext">arbitrary :: Gen Colour
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var">arbitrary</span></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Gen Colour
 forall a. (Bounded a, Enum a) =&gt; Gen a
 </span><span class="hs-identifier hs-var">arbitraryBoundedEnum</span></span><span>
