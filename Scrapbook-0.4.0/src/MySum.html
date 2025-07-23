@@ -14,11 +14,11 @@ Control.Monad.ST ('ST').
 
 == Key Points
 
-* __Local Mutability__ You can create and modify mutable variables ('STRef's)
+[Local Mutability] You can create and modify mutable variables ('STRef's)
   inside the 'ST' monad.
-* __Safety__ Changes made in the 'ST' monad are not visible outside; the
+[Safety] Changes made in the 'ST' monad are not visible outside; the
   mutation is encapsulated.
-* __Pure Interface__ When you run an 'ST' computation (using 'runST'), you get a
+[Pure Interface] When you run an 'ST' computation (using 'runST'), you get a
   pure result, and the mutable state cannot escape.
 
 == Example usage
@@ -39,24 +39,27 @@ let total = mySum [1, 2, 3, 4, 5]
 </span><span id="line-39"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.STRef</span></span><span>
 </span><span id="line-40"></span><span>
 </span><span id="line-41"></span><span class="annot"><span class="hs-comment">-- | Computes the sum of a list of integers using the ST monad.</span></span><span>
-</span><span id="line-42"></span><span id="local-6989586621679098504"><span class="annot"><a href="MySum.html#sumSt"><span class="hs-identifier hs-type">sumSt</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">STRef</span></span><span> </span><span class="annot"><a href="#local-6989586621679098504"><span class="hs-identifier hs-type">s</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ST</span></span><span> </span><span class="annot"><a href="#local-6989586621679098504"><span class="hs-identifier hs-type">s</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span></span><span>
-</span><span id="line-43"></span><span id="sumSt"><span class="annot"><span class="annottext">sumSt :: forall s. [Int] -&gt; STRef s Int -&gt; ST s Int
+</span><span id="line-42"></span><span id="local-6989586621679098504"><span class="annot"><a href="MySum.html#sumSt"><span class="hs-identifier hs-type">sumSt</span></a></span><span> </span><span class="hs-glyph">::</span><span>
+</span><span id="line-43"></span><span>    </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span class="hs-special">]</span><span>                     </span><span class="annot"><span class="hs-comment">-- ^ The list of integers to sum</span></span><span>
+</span><span id="line-44"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">STRef</span></span><span> </span><span class="annot"><a href="#local-6989586621679098504"><span class="hs-identifier hs-type">s</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span>            </span><span class="annot"><span class="hs-comment">-- ^ A mutable reference to accumulate the sum</span></span><span>
+</span><span id="line-45"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ST</span></span><span> </span><span class="annot"><a href="#local-6989586621679098504"><span class="hs-identifier hs-type">s</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span></span><span>               </span><span class="annot"><span class="hs-comment">-- ^ The stateful computation that returns the sum</span></span><span>
+</span><span id="line-46"></span><span id="sumSt"><span class="annot"><span class="annottext">sumSt :: forall s. [Int] -&gt; STRef s Int -&gt; ST s Int
 </span><a href="MySum.html#sumSt"><span class="hs-identifier hs-var hs-var">sumSt</span></a></span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>     </span><span class="annot"><span class="annottext">STRef s Int
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int -&gt; ST s Int
 forall a. a -&gt; ST s a
 forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
 </span><span class="hs-identifier hs-var">return</span></span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">0</span></span><span>           </span><span class="hs-comment">-- Base case: empty list returns 0</span><span>
-</span><span id="line-44"></span><span class="annot"><a href="MySum.html#sumSt"><span class="hs-identifier hs-var">sumSt</span></a></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679098534"><span class="annot"><span class="annottext">Int
+</span><span id="line-47"></span><span class="annot"><a href="MySum.html#sumSt"><span class="hs-identifier hs-var">sumSt</span></a></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679098534"><span class="annot"><span class="annottext">Int
 </span><a href="#local-6989586621679098534"><span class="hs-identifier hs-var">x</span></a></span></span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span id="local-6989586621679098535"><span class="annot"><span class="annottext">[Int]
 </span><a href="#local-6989586621679098535"><span class="hs-identifier hs-var">xs</span></a></span></span><span class="hs-special">)</span><span> </span><span id="local-6989586621679098536"><span class="annot"><span class="annottext">STRef s Int
 </span><a href="#local-6989586621679098536"><span class="hs-identifier hs-var">accumRef</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-45"></span><span>    </span><span id="local-6989586621679098537"><span class="annot"><span class="annottext">Int
+</span><span id="line-48"></span><span>    </span><span id="local-6989586621679098537"><span class="annot"><span class="annottext">Int
 </span><a href="#local-6989586621679098537"><span class="hs-identifier hs-var">accum</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">STRef s Int -&gt; ST s Int
 forall s a. STRef s a -&gt; ST s a
 </span><span class="hs-identifier hs-var">readSTRef</span></span><span> </span><span class="annot"><span class="annottext">STRef s Int
 </span><a href="#local-6989586621679098536"><span class="hs-identifier hs-var">accumRef</span></a></span><span>     </span><span class="hs-comment">-- Read the current value of the accumulator</span><span>
-</span><span id="line-46"></span><span>    </span><span class="annot"><span class="annottext">STRef s Int -&gt; Int -&gt; ST s ()
+</span><span id="line-49"></span><span>    </span><span class="annot"><span class="annottext">STRef s Int -&gt; Int -&gt; ST s ()
 forall s a. STRef s a -&gt; a -&gt; ST s ()
 </span><span class="hs-identifier hs-var">writeSTRef</span></span><span> </span><span class="annot"><span class="annottext">STRef s Int
 </span><a href="#local-6989586621679098536"><span class="hs-identifier hs-var">accumRef</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
@@ -64,35 +67,34 @@ forall s a. STRef s a -&gt; a -&gt; ST s ()
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">+</span></span><span> </span><span class="annot"><span class="annottext">Int
 </span><a href="#local-6989586621679098534"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-comment">-- Update the accumulator with the new value</span><span>
-</span><span id="line-47"></span><span>    </span><span class="annot"><span class="annottext">[Int] -&gt; STRef s Int -&gt; ST s Int
+</span><span id="line-50"></span><span>    </span><span class="annot"><span class="annottext">[Int] -&gt; STRef s Int -&gt; ST s Int
 forall s. [Int] -&gt; STRef s Int -&gt; ST s Int
 </span><a href="MySum.html#sumSt"><span class="hs-identifier hs-var">sumSt</span></a></span><span> </span><span class="annot"><span class="annottext">[Int]
 </span><a href="#local-6989586621679098535"><span class="hs-identifier hs-var">xs</span></a></span><span> </span><span class="annot"><span class="annottext">STRef s Int
 </span><a href="#local-6989586621679098536"><span class="hs-identifier hs-var">accumRef</span></a></span><span>               </span><span class="hs-comment">-- Recursively for the remaining elements</span><span>
-</span><span id="line-48"></span><span>
-</span><span id="line-49"></span><span>
-</span><span id="line-50"></span><span class="annot"><span class="hs-comment">-- | Computes the sum of a list of integers in a stateful manner.</span></span><span>
-</span><span id="line-51"></span><span class="annot"><a href="MySum.html#mySum"><span class="hs-identifier hs-type">mySum</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span>
-</span><span id="line-52"></span><span id="mySum"><span class="annot"><span class="annottext">mySum :: [Int] -&gt; Int
+</span><span id="line-51"></span><span>
+</span><span id="line-52"></span><span class="annot"><span class="hs-comment">-- | Computes the sum of a list of integers in a stateful manner.</span></span><span>
+</span><span id="line-53"></span><span class="annot"><a href="MySum.html#mySum"><span class="hs-identifier hs-type">mySum</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span>
+</span><span id="line-54"></span><span id="mySum"><span class="annot"><span class="annottext">mySum :: [Int] -&gt; Int
 </span><a href="MySum.html#mySum"><span class="hs-identifier hs-var hs-var">mySum</span></a></span></span><span> </span><span id="local-6989586621679098541"><span class="annot"><span class="annottext">[Int]
 </span><a href="#local-6989586621679098541"><span class="hs-identifier hs-var">xs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(forall s. ST s Int) -&gt; Int
 forall a. (forall s. ST s a) -&gt; a
 </span><span class="hs-identifier hs-var">runST</span></span><span> </span><span class="annot"><span class="annottext">((forall s. ST s Int) -&gt; Int) -&gt; (forall s. ST s Int) -&gt; Int
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-53"></span><span>    </span><span id="local-6989586621679098545"><span class="annot"><span class="annottext">STRef s Int
+</span><span id="line-55"></span><span>    </span><span id="local-6989586621679098545"><span class="annot"><span class="annottext">STRef s Int
 </span><a href="#local-6989586621679098545"><span class="hs-identifier hs-var">accumRef</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Int -&gt; ST s (STRef s Int)
 forall a s. a -&gt; ST s (STRef s a)
 </span><span class="hs-identifier hs-var">newSTRef</span></span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">0</span></span><span>    </span><span class="hs-comment">-- Create a new STRef to hold the accumulator</span><span>
-</span><span id="line-54"></span><span>    </span><span class="annot"><span class="annottext">Int
+</span><span id="line-56"></span><span>    </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[Int] -&gt; STRef s Int -&gt; ST s Int
 forall s. [Int] -&gt; STRef s Int -&gt; ST s Int
 </span><a href="MySum.html#sumSt"><span class="hs-identifier hs-var">sumSt</span></a></span><span> </span><span class="annot"><span class="annottext">[Int]
 </span><a href="#local-6989586621679098541"><span class="hs-identifier hs-var">xs</span></a></span><span> </span><span class="annot"><span class="annottext">STRef s Int
 </span><a href="#local-6989586621679098545"><span class="hs-identifier hs-var">accumRef</span></a></span><span>    </span><span class="hs-comment">-- Compute the sum using the ST monad</span><span>
-</span><span id="line-55"></span><span>    </span><span class="annot"><span class="annottext">STRef s Int -&gt; ST s Int
+</span><span id="line-57"></span><span>    </span><span class="annot"><span class="annottext">STRef s Int -&gt; ST s Int
 forall s a. STRef s a -&gt; ST s a
 </span><span class="hs-identifier hs-var">readSTRef</span></span><span> </span><span class="annot"><span class="annottext">STRef s Int
 </span><a href="#local-6989586621679098545"><span class="hs-identifier hs-var">accumRef</span></a></span><span>        </span><span class="hs-comment">-- Read the final sum from the STRef</span><span>
-</span><span id="line-56"></span></pre></body></html>
+</span><span id="line-58"></span></pre></body></html>

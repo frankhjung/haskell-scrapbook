@@ -355,9 +355,11 @@ eval :: Expr e -> e
 
 -- | This Haskell code defines a module to simulate simple <a>harmonic
 --   oscillation</a>, like the motion of a pendulum. It does this using a
---   state monad to manage the changing position and time.
+--   <a>State</a> monad to manage the changing position and time.
 --   
 --   <h2>Example usage</h2>
+--   
+--   To compute the position of a harmonic oscillator:
 --   
 --   <pre>
 --   let positions = evalState harmonic (HarmonicOscillation 0 0)
@@ -365,14 +367,14 @@ eval :: Expr e -> e
 --   </pre>
 --   
 --   <ul>
---   <li><tt>evalState harmonic (HarmonicOscillation 0 0)</tt>: This runs
---   the harmonic computation, starting with an initial state where
---   position is 0 and time is 0. <tt>evalState</tt> discards the final
---   state and gives you just the result, which is the infinite list of
---   positions.</li>
---   <li><tt>take 10 positions</tt>: Since positions is an infinite list,
---   you use a function like <a>take</a> to get a finite number of elements
---   from it.</li>
+--   <li><i><tt>evalState harmonic (HarmonicOscillation 0 0)</tt></i> This
+--   runs the harmonic computation, starting with an initial state where
+--   position is 0 and time is 0.</li>
+--   <li><i><tt>evalState</tt></i> discards the final state and gives you
+--   just the result, which is an infinite list of positions.</li>
+--   <li><i><tt>take 10 positions</tt></i> Since positions is an infinite
+--   list, you use a function like <a>take</a> to get a finite number of
+--   elements from it.</li>
 --   </ul>
 module HarmonicOscillation
 
@@ -791,11 +793,11 @@ instance GHC.Base.Monad (MyState.MyState s)
 --   <h2>Key Points</h2>
 --   
 --   <ul>
---   <li><b>Local Mutability</b> You can create and modify mutable
+--   <li><i>Local Mutability</i> You can create and modify mutable
 --   variables (<a>STRef</a>s) inside the <a>ST</a> monad.</li>
---   <li><b>Safety</b> Changes made in the <a>ST</a> monad are not visible
+--   <li><i>Safety</i> Changes made in the <a>ST</a> monad are not visible
 --   outside; the mutation is encapsulated.</li>
---   <li><b>Pure Interface</b> When you run an <a>ST</a> computation (using
+--   <li><i>Pure Interface</i> When you run an <a>ST</a> computation (using
 --   <a>runST</a>), you get a pure result, and the mutable state cannot
 --   escape.</li>
 --   </ul>
