@@ -58,34 +58,34 @@ forall a. Ord a =&gt; a -&gt; a -&gt; Bool
 </span><span id="line-47"></span><span id="sumTillNegative%27"><span class="annot"><span class="annottext">sumTillNegative' :: [Int] -&gt; Int
 </span><a href="TermFold.html#sumTillNegative%27"><span class="hs-identifier hs-var hs-var">sumTillNegative'</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int -&gt; [Int] -&gt; Int
 forall {t}. (Ord t, Num t) =&gt; t -&gt; [t] -&gt; t
-</span><a href="#local-6989586621679099100"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679099316"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">0</span></span><span>
 </span><span id="line-48"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-49"></span><span>    </span><span id="local-6989586621679099100"><span class="annot"><span class="annottext">go :: t -&gt; [t] -&gt; t
-</span><a href="#local-6989586621679099100"><span class="hs-identifier hs-var hs-var">go</span></a></span></span><span> </span><span class="hs-glyph">!</span><span id="local-6989586621679099109"><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679099109"><span class="hs-identifier hs-var">total</span></a></span></span><span> </span><span id="local-6989586621679099110"><span class="annot"><span class="annottext">[t]
-</span><a href="#local-6989586621679099110"><span class="hs-identifier hs-var">rest</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-49"></span><span>    </span><span id="local-6989586621679099316"><span class="annot"><span class="annottext">go :: t -&gt; [t] -&gt; t
+</span><a href="#local-6989586621679099316"><span class="hs-identifier hs-var hs-var">go</span></a></span></span><span> </span><span class="hs-glyph">!</span><span id="local-6989586621679099325"><span class="annot"><span class="annottext">t
+</span><a href="#local-6989586621679099325"><span class="hs-identifier hs-var">total</span></a></span></span><span> </span><span id="local-6989586621679099326"><span class="annot"><span class="annottext">[t]
+</span><a href="#local-6989586621679099326"><span class="hs-identifier hs-var">rest</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-50"></span><span>      </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">[t]
-</span><a href="#local-6989586621679099110"><span class="hs-identifier hs-var">rest</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><a href="#local-6989586621679099326"><span class="hs-identifier hs-var">rest</span></a></span><span> </span><span class="hs-keyword">of</span><span>
 </span><span id="line-51"></span><span>        </span><span class="hs-special">[</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679099109"><span class="hs-identifier hs-var">total</span></a></span><span>
-</span><span id="line-52"></span><span>        </span><span id="local-6989586621679099111"><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679099111"><span class="hs-identifier hs-var">x</span></a></span></span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span id="local-6989586621679099112"><span class="annot"><span class="annottext">[t]
-</span><a href="#local-6989586621679099112"><span class="hs-identifier hs-var">xs</span></a></span></span><span>
+</span><a href="#local-6989586621679099325"><span class="hs-identifier hs-var">total</span></a></span><span>
+</span><span id="line-52"></span><span>        </span><span id="local-6989586621679099327"><span class="annot"><span class="annottext">t
+</span><a href="#local-6989586621679099327"><span class="hs-identifier hs-var">x</span></a></span></span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span id="local-6989586621679099328"><span class="annot"><span class="annottext">[t]
+</span><a href="#local-6989586621679099328"><span class="hs-identifier hs-var">xs</span></a></span></span><span>
 </span><span id="line-53"></span><span>          </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679099111"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">t -&gt; t -&gt; Bool
+</span><a href="#local-6989586621679099327"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">t -&gt; t -&gt; Bool
 forall a. Ord a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">&lt;</span></span><span> </span><span class="annot"><span class="annottext">t
 </span><span class="hs-number">0</span></span><span>     </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679099109"><span class="hs-identifier hs-var">total</span></a></span><span>
+</span><a href="#local-6989586621679099325"><span class="hs-identifier hs-var">total</span></a></span><span>
 </span><span id="line-54"></span><span>          </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">otherwise</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">t -&gt; [t] -&gt; t
-</span><a href="#local-6989586621679099100"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679099109"><span class="hs-identifier hs-var">total</span></a></span><span> </span><span class="annot"><span class="annottext">t -&gt; t -&gt; t
+</span><a href="#local-6989586621679099316"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">t
+</span><a href="#local-6989586621679099325"><span class="hs-identifier hs-var">total</span></a></span><span> </span><span class="annot"><span class="annottext">t -&gt; t -&gt; t
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">+</span></span><span> </span><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679099111"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">[t]
-</span><a href="#local-6989586621679099112"><span class="hs-identifier hs-var">xs</span></a></span><span>
+</span><a href="#local-6989586621679099327"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">[t]
+</span><a href="#local-6989586621679099328"><span class="hs-identifier hs-var">xs</span></a></span><span>
 </span><span id="line-55"></span><span>
 </span><span id="line-56"></span><span class="hs-comment">-- | Using foldr with continuation passing style.</span><span>
 </span><span id="line-57"></span><span class="hs-comment">-- This approach leverages Haskell's laziness by using continuations to</span><span>
@@ -97,8 +97,8 @@ forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span id="line-63"></span><span class="hs-comment">--  * Explicit control over strictness</span><span>
 </span><span id="line-64"></span><span class="annot"><a href="TermFold.html#sumTillNegative%27%27"><span class="hs-identifier hs-type">sumTillNegative''</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span>
 </span><span id="line-65"></span><span id="sumTillNegative%27%27"><span class="annot"><span class="annottext">sumTillNegative'' :: [Int] -&gt; Int
-</span><a href="TermFold.html#sumTillNegative%27%27"><span class="hs-identifier hs-var hs-var">sumTillNegative''</span></a></span></span><span> </span><span id="local-6989586621679099115"><span class="annot"><span class="annottext">[Int]
-</span><a href="#local-6989586621679099115"><span class="hs-identifier hs-var">xs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Int -&gt; (Int -&gt; Int) -&gt; Int -&gt; Int)
+</span><a href="TermFold.html#sumTillNegative%27%27"><span class="hs-identifier hs-var hs-var">sumTillNegative''</span></a></span></span><span> </span><span id="local-6989586621679099331"><span class="annot"><span class="annottext">[Int]
+</span><a href="#local-6989586621679099331"><span class="hs-identifier hs-var">xs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Int -&gt; (Int -&gt; Int) -&gt; Int -&gt; Int)
 -&gt; (Int -&gt; Int) -&gt; [Int] -&gt; Int -&gt; Int
 forall a b. (a -&gt; b -&gt; b) -&gt; b -&gt; [a] -&gt; b
 forall (t :: * -&gt; *) a b.
@@ -106,30 +106,30 @@ Foldable t =&gt;
 (a -&gt; b -&gt; b) -&gt; b -&gt; t a -&gt; b
 </span><span class="hs-identifier hs-var">foldr</span></span><span> </span><span class="annot"><span class="annottext">Int -&gt; (Int -&gt; Int) -&gt; Int -&gt; Int
 forall {t}. (Ord t, Num t) =&gt; t -&gt; (t -&gt; t) -&gt; t -&gt; t
-</span><a href="#local-6989586621679099116"><span class="hs-identifier hs-var">step</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int
+</span><a href="#local-6989586621679099332"><span class="hs-identifier hs-var">step</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int
 forall a. a -&gt; a
 </span><span class="hs-identifier hs-var">id</span></span><span> </span><span class="annot"><span class="annottext">[Int]
-</span><a href="#local-6989586621679099115"><span class="hs-identifier hs-var">xs</span></a></span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679099331"><span class="hs-identifier hs-var">xs</span></a></span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">0</span></span><span>
 </span><span id="line-66"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-67"></span><span>    </span><span id="local-6989586621679099116"><span class="annot"><span class="annottext">step :: t -&gt; (t -&gt; t) -&gt; t -&gt; t
-</span><a href="#local-6989586621679099116"><span class="hs-identifier hs-var hs-var">step</span></a></span></span><span> </span><span id="local-6989586621679099125"><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679099125"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span id="local-6989586621679099126"><span class="annot"><span class="annottext">t -&gt; t
-</span><a href="#local-6989586621679099126"><span class="hs-identifier hs-var">cont</span></a></span></span><span> </span><span id="local-6989586621679099127"><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679099127"><span class="hs-identifier hs-var">acc</span></a></span></span><span>
+</span><span id="line-67"></span><span>    </span><span id="local-6989586621679099332"><span class="annot"><span class="annottext">step :: t -&gt; (t -&gt; t) -&gt; t -&gt; t
+</span><a href="#local-6989586621679099332"><span class="hs-identifier hs-var hs-var">step</span></a></span></span><span> </span><span id="local-6989586621679099341"><span class="annot"><span class="annottext">t
+</span><a href="#local-6989586621679099341"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span id="local-6989586621679099342"><span class="annot"><span class="annottext">t -&gt; t
+</span><a href="#local-6989586621679099342"><span class="hs-identifier hs-var">cont</span></a></span></span><span> </span><span id="local-6989586621679099343"><span class="annot"><span class="annottext">t
+</span><a href="#local-6989586621679099343"><span class="hs-identifier hs-var">acc</span></a></span></span><span>
 </span><span id="line-68"></span><span>      </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679099125"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">t -&gt; t -&gt; Bool
+</span><a href="#local-6989586621679099341"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">t -&gt; t -&gt; Bool
 forall a. Ord a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">&lt;</span></span><span> </span><span class="annot"><span class="annottext">t
 </span><span class="hs-number">0</span></span><span>     </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679099127"><span class="hs-identifier hs-var">acc</span></a></span><span>  </span><span class="hs-comment">-- Early termination</span><span>
+</span><a href="#local-6989586621679099343"><span class="hs-identifier hs-var">acc</span></a></span><span>  </span><span class="hs-comment">-- Early termination</span><span>
 </span><span id="line-69"></span><span>      </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">otherwise</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">t -&gt; t
-</span><a href="#local-6989586621679099126"><span class="hs-identifier hs-var">cont</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679099127"><span class="hs-identifier hs-var">acc</span></a></span><span> </span><span class="annot"><span class="annottext">t -&gt; t -&gt; t
+</span><a href="#local-6989586621679099342"><span class="hs-identifier hs-var">cont</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">t
+</span><a href="#local-6989586621679099343"><span class="hs-identifier hs-var">acc</span></a></span><span> </span><span class="annot"><span class="annottext">t -&gt; t -&gt; t
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">+</span></span><span> </span><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679099125"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679099341"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-70"></span><span>
 </span><span id="line-71"></span><span class="hs-comment">-- | Returns either the total (left value)</span><span>
 </span><span id="line-72"></span><span class="hs-comment">-- or the current accumulation and the rest of the list.</span><span>
@@ -142,29 +142,29 @@ forall a. Num a =&gt; a -&gt; a -&gt; a
 forall b a. (b -&gt; a -&gt; Either b b) -&gt; b -&gt; [a] -&gt; b
 </span><a href="TermFold.html#_foldTerminate"><span class="hs-identifier hs-var">_foldTerminate</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Either Int Int
 forall {b}. (Ord b, Num b) =&gt; b -&gt; b -&gt; Either b b
-</span><a href="#local-6989586621679099128"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679099344"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">0</span></span><span>
 </span><span id="line-78"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-79"></span><span>    </span><span id="local-6989586621679099128"><span class="annot"><span class="annottext">go :: b -&gt; b -&gt; Either b b
-</span><a href="#local-6989586621679099128"><span class="hs-identifier hs-var hs-var">go</span></a></span></span><span> </span><span class="hs-glyph">!</span><span id="local-6989586621679099136"><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679099136"><span class="hs-identifier hs-var">total</span></a></span></span><span> </span><span id="local-6989586621679099137"><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679099137"><span class="hs-identifier hs-var">x</span></a></span></span><span>
+</span><span id="line-79"></span><span>    </span><span id="local-6989586621679099344"><span class="annot"><span class="annottext">go :: b -&gt; b -&gt; Either b b
+</span><a href="#local-6989586621679099344"><span class="hs-identifier hs-var hs-var">go</span></a></span></span><span> </span><span class="hs-glyph">!</span><span id="local-6989586621679099352"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679099352"><span class="hs-identifier hs-var">total</span></a></span></span><span> </span><span id="local-6989586621679099353"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679099353"><span class="hs-identifier hs-var">x</span></a></span></span><span>
 </span><span id="line-80"></span><span>      </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679099137"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">b -&gt; b -&gt; Bool
+</span><a href="#local-6989586621679099353"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">b -&gt; b -&gt; Bool
 forall a. Ord a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">&lt;</span></span><span> </span><span class="annot"><span class="annottext">b
 </span><span class="hs-number">0</span></span><span>     </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">b -&gt; Either b b
 forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679099136"><span class="hs-identifier hs-var">total</span></a></span><span>
+</span><a href="#local-6989586621679099352"><span class="hs-identifier hs-var">total</span></a></span><span>
 </span><span id="line-81"></span><span>      </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">otherwise</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">b -&gt; Either b b
 forall a b. b -&gt; Either a b
 </span><span class="hs-identifier hs-var">Right</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679099136"><span class="hs-identifier hs-var">total</span></a></span><span> </span><span class="annot"><span class="annottext">b -&gt; b -&gt; b
+</span><a href="#local-6989586621679099352"><span class="hs-identifier hs-var">total</span></a></span><span> </span><span class="annot"><span class="annottext">b -&gt; b -&gt; b
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">+</span></span><span> </span><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679099137"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679099353"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-82"></span><span>
 </span><span id="line-83"></span><span class="hs-comment">-- Returns either the total (left value) or the current accumulation and the</span><span>
 </span><span id="line-84"></span><span class="hs-comment">-- rest of the list.</span><span>
@@ -175,12 +175,12 @@ forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span id="line-89"></span><span class="hs-comment">--  * returns the accumulated value when terminated.</span><span>
 </span><span id="line-90"></span><span class="hs-comment">-- See also</span><span>
 </span><span id="line-91"></span><span class="hs-comment">-- &lt;https://hackage.haskell.org/package/base/docs/Prelude.html#v:either either&gt;</span><span>
-</span><span id="line-92"></span><span id="local-6989586621679099062"><span id="local-6989586621679099063"><span class="annot"><a href="TermFold.html#_foldTerminate"><span class="hs-identifier hs-type">_foldTerminate</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679099062"><span class="hs-identifier hs-type">b</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679099063"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><a href="#local-6989586621679099062"><span class="hs-identifier hs-type">b</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679099062"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679099062"><span class="hs-identifier hs-type">b</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679099063"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679099062"><span class="hs-identifier hs-type">b</span></a></span></span></span><span>
+</span><span id="line-92"></span><span id="local-6989586621679099278"><span id="local-6989586621679099279"><span class="annot"><a href="TermFold.html#_foldTerminate"><span class="hs-identifier hs-type">_foldTerminate</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679099278"><span class="hs-identifier hs-type">b</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679099279"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><a href="#local-6989586621679099278"><span class="hs-identifier hs-type">b</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679099278"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679099278"><span class="hs-identifier hs-type">b</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679099279"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679099278"><span class="hs-identifier hs-type">b</span></a></span></span></span><span>
 </span><span id="line-93"></span><span id="_foldTerminate"><span class="annot"><span class="annottext">_foldTerminate :: forall b a. (b -&gt; a -&gt; Either b b) -&gt; b -&gt; [a] -&gt; b
-</span><a href="TermFold.html#_foldTerminate"><span class="hs-identifier hs-var hs-var">_foldTerminate</span></a></span></span><span> </span><span id="local-6989586621679099138"><span class="annot"><span class="annottext">b -&gt; a -&gt; Either b b
-</span><a href="#local-6989586621679099138"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span id="local-6989586621679099139"><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679099139"><span class="hs-identifier hs-var">accum0</span></a></span></span><span> </span><span id="local-6989586621679099140"><span class="annot"><span class="annottext">[a]
-</span><a href="#local-6989586621679099140"><span class="hs-identifier hs-var">list0</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(b -&gt; b) -&gt; (b -&gt; b) -&gt; Either b b -&gt; b
+</span><a href="TermFold.html#_foldTerminate"><span class="hs-identifier hs-var hs-var">_foldTerminate</span></a></span></span><span> </span><span id="local-6989586621679099354"><span class="annot"><span class="annottext">b -&gt; a -&gt; Either b b
+</span><a href="#local-6989586621679099354"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span id="local-6989586621679099355"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679099355"><span class="hs-identifier hs-var">accum0</span></a></span></span><span> </span><span id="local-6989586621679099356"><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679099356"><span class="hs-identifier hs-var">list0</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(b -&gt; b) -&gt; (b -&gt; b) -&gt; Either b b -&gt; b
 forall a c b. (a -&gt; c) -&gt; (b -&gt; c) -&gt; Either a b -&gt; c
 </span><span class="hs-identifier hs-var">either</span></span><span> </span><span class="annot"><span class="annottext">b -&gt; b
 forall a. a -&gt; a
@@ -188,36 +188,36 @@ forall a. a -&gt; a
 forall a. a -&gt; a
 </span><span class="hs-identifier hs-var">id</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">b -&gt; [a] -&gt; Either b b
 forall {b}. b -&gt; [a] -&gt; Either b b
-</span><a href="#local-6989586621679099142"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679099139"><span class="hs-identifier hs-var">accum0</span></a></span><span> </span><span class="annot"><span class="annottext">[a]
-</span><a href="#local-6989586621679099140"><span class="hs-identifier hs-var">list0</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679099358"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679099355"><span class="hs-identifier hs-var">accum0</span></a></span><span> </span><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679099356"><span class="hs-identifier hs-var">list0</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-94"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-95"></span><span>    </span><span id="local-6989586621679099142"><span class="annot"><span class="annottext">go :: b -&gt; [a] -&gt; Either b b
-</span><a href="#local-6989586621679099142"><span class="hs-identifier hs-var hs-var">go</span></a></span></span><span> </span><span class="hs-glyph">!</span><span id="local-6989586621679099146"><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679099146"><span class="hs-identifier hs-var">accum</span></a></span></span><span> </span><span id="local-6989586621679099147"><span class="annot"><span class="annottext">[a]
-</span><a href="#local-6989586621679099147"><span class="hs-identifier hs-var">rest</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-96"></span><span>      </span><span class="hs-special">(</span><span id="local-6989586621679099148"><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679099148"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679099149"><span class="annot"><span class="annottext">[a]
-</span><a href="#local-6989586621679099149"><span class="hs-identifier hs-var">xs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">[a]
-</span><a href="#local-6989586621679099147"><span class="hs-identifier hs-var">rest</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-95"></span><span>    </span><span id="local-6989586621679099358"><span class="annot"><span class="annottext">go :: b -&gt; [a] -&gt; Either b b
+</span><a href="#local-6989586621679099358"><span class="hs-identifier hs-var hs-var">go</span></a></span></span><span> </span><span class="hs-glyph">!</span><span id="local-6989586621679099362"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679099362"><span class="hs-identifier hs-var">accum</span></a></span></span><span> </span><span id="local-6989586621679099363"><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679099363"><span class="hs-identifier hs-var">rest</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-96"></span><span>      </span><span class="hs-special">(</span><span id="local-6989586621679099364"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679099364"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679099365"><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679099365"><span class="hs-identifier hs-var">xs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679099363"><span class="hs-identifier hs-var">rest</span></a></span><span> </span><span class="hs-keyword">of</span><span>
 </span><span id="line-97"></span><span>                    </span><span class="hs-special">[</span><span class="hs-special">]</span><span>   </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">b -&gt; Either b (a, [a])
 forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679099146"><span class="hs-identifier hs-var">accum</span></a></span><span>      </span><span class="hs-comment">-- termination</span><span>
-</span><span id="line-98"></span><span>                    </span><span id="local-6989586621679099150"><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679099150"><span class="hs-identifier hs-var">x</span></a></span></span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span id="local-6989586621679099151"><span class="annot"><span class="annottext">[a]
-</span><a href="#local-6989586621679099151"><span class="hs-identifier hs-var">xs</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">(a, [a]) -&gt; Either b (a, [a])
+</span><a href="#local-6989586621679099362"><span class="hs-identifier hs-var">accum</span></a></span><span>      </span><span class="hs-comment">-- termination</span><span>
+</span><span id="line-98"></span><span>                    </span><span id="local-6989586621679099366"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679099366"><span class="hs-identifier hs-var">x</span></a></span></span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span id="local-6989586621679099367"><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679099367"><span class="hs-identifier hs-var">xs</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">(a, [a]) -&gt; Either b (a, [a])
 forall a b. b -&gt; Either a b
 </span><span class="hs-identifier hs-var">Right</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679099150"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[a]
-</span><a href="#local-6989586621679099151"><span class="hs-identifier hs-var">xs</span></a></span><span class="hs-special">)</span><span>   </span><span class="hs-comment">-- keep going</span><span>
-</span><span id="line-99"></span><span>      </span><span id="local-6989586621679099152"><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679099152"><span class="hs-identifier hs-var">accum'</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">b -&gt; a -&gt; Either b b
-</span><a href="#local-6989586621679099138"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679099146"><span class="hs-identifier hs-var">accum</span></a></span><span> </span><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679099148"><span class="hs-identifier hs-var">x</span></a></span><span>
+</span><a href="#local-6989586621679099366"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679099367"><span class="hs-identifier hs-var">xs</span></a></span><span class="hs-special">)</span><span>   </span><span class="hs-comment">-- keep going</span><span>
+</span><span id="line-99"></span><span>      </span><span id="local-6989586621679099368"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679099368"><span class="hs-identifier hs-var">accum'</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">b -&gt; a -&gt; Either b b
+</span><a href="#local-6989586621679099354"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679099362"><span class="hs-identifier hs-var">accum</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679099364"><span class="hs-identifier hs-var">x</span></a></span><span>
 </span><span id="line-100"></span><span>      </span><span class="annot"><span class="annottext">b -&gt; [a] -&gt; Either b b
-</span><a href="#local-6989586621679099142"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679099152"><span class="hs-identifier hs-var">accum'</span></a></span><span> </span><span class="annot"><span class="annottext">[a]
-</span><a href="#local-6989586621679099149"><span class="hs-identifier hs-var">xs</span></a></span><span>
+</span><a href="#local-6989586621679099358"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679099368"><span class="hs-identifier hs-var">accum'</span></a></span><span> </span><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679099365"><span class="hs-identifier hs-var">xs</span></a></span><span>
 </span><span id="line-101"></span></pre></body></html>

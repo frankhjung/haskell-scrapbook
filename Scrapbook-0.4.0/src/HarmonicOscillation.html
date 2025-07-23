@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="annot"><span class="hs-comment">{-|
+Module      : HarmonicStep
+Description : A module to simulate harmonic osciallation.
+Copyright   : &#169; Frank Jung, 2025
+License     : GPL-3
+
+This Haskell code defines a module to simulate simple
+&lt;https://en.wikipedia.org/wiki/Harmonic_oscillator harmonic oscillation&gt;, like
+the motion of a pendulum. It does this using a state monad to manage the
+changing position and time.
+
+== Example usage
+
+@
+let positions = evalState harmonic (HarmonicOscillation 0 0)
+take 10 positions
+@
+
+* @evalState harmonic (HarmonicOscillation 0 0)@: This runs the harmonic
+computation, starting with an initial state where position is 0 and time is 0.
+'evalState' discards the final state and gives you just the result, which is the
+infinite list of positions.
+
+* @take 10 positions@: Since positions is an infinite list, you use a function
+like 'take' to get a finite number of elements from it.
+
+-}</span></span><span>
+</span><span id="line-28"></span><span>
+</span><span id="line-29"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">HarmonicOscillation</span><span> </span><span class="hs-special">(</span><span>
+</span><span id="line-30"></span><span>    </span><span class="annot"><a href="HarmonicOscillation.html#HarmonicOscillation"><span class="hs-identifier">HarmonicOscillation</span></a></span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><span id="line-31"></span><span>    </span><span class="annot"><a href="HarmonicOscillation.html#harmonic"><span class="hs-identifier">harmonic</span></a></span><span class="hs-special">,</span><span>
+</span><span id="line-32"></span><span>    </span><span class="annot"><a href="HarmonicOscillation.html#step"><span class="hs-identifier">step</span></a></span><span class="hs-special">,</span><span>
+</span><span id="line-33"></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-34"></span><span>
+</span><span id="line-35"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Control.Monad.State</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">State</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">get</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">put</span></span><span class="hs-special">)</span><span>
+</span><span id="line-36"></span><span>
+</span><span id="line-37"></span><span class="hs-comment">-- | Represents the state of a harmonic oscillator.</span><span>
+</span><span id="line-38"></span><span class="hs-comment">-- This is a simple record that holds the state of the oscillator at any given</span><span>
+</span><span id="line-39"></span><span class="hs-comment">-- moment: its current position and the current time.</span><span>
+</span><span id="line-40"></span><span class="hs-keyword">data</span><span> </span><span id="HarmonicOscillation"><span class="annot"><a href="HarmonicOscillation.html#HarmonicOscillation"><span class="hs-identifier hs-var">HarmonicOscillation</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="HarmonicOscillation"><span class="annot"><a href="HarmonicOscillation.html#HarmonicOscillation"><span class="hs-identifier hs-var">HarmonicOscillation</span></a></span></span><span>
+</span><span id="line-41"></span><span>    </span><span class="hs-special">{</span><span> </span><span id="position"><span class="annot"><span class="annottext">HarmonicOscillation -&gt; Double
+</span><a href="HarmonicOscillation.html#position"><span class="hs-identifier hs-var hs-var">position</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Double</span></span><span>  </span><span class="annot"><span class="hs-comment">-- ^ Position of the oscillator</span></span><span>
+</span><span id="line-42"></span><span>    </span><span class="hs-special">,</span><span> </span><span id="time"><span class="annot"><span class="annottext">HarmonicOscillation -&gt; Double
+</span><a href="HarmonicOscillation.html#time"><span class="hs-identifier hs-var hs-var">time</span></a></span></span><span>     </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Double</span></span><span>  </span><span class="annot"><span class="hs-comment">-- ^ Time of the oscillator (0.01 second increments)</span></span><span>
+</span><span id="line-43"></span><span>    </span><span class="hs-special">}</span><span>
+</span><span id="line-44"></span><span>
+</span><span id="line-45"></span><span class="hs-comment">-- | Step function to update the state of the harmonic oscillator.</span><span>
+</span><span id="line-46"></span><span class="hs-comment">-- It calculates the new position based on the sine function and increments</span><span>
+</span><span id="line-47"></span><span class="hs-comment">-- the time. Returns the new position.</span><span>
+</span><span id="line-48"></span><span class="annot"><a href="HarmonicOscillation.html#step"><span class="hs-identifier hs-type">step</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">State</span></span><span> </span><span class="annot"><a href="HarmonicOscillation.html#HarmonicOscillation"><span class="hs-identifier hs-type">HarmonicOscillation</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Double</span></span><span>
+</span><span id="line-49"></span><span id="step"><span class="annot"><span class="annottext">step :: State HarmonicOscillation Double
+</span><a href="HarmonicOscillation.html#step"><span class="hs-identifier hs-var hs-var">step</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-50"></span><span>    </span><span class="hs-special">(</span><span class="annot"><a href="HarmonicOscillation.html#HarmonicOscillation"><span class="hs-identifier hs-type">HarmonicOscillation</span></a></span><span> </span><span class="annot"><span class="annottext">Double
+</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621679097825"><span class="annot"><span class="annottext">Double
+</span><a href="#local-6989586621679097825"><span class="hs-identifier hs-var">t</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">StateT HarmonicOscillation Identity HarmonicOscillation
+forall s (m :: * -&gt; *). MonadState s m =&gt; m s
+</span><span class="hs-identifier hs-var">get</span></span><span>
+</span><span id="line-51"></span><span>    </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679097828"><span class="annot"><span class="annottext">p' :: Double
+</span><a href="#local-6989586621679097828"><span class="hs-identifier hs-var hs-var">p'</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Double -&gt; Double
+forall a. Floating a =&gt; a -&gt; a
+</span><span class="hs-identifier hs-var">sin</span></span><span> </span><span class="annot"><span class="annottext">Double
+</span><a href="#local-6989586621679097825"><span class="hs-identifier hs-var">t</span></a></span><span>
+</span><span id="line-52"></span><span>    </span><span class="annot"><span class="annottext">HarmonicOscillation -&gt; StateT HarmonicOscillation Identity ()
+forall s (m :: * -&gt; *). MonadState s m =&gt; s -&gt; m ()
+</span><span class="hs-identifier hs-var">put</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Double -&gt; Double -&gt; HarmonicOscillation
+</span><a href="HarmonicOscillation.html#HarmonicOscillation"><span class="hs-identifier hs-var">HarmonicOscillation</span></a></span><span> </span><span class="annot"><span class="annottext">Double
+</span><a href="#local-6989586621679097828"><span class="hs-identifier hs-var">p'</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Double
+</span><a href="#local-6989586621679097825"><span class="hs-identifier hs-var">t</span></a></span><span> </span><span class="annot"><span class="annottext">Double -&gt; Double -&gt; Double
+forall a. Num a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">+</span></span><span> </span><span class="annot"><span class="annottext">Double
+</span><span class="hs-number">0.01</span></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-53"></span><span>    </span><span class="annot"><span class="annottext">Double -&gt; State HarmonicOscillation Double
+forall a. a -&gt; StateT HarmonicOscillation Identity a
+forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
+</span><span class="hs-identifier hs-var">return</span></span><span> </span><span class="annot"><span class="annottext">Double
+</span><a href="#local-6989586621679097828"><span class="hs-identifier hs-var">p'</span></a></span><span>
+</span><span id="line-54"></span><span>
+</span><span id="line-55"></span><span class="annot"><span class="hs-comment">-- | This function generates an infinite list of positions over time.</span></span><span>
+</span><span id="line-56"></span><span class="annot"><a href="HarmonicOscillation.html#harmonic"><span class="hs-identifier hs-type">harmonic</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">State</span></span><span> </span><span class="annot"><a href="HarmonicOscillation.html#HarmonicOscillation"><span class="hs-identifier hs-type">HarmonicOscillation</span></a></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Double</span></span><span class="hs-special">]</span><span>
+</span><span id="line-57"></span><span id="harmonic"><span class="annot"><span class="annottext">harmonic :: State HarmonicOscillation [Double]
+</span><a href="HarmonicOscillation.html#harmonic"><span class="hs-identifier hs-var hs-var">harmonic</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-58"></span><span>    </span><span id="local-6989586621679097831"><span class="annot"><span class="annottext">Double
+</span><a href="#local-6989586621679097831"><span class="hs-identifier hs-var">p</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">State HarmonicOscillation Double
+</span><a href="HarmonicOscillation.html#step"><span class="hs-identifier hs-var">step</span></a></span><span>
+</span><span id="line-59"></span><span>    </span><span id="local-6989586621679097832"><span class="annot"><span class="annottext">[Double]
+</span><a href="#local-6989586621679097832"><span class="hs-identifier hs-var">ps</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">State HarmonicOscillation [Double]
+</span><a href="HarmonicOscillation.html#harmonic"><span class="hs-identifier hs-var">harmonic</span></a></span><span>
+</span><span id="line-60"></span><span>    </span><span class="annot"><span class="annottext">[Double] -&gt; State HarmonicOscillation [Double]
+forall a. a -&gt; StateT HarmonicOscillation Identity a
+forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
+</span><span class="hs-identifier hs-var">return</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Double
+</span><a href="#local-6989586621679097831"><span class="hs-identifier hs-var">p</span></a></span><span> </span><span class="annot"><span class="annottext">Double -&gt; [Double] -&gt; [Double]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">[Double]
+</span><a href="#local-6989586621679097832"><span class="hs-identifier hs-var">ps</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-61"></span></pre></body></html>

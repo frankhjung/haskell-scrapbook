@@ -353,6 +353,50 @@ data Expr a
 eval :: Expr e -> e
 
 
+-- | This Haskell code defines a module to simulate simple <a>harmonic
+--   oscillation</a>, like the motion of a pendulum. It does this using a
+--   state monad to manage the changing position and time.
+--   
+--   <h2>Example usage</h2>
+--   
+--   <pre>
+--   let positions = evalState harmonic (HarmonicOscillation 0 0)
+--   take 10 positions
+--   </pre>
+--   
+--   <ul>
+--   <li><tt>evalState harmonic (HarmonicOscillation 0 0)</tt>: This runs
+--   the harmonic computation, starting with an initial state where
+--   position is 0 and time is 0. <tt>evalState</tt> discards the final
+--   state and gives you just the result, which is the infinite list of
+--   positions.</li>
+--   <li><tt>take 10 positions</tt>: Since positions is an infinite list,
+--   you use a function like <a>take</a> to get a finite number of elements
+--   from it.</li>
+--   </ul>
+module HarmonicOscillation
+
+-- | Represents the state of a harmonic oscillator. This is a simple record
+--   that holds the state of the oscillator at any given moment: its
+--   current position and the current time.
+data HarmonicOscillation
+HarmonicOscillation :: Double -> Double -> HarmonicOscillation
+
+-- | Position of the oscillator
+[position] :: HarmonicOscillation -> Double
+
+-- | Time of the oscillator (0.01 second increments)
+[time] :: HarmonicOscillation -> Double
+
+-- | This function generates an infinite list of positions over time.
+harmonic :: State HarmonicOscillation [Double]
+
+-- | Step function to update the state of the harmonic oscillator. It
+--   calculates the new position based on the sine function and increments
+--   the time. Returns the new position.
+step :: State HarmonicOscillation Double
+
+
 -- | Reference
 --   &lt;<a>https://stackoverflow.com/questions/23616455/haskell-type-new-type-or-data-for-only-an-upper-case-char</a>
 --   type for uppercase characters&gt;
