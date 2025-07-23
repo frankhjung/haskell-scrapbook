@@ -48,6 +48,7 @@ library
     CountEntries
     Cps
     Expr
+    HarmonicOscillation
     Lower
     Mod35
     MyFilter
