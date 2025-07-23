@@ -44,6 +44,7 @@ bench:
 	@echo bench ...
 	@stack bench Scrapbook:bench:myfilterBench --ba '-o .stack-work/benchmark-myfilter.html'
 	@stack bench Scrapbook:bench:myreverseBench --ba '-o .stack-work/benchmark-myreverse.html'
+	@stack bench Scrapbook:bench:mysumBench --ba '-o .stack-work/benchmark-mysum.html'
 	@stack bench Scrapbook:bench:polydivisorsBench --ba '-o .stack-work/benchmark-polydivisors.html'
 	@stack bench Scrapbook:bench:recursionschemesBench --ba '-o .stack-work/benchmark-recursionschemes.html'
 	@stack bench Scrapbook:bench:repmaxBench --ba '-o .stack-work/benchmark-repmax.html'

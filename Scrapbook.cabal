@@ -57,6 +57,7 @@ library
     MyPenultimate
     MyReverse
     MyState
+    MySum
     MyTake
     MyType
     Permutation
@@ -218,82 +219,63 @@ test-suite test
     , time
     , transformers
 
-benchmark myfilterBench
+common bench-defaults
   hs-source-dirs:   bench src
-  main-is:          MyFilterBench.hs
   default-language: Haskell2010
-  type:             exitcode-stdio-1.0
-  other-modules:    MyFilter
   build-depends:
     , base       ^>=4.18
     , criterion
+
+benchmark myfilterBench
+  import:        bench-defaults
+  type:          exitcode-stdio-1.0
+  main-is:       MyFilterBench.hs
+  other-modules: MyFilter
 
 benchmark myreverseBench
-  hs-source-dirs:   bench src
-  main-is:          MyReverseBench.hs
-  default-language: Haskell2010
-  type:             exitcode-stdio-1.0
-  other-modules:    MyReverse
-  build-depends:
-    , base       ^>=4.18
-    , criterion
+  import:        bench-defaults
+  type:          exitcode-stdio-1.0
+  main-is:       MyReverseBench.hs
+  other-modules: MyReverse
+
+benchmark mysumBench
+  import:        bench-defaults
+  type:          exitcode-stdio-1.0
+  main-is:       MySumBench.hs
+  other-modules: MySum
 
 benchmark polydivisorsBench
-  hs-source-dirs:   bench src
-  main-is:          PolyDivisorsBench.hs
-  default-language: Haskell2010
-  type:             exitcode-stdio-1.0
-  other-modules:    PolyDivisors
-  build-depends:
-    , base       ^>=4.18
-    , criterion
+  import:        bench-defaults
+  type:          exitcode-stdio-1.0
+  main-is:       PolyDivisorsBench.hs
+  other-modules: PolyDivisors
 
 benchmark recursionschemesBench
-  hs-source-dirs:   bench src
-  main-is:          RecursionSchemesBench.hs
-  default-language: Haskell2010
-  type:             exitcode-stdio-1.0
-  other-modules:    RecursionSchemes
-  build-depends:
-    , base       ^>=4.18
-    , criterion
+  import:        bench-defaults
+  type:          exitcode-stdio-1.0
+  main-is:       RecursionSchemesBench.hs
+  other-modules: RecursionSchemes
 
 benchmark repmaxBench
-  hs-source-dirs:   bench src
-  main-is:          RepMaxBench.hs
-  default-language: Haskell2010
-  type:             exitcode-stdio-1.0
-  other-modules:    RepMax
-  build-depends:
-    , base       ^>=4.18
-    , criterion
+  import:        bench-defaults
+  type:          exitcode-stdio-1.0
+  main-is:       RepMaxBench.hs
+  other-modules: RepMax
 
 benchmark subseqsBench
-  hs-source-dirs:   bench src
-  main-is:          SubSeqsBench.hs
-  default-language: Haskell2010
-  type:             exitcode-stdio-1.0
-  other-modules:    SubSeqs
-  build-depends:
-    , base       ^>=4.18
-    , criterion
+  import:        bench-defaults
+  type:          exitcode-stdio-1.0
+  main-is:       SubSeqsBench.hs
+  other-modules: SubSeqs
 
 benchmark termFoldBench
-  hs-source-dirs:   bench src
-  main-is:          TermFoldBench.hs
-  default-language: Haskell2010
-  type:             exitcode-stdio-1.0
-  other-modules:    TermFold
-  build-depends:
-    , base       ^>=4.18
-    , criterion
+  import:        bench-defaults
+  type:          exitcode-stdio-1.0
+  main-is:       TermFoldBench.hs
+  other-modules: TermFold
 
 benchmark zipfoldBench
-  hs-source-dirs:   bench src
-  main-is:          ZipFoldBench.hs
-  default-language: Haskell2010
-  type:             exitcode-stdio-1.0
-  other-modules:    ZipFold
-  build-depends:
-    , base       ^>=4.18
-    , criterion
+  import:        bench-defaults
+  type:          exitcode-stdio-1.0
+  main-is:       ZipFoldBench.hs
+  other-modules: ZipFold

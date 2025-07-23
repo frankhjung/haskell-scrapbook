@@ -1,4 +1,5 @@
 {-|
+
 Module      : HarmonicStep
 Description : A module to simulate harmonic osciallation.
 Copyright   : © Frank Jung, 2025
@@ -6,22 +7,25 @@ License     : GPL-3
 
 This Haskell code defines a module to simulate simple
 <https://en.wikipedia.org/wiki/Harmonic_oscillator harmonic oscillation>, like
-the motion of a pendulum. It does this using a state monad to manage the
+the motion of a pendulum. It does this using a 'State' monad to manage the
 changing position and time.
 
 == Example usage
+
+To compute the position of a harmonic oscillator:
 
 @
 let positions = evalState harmonic (HarmonicOscillation 0 0)
 take 10 positions
 @
 
-* @evalState harmonic (HarmonicOscillation 0 0)@: This runs the harmonic
+[@evalState harmonic (HarmonicOscillation 0 0)@] This runs the harmonic
 computation, starting with an initial state where position is 0 and time is 0.
-'evalState' discards the final state and gives you just the result, which is the
-infinite list of positions.
 
-* @take 10 positions@: Since positions is an infinite list, you use a function
+[@evalState@] discards the final state and gives you just the result, which is
+an infinite list of positions.
+
+[@take 10 positions@] Since positions is an infinite list, you use a function
 like 'take' to get a finite number of elements from it.
 
 -}

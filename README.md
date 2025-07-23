@@ -90,6 +90,12 @@ To start a REPL with the project loaded, use:
 stack repl
 ```
 
+Using Cabal also works for the REPL:
+
+```bash
+cabal repl
+```
+
 ### Test
 
 Test using GNU Make:
@@ -121,6 +127,7 @@ from GitHub, here:
 * Criterion benchmarks:
   * [MyFilter](https://frankhjung.github.io/haskell-scrapbook/benchmark-myfilter.html)
   * [MyReverse](https://frankhjung.github.io/haskell-scrapbook/benchmark-myreverse.html)
+  * [MySum](https://frankhjung.github.io/haskell-scrapbook/benchmark-mysum.html)
   * [PolyDivisors](https://frankhjung.github.io/haskell-scrapbook/benchmark-polydivisors.html)
   * [RecursionSchemes](https://frankhjung.github.io/haskell-scrapbook/benchmark-recursionschemes.html)
   * [RepMax](https://frankhjung.github.io/haskell-scrapbook/benchmark-repmax.html)
