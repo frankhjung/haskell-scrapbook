@@ -781,7 +781,24 @@ instance GHC.Base.Applicative (MyState.MyState s)
 instance GHC.Base.Monad (MyState.MyState s)
 
 
--- | Use the ST Monad for stateful summation of a list.
+-- | This is a simple example of using the <a>ST</a> Monad for stateful
+--   summation of a list.
+--   
+--   The <a>ST</a> monad in Haskell allows you to perform mutable
+--   (stateful) computations in a safe, local way. It stands for "State
+--   Thread" and is defined in Control.Monad.ST (<a>ST</a>).
+--   
+--   <h2>Key Points</h2>
+--   
+--   <ul>
+--   <li><b>Local Mutability</b> You can create and modify mutable
+--   variables (<a>STRef</a>s) inside the <a>ST</a> monad.</li>
+--   <li><b>Safety</b> Changes made in the <a>ST</a> monad are not visible
+--   outside; the mutation is encapsulated.</li>
+--   <li><b>Pure Interface</b> When you run an <a>ST</a> computation (using
+--   <a>runST</a>), you get a pure result, and the mutable state cannot
+--   escape.</li>
+--   </ul>
 --   
 --   <h2>Example usage</h2>
 --   
