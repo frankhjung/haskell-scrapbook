@@ -79,10 +79,12 @@ exec:
 
 .PHONY: setup
 setup:
-	cabal check --verbose
-	stack path
-	stack query
-	stack ls dependencies
+ifeq (,$(wildcard ${CABAL_CONFIG}))
+	-cabal user-config init
+else
+	@echo Using user-config from ${CABAL_CONFIG} ...
+endif
+	-cabal update --only-dependencies
 
 .PHONY: clean
 clean:
