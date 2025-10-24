@@ -353,6 +353,17 @@ data Expr a
 eval :: Expr e -> e
 
 
+module Fractions
+
+-- | Add two fractions.
+--   
+--   To try this in GHCi: &gt; import Data.Ratio &gt; let result = (28 %
+--   50) + (26 % 50) &gt; result 27 % 25
+--   
+--   Or load this file and run: &gt; sumOfFractions 27 % 25
+sumOfFractions :: Ratio Integer
+
+
 -- | This Haskell code defines a module to simulate simple <a>harmonic
 --   oscillation</a>, like the motion of a pendulum. It does this using a
 --   <a>State</a> monad to manage the changing position and time.
