@@ -4,43 +4,48 @@ SRC	:= $(wildcard *.hs **/*.hs)
 TARGET	:= Scrapbook
 YAML	:= $(shell git ls-files "*.y*ml")
 
+.PHONY: help
+help: ## Show this help message
+	@echo Available targets:
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-15s %s\n", $$1, $$2}'
+
 .PHONY: default
-default:	format check test
+default:	format check test ## Run the default local checks
 
 .PHONY: all
-all:	format check build test doc bench exec
+all:	format check build test doc bench exec ## Run the full local workflow
 
 .PHONY: format
-format:	$(SRC)
+format:	$(SRC) ## Format Haskell sources and cabal file
 	@echo format ...
 	@cabal-fmt --inplace $(TARGET).cabal
 	@stylish-haskell --inplace $(SRC)
 
 .PHONY: check
-check:	tags lint
+check:	tags lint ## Run static checks
 
 .PHONY: tags
-tags:	$(SRC)
+tags:	$(SRC) ## Generate ctags for the source tree
 	@echo tags ...
 	@hasktags --ctags --extendedctag $(SRC)
 
 .PHONY: lint
-lint:	$(SRC)
+lint:	$(SRC) ## Run linters and metadata checks
 	@echo lint ...
 	@hlint --cross --color --show $(SRC)
 	@cabal check
 	@yamllint --strict $(YAML)
 
 .PHONY: build
-build:
+build: ## Build the project
 	@stack build
 
 .PHONY: test
-test:
+test: ## Run the test suite
 	@stack test --fast
 
 .PHONY: bench
-bench:
+bench: ## Run benchmarks and write HTML reports
 	@echo bench ...
 	@stack bench Scrapbook:bench:myfilterBench --ba '-o .stack-work/benchmark-myfilter.html'
 	@stack bench Scrapbook:bench:myreverseBench --ba '-o .stack-work/benchmark-myreverse.html'
@@ -53,11 +58,11 @@ bench:
 	@stack bench Scrapbook:bench:zipfoldBench --ba '-o .stack-work/benchmark-zipfold.html'
 
 .PHONY: doc
-doc:
+doc: ## Build Haddock documentation
 	@stack haddock
 
 .PHONY: exec
-exec:
+exec: ## Run the sample executables
 	stack exec -- counter 4
 	stack exec -- fpcomplete
 	stack exec -- json
@@ -78,7 +83,7 @@ exec:
 	@echo
 
 .PHONY: setup
-setup:
+setup: ## Initialize cabal config and fetch dependencies
 ifeq (,$(wildcard ${CABAL_CONFIG}))
 	-cabal user-config init
 else
@@ -87,11 +92,11 @@ endif
 	-cabal update --only-dependencies
 
 .PHONY: clean
-clean:
+clean: ## Remove build artifacts
 	@stack clean
 	@cabal clean
 
 .PHONY: distclean
-distclean: clean
+distclean: clean ## Remove build artifacts and generated tags
 	@$(RM) tags
 	@stack purge

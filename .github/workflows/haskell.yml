@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: cache
         uses: actions/cache@v3
@@ -54,6 +54,7 @@ jobs:
           stack bench Scrapbook:bench:termFoldBench --ba '-o .stack-work/benchmark-termFoldBench.html'
           stack bench Scrapbook:bench:zipfoldBench --ba '-o .stack-work/benchmark-zipfold.html'
       # yamllint enable
+
       - name: haddock
         if: success() && github.ref == 'refs/heads/main'
         run: |
@@ -61,9 +62,25 @@ jobs:
           mv $(stack path --local-doc-root)/ public/
           cp ${{ env.STACK_ROOT }}/benchmark-*.html public/
 
-      - name: publish
-        if: success() && github.ref == 'refs/heads/main'
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: artifacts
+        if: >
+          github.event_name == 'push' &&
+          github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v3
         with:
-          branch: gh-pages
-          folder: public
+          path: public
+
+  deploy:
+    if: >
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
