@@ -2,17 +2,18 @@
 
 ![Haskell workflow](https://github.com/frankhjung/haskell-scrapbook/actions/workflows/haskell.yml/badge.svg)
 
-A collection of short scripts testing functions and techniques.
+A collection of short Haskell examples exploring functions, folds, recursion,
+state, parsing, concurrency, and related techniques.
 
-The project is built using [Cabal](https://www.haskell.org/cabal/).
-
-To coordinate various build tasks I use
-[GNU Make](https://www.gnu.org/software/make/).
+Package metadata lives in [Cabal](https://www.haskell.org/cabal/), while
+day-to-day workflows are driven by
+[GNU Make](https://www.gnu.org/software/make/) and
+[Stack](https://docs.haskellstack.org/).
 
 ## Links
 
-[Haddock](https://www.haskell.org/haddock/doc/html/index.html) API
-documentation is available on:
+[Haddock](https://www.haskell.org/haddock/doc/html/index.html) API documentation
+is available on:
 
 * [GitHub](https://frankhjung.github.io/haskell-scrapbook/)
 * [GitLab](https://frankhjung1.gitlab.io/haskell-scrapbook/)
@@ -21,32 +22,46 @@ documentation is available on:
 
 ## Quick Start
 
-These examples are meant to be run using
-[runhaskell(1)](https://manpages.debian.org/buster/ghc/runhaskell.1.html) or
-[runghc](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/runghc.html).
-
-The reason they won't link is because I've added them to their own module, and
-have not yet gotten around to build an über main yet. The idea was really to
-test an run code snippets quickly without having to bother with compiling and
-linking a main module.
-
-The build uses GNU make to check source files.
+The repository contains both library modules under `src/` and runnable example
+programs under `app/`. Use `make help` to list the available development
+targets.
 
 ### Build
 
-Use a local Cabal project profile, `cabal.project` with:
+Install the required tools first: `stack`, `cabal`, `stylish-haskell`,
+`cabal-fmt`, `hlint`, `hasktags`, and `yamllint`.
 
-```config
-packages: scrapbook.cabal
-with-compiler: /home/frank/.ghcup/bin/ghc-8.10.7
-```
-
-This will use the specified GHC, which can be different from the system version.
-
-Build using GNU Make:
+For an overview of the available automation targets, run:
 
 ```bash
-make setup default
+make help
+```
+
+To initialise local Cabal configuration and update dependencies, run:
+
+```bash
+make setup
+```
+
+To build the project, run:
+
+```bash
+make build
+```
+
+To run the default local workflow, run:
+
+```bash
+make default
+```
+
+This performs formatting, checks, and tests.
+
+For the full workflow, including documentation, benchmarks, and executable
+examples, run:
+
+```bash
+make all
 ```
 
 ### Format
@@ -60,9 +75,8 @@ make format
 This runs:
 
 ```bash
-SRC=$(find * -name '*.hs')
 cabal-fmt --inplace Scrapbook.cabal
-stylish-haskell --inplace ${SRC}
+stylish-haskell --inplace <all Haskell sources>
 ```
 
 ### Check
@@ -76,10 +90,10 @@ make check
 This runs `tags` and `lint`:
 
 ```bash
-SRC=$(find * -name '*.hs')
-hasktags --ctags --extendedctag ${SRC}
-cabal check --verbose
-hlint --cross --color --show ${SRC}
+hasktags --ctags --extendedctag <all Haskell sources>
+hlint --cross --color --show <all Haskell sources>
+cabal check
+yamllint --strict <tracked YAML files>
 ```
 
 ### Repl
@@ -107,13 +121,7 @@ make test
 This runs:
 
 ```bash
-cabal test --test-show-details=always
-```
-
-To re-run a failed test, call:
-
-```bash
-cabal test --test-show-details=direct --test-option=--match --test-option='/Weekday/test weekday type/capitalised head of string/'
+stack test --fast
 ```
 
 ### Performance
@@ -138,23 +146,81 @@ from GitHub, here:
 To run individual benchmark:
 
 ```bash
-cabal bench PolyDivisorsBench
+stack bench Scrapbook:bench:polydivisorsBench
 ```
 
-Individual benchmarks can be reported as well by calling the benchmark
-executable and providing an output file. For example:
-
-```bash
-dist-newstyle/build/x86_64-linux/ghc-8.8.4/scrapbook-0.1.0/b/myfilterBench/build/myfilterBench/myfilterBench --output myfilter.html
-```
+The `make bench` target writes HTML reports to `.stack-work/`.
 
 ### Documentation
 
 To generate [Haddock](https://www.haskell.org/haddock/doc/html/) for source:
 
 ```bash
-cabal haddock --haddock-quickjump --haddock-hyperlink-source
+make doc
 ```
+
+This runs `stack haddock`.
+
+## Code Examples
+
+### Executables
+
+* `counter`: count up and down from a natural number.
+* `fpcomplete`: functor and contravariant-style examples based on function
+  mapping.
+* `json`: decode JSON with a variable top-level key.
+* `numberlines`: number the lines of a file, similar to `nl(1)`.
+* `polydivs`: search for poly-divisible numbers.
+* `quine`: print the program's own source.
+* `readfile`: read a file using explicit handle management.
+* `skips`: generate every nth element from an input list.
+* `stategame`: small stateful game with score tracking.
+* `threads`: simple STM and `forkIO` example.
+* `vocab`: extract and count distinct words from a file.
+* `while`: implement a `while` loop as a higher-order function.
+* `wordcount`: count words in a file.
+* `wordcountarrow`: count words using arrow-based composition.
+
+### Library Modules
+
+* `ApplyToTuple`: rank-N type example applying one function to two list types.
+* `BinarySearch`: binary search over an ordered list.
+* `Caesar`: Caesar cipher over a printable ASCII subset.
+* `CFold`: continuation-passing fold implementation.
+* `Colours`: semigroup example for colour mixing.
+* `CountEntries`: count directory entries with several monadic approaches.
+* `Cps`: continuation-passing style examples using `Cont` and `callCC`.
+* `Expr`: small typed expression evaluator built with GADTs.
+* `Fractions`: add fractions using `Data.Ratio`.
+* `HarmonicOscillation`: simulate harmonic motion with the `State` monad.
+* `Lower`: validate and construct lowercase alphabetic characters.
+* `Mod35`: test whether a number is divisible by 3 or 5.
+* `MyFilter`: implement `filter` with `foldr`.
+* `MyFreeMonad`: arithmetic DSL built with a free monad.
+* `MyJson`: decode JSON containing special characters.
+* `MyPenultimate`: return the second-to-last list element.
+* `MyReverse`: reverse a list with `foldl`, `foldr`, and recursion.
+* `MyState`: small custom state type with `get`, `put`, and `modify`.
+* `MySum`: sum integers using local mutable state in `ST`.
+* `MyTake`: simple `take` reimplementation.
+* `MyType`: examples using type applications and `Typeable`.
+* `Permutation`: generate permutations with several algorithms.
+* `PolyDivisors`: poly-divisible number search used by the executable and
+  benchmarks.
+* `Qsort`: quicksort implementation.
+* `Random`: random values and dice-roll style examples.
+* `RecursionSchemes`: examples of anamorphisms, catamorphisms, and related
+  folds.
+* `RepMax`: replace every list element with the maximum value.
+* `SplitList`: split lists and derive related helper functions.
+* `Stack`: stack operations layered over `MyState`.
+* `STy`: internal singleton-type example for `Bool`, `Int`, and `Maybe`.
+* `SubSeqs`: generate subsequences with multiple algorithms.
+* `TermFold`: fold with early termination.
+* `Trim`: trim whitespace with fold-based implementations.
+* `Weekday`: weekday enumeration and string conversion helpers.
+* `Yahtzee`: enumerate Yahtzee roll choices.
+* `ZipFold`: zip two lists using a fold-based representation.
 
 ## ghcid
 

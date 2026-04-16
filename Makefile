@@ -4,13 +4,13 @@ SRC	:= $(wildcard *.hs **/*.hs)
 TARGET	:= Scrapbook
 YAML	:= $(shell git ls-files "*.y*ml")
 
+.PHONY: default
+default:	format check test ## Run the default local checks
+
 .PHONY: help
 help: ## Show this help message
 	@echo Available targets:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-15s %s\n", $$1, $$2}'
-
-.PHONY: default
-default:	format check test ## Run the default local checks
 
 .PHONY: all
 all:	format check build test doc bench exec ## Run the full local workflow

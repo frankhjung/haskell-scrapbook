@@ -43,7 +43,9 @@ jobs:
 
       # yamllint disable rule:line-length
       - name: benchmark
-        if: success() && github.ref == 'refs/heads/main'
+        if: >
+          github.event_name == 'push' &&
+          github.ref == 'refs/heads/main'
         run: |
           stack bench Scrapbook:bench:myfilterBench --ba '-o .stack-work/benchmark-myfilter.html'
           stack bench Scrapbook:bench:myreverseBench --ba '-o .stack-work/benchmark-myreverse.html'
@@ -54,9 +56,10 @@ jobs:
           stack bench Scrapbook:bench:termFoldBench --ba '-o .stack-work/benchmark-termFoldBench.html'
           stack bench Scrapbook:bench:zipfoldBench --ba '-o .stack-work/benchmark-zipfold.html'
       # yamllint enable
-
       - name: haddock
-        if: success() && github.ref == 'refs/heads/main'
+        if: >
+          github.event_name == 'push' &&
+          github.ref == 'refs/heads/main'
         run: |
           stack haddock
           mv $(stack path --local-doc-root)/ public/
